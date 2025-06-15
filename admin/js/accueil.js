@@ -2432,6 +2432,57 @@ function deleteCarouselItem(itemId) {
     }
 }
 
+/**
+ * Active ou désactive un élément du carrousel
+ * @param {string} itemId - L'identifiant de l'élément à modifier
+ * @param {boolean} isActive - L'état d'activation (true = actif, false = inactif)
+ * @returns {boolean} - True si la mise à jour a réussi, false sinon
+ */
+function toggleCarouselItem(itemId, isActive) {
+    try {
+        console.log(`[toggleCarouselItem] Tentative de mise à jour de l'élément ${itemId} à isActive=${isActive}`);
+        
+        // Vérifier que l'ID est valide
+        if (!itemId) {
+            console.error('[toggleCarouselItem] ID d\'élément non fourni');
+            return false;
+        }
+        
+        // Trouver l'index de l'élément dans le tableau
+        const itemIndex = carouselItems.findIndex(item => item && item.id && item.id.toString() === itemId.toString());
+        
+        if (itemIndex === -1) {
+            console.error(`[toggleCarouselItem] Aucun élément trouvé avec l'ID: ${itemId}`);
+            return false;
+        }
+        
+        // Mettre à jour l'état de l'élément
+        carouselItems[itemIndex].isActive = Boolean(isActive);
+        console.log(`[toggleCarouselItem] Élément ${itemId} mis à jour avec succès (isActive=${isActive})`);
+        
+        // Sauvegarder les modifications
+        saveCarouselItems();
+        
+        // Mettre à jour l'interface utilisateur
+        renderCarouselItems();
+        
+        return true;
+        
+    } catch (error) {
+        console.error('[toggleCarouselItem] Erreur lors de la mise à jour de l\'élément:', error);
+        
+        // Afficher une notification d'erreur si disponible
+        if (typeof AdminCommon !== 'undefined' && typeof AdminCommon.showNotification === 'function') {
+            AdminCommon.showNotification(
+                'Une erreur est survenue lors de la mise à jour de l\'élément',
+                'error'
+            );
+        }
+        
+        return false;
+    }
+}
+
 // Les fonctions de gestion du glisser-déposer sont déjà définies plus haut dans le fichier
 
 /**
