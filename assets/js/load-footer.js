@@ -1,5 +1,8 @@
+console.log('Script load-footer.js chargé avec succès');
+
 // Fonction pour créer le pied de page
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('Événement DOMContentLoaded déclenché');
     // Vérifier si le pied de page n'existe pas déjà
     if (!document.querySelector('footer')) {
         // Créer l'élément footer
