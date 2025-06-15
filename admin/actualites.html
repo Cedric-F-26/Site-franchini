@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualités - Administration - Franchini</title>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles spécifiques à la page des actualités */
+        .admin-container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .admin-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .admin-card h2 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .btn-primary {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        .admin-table th, .admin-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .admin-table th {
+            background-color: #f8f9fa;
+            font-weight: 500;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <div class="container">
+            <div class="user-info">
+                <h1>Panneau d'administration</h1>
+                <div>
+                    <span class="user-name">Connecté en tant que Cedric</span>
+                    <a href="../connexion-prive.html" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Déconnexion
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-container">
+        <div class="admin-card">
+            <h2>Gestion des Actualités</h2>
+            
+            <div id="actualites">
+                <h3>Ajouter/Modifier une Actualité</h3>
+                <form id="actualite-form">
+                    <div class="form-group">
+                        <label for="actualite-titre">Titre</label>
+                        <input type="text" id="actualite-titre" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="actualite-contenu">Contenu</label>
+                        <textarea id="actualite-contenu" class="form-control" rows="5" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="actualite-date">Date</label>
+                        <input type="date" id="actualite-date" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="add-actualite-btn" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Enregistrer
+                        </button>
+                        <button type="button" id="cancel-edit" class="btn btn-secondary" style="display: none;">
+                            <i class="fas fa-times"></i> Annuler
+                        </button>
+                    </div>
+                </form>
+                
+                <h3 style="margin-top: 30px;">Liste des Actualités</h3>
+                <table class="admin-table" id="actualites-table">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th>Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="actualites-table-body">
+                        <!-- Les actualités seront ajoutées ici dynamiquement -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Code JavaScript pour la gestion des actualités
+        document.addEventListener('DOMContentLoaded', function() {
+            const actualites = JSON.parse(localStorage.getItem('franchiniActualites')) || [];
+            let currentActualiteEditId = null;
+            
+            // Références aux éléments du DOM
+            const actualiteForm = document.getElementById('actualite-form');
+            const addActualiteBtn = document.getElementById('add-actualite-btn');
+            const cancelEditBtn = document.getElementById('cancel-edit');
+            const actualitesTableBody = document.getElementById('actualites-table-body');
+            
+            // Fonction pour mettre à jour le tableau des actualités
+            function updateActualitesTable() {
+                actualitesTableBody.innerHTML = '';
+                
+                // Trier les actualités par date (du plus récent au plus ancien)
+                const sortedActualites = [...actualites].sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                sortedActualites.forEach(actualite => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${actualite.titre}</td>
+                        <td>${formatDate(actualite.date)}</td>
+                        <td class="action-buttons">
+                            <button class="btn btn-primary edit-actualite" data-id="${actualite.id}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-danger delete-actualite" data-id="${actualite.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    actualitesTableBody.appendChild(row);
+                });
+                
+                // Ajouter les écouteurs d'événements pour les boutons d'édition et de suppression
+                document.querySelectorAll('.edit-actualite').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.getAttribute('data-id'));
+                        editActualite(id);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-actualite').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const id = parseInt(this.getAttribute('data-id'));
+                        deleteActualite(id);
+                    });
+                });
+            }
+            
+            // Fonction pour réinitialiser le formulaire
+            function resetActualiteForm() {
+                document.getElementById('actualite-titre').value = '';
+                document.getElementById('actualite-contenu').value = '';
+                document.getElementById('actualite-date').value = '';
+                currentActualiteEditId = null;
+                addActualiteBtn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
+                cancelEditBtn.style.display = 'none';
+            }
+            
+            // Fonction pour éditer une actualité
+            function editActualite(id) {
+                const actualite = actualites.find(a => a.id === id);
+                if (actualite) {
+                    document.getElementById('actualite-titre').value = actualite.titre;
+                    document.getElementById('actualite-contenu').value = actualite.contenu;
+                    document.getElementById('actualite-date').value = actualite.date;
+                    currentActualiteEditId = id;
+                    addActualiteBtn.innerHTML = '<i class="fas fa-save"></i> Mettre à jour';
+                    cancelEditBtn.style.display = 'inline-block';
+                    
+                    // Faire défiler vers le formulaire
+                    actualiteForm.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+            
+            // Fonction pour supprimer une actualité
+            function deleteActualite(id) {
+                if (confirm('Êtes-vous sûr de vouloir supprimer cette actualité ?')) {
+                    const index = actualites.findIndex(a => a.id === id);
+                    if (index !== -1) {
+                        actualites.splice(index, 1);
+                        localStorage.setItem('franchiniActualites', JSON.stringify(actualites));
+                        updateActualitesTable();
+                    }
+                }
+            }
+            
+            // Fonction pour formater la date
+            function formatDate(dateString) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('fr-FR', options);
+            }
+            
+            // Écouteur d'événement pour le formulaire
+            if (addActualiteBtn) {
+                addActualiteBtn.addEventListener('click', function() {
+                    const titre = document.getElementById('actualite-titre').value;
+                    const contenu = document.getElementById('actualite-contenu').value;
+                    const date = document.getElementById('actualite-date').value;
+                    
+                    if (titre && contenu && date) {
+                        const actualite = { 
+                            id: currentActualiteEditId || Date.now(), 
+                            titre, 
+                            contenu, 
+                            date 
+                        };
+                        
+                        if (currentActualiteEditId) {
+                            const index = actualites.findIndex(a => a.id === currentActualiteEditId);
+                            if (index !== -1) actualites[index] = actualite;
+                        } else {
+                            actualites.push(actualite);
+                        }
+                        
+                        localStorage.setItem('franchiniActualites', JSON.stringify(actualites));
+                        updateActualitesTable();
+                        resetActualiteForm();
+                        
+                        // Afficher un message de succès
+                        alert('Actualité enregistrée avec succès !');
+                    } else {
+                        alert('Veuillez remplir tous les champs obligatoires.');
+                    }
+                });
+            }
+            
+            // Écouteur d'événement pour le bouton Annuler
+            if (cancelEditBtn) {
+                cancelEditBtn.addEventListener('click', function() {
+                    resetActualiteForm();
+                });
+            }
+            
+            // Initialiser le tableau des actualités
+            updateActualitesTable();
+            
+            // Définir la date par défaut sur aujourd'hui
+            document.getElementById('actualite-date').value = new Date().toISOString().substr(0, 10);
+        });
+    </script>
+</body>
+</html>

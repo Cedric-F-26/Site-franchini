@@ -1,0 +1,71 @@
+# Fichiers système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers d'environnement
+.env
+*.env
+
+# Dossiers de dépendances
+node_modules/
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
+*.swp
+*~
+
+# Fichiers de logs
+*.log
+
+# Fichiers de cache
+.cache/
+.temp/
+.tmp/
+
+# Fichiers d'IDE
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Fichiers système
+dist/
+build/
+
+# Fichiers de déploiement
+.firebase/
+.firebaserc
+firebase.json
+
+# Fichiers de base de données
+*.sql
+*.sqlite
+
+# Fichiers de déploiement
+.firebase/
+.firebaserc
+
+# Fichiers de débogage
+.phpunit.result.cache
+
+# Fichiers de configuration locaux
+.phpunit.*.cache
+
+# Fichiers de session
+sess_*
+
+# Fichiers temporaires
+tmp/
+temp/
+
+# Fichiers de téléchargement
+uploads/
+
+# Fichiers de sauvegarde
+database_backups/
+backups/
+
+# Fichiers spécifiques au projet
+phpmyadmin.url
