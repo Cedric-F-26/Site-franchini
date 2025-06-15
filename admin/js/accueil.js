@@ -3,8 +3,15 @@
  * Gère le carrousel et ses fonctionnalités (ajout, édition, suppression, réorganisation)
  */
 
+// Utilisation de la configuration globale
+const CONFIG = window.AppConfig?.config || {
+    storageKeys: { accueil: 'franchiniCarousel' },
+    baseUrl: ''
+};
+
 // Vérifier si le fichier est chargé correctement
 console.log(`[accueil.js] Fichier chargé avec succès - ${new Date().toISOString()}`);
+console.log('[accueil.js] Configuration:', CONFIG);
 
 // Vérifier les dépendances
 console.log('[accueil.js] Vérification des dépendances:');
@@ -57,6 +64,12 @@ let carouselItems = [];
 let draggedItem = null;
 let dragStartX = 0;
 let dragStartY = 0;
+
+// Chemins des ressources
+const PATHS = {
+    images: `${CONFIG.baseUrl}/assets/images`,
+    defaultImage: `${CONFIG.baseUrl}/assets/images/logo/FRANCHINI-logo.svg`
+};
 
 /**
  * Gère l'aperçu des médias téléversés
@@ -138,15 +151,33 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
         console.log('[Accueil] Chargement des éléments du carrousel...');
         loadCarouselItems();
-        console.log('[Accueil] Éléments du carrousel chargés:', carouselItems);
-        
         console.log('[Accueil] Initialisation des écouteurs d\'événements...');
         initEventListeners();
         console.log('[Accueil] Écouteurs d\'événements initialisés');
         
-        console.log('[Accueil] Affichage des éléments du carrousel...');
-        renderCarouselItems();
-        console.log('[Accueil] Éléments du carrousel affichés');
+        console.log('[Accueil] Charger les éléments du carrousel');
+        try {
+            carouselItems = loadCarouselItems();
+            console.log('[Accueil] Éléments chargés:', carouselItems);
+            
+            // Afficher les éléments
+            renderCarouselItems();
+            
+            // Initialiser les tooltips
+            initTooltips();
+            
+            // Mettre à jour les attributs ARIA pour l'accessibilité
+            updateAriaAttributes();
+            
+        } catch (error) {
+            console.error('[Accueil] Erreur lors du chargement du carrousel:', error);
+            if (typeof AdminCommon !== 'undefined' && typeof AdminCommon.showNotification === 'function') {
+                AdminCommon.showNotification(
+                    'Une erreur est survenue lors du chargement du carrousel',
+                    'error'
+                );
+            }
+        }
         
         console.log('[Accueil] Initialisation des écouteurs de glisser-déposer...');
         initDragAndDropListeners();
@@ -1055,75 +1086,98 @@ function loadCarouselItems() {
             throw new Error(errorMsg);
         }
         
-        // Récupérer les éléments sauvegardés
-        const savedItems = localStorage.getItem('carouselItems');
+        // Utiliser la clé de stockage depuis la configuration
+        const storageKey = CONFIG.storageKeys.accueil || 'franchiniCarousel';
+        const savedItems = localStorage.getItem(storageKey);
         console.log('[loadCarouselItems] Données brutes récupérées du stockage local:', savedItems);
         
-        if (savedItems) {
-            console.log('[loadCarouselItems] Données trouvées dans le stockage local, tentative de parsing...');
-            
-            try {
-                // Parser les données JSON
-                const parsedItems = JSON.parse(savedItems);
-                console.log('[loadCarouselItems] Données parsées avec succès:', parsedItems);
-                
-                // Vérifier que les données parsées sont un tableau
-                if (!Array.isArray(parsedItems)) {
-                    throw new Error('Les données sauvegardées ne sont pas un tableau valide');
-                }
-                
-                // Vérifier que chaque élément a les propriétés requises
-                const validatedItems = parsedItems.map((item, index) => {
-                    // S'assurer que chaque élément a un ID et un ordre valides
-                    if (!item.id) {
-                        console.warn(`[loadCarouselItems] Élément sans ID détecté à l'index ${index}, génération d'un nouvel ID`);
-                        item.id = `item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
-                    }
-                    
-                    if (typeof item.order !== 'number' || isNaN(item.order)) {
-                        console.warn(`[loadCarouselItems] Ordre invalide pour l'élément ${item.id}, utilisation de l'index ${index}`);
-                        item.order = index;
-                    }
-                    
-                    return item;
-                });
-                
-                // Trier les éléments par ordre
-                const sortedItems = [...validatedItems].sort((a, b) => a.order - b.order);
-                console.log('[loadCarouselItems] Éléments chargés et triés:', sortedItems);
-                
-                // Mettre à jour la variable globale
-                carouselItems = sortedItems;
-                
-                return sortedItems;
-                
-            } catch (parseError) {
-                console.error('[loadCarouselItems] Erreur lors du parsing des données:', parseError);
-                console.warn('[loadCarouselItems] Utilisation des valeurs par défaut en raison d\'une erreur de parsing');
-                
-                // En cas d'erreur de parsing, utiliser les valeurs par défaut
-                return setDefaultCarouselItems();
-            }
-            
-        } else {
-            console.log('[loadCarouselItems] Aucune donnée trouvée dans le stockage local, utilisation des valeurs par défaut');
+        if (!savedItems) {
+            console.log('[loadCarouselItems] Aucun élément trouvé dans le stockage local, utilisation des valeurs par défaut');
             return setDefaultCarouselItems();
         }
         
+        // Parser les données JSON
+        let parsedItems;
+        try {
+            parsedItems = JSON.parse(savedItems);
+            console.log('[loadCarouselItems] Données parsées avec succès:', parsedItems);
+            
+            // Vérifier que les données parsées sont un tableau
+            if (!Array.isArray(parsedItems)) {
+                throw new Error('Les données sauvegardées ne sont pas un tableau valide');
+            }
+            
+            // Corriger les chemins des médias pour qu'ils fonctionnent à la fois en local et sur GitHub Pages
+            const itemsWithCorrectedPaths = parsedItems.map(item => {
+                // Pour les vidéos YouTube, ne pas modifier l'URL
+                if (item.type === 'video' && (item.url.includes('youtube.com') || item.url.includes('youtu.be'))) {
+                    return item;
+                }
+                
+                // Pour les images, s'assurer que le chemin est correct
+                if (item.url && !item.url.startsWith('http') && !item.url.startsWith('data:')) {
+                    // Si le chemin commence déjà par /assets, ajouter le baseUrl si nécessaire
+                    if (item.url.startsWith('/assets')) {
+                        return {
+                            ...item,
+                            url: CONFIG.baseUrl + item.url
+                        };
+                    }
+                    // Si c'est un chemin relatif, ajouter le préfixe approprié
+                    return {
+                        ...item,
+                        url: `${CONFIG.baseUrl}/assets/images/carousel${item.url.startsWith('/') ? '' : '/'}${item.url}`
+                    };
+                }
+                
+                return item;
+            });
+            
+            // Valider et corriger les éléments
+            const validatedItems = itemsWithCorrectedPaths.map((item, index) => {
+                // Créer une copie de l'élément pour éviter de modifier l'original
+                const newItem = { ...item };
+                
+                // S'assurer que chaque élément a un ID et un ordre valides
+                if (!newItem.id) {
+                    newItem.id = `item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+                }
+                
+                if (typeof newItem.order !== 'number' || isNaN(newItem.order)) {
+                    newItem.order = index;
+                }
+                
+                return newItem;
+            });
+            
+            // Trier les éléments par ordre
+            const sortedItems = [...validatedItems].sort((a, b) => a.order - b.order);
+            console.log('[loadCarouselItems] Éléments chargés et triés:', sortedItems);
+            
+            return sortedItems;
+        } catch (parseError) {
+            console.error('[loadCarouselItems] Erreur lors du parsing des données:', parseError);
+            throw new Error('Format de données invalide dans le stockage local');
+        }
     } catch (error) {
-        console.error('[loadCarouselItems] ERREUR CRITIQUE lors du chargement des éléments:', error);
+        console.error('[loadCarouselItems] Erreur lors du chargement des éléments:', error);
         
-        // En cas d'erreur critique, utiliser des valeurs par défaut vides
-        carouselItems = [];
-        
-        // Afficher une notification d'erreur si possible
-        if (typeof AdminCommon !== 'undefined' && typeof AdminCommon.showNotification === 'function') {
-            AdminCommon.showNotification(
-                'Une erreur est survenue lors du chargement du carrousel',
-                'error'
-            );
+        // En cas d'erreur, essayer de récupérer les éléments avec des clés alternatives
+        try {
+            const fallbackKeys = ['carouselItems', 'homeCarousel', 'carouselData'];
+            
+            for (const key of fallbackKeys) {
+                const fallbackItems = localStorage.getItem(key);
+                if (fallbackItems) {
+                    console.log(`[loadCarouselItems] Éléments chargés depuis la clé de secours: ${key}`);
+                    return JSON.parse(fallbackItems);
+                }
+            }
+        } catch (e) {
+            console.error('[loadCarouselItems] Échec du chargement avec les clés de secours:', e);
         }
         
+        // Si tout échoue, retourner un tableau vide
         return [];
     }
 }
@@ -1188,41 +1242,57 @@ function saveCarouselItems() {
         );
         
         if (invalidItems.length > 0) {
-            console.warn('[saveCarouselItems] Attention: certains éléments ont des ID ou ordres invalides:', invalidItems);
+            console.warn('[saveCarouselItems] Certains éléments ont des ID ou ordres invalides:', invalidItems);
         }
         
-        // Trier les éléments par ordre avant de sauvegarder
-        const sortedItems = [...carouselItems].sort((a, b) => a.order - b.order);
-        console.log('[saveCarouselItems] Éléments triés avant sauvegarde:', sortedItems);
+        // Mettre à jour l'ordre des éléments avant la sauvegarde
+        const itemsToSave = updateItemsOrder(false);
+        
+        // Nettoyer les données avant la sauvegarde (enlever les chemins complets pour économiser de l'espace)
+        const cleanedItems = itemsToSave.map(item => {
+            const cleanedItem = { ...item };
+            
+            // Pour les chemins d'images locaux, ne conserver que le nom du fichier
+            if (cleanedItem.url && !cleanedItem.url.startsWith('http') && !cleanedItem.url.startsWith('data:')) {
+                // Si c'est une URL relative avec le chemin de base, ne garder que la partie relative
+                if (CONFIG.baseUrl && cleanedItem.url.startsWith(CONFIG.baseUrl)) {
+                    cleanedItem.url = cleanedItem.url.substring(CONFIG.baseUrl.length);
+                }
+                // Si c'est un chemin absolu commençant par /assets, le laisser tel quel
+                else if (!cleanedItem.url.startsWith('/assets')) {
+                    // Sinon, extraire uniquement le nom du fichier
+                    const fileName = cleanedItem.url.split('/').pop();
+                    cleanedItem.url = fileName;
+                }
+            }
+            
+            return cleanedItem;
+        });
+        
+        // Utiliser la clé de stockage depuis la configuration
+        const storageKey = CONFIG.storageKeys.accueil || 'franchiniCarousel';
         
         // Sauvegarder dans le stockage local
-        const itemsToSave = JSON.stringify(sortedItems);
-        localStorage.setItem('carouselItems', itemsToSave);
+        localStorage.setItem(storageKey, JSON.stringify(cleanedItems));
+        console.log('[saveCarouselItems] Éléments nettoyés et sauvegardés avec succès:', cleanedItems);
         
-        console.log('[saveCarouselItems] Éléments sauvegardés avec succès dans le stockage local');
-        
-        // Vérifier que la sauvegarde a fonctionné
-        const savedItems = localStorage.getItem('carouselItems');
-        if (savedItems !== itemsToSave) {
-            console.warn('[saveCarouselItems] Attention: la vérification de la sauvegarde a échoué');
-        } else {
-            console.log('[saveCarouselItems] Vérification de la sauvegarde réussie');
-        }
+        // Mettre à jour la variable globale avec les données nettoyées
+        carouselItems = [...itemsToSave];
         
         return true;
-    } catch (error) {
-        console.error('[saveCarouselItems] ERREUR lors de la sauvegarde des éléments:', error);
         
-        // Afficher une notification d'erreur si possible
+    } catch (error) {
+        console.error('[saveCarouselItems] Erreur lors de la sauvegarde des éléments:', error);
+        
+        // Afficher une notification d'erreur si disponible
         if (typeof AdminCommon !== 'undefined' && typeof AdminCommon.showNotification === 'function') {
             AdminCommon.showNotification(
-                'Une erreur est survenue lors de la sauvegarde des éléments du carrousel',
+                'Une erreur est survenue lors de la sauvegarde du carrousel',
                 'error'
             );
         }
         
-        // Relancer l'erreur pour qu'elle soit gérée par l'appelant
-        throw error;
+        throw error; // Propager l'erreur pour une éventuelle gestion ultérieure
     }
 }
 

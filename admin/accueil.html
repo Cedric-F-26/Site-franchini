@@ -373,24 +373,22 @@
         </div>
     </div>
                     
-    <!-- Pied de page et scripts -->
-    <div data-include="includes/admin-footer.html"></div>
+    <!-- Bootstrap JS et dépendances -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Configuration -->
+    <script src="js/config.js"></script>
     
-    <!-- Scripts communs -->
-    <script>
-        console.log('Chargement de admin-common.js...');
-    </script>
+    <!-- Scripts personnalisés -->
+    <script src="js/admin-common.js"></script>
+    <script src="js/accueil.js" type="module"></script>
     <script src="js/admin-common.js" onload="console.log('admin-common.js chargé avec succès')" onerror="console.error('Erreur lors du chargement de admin-common.js')"></script>
     
     <!-- Script spécifique à la page d'accueil -->
     <script>
         console.log('Chargement de accueil.js...');
     </script>
-    <script src="js/accueil.js" onload="console.log('accueil.js chargé avec succès')" onerror="console.error('Erreur lors du chargement de accueil.js')"></script>
-    
     <script>
         // Fonction d'initialisation de la page
         function initPage() {
@@ -515,14 +513,18 @@
             }
         }
         
+        // Initialisation des tooltips Bootstrap
+        function initTooltips() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.forEach(function(tooltipTriggerEl) {
+                new bootstrap.Tooltip(tooltipTriggerEl);
+            });
+        }
+        
         // Appeler la fonction d'initialisation au chargement du DOM
         document.addEventListener('DOMContentLoaded', function() {
             initPage();
-            
-            // Initialiser l'affichage du carrousel
-            if (typeof updateCarouselDisplay === 'function') {
-                updateCarouselDisplay();
-            }
+            initTooltips();
         });
     </script>
 </body>
