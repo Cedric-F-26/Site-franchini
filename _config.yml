@@ -1,0 +1,28 @@
+# Configuration de base pour GitHub Pages
+baseurl: "/Site-franchini" # le chemin de base pour votre site (le nom de votre dépôt)
+url: "https://cedric-f-26.github.io" # l'URL de base pour votre site
+
+# Paramètres du site
+title: Franchini - Concessionnaire Deutz-Fahr
+description: Concessionnaire officiel Deutz-Fahr
+
+# Paramètres de construction
+markdown: kramdown
+plugins:
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Exclure des fichiers de la construction
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+  - README.md
+
+# Configuration du thème (si vous en utilisez un)
+theme: jekyll-theme-minimal
+
+# Paramètres personnalisés
+github:
+  is_project_page: true
