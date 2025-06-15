@@ -1,0 +1,41 @@
+/* Style pour le bouton Admin */
+.admin-link {
+    margin: 0 10px;
+}
+
+.admin-button {
+    background-color: #333;
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    text-decoration: none;
+}
+
+.admin-button:hover {
+    background-color: #555;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.admin-button i {
+    font-size: 0.9em;
+}
+
+@media (max-width: 992px) {
+    .admin-link {
+        margin: 10px 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .admin-button {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 15px;
+    }
+}
