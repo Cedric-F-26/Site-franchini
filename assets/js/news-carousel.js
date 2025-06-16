@@ -13,24 +13,26 @@ function initNewsCarousel(actualites) {
                 ${actualites.map((actualite, index) => `
                     <div class="carousel-item" data-index="${index}">
                         <div class="actualite-item">
-                            <img src="${actualite.image_url || 'assets/images/default-news.jpg'}" alt="${actualite.titre || 'Actualité'}" class="actualite-image">
+                            <img src="${actualite.image_url}" alt="${actualite.titre || 'Actualité'}" class="actualite-image" onerror="this.src='assets/images/placeholder.jpg'">
                             <div class="actualite-content">
-                                <div class="actualite-date">${new Date(actualite.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
+                                ${actualite.date ? `<div class="actualite-date">${new Date(actualite.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}</div>` : ''}
                                 <h3 class="actualite-title">${actualite.titre || 'Sans titre'}</h3>
-                                <p class="actualite-desc">${actualite.contenu || ''}</p>
-                                <a href="#" class="actualite-link">Lire la suite</a>
+                                <p class="actualite-desc">${actualite.contenu ? actualite.contenu.substring(0, 150) + (actualite.contenu.length > 150 ? '...' : '') : ''}</p>
+                                ${actualite.lien ? `<a href="${actualite.lien}" class="actualite-link">Lire la suite</a>` : ''}
                             </div>
                         </div>
                     </div>
                 `).join('')}
             </div>
-            <button class="carousel-arrow prev">❮</button>
-            <button class="carousel-arrow next">❯</button>
-            <div class="carousel-nav">
-                ${actualites.map((_, index) => `
-                    <div class="carousel-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>
-                `).join('')}
-            </div>
+            ${actualites.length > 1 ? `
+                <button class="carousel-arrow prev" aria-label="Article précédent">❮</button>
+                <button class="carousel-arrow next" aria-label="Article suivant">❯</button>
+                <div class="carousel-nav">
+                    ${actualites.map((_, index) => `
+                        <button class="carousel-dot ${index === 0 ? 'active' : ''}" data-index="${index}" aria-label="Aller à l'article ${index + 1}"></button>
+                    `).join('')}
+                </div>
+            ` : ''}
         </div>
     `;
     
@@ -48,47 +50,57 @@ function initNewsCarousel(actualites) {
     
     // Mettre à jour la position du carrousel
     function updateCarousel() {
-        track.style.transform = `translateX(-${currentIndex * itemWidth}%)`;
+        if (track) {
+            track.style.transform = `translateX(-${currentIndex * itemWidth}%`;
+        }
         
         // Mettre à jour les points de navigation
-        dots.forEach((dot, index) => {
-            dot.classList.toggle('active', index === currentIndex);
-        });
+        if (dots && dots.length > 0) {
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
         
         // Gérer la visibilité des flèches
-        prevBtn.style.display = currentIndex === 0 ? 'none' : 'flex';
-        nextBtn.style.display = currentIndex >= items.length - itemsToShow ? 'none' : 'flex';
+        if (prevBtn) prevBtn.style.display = currentIndex === 0 ? 'none' : 'flex';
+        if (nextBtn) nextBtn.style.display = currentIndex >= items.length - itemsToShow ? 'none' : 'flex';
     }
     
     // Événements
-    prevBtn.addEventListener('click', () => {
-        if (currentIndex > 0) {
-            currentIndex--;
-            updateCarousel();
-        }
-    });
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCarousel();
+            }
+        });
+    }
     
-    nextBtn.addEventListener('click', () => {
-        if (currentIndex < items.length - itemsToShow) {
-            currentIndex++;
-            updateCarousel();
-        }
-    });
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (items.length > 0 && currentIndex < items.length - itemsToShow) {
+                currentIndex++;
+                updateCarousel();
+            }
+        });
+    }
     
     // Navigation par points
-    dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-            currentIndex = parseInt(dot.dataset.index);
-            updateCarousel();
+    if (dots && dots.length > 0) {
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                currentIndex = parseInt(dot.dataset.index);
+                updateCarousel();
+            });
         });
-    });
+    }
     
     // Navigation au clavier
     document.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft' && currentIndex > 0) {
             currentIndex--;
             updateCarousel();
-        } else if (e.key === 'ArrowRight' && currentIndex < items.length - itemsToShow) {
+        } else if (e.key === 'ArrowRight' && items.length > 0 && currentIndex < items.length - itemsToShow) {
             currentIndex++;
             updateCarousel();
         }
@@ -97,23 +109,9 @@ function initNewsCarousel(actualites) {
     // Initialisation
     updateCarousel();
     
-    // Faire défiler automatiquement toutes les 5 secondes
-    let autoScroll = setInterval(() => {
-        if (currentIndex < items.length - itemsToShow) {
-            currentIndex++;
-        } else {
-            currentIndex = 0;
-        }
-        updateCarousel();
-    }, 5000);
-    
-    // Arrêter le défilement automatique au survol
-    container.addEventListener('mouseenter', () => {
-        clearInterval(autoScroll);
-    });
-    
-    container.addEventListener('mouseleave', () => {
-        autoScroll = setInterval(() => {
+    // Faire défiler automatiquement toutes les 5 secondes si plus d'un élément
+    if (items.length > 1) {
+        let autoScroll = setInterval(() => {
             if (currentIndex < items.length - itemsToShow) {
                 currentIndex++;
             } else {
@@ -121,51 +119,55 @@ function initNewsCarousel(actualites) {
             }
             updateCarousel();
         }, 5000);
-    });
+        
+        // Arrêter le défilement automatique au survol
+        container.addEventListener('mouseenter', () => {
+            clearInterval(autoScroll);
+        });
+        
+        container.addEventListener('mouseleave', () => {
+            autoScroll = setInterval(() => {
+                if (currentIndex < items.length - itemsToShow) {
+                    currentIndex++;
+                } else {
+                    currentIndex = 0;
+                }
+                updateCarousel();
+            }, 5000);
+        });
+    }
 }
 
 // Charger et afficher les actualités
 document.addEventListener('DOMContentLoaded', function() {
     const actualitesContainer = document.getElementById('actualites-container');
-    if (actualitesContainer) {
-        try {
-            // Charger les actualités depuis le script PHP
-            fetch('admin/get_news.php') // Assurez-vous que le chemin est correct depuis index.html
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Erreur HTTP ! statut: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.success && data.actualites && data.actualites.length > 0) {
-                        // Trier par date décroissante (si 'date' est bien la date de création/publication)
-                        // const sortedActualites = data.actualites.sort((a, b) => new Date(b.date) - new Date(a.date));
-                        // initNewsCarousel(sortedActualites);
-                        initNewsCarousel(data.actualites); // Le tri est déjà fait côté PHP
-                    } else {
-                        actualitesContainer.innerHTML = `
-                            <div class="no-news" style="text-align: center; padding: 2rem;">
-                                <i class="fas fa-newspaper" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
-                                <p>${data.message || 'Aucune actualité à afficher pour le moment.'}</p>
-                            </div>`;
-                    }
-                })
-                .catch(error => {
-                    console.error('Erreur lors de la récupération des actualités:', error);
-                    actualitesContainer.innerHTML = `
-                        <div class="error-message" style="color: #e74c3c; text-align: center; padding: 1rem; background: #fde8e8; border-radius: 4px; margin: 1rem 0;">
-                            <i class="fas fa-exclamation-triangle" style="margin-right: 0.5rem;"></i>
-                            Impossible de charger les actualités. Veuillez réessayer plus tard.
-                        </div>`;
-                });
-        } catch (e) {
-            console.error('Erreur lors du chargement des actualités depuis localStorage:', e);
+    if (!actualitesContainer) return;
+
+    try {
+        // Afficher un indicateur de chargement
+        actualitesContainer.innerHTML = '<div class="loading">Chargement des actualités...</div>';
+        
+        // Utiliser les données statiques
+        const actualites = typeof actualitesStatiques !== 'undefined' ? actualitesStatiques : [];
+        
+        // Si aucune actualité n'est trouvée
+        if (!actualites || actualites.length === 0) {
             actualitesContainer.innerHTML = `
-                <div class="error-message" style="color: #e74c3c; text-align: center; padding: 1rem; background: #fde8e8; border-radius: 4px; margin: 1rem 0;">
-                    <i class="fas fa-exclamation-triangle" style="margin-right: 0.5rem;"></i>
-                    Une erreur est survenue lors du chargement des actualités.
+                <div class="no-news">
+                    <p>Aucune actualité pour le moment.</p>
                 </div>`;
+            return;
         }
+        
+        // Initialiser le carrousel avec les actualités
+        initNewsCarousel(actualites);
+        
+    } catch (error) {
+        console.error('Erreur:', error);
+        actualitesContainer.innerHTML = `
+            <div class="error-message">
+                <p>Une erreur est survenue lors du chargement des actualités.</p>
+                <button onclick="window.location.reload()">Réessayer</button>
+            </div>`;
     }
 });
