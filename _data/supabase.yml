@@ -1,0 +1,42 @@
+# Configuration Supabase
+supabase_url: "https://votre-projet-supabase.supabase.co"
+supabase_key: "votre-cle-api-supabase"
+
+# Configuration des tables
+tables:
+  users: "utilisateurs"
+  products: "produits"
+  news: "actualites"
+
+# Configuration des rôles
+roles:
+  admin: "administrateur"
+  editor: "editeur"
+  user: "utilisateur"
+
+# Configuration des fonctionnalités
+features:
+  auth: true
+  storage: true
+  realtime: true
+
+# Configuration des politiques de sécurité
+security:
+  enable_rls: true
+  jwt_secret: "votre-secret-jwt"
+  password_min_length: 8
+
+# Configuration du stockage
+storage:
+  bucket: "franchini-assets"
+  max_file_size: 5242880  # 5MB en octets
+  allowed_mime_types:
+    - "image/jpeg"
+    - "image/png"
+    - "image/gif"
+    - "application/pdf"
+
+# Configuration des webhooks
+webhooks:
+  user_signup: "https://votresite.com/api/webhooks/user-signup"
+  password_reset: "https://votresite.com/api/webhooks/password-reset"

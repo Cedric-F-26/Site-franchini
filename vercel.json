@@ -1,0 +1,51 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "_site",
+        "cleanUrls": true,
+        "trailingSlash": false
+      }
+    }
+  ],
+  "build": {
+    "env": {
+      "RUBY_VERSION": "3.1.4",
+      "BUNDLE_WITHOUT": "development:test",
+      "BUNDLE_PATH": "vendor/bundle",
+      "BUNDLE_CACHE_ALL": "true",
+      "BUNDLE_DEPLOYMENT": "true",
+      "JEKYLL_ENV": "production"
+    }
+  },
+  "routes": [
+    {
+      "src": "^/assets/(.*)",
+      "dest": "/assets/$1"
+    },
+    {
+      "src": "^/(.*\\.(?:css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot))$",
+      "dest": "/$1"
+    },
+    {
+      "src": "^/(.*)/$",
+      "dest": "/$1/index.html"
+    },
+    {
+      "src": "^/(.*)",
+      "dest": "/$1.html"
+    },
+    {
+      "src": "^/$",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "NODE_VERSION": "16.x"
+  },
+  "buildCommand": "bundle exec jekyll build",
+  "outputDirectory": "_site"
+}

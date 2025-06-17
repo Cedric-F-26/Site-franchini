@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
+    
+    <!-- SEO -->
+    {% seo %}
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ '/assets/css/carousel.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/header.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/footer.css' | relative_url }}">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles inline pour la page d'accueil -->
+    {% if page.url == '/' %}
+    <style>
+        /* Styles spécifiques à la page d'accueil */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/hero-bg.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+            padding: 150px 20px;
+            margin-top: 80px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+    </style>
+    {% endif %}
+</head>
+<body>
+    <!-- Header -->
+    {% include header.html %}
+    
+    <!-- Contenu principal -->
+    {{ content }}
+    
+    <!-- Footer -->
+    {% include footer.html %}
+    
+    <!-- Scripts JS -->
+    <script src="{{ '/assets/js/carousel.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    
+    <!-- Scripts spécifiques à la page -->
+    {% if page.scripts %}
+        {% for script in page.scripts %}
+            <script src="{{ script | relative_url }}"></script>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "name": "site-franchini",
+  "version": "1.0.0",
+  "description": "Site web de Franchini - Concessionnaire Deutz-Fahr",
+  "private": true,
+  "scripts": {
+    "dev": "bundle exec jekyll serve --watch --port 3000",
+    "build": "bundle exec jekyll build",
+    "start": "bundle exec jekyll serve --port 3000"
+  },
+  "engines": {
+    "node": ">=14.0.0",
+    "ruby": ">=2.5.0"
+  },
+  "dependencies": {
+    "@vercel/static-build": "^3.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^28.0.0"
+  },
+  "vercel": {
+    "buildCommand": "bundle install && bundle exec jekyll build",
+    "outputDirectory": "_site"
+  }
+}

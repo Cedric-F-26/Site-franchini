@@ -1,16 +1,36 @@
 # Configuration de base pour GitHub Pages
-baseurl: "/Site-franchini" # le chemin de base pour votre site (le nom de votre dépôt)
-url: "https://cedric-f-26.github.io" # l'URL de base pour votre site
+baseurl: "" # Chemin de base pour le site (laisser vide pour la racine)
+url: "https://franchini.fr" # URL de production du site
 
 # Paramètres du site
 title: Franchini - Concessionnaire Deutz-Fahr
-description: Concessionnaire officiel Deutz-Fahr
+description: Concessionnaire officiel Deutz-Fahr - Matériel agricole neuf et d'occasion
+email: contact@franchini.fr
+language: fr
 
 # Paramètres de construction
 markdown: kramdown
 plugins:
   - jekyll-sitemap
   - jekyll-seo-tag
+  - jekyll-feed
+
+# Paramètres de permaliens (pour des URLs propres)
+permalink: pretty
+
+# Paramètres de build
+future: true
+incremental: false
+
+# Paramètres de temps
+timezone: Europe/Paris
+
+# Configuration des collections
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
 
 # Exclure des fichiers de la construction
 exclude:
@@ -18,6 +38,129 @@ exclude:
   - Gemfile.lock
   - node_modules/
   - vendor/
+  - .sass-cache/
+  - .jekyll-cache/
+  - .git
+  - README.md
+  - Serveur.txt
+  - vercel.json
+  - netlify.toml
+  - update-*.js
+  - insert-*.js
+
+# Inclure les fichiers et dossiers qui commencent par un point
+include:
+  - .htaccess
+  - .nojekyll
+  - robots.txt
+  - sitemap.xml
+
+# Configuration pour sitemap
+sitemap:
+  exclude:
+    - "/assets/"
+    - "/js/"
+    - "/css/"
+    - "/images/"
+
+# Configuration SEO par défaut
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+      sitemap: true
+
+# Configuration pour les liens de navigation
+navigation:
+  - title: Accueil
+    url: /
+  - title: Neuf
+    url: /pages/neuf/
+  - title: Occasions
+    url: /pages/occasion/
+  - title: Services
+    url: /pages/services/
+  - title: Contact
+    url: /pages/contact/
+
+# Configuration du pied de page
+footer:
+  contact:
+    address: "111 av des monts du matin, 26300 Marches"
+    phone: "04 75 47 40 37"
+    email: "contact@franchini.fr"
+  social_links:
+    - name: Facebook
+      url: "#"
+      icon: "fab fa-facebook-f"
+    - name: Twitter
+      url: "#"
+      icon: "fab fa-twitter"
+    - name: Instagram
+      url: "#"
+      icon: "fab fa-instagram"
+    - name: LinkedIn
+      url: "#"
+      icon: "fab fa-linkedin-in"
+
+# Configuration des métadonnées pour les réseaux sociaux
+social:
+  name: Franchini
+  links:
+    - "https://www.facebook.com/franchini"
+    - "https://twitter.com/franchini"
+    - "https://www.instagram.com/franchini"
+
+# Configuration du thème (couleurs, polices, etc.)
+theme:
+  primary_color: "#4CAF50"
+  secondary_color: "#2E7D32"
+  accent_color: "#8BC34A"
+  text_color: "#333333"
+  light_text: "#757575"
+  background: "#FFFFFF"
+  font_family: "'Roboto', sans-serif"
+  font_size: "16px"
+  line_height: "1.6"
+
+# Configuration des paramètres de développement
+dev:
+  minify: false
+  cache: false
+  verbose: true
+    - "/admin/"
+    - "/includes/"
+
+# Configuration pour SEO
+seo:
+  name: Franchini
+  social:
+    name: Franchini
+    links:
+      - https://www.facebook.com/
+      - https://twitter.com/
+      - https://www.instagram.com/
+
+# Configuration personnalisée
+social_links:
+  - platform: facebook
+    url: https://www.facebook.com/
+  - platform: twitter
+    url: https://twitter.com/
+  - platform: instagram
+    url: https://www.instagram.com/
+
+# Paramètres de navigation par défaut
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: default
+  - scope:
+      path: "assets"
+    values:
+      layout: null
   - README.md
 
 # Configuration du thème (si vous en utilisez un)

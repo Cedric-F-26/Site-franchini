@@ -1,0 +1,11 @@
+# Browsers that we support
+
+# Desktop Browsers
+last 2 versions
+> 1%
+not dead
+
+# Mobile Browsers
+iOS >= 12
+Android >= 5
+not IE 11

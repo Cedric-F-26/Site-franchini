@@ -13,7 +13,7 @@ const newFooter = `    <!-- Pied de page -->
             </div>
             <div style="font-size: 12px; color: #aaa; margin-top: 20px; padding-top: 15px; border-top: 1px solid #333;">
                 © ${new Date().getFullYear()} Franchini SARL. Tous droits réservés. 
-                <a href="/admin" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
+                <a href="pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
             </div>
         </div>
     </footer>

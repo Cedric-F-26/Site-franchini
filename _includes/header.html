@@ -1,0 +1,26 @@
+<header class="main-header">
+    <div class="container">
+        <div class="logo">
+            <a href="/" class="logo-link">
+                <span class="logo-text">FRANCHINI</span>
+            </a>
+            
+            <div class="header-social">
+                <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+        </div>
+        
+        <nav class="main-nav">
+            <ul>
+                <li><a href="/" class="{% if page.url == '/' %}active{% endif %}">Accueil</a></li>
+                <li><a href="/a-propos" class="{% if page.url == '/a-propos/' %}active{% endif %}">À propos</a></li>
+                <li><a href="/services" class="{% if page.url == '/services/' %}active{% endif %}">Services</a></li>
+                <li><a href="/produits" class="{% if page.url == '/produits/' %}active{% endif %}">Produits</a></li>
+                <li><a href="/contact" class="{% if page.url == '/contact/' %}active{% endif %}">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>

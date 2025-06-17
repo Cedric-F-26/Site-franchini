@@ -6,9 +6,24 @@ desktop.ini
 # Fichiers d'environnement
 .env
 *.env
+.env.*
+!.env.example
 
 # Dossiers de dépendances
 node_modules/
+vendor/
+.bundle/
+.ruby-version
+.ruby-gemset
+
+# Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+.jekyll-version
+.jekyll
+.jekyll-clean
 
 # Fichiers de sauvegarde
 *.bak
@@ -18,34 +33,82 @@ node_modules/
 
 # Fichiers de logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Fichiers de cache
 .cache/
 .temp/
 .tmp/
+.parcel-cache/
 
-# Fichiers d'IDE
+# Fichiers d'IDE et éditeurs
 .idea/
 .vscode/
 *.sublime-workspace
 *.sublime-project
+*.sublime-worksheet
+*.code-workspace
 
 # Fichiers système
 dist/
 build/
+.next/
+.nuxt/
 
 # Fichiers de déploiement
 .firebase/
+.netlify/
+.vercel/
+
+# Fichiers de dépendances système
+.pnp*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+
+# Fichiers de test
+coverage/
+.nyc_output/
+
+# Fichiers de débogage
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# Fichiers temporaires
+*.swp
+*.swo
+*~
+
+# Fichiers de configuration locale
+*.local
+
+# Fichiers de déploiement
+.deploy*/
 .firebaserc
 firebase.json
+
+# Fichiers spécifiques au projet
+Serveur.txt
+update-*.js
+insert-*.js
 
 # Fichiers de base de données
 *.sql
 *.sqlite
 
-# Fichiers de déploiement
-.firebase/
-.firebaserc
+# Fichiers Ruby
+*.gem
+# .ruby-version est nécessaire pour spécifier la version de Ruby à utiliser
+# .ruby-version
+# .ruby-gemset est nécessaire pour gérer les gemsets Ruby
+# .ruby-gemset
 
 # Fichiers de débogage
 .phpunit.result.cache

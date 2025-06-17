@@ -1,23 +1,91 @@
 [build]
-  publish = "."
-  command = ""
+  command = "bundle install && bundle exec jekyll build"
+  publish = "_site"
 
 [build.environment]
-  NODE_VERSION = "16"
-  NPM_VERSION = "8"
+  # Version de Ruby
+  RUBY_VERSION = "3.1.4"
+  
+  # Configuration pour Jekyll
+  JEKYLL_ENV = "production"
+  
+  # Configuration pour les dépendances
+  BUNDLE_PATH = "vendor/bundle"
+  BUNDLE_WITHOUT = "development:test"
+  BUNDLE_CACHE_ALL = "true"
+  BUNDLE_DEPLOYMENT = "true"
+
+# Configuration des en-têtes
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    
+    # Configuration du cache pour les assets
+    [[headers.values]]
+      for = "/*.css"
+      [headers.values.values]
+        Cache-Control = "public, max-age=31536000, immutable"
+    
+    [[headers.values]]
+      for = "/*.js"
+      [headers.values.values]
+        Cache-Control = "public, max-age=31536000, immutable"
+    
+    [[headers.values]]
+      for = "/assets/images/*"
+      [headers.values.values]
+        Cache-Control = "public, max-age=31536000, immutable"
+
+# Redirections
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
+
+# Redirections pour les URLs propres (sans .html)
+[[redirects]]
+  from = "/:file.:ext"
+  to = "/:file.:ext"
+  status = 200
 
 [[redirects]]
   from = "/*"
-  to = "/index.html"
-  status = 200
+  to = "/404.html"
+  status = 404
+  status = 404
 
-[dev]
-  publish = "."
-  port = 8888
-
+# Redirections pour les assets
 [[redirects]]
   from = "/assets/*"
   to = "/assets/:splat"
+  status = 200
+
+# Redirections pour les anciennes URLs (exemple)
+# [[redirects]]
+#   from = "/old-path"
+#   to = "/new-path"
+#   status = 301
+
+# Configuration pour les en-têtes de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://api.example.com;"
+
+# Configuration pour le développement local
+[dev]
+  command = "bundle exec jekyll serve --watch --port 4000"
+  targetPort = 4000
+  publish = "_site"
+  port = 4000
   status = 200
 
 [[redirects]]

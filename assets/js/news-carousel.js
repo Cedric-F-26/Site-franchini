@@ -129,8 +129,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const actualitesContainer = document.getElementById('actualites-container');
     if (actualitesContainer) {
         try {
-            // Charger les actualités depuis le script PHP
-            fetch('admin/get_news.php') // Assurez-vous que le chemin est correct depuis index.html
+            // Charger les actualités depuis l'API
+            fetch('/api/actualites') // Point d'API pour récupérer les actualités
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`Erreur HTTP ! statut: ${response.status}`);

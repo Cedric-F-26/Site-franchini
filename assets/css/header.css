@@ -1,0 +1,396 @@
+/* ==========================================================================
+   #HEADER STYLES
+   ========================================================================== */
+/**
+ * Styles pour l'en-tête du site Franchini
+ *
+ * Structure :
+ * 1. Variables et reset
+ * 2. Layout principal
+ * 3. Navigation principale
+ * 4. Menu mobile
+ * 5. Animations et états
+ * 6. Media queries
+ */
+
+/* ==========================================================================
+   #1. VARIABLES ET RESET
+   ========================================================================== */
+
+:root {
+    /* Couleurs */
+    --header-bg: #ffffff;
+    --header-text: #333333;
+    --header-accent: #4CAF50;
+    --header-hover: #45a049;
+    --header-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --header-transition: all 0.3s ease;
+    
+    /* Typographie */
+    --font-primary: 'Roboto', sans-serif;
+    --font-size-base: 1rem;
+    --font-size-lg: 1.125rem;
+    --font-size-xl: 1.75rem;
+    
+    /* Espacements */
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Bordures */
+    --border-radius: 4px;
+    --border-color: #f0f0f0;
+}
+
+/* Reset */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ==========================================================================
+   #2. LAYOUT PRINCIPAL
+   ========================================================================== */
+
+.site-header {
+    background-color: var(--header-bg);
+    box-shadow: var(--header-shadow);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    padding: 15px 0;
+    transition: var(--header-transition);
+    font-family: var(--font-primary);
+}
+
+.site-header.scrolled {
+    padding: 10px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Logo */
+.header-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header-logo a {
+    color: #4CAF50;
+    font-size: 28px;
+    font-weight: 700;
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+.header-logo a:hover {
+    color: #3d8b40;
+}
+
+/* Navigation principale */
+.main-nav {
+    display: flex;
+    align-items: center;
+}
+
+.main-nav-list {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 25px;
+}
+
+.main-nav-link {
+    color: #333333;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 8px 0;
+    position: relative;
+    transition: color 0.3s ease;
+    display: inline-block;
+}
+
+.main-nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #4CAF50;
+    transition: width 0.3s ease;
+}
+
+.main-nav-link:hover,
+.main-nav-link.active {
+    color: #4CAF50;
+}
+
+.main-nav-link:hover::after,
+.main-nav-link.active::after {
+    width: 100%;
+}
+
+/* Menus déroulants */
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle::after {
+    content: '\f107';
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 220px;
+    background-color: #ffffff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 10px 0;
+    margin-top: 10px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-item {
+    display: block;
+    padding: 8px 20px;
+    color: #333333;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #4CAF50;
+    padding-left: 25px;
+}
+
+/* Bouton de contact */
+.contact-btn {
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-weight: 500;
+    cursor: pointer;
+    margin-left: 20px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.contact-btn:hover {
+    background-color: #3d8b40;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Menu mobile */
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    cursor: pointer;
+    padding: 5px;
+    z-index: 1002;
+}
+
+.mobile-menu-toggle span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: #333333;
+    transition: all 0.3s ease;
+    border-radius: 3px;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   #4. MENU MOBILE
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    .mobile-menu-toggle {
+        display: flex;
+    }
+    
+    .main-nav {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 300px;
+        height: 100vh;
+        background-color: #ffffff;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+        padding: 80px 30px 30px;
+        transition: right 0.4s ease;
+        overflow-y: auto;
+    }
+    
+    .main-nav.active {
+        right: 0;
+    }
+    
+    .main-nav-list {
+        flex-direction: column;
+        gap: 0;
+    }
+    
+    .main-nav-item {
+        width: 100%;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .main-nav-link {
+        display: block;
+        padding: 15px 0;
+    }
+    
+    .main-nav-link::after {
+        display: none;
+    }
+    
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        padding: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, opacity 0.3s ease;
+        opacity: 0;
+        visibility: visible;
+        transform: none;
+        margin: 0;
+    }
+    
+    .dropdown.active .dropdown-menu {
+        max-height: 500px;
+        opacity: 1;
+        padding: 10px 0 10px 20px;
+    }
+    
+    .dropdown-toggle::after {
+        float: right;
+        margin-top: 5px;
+        transition: transform 0.3s ease;
+    }
+    
+    .dropdown.active .dropdown-toggle::after {
+        transform: rotate(180deg);
+    }
+    
+    .dropdown-item {
+        padding: 8px 0;
+    }
+    
+    .contact-btn {
+        margin: 20px 0 0;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ==========================================================================
+   #5. ANIMATIONS ET ÉTATS
+   ========================================================================== */
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.site-header.scrolled {
+    animation: slideDown 0.4s ease-out;
+    padding: 10px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* ==========================================================================
+   #6. MEDIA QUERIES
+   ========================================================================== */
+
+/* Tablettes */
+@media (max-width: 992px) {
+    /* Styles existants... */
+}
+
+/* Mobiles */
+@media (max-width: 576px) {
+    .main-nav {
+        width: 280px;
+    }
+    
+    .header-logo a {
+        font-size: var(--font-size-xl);
+    }
+    
+    .header-container {
+        padding: 0 var(--spacing-md);
+    }
+}
+
+/* Très petits écrans */
+@media (max-width: 360px) {
+    .header-logo a {
+        font-size: 1.4rem;
+    }
+    
+    .main-nav {
+        width: 100%;
+    }
+}

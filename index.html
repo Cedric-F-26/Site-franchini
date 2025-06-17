@@ -1,1230 +1,561 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Franchini - Concessionnaire Deutz-Fahr</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/footer-style.css">
-    <style>
-        /* Style du logo */
-        .logo-link {
-            text-decoration: none;
-            position: relative;
-            display: block;
-        }
+---
+layout: default
+title: Accueil
+---
 
-        .logo-text {
-            font-family: Arial, sans-serif;
-            font-size: 32px;
-            font-weight: bold;
-            color: #333;
-            letter-spacing: 1px;
-            position: relative;
-        }
+<!-- Contenu principal de la page d'accueil -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 20px;
-        }
-
-        .header-social {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .header-social .social-icon {
-            color: #888;
-            font-size: 20px;
-            transition: color 0.3s, transform 0.3s;
-            opacity: 0.7;
-        }
-
-        .header-social .social-icon:hover {
-            color: #3D6AA2;
-            transform: translateY(-2px);
-            opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-            .logo-text {
-                font-size: 24px;
-            }
-        }
-
-        /* Styles spécifiques à la page d'accueil */
+<style>
+    /* Styles spécifiques à la page d'accueil */
+    .main-carousel {
+        width: 100%;
+        height: 500px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 40px;
+    }
+    
+    .main-carousel img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .carousel-container {
+        display: flex;
+        gap: 30px;
+        margin: 40px 0;
+    }
+    
+    .carousel-section {
+        flex: 1;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .carousel-section h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #4CAF50;
+    }
+    
+    .carousel {
+        position: relative;
+        height: 400px;
+        overflow: hidden;
+    }
+    
+    .carousel-slide {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+    
+    .carousel-slide.active {
+        opacity: 1;
+    }
+    
+    .carousel-slide img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+    
+    .carousel-content {
+        padding: 15px 0;
+    }
+    
+    .carousel-nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 15px;
+    }
+    
+    .carousel-nav button {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 5px 15px;
+        margin: 0 5px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    
+    .carousel-nav button:hover {
+        background: #45a049;
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+    
+    .hero p {
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.4;
+    }
+    
+    .btn {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 40px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 2px solid #4CAF50;
+    }
+    
+    .btn:hover {
+        background-color: transparent;
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    .btn-outline {
+        background: transparent;
+        border: 2px solid #fff;
+        margin-left: 15px;
+    }
+    
+    .btn-outline:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+    
+    .features {
+        padding: 100px 0;
+        background-color: #f9f9f9;
+    }
+    
+    .section-title {
+        text-align: center;
+        margin-bottom: 60px;
+    }
+    
+    .section-title h2 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+    }
+    
+    .section-title h2:after {
+        content: '';
+        position: absolute;
+        width: 70px;
+        height: 3px;
+        background: #4CAF50;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+    .section-title p {
+        color: #666;
+        font-size: 1.2rem;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+    }
+    
+    .feature-card {
+        background: white;
+        padding: 40px 30px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 5px 30px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .feature-icon {
+        width: 80px;
+        height: 80px;
+        background: #4CAF50;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 25px;
+        color: white;
+        font-size: 2rem;
+        transition: all 0.3s ease;
+    }
+    
+    .feature-card:hover .feature-icon {
+        background: #45a049;
+        transform: rotateY(180deg);
+    }
+    
+    .feature-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        color: #333;
+    }
+    
+    .feature-card p {
+        color: #666;
+        line-height: 1.6;
+    }
+    
+    .video-section {
+        padding: 100px 0;
+        background: white;
+    }
+    
+    .video-container {
+        position: relative;
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+    
+    .video-container iframe {
+        width: 100%;
+        height: 600px;
+        border: none;
+        display: block;
+    }
+    
+    .cta-section {
+        padding: 100px 0;
+        background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+        color: white;
+        text-align: center;
+    }
+    
+    .cta-content {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    
+    .cta-content p {
+        font-size: 1.2rem;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+    
+    .cta-content .btn {
+        background: white;
+        color: #4CAF50;
+        padding: 15px 50px;
+    }
+    
+    .cta-content .btn:hover {
+        background: #f5f5f5;
+        color: #45a049;
+    }
+    
+    @media (max-width: 992px) {
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/hero-bg.jpg') no-repeat center center/cover;
-            color: white;
-            text-align: center;
-            padding: 150px 20px;
-            margin-top: 80px;
+            padding: 120px 20px;
         }
         
         .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
+            font-size: 2.5rem;
         }
         
         .hero p {
             font-size: 1.5rem;
-            margin-bottom: 30px;
-        }
-        
-        .btn {
-            display: inline-block;
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-        
-        .btn:hover {
-            background-color: #45a049;
         }
         
         .features {
             padding: 80px 0;
-            background-color: #f9f9f9;
         }
         
-        .features .container {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 30px;
+        .video-section, .cta-section {
+            padding: 80px 0;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .hero {
+            padding: 100px 20px;
+        }
+        
+        .hero h1 {
+            font-size: 2.2rem;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            font-size: 1rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+        }
+        
+        .features {
+            padding: 60px 0;
         }
         
         .feature-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            flex: 1;
-            min-width: 300px;
-            max-width: 400px;
+            padding: 30px 20px;
+        }
+        
+        .video-section, .cta-section {
+            padding: 60px 0;
+        }
+        
+        .video-container iframe {
+            height: 400px;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .hero {
+            padding: 80px 20px;
+        }
+        
+        .hero h1 {
+            font-size: 1.8rem;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+        }
+        
+        .btn {
+            display: block;
+            width: 100%;
+            max-width: 250px;
+            margin: 10px auto;
+        }
+        
+        .btn-outline {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-title h2 {
+            font-size: 1.8rem;
+        }
+        
+        .section-title p {
+            font-size: 1rem;
+        }
+        
+        .features {
+            padding: 50px 0;
+        }
+        
+        .feature-card {
+            padding: 25px 15px;
         }
         
         .feature-icon {
-            font-size: 3rem;
-            color: #4CAF50;
-            margin-bottom: 20px;
+            width: 70px;
+            height: 70px;
+            font-size: 1.8rem;
         }
         
-        .feature-card h2 {
-            margin-bottom: 15px;
-            color: #333;
+        .feature-card h3 {
+            font-size: 1.3rem;
         }
         
-        .btn-outline {
-            display: inline-block;
-            border: 2px solid #4CAF50;
-            color: #4CAF50;
-            padding: 10px 25px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: all 0.3s;
+        .video-section, .cta-section {
+            padding: 50px 0;
         }
         
-        .btn-outline:hover {
-            background-color: #4CAF50;
-            color: white;
+        .video-container iframe {
+            height: 250px;
         }
         
-        .slider-nav button {
-            cursor: pointer;
-            font-size: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.3s;
-        }
-        
-        .slider-nav button:hover {
-            background: rgba(0, 0, 0, 0.8);
-        }
-        
-        /* Styles pour les sections actualités et occasions */
-        .news-section, .occasions-section {
-            padding: 4rem 0;
-        }
-        
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 2rem;
-            gap: 1rem;
-        }
-        
-        .section-icon {
+        .cta-content h2 {
             font-size: 2rem;
-            color: #4CAF50;
-            background-color: rgba(76, 175, 80, 0.1);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
-        .section-title {
-            text-align: center;
-            margin: 0;
-            font-size: 2.2rem;
-            color: #2c3e50;
-            position: relative;
+        .cta-content p {
+            font-size: 1rem;
         }
-        
-        .section-title:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background-color: #4CAF50;
-        }
-        
-        .news-grid, .occasions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        
-        .news-card, .occasion-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .news-card:hover, .occasion-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .news-image, .occasion-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-        }
-        
-        .news-content, .occasion-content {
-            padding: 1.5rem;
-        }
-        
-        .news-date, .occasion-date {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .news-title, .occasion-title {
-            font-size: 1.25rem;
-            margin: 0 0 1rem 0;
-            color: #2c3e50;
-        }
-        
-        .news-excerpt, .occasion-price {
-            color: #666;
-            margin-bottom: 1rem;
-        }
-        
-        .read-more, .view-details {
-            display: inline-block;
-            color: #4CAF50;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .read-more:hover, .view-details:hover {
-            color: #3e8e41;
-        }
-        
-        .occasion-price {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: #e74c3c;
-        }
-        
-        .section-cta {
-            text-align: center;
-            margin-top: 2rem;
-        }
-        
-        .btn-outline {
-            display: inline-block;
-            padding: 0.8rem 2rem;
-            border: 2px solid #4CAF50;
-            color: #4CAF50;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .btn-outline:hover {
-            background-color: #4CAF50;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <header class="main-header">
-        <div class="container">
-            <div class="logo">
-                <a href="index.html" class="logo-link">
-                    <div class="logo-text">FRANCHINI</div>
-                </a>
-                <div class="header-social">
-                    <a href="https://www.facebook.com/franchinimarches" target="_blank" class="social-icon">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://www.instagram.com/franchini_deutzfahr" target="_blank" class="social-icon">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="pages/concession.html">La concession</a></li>
-                    <li class="dropdown">
-                        <a href="#">Matériel neuf <i class="fas fa-chevron-down"></i></a>
-                        <div class="dropdown-content">
-                            <a href="pages/materiel.html">Matériel neuf</a>
-                            <a href="pages/materiel-disponible.html">Matériel neuf disponible</a>
-                        </div>
-                    </li>
-                    <li><a href="pages/location.html">Location</a></li>
-                    <li><a href="pages/occasion.html">Occasion</a></li>
-                    <li><a href="pages/magasin.html">Magasin</a></li>
-                    <li><a href="pages/contact.html">Contact</a></li>
-                    <li><a href="tel:0475474037" class="phone-number"><i class="fas fa-phone"></i> 04 75 47 40 37</a></li>
-                </ul>
-            </nav>
-            <div class="mobile-menu-toggle">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-    </header>
-    
-    <div class="mobile-menu">
-        <ul>
-            <li><a href="pages/concession.html">La concession</a></li>
-            <li class="mobile-dropdown">
-                <a href="#" class="dropdown-toggle">Matériel neuf <i class="fas fa-chevron-down"></i></a>
-                <ul class="mobile-dropdown-menu">
-                    <li><a href="pages/materiel.html">Matériel neuf</a></li>
-                    <li><a href="pages/materiel-disponible.html">Matériel neuf disponible</a></li>
-                </ul>
-            </li>
-            <li><a href="pages/location.html">Location</a></li>
-            <li><a href="pages/occasion.html">Occasion</a></li>
-            <li><a href="pages/magasin.html">Magasin</a></li>
-            <li><a href="pages/contact.html">Contact</a></li>
-            <li class="phone"><a href="tel:0475474037">04 75 47 40 37</a></li>
-        </ul>
+    }
+</style>
+
+<main class="home-page">
+    <!-- Carrousel Principal -->
+    <div class="main-carousel">
+        <img src="assets/images/hero-bg.jpg" alt="Bannière principale">
     </div>
 
-    <main>
-        <!-- Carrousel personnalisé -->
-        <section class="custom-carousel">
-            <div class="carousel-container" id="home-carousel">
-                <!-- Les éléments du carrousel seront ajoutés dynamiquement ici -->
-            </div>
-        </section>
-        
-        <style>
-            /* Styles pour le carrousel */
-            .custom-carousel {
-                width: 100%;
-                position: relative;
-                overflow: hidden;
-                margin-bottom: 2rem;
-            }
-            
-            .carousel-container {
-                width: 100%;
-                position: relative;
-                height: 70vh;
-                min-height: 500px;
-                overflow: hidden;
-            }
-            
-            .carousel-slide {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                opacity: 0;
-                transition: opacity 1s ease-in-out;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background-color: #f5f5f5;
-            }
-            
-            .carousel-slide.active {
-                opacity: 1;
-                z-index: 1;
-            }
-            
-            .carousel-slide img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-            
-            .carousel-slide .video-container {
-                position: relative;
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-                padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-            }
-            
-            .carousel-slide iframe {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                border: none;
-                object-fit: cover;
-                /* Assure que la vidéo prend tout l'espace disponible */
-                min-width: 100%;
-                min-height: 100%;
-            }
-            
-            /* Assure que le conteneur de la vidéo prend tout l'espace disponible */
-            #home-carousel {
-                width: 100%;
-                height: 100%;
-                position: relative;
-                overflow: hidden;
-            }
-            
-            .carousel-content {
-                position: absolute;
-                bottom: 0;
-                left: 0;
-                right: 0;
-                background: rgba(0, 0, 0, 0.5);
-                color: white;
-                padding: 2rem;
-                text-align: center;
-                z-index: 2;
-            }
-            
-            .carousel-content h2 {
-                margin: 0 0 1rem 0;
-                font-size: 2.5rem;
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            }
-            
-            .carousel-content p {
-                margin: 0 0 1.5rem 0;
-                font-size: 1.2rem;
-                max-width: 800px;
-                margin-left: auto;
-                margin-right: auto;
-                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-            }
-            
-            .carousel-content .btn {
-                display: inline-block;
-                padding: 0.8rem 2rem;
-                background-color: #4CAF50;
-                color: white;
-                text-decoration: none;
-                border-radius: 4px;
-                font-weight: bold;
-                transition: background-color 0.3s;
-            }
-            
-            .carousel-content .btn:hover {
-                background-color: #45a049;
-            }
-            
-            .carousel-nav {
-                position: absolute;
-                top: 50%;
-                transform: translateY(-50%);
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                padding: 0 1rem;
-                z-index: 3;
-            }
-            
-            .carousel-nav button {
-                background: rgba(255, 255, 255, 0.5);
-                border: none;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                cursor: pointer;
-                font-size: 1.2rem;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: background-color 0.3s;
-            }
-            
-            .carousel-nav button:hover {
-                background: rgba(255, 255, 255, 0.8);
-            }
-            
-            .carousel-dots {
-                position: absolute;
-                bottom: 1rem;
-                left: 0;
-                right: 0;
-                display: flex;
-                justify-content: center;
-                gap: 0.5rem;
-                z-index: 3;
-            }
-            
-            .carousel-dot {
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.5);
-                border: none;
-                cursor: pointer;
-                padding: 0;
-                transition: background-color 0.3s;
-            }
-            
-            .carousel-dot.active {
-                background: white;
-            }
-            
-            @media (max-width: 768px) {
-                .carousel-container {
-                    height: 50vh;
-                    min-height: 400px;
-                }
-                
-                .carousel-content h2 {
-                    font-size: 1.8rem;
-                }
-                
-                .carousel-content p {
-                    font-size: 1rem;
-                }
-            }
-        </style>
-
-<!-- Section Caractéristiques -->
-        <section class="features">
-            <div class="container">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-tractor"></i>
-                    </div>
-                    <h2>Matériel agricole neuf</h2>
-                    <p>Découvrez notre gamme de tracteurs et matériels Deutz-Fahr</p>
-                    <a href="pages/materiel.html" class="btn-outline">Voir les modèles</a>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon" style="background-color: rgba(76, 175, 80, 0.1);">
-                        <i class="fas fa-cogs" style="color: #4CAF50;"></i>
-                    </div>
-                    <h2>Service après-vente</h2>
-                    <p>Notre équipe de techniciens à votre service pour l'entretien et la réparation</p>
-                    <a href="pages/contact.html" class="btn-outline">Nous contacter</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section Actualités -->
-        <section class="news-section">
-            <div class="container">
-                <div class="section-header">
-                    <div class="section-icon">
-                        <i class="far fa-newspaper"></i>
-                    </div>
-                    <h2 class="section-title">Actualités</h2>
-                </div>
-                
-                <!-- Carrousel d'actualités -->
-                <div class="news-carousel-container" id="news-carousel">
-                    <!-- Les slides seront ajoutées dynamiquement ici -->
-                </div>
-                
-                <div class="section-cta">
-                    <a href="pages/actualites.html" class="btn-outline">Voir toutes les actualités</a>
-                </div>
-            </div>
-        </section>
-        
-        <style>
-            /* Styles pour le carrousel d'actualités */
-            .news-carousel-container {
-                position: relative;
-                width: 100%;
-                height: 400px;
-                overflow: hidden;
-                border-radius: 8px;
-                margin: 2rem 0;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            }
-            
-            .news-slide {
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                opacity: 0;
-                transition: opacity 0.5s ease-in-out;
-                display: flex;
-                align-items: flex-end;
-                background-size: cover;
-                background-position: center;
-            }
-            
-            .news-slide.active {
-                opacity: 1;
-                z-index: 1;
-            }
-            
-            .news-slide-content {
-                background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-                color: white;
-                padding: 2rem;
-                width: 100%;
-            }
-            
-            .news-slide-title {
-                font-size: 1.8rem;
-                margin: 0 0 1rem 0;
-                color: white;
-            }
-            
-            .news-slide-excerpt {
-                margin: 0 0 1.5rem 0;
-                font-size: 1.1rem;
-                line-height: 1.5;
-            }
-            
-            .news-slide-link {
-                display: inline-block;
-                color: white;
-                text-decoration: none;
-                font-weight: 500;
-                border: 2px solid white;
-                padding: 0.5rem 1.5rem;
-                border-radius: 4px;
-                transition: all 0.3s;
-            }
-            
-            .news-slide-link:hover {
-                background: white;
-                color: #333;
-            }
-            
-            .news-carousel-nav {
-                position: absolute;
-                top: 50%;
-                width: 100%;
-                display: flex;
-                justify-content: space-between;
-                padding: 0 1rem;
-                z-index: 2;
-                transform: translateY(-50%);
-            }
-            
-            .news-carousel-nav button {
-                background: rgba(255, 255, 255, 0.2);
-                border: none;
-                color: white;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                font-size: 1.2rem;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                backdrop-filter: blur(5px);
-                transition: all 0.3s;
-            }
-            
-            .news-carousel-nav button:hover {
-                background: rgba(255, 255, 255, 0.3);
-                transform: scale(1.1);
-            }
-            
-            .news-carousel-dots {
-                position: absolute;
-                bottom: 20px;
-                left: 0;
-                right: 0;
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-                z-index: 2;
-            }
-            
-            .news-carousel-dot {
-                width: 12px;
-                height: 12px;
-                border-radius: 50%;
-                background: rgba(255, 255, 255, 0.5);
-                border: none;
-                padding: 0;
-                cursor: pointer;
-                transition: all 0.3s;
-            }
-            
-            .news-carousel-dot.active {
-                background: white;
-                transform: scale(1.2);
-            }
-        </style>
-        
-        <script>
-            // Gestion du carrousel d'actualités
-            document.addEventListener('DOMContentLoaded', function() {
-                const newsCarousel = document.getElementById('news-carousel');
-                if (!newsCarousel) return;
-                
-                // Exemple de données d'actualités (à remplacer par vos propres données)
-                const newsItems = [
-                    {
-                        id: 1,
-                        title: 'Nouveaux modèles 2023',
-                        excerpt: 'Découvrez notre nouvelle gamme de tracteurs Deutz-Fahr pour 2023 avec des fonctionnalités innovantes et une efficacité accrue.',
-                        image: 'assets/images/news1.jpg',
-                        link: 'pages/actualites/nouveaux-modeles-2023.html',
-                        duration: 8000 // 8 secondes
-                    },
-                    {
-                        id: 2,
-                        title: 'Salon de l\'agriculture',
-                        excerpt: 'Retrouvez-nous au prochain Salon International de l\'Agriculture sur notre stand dédié aux nouvelles technologies agricoles.',
-                        image: 'assets/images/news2.jpg',
-                        link: 'pages/actualites/salon-agriculture.html',
-                        duration: 10000 // 10 secondes
-                    },
-                    {
-                        id: 3,
-                        title: 'Formation utilisateurs',
-                        excerpt: 'Inscrivez-vous à nos prochaines sessions de formation pour maîtriser les fonctionnalités avancées de votre matériel agricole.',
-                        image: 'assets/images/news3.jpg',
-                        link: 'pages/actualites/formation-utilisateurs.html',
-                        duration: 12000 // 12 secondes
-                    }
-                ];
-                
-                // Créer les slides du carrousel
-                newsItems.forEach((item, index) => {
-                    const slide = document.createElement('div');
-                    slide.className = 'news-slide' + (index === 0 ? ' active' : '');
-                    slide.style.backgroundImage = `url('${item.image}')`;
-                    
-                    slide.innerHTML = `
-                        <div class="news-slide-content">
-                            <h3 class="news-slide-title">${item.title}</h3>
-                            <p class="news-slide-excerpt">${item.excerpt}</p>
-                            <a href="${item.link}" class="news-slide-link">En savoir plus</a>
+    <!-- Section des Carrousels -->
+    <div class="container">
+        <div class="carousel-container">
+            <!-- Carrousel des Actualités -->
+            <section class="carousel-section">
+                <h2>Actualités</h2>
+                <div class="carousel" id="news-carousel">
+                    <div class="carousel-slide active">
+                        <img src="assets/images/news1.jpg" alt="Actualité 1">
+                        <div class="carousel-content">
+                            <h3>Titre de l'actualité 1</h3>
+                            <p>Description courte de l'actualité 1 avec quelques détails intéressants.</p>
+                            <a href="#" class="read-more">Lire la suite</a>
                         </div>
-                    `;
-                    
-                    newsCarousel.appendChild(slide);
-                });
-                
-                // Ajouter la navigation si plus d'une actualité
-                if (newsItems.length > 1) {
-                    // Boutons de navigation
-                    const navHtml = `
-                        <div class="news-carousel-nav">
-                            <button class="news-carousel-prev" aria-label="Précédent">&#10094;</button>
-                            <button class="news-carousel-next" aria-label="Suivant">&#10095;</button>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="assets/images/news2.jpg" alt="Actualité 2">
+                        <div class="carousel-content">
+                            <h3>Titre de l'actualité 2</h3>
+                            <p>Description courte de l'actualité 2 avec quelques détails intéressants.</p>
+                            <a href="#" class="read-more">Lire la suite</a>
                         </div>
-                        <div class="news-carousel-dots">
-                            ${newsItems.map((_, i) => 
-                                `<button class="news-carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Aller à l'actualité ${i + 1}"></button>`
-                            ).join('')}
+                    </div>
+                    <div class="carousel-nav">
+                        <button class="prev">Précédent</button>
+                        <button class="next">Suivant</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Carrousel des Occasions -->
+            <section class="carousel-section">
+                <h2>Occasions</h2>
+                <div class="carousel" id="occasions-carousel">
+                    <div class="carousel-slide active">
+                        <img src="assets/images/occasion1.jpg" alt="Occasion 1">
+                        <div class="carousel-content">
+                            <h3>Occasion spéciale 1</h3>
+                            <p>Description de l'occasion spéciale avec détails importants.</p>
+                            <span class="price">Prix: €XXX</span>
                         </div>
-                    `;
-                    newsCarousel.insertAdjacentHTML('beforeend', navHtml);
-                    
-                    // Gestion des événements
-                    const prevBtn = newsCarousel.querySelector('.news-carousel-prev');
-                    const nextBtn = newsCarousel.querySelector('.news-carousel-next');
-                    const dots = newsCarousel.querySelectorAll('.news-carousel-dot');
-                    let currentSlide = 0;
-                    let slideInterval;
-                    
-                    // Fonction pour changer de slide
-                    function goToSlide(index) {
-                        const slides = newsCarousel.querySelectorAll('.news-slide');
-                        
-                        // Masquer toutes les slides et désactiver les points
-                        slides.forEach(slide => slide.classList.remove('active'));
-                        dots.forEach(dot => dot.classList.remove('active'));
-                        
-                        // Afficher la slide sélectionnée et activer le point correspondant
-                        slides[index].classList.add('active');
-                        if (dots[index]) dots[index].classList.add('active');
-                        
-                        currentSlide = index;
-                        
-                        // Redémarrer le timer avec la durée de la slide actuelle
-                        resetInterval();
-                    }
-                    
-                    // Événements des boutons de navigation
-                    if (prevBtn) {
-                        prevBtn.addEventListener('click', () => {
-                            const newIndex = (currentSlide - 1 + newsItems.length) % newsItems.length;
-                            goToSlide(newIndex);
-                        });
-                    }
-                    
-                    if (nextBtn) {
-                        nextBtn.addEventListener('click', () => {
-                            const newIndex = (currentSlide + 1) % newsItems.length;
-                            goToSlide(newIndex);
-                        });
-                    }
-                    
-                    // Événements des points de navigation
-                    dots.forEach((dot, index) => {
-                        dot.addEventListener('click', () => goToSlide(index));
-                    });
-                    
-                    // Fonction pour démarrer le défilement automatique
-                    function startCarousel() {
-                        stopCarousel();
-                        const currentDuration = newsItems[currentSlide]?.duration || 8000; // 8 secondes par défaut
-                        slideInterval = setInterval(() => {
-                            const newIndex = (currentSlide + 1) % newsItems.length;
-                            goToSlide(newIndex);
-                        }, currentDuration);
-                    }
-                    
-                    function stopCarousel() {
-                        if (slideInterval) {
-                            clearInterval(slideInterval);
-                        }
-                    }
-                    
-                    function resetInterval() {
-                        stopCarousel();
-                        startCarousel();
-                    }
-                    
-                    // Démarrer le carrousel
-                    startCarousel();
-                    
-                    // Arrêter le défilement automatique au survol
-                    newsCarousel.addEventListener('mouseenter', stopCarousel);
-                    newsCarousel.addEventListener('mouseleave', startCarousel);
-                    
-                    // Gestion du toucher pour les appareils tactiles
-                    let touchStartX = 0;
-                    let touchEndX = 0;
-                    
-                    newsCarousel.addEventListener('touchstart', (e) => {
-                        touchStartX = e.changedTouches[0].screenX;
-                        stopCarousel();
-                    }, { passive: true });
-                    
-                    newsCarousel.addEventListener('touchend', (e) => {
-                        touchEndX = e.changedTouches[0].screenX;
-                        handleSwipe();
-                        startCarousel();
-                    }, { passive: true });
-                    
-                    function handleSwipe() {
-                        const diff = touchStartX - touchEndX;
-                        if (diff > 50) {
-                            // Swipe vers la gauche
-                            const newIndex = (currentSlide + 1) % newsItems.length;
-                            goToSlide(newIndex);
-                        } else if (diff < -50) {
-                            // Swipe vers la droite
-                            const newIndex = (currentSlide - 1 + newsItems.length) % newsItems.length;
-                            goToSlide(newIndex);
-                        }
-                    }
-                }
-            });
-        </script>
-
-        <!-- Section Occasions -->
-        <section class="occasions-section">
-            <div class="container">
-                <h2 class="section-title">Nos occasions</h2>
-                <div id="occasions-container">
-                    <!-- Le contenu sera chargé dynamiquement -->
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="assets/images/occasion2.jpg" alt="Occasion 2">
+                        <div class="carousel-content">
+                            <h3>Occasion spéciale 2</h3>
+                            <p>Description de l'occasion spéciale avec détails importants.</p>
+                            <span class="price">Prix: €XXX</span>
+                        </div>
+                    </div>
+                    <div class="carousel-nav">
+                        <button class="prev">Précédent</button>
+                        <button class="next">Suivant</button>
+                    </div>
                 </div>
-                <div class="section-cta">
-                    <a href="pages/occasion.html" class="btn btn-outline">Voir toutes nos occasions</a>
-                </div>
-            </div>
-        </section>
-    </main>
+            </section>
+        </div>
+    </div>
+</main>
 
-
-
-    
-
-    <script src="assets/js/main.js"></script>
-    <script>
-        // Fonction pour extraire l'ID d'une vidéo YouTube depuis une URL
-        function extractYoutubeId(url) {
-            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[2].length === 11) ? match[2] : null;
-        }
-        
-        // Gestion du carrousel
-        document.addEventListener('DOMContentLoaded', function() {
-            const carouselContainer = document.getElementById('home-carousel');
-            if (!carouselContainer) return;
+<script>
+    // Gestion des carrousels
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fonction pour initialiser un carrousel
+        function initCarousel(carouselId) {
+            const carousel = document.querySelector(`#${carouselId}`);
+            if (!carousel) return;
             
-            const carouselItems = JSON.parse(localStorage.getItem('franchiniCarousel')) || [];
-            if (carouselItems.length === 0) return;
-            
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            const prevBtn = carousel.querySelector('.prev');
+            const nextBtn = carousel.querySelector('.next');
             let currentSlide = 0;
             let slideInterval;
             
-            // Fonction pour extraire l'ID d'une vidéo YouTube depuis une URL
-            function extractYoutubeId(url) {
-                const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-                const match = url.match(regExp);
-                return (match && match[2].length === 11) ? match[2] : null;
+            // Afficher la première diapositive
+            showSlide(currentSlide);
+            
+            // Événements des boutons
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    showSlide(currentSlide - 1);
+                });
             }
             
-            // Créer le carrousel s'il y a des éléments
-            if (carouselItems.length > 0) {
-                // Créer les slides
-                carouselItems.forEach((item, index) => {
-                    const slide = document.createElement('div');
-                    slide.className = 'carousel-slide' + (index === 0 ? ' active' : '');
-                    
-                    let mediaContent = '';
-                    if (item.type === 'image') {
-                        mediaContent = `<img src="${item.url}" alt="${item.title || 'Image du carrousel'}" style="width: 100%; height: 100%; object-fit: cover;">`;
-                    } else {
-                        // Pour YouTube, on utilise l'iframe d'intégration avec des paramètres optimisés
-                        const videoId = extractYoutubeId(item.url);
-                        mediaContent = `
-                            <div class="video-container">
-                                <iframe 
-                                    src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=${videoId}" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowfullscreen>
-                                </iframe>
-                            </div>`;
-                    }
-                    
-                    let contentHtml = '';
-                    if (item.title || item.description || item.link) {
-                        contentHtml = `
-                            <div class="carousel-content">
-                                ${item.title ? `<h2>${item.title}</h2>` : ''}
-                                ${item.description ? `<p>${item.description}</p>` : ''}
-                                ${item.link ? `<a href="${item.link}" class="btn" target="_blank">${item.linkText || 'En savoir plus'}</a>` : ''}
-                            </div>
-                        `;
-                    }
-                    
-                    slide.innerHTML = mediaContent + contentHtml;
-                    carouselContainer.appendChild(slide);
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    showSlide(currentSlide + 1);
+                });
+            }
+            
+            // Fonction pour afficher une diapositive spécifique
+            function showSlide(index) {
+                // Masquer toutes les diapositives
+                slides.forEach(slide => {
+                    slide.classList.remove('active');
                 });
                 
-                // Ajouter les contrôles de navigation si plus d'un élément
-                if (carouselItems.length > 1) {
-                    // Boutons de navigation
-                    const navHtml = `
-                        <div class="carousel-nav">
-                            <button class="carousel-prev" aria-label="Précédent">&#10094;</button>
-                            <button class="carousel-next" aria-label="Suivant">&#10095;</button>
-                        </div>
-                        <div class="carousel-dots">
-                            ${carouselItems.map((_, i) => 
-                                `<button class="carousel-dot ${i === 0 ? 'active' : ''}" data-index="${i}" aria-label="Aller au slide ${i + 1}"></button>`
-                            ).join('')}
-                        </div>
-                    `;
-                    carouselContainer.insertAdjacentHTML('beforeend', navHtml);
-                    
-                    // Gestion des événements
-                    const prevBtn = carouselContainer.querySelector('.carousel-prev');
-                    const nextBtn = carouselContainer.querySelector('.carousel-next');
-                    const dots = carouselContainer.querySelectorAll('.carousel-dot');
-                    
-                    // Fonction pour changer de slide
-                    function goToSlide(index) {
-                        const slides = carouselContainer.querySelectorAll('.carousel-slide');
-                        const dots = carouselContainer.querySelectorAll('.carousel-dot');
-                        
-                        // Masquer toutes les slides et désactiver les points
-                        slides.forEach(slide => slide.classList.remove('active'));
-                        dots.forEach(dot => dot.classList.remove('active'));
-                        
-                        // Afficher la slide sélectionnée et activer le point correspondant
-                        slides[index].classList.add('active');
-                        if (dots[index]) dots[index].classList.add('active');
-                        
-                        currentSlide = index;
-                    }
-                    
-                    // Événements des boutons de navigation
-                    if (prevBtn) {
-                        prevBtn.addEventListener('click', () => {
-                            const newIndex = (currentSlide - 1 + carouselItems.length) % carouselItems.length;
-                            goToSlide(newIndex);
-                            resetInterval();
-                        });
-                    }
-                    
-                    if (nextBtn) {
-                        nextBtn.addEventListener('click', () => {
-                            const newIndex = (currentSlide + 1) % carouselItems.length;
-                            goToSlide(newIndex);
-                            resetInterval();
-                        });
-                    }
-                    
-                    // Événements des points de navigation
-                    dots.forEach((dot, index) => {
-                        dot.addEventListener('click', () => {
-                            goToSlide(index);
-                            resetInterval();
-                        });
-                    });
-                    
-                    // Fonction pour démarrer le timer avec une durée spécifique
-                    function startSlideTimer(duration) {
-                        stopCarousel();
-                        slideInterval = setInterval(() => {
-                            const newIndex = (currentSlide + 1) % carouselItems.length;
-                            goToSlide(newIndex);
-                        }, duration);
-                    }
-
-                    // Démarrer le défilement automatique
-                    function startCarousel() {
-                        stopCarousel();
-                        
-                        const currentItem = carouselItems[currentSlide];
-                        let slideDuration = 5000; // Durée par défaut de 5 secondes pour les images
-                        
-                        // Si c'est une vidéo YouTube, on va essayer de récupérer sa durée
-                        if (currentItem.type === 'video') {
-                            const videoId = extractYoutubeId(currentItem.url);
-                            if (videoId) {
-                                // Utiliser l'API YouTube pour obtenir la durée de la vidéo
-                                fetch(`https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoId}&key=AIzaSyB_4Trg66oEpH8OjzeV4eLmTP53yJknXXY`)
-                                    .then(response => response.json())
-                                    .then(data => {
-                                        if (data.items && data.items[0]) {
-                                            // Convertir la durée ISO 8601 en secondes
-                                            const duration = data.items[0].contentDetails.duration;
-                                            const match = duration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
-                                            let hours = 0, minutes = 0, seconds = 0;
-                                            
-                                            if (match[1]) hours = parseInt(match[1]);
-                                            if (match[2]) minutes = parseInt(match[2]);
-                                            if (match[3]) seconds = parseInt(match[3]);
-                                            
-                                            const totalSeconds = hours * 3600 + minutes * 60 + seconds;
-                                            // Multiplier par 1000 pour convertir en millisecondes
-                                            slideDuration = totalSeconds * 1000;
-                                        }
-                                        
-                                        // Démarrer le timer avec la durée appropriée
-                                        startSlideTimer(slideDuration);
-                                    })
-                                    .catch(error => {
-                                        console.error('Erreur lors de la récupération de la durée de la vidéo:', error);
-                                        // En cas d'erreur, utiliser la durée par défaut
-                                        startSlideTimer(slideDuration);
-                                    });
-                                return; // On sort de la fonction, le timer sera démarré dans le callback
-                            }
-                        }
-                        
-                        // Pour les images ou en cas d'erreur avec les vidéos
-                        startSlideTimer(slideDuration);
-                    }
-                    
-                    function stopCarousel() {
-                        if (slideInterval) {
-                            clearInterval(slideInterval);
-                        }
-                    }
-                    
-                    function resetInterval() {
-                        // On rappelle simplement startCarousel qui gérera la durée appropriée
-                        startCarousel();
-                    }
-                    
-                    // Démarrer le carrousel
-                    startCarousel();
-                    
-                    // Mettre à jour la durée quand on change de slide manuellement
-                    const originalGoToSlide = goToSlide;
-                    goToSlide = function(index) {
-                        originalGoToSlide.call(this, index);
-                        // Redémarrer le carrousel pour mettre à jour la durée
-                        startCarousel();
-                    };
-                    
-                    // Arrêter le défilement automatique au survol
-                    carouselContainer.addEventListener('mouseenter', stopCarousel);
-                    carouselContainer.addEventListener('mouseleave', startCarousel);
-                    
-                    // Reprendre le défilement automatique quand la fenêtre reprend le focus
-                    window.addEventListener('focus', startCarousel);
-                    window.addEventListener('blur', stopCarousel);
-                    
-                    // Gestion du toucher pour les appareils tactiles
-                    let touchStartX = 0;
-                    let touchEndX = 0;
-                    
-                    carouselContainer.addEventListener('touchstart', (e) => {
-                        touchStartX = e.changedTouches[0].screenX;
-                        stopCarousel();
-                    }, { passive: true });
-                    
-                    carouselContainer.addEventListener('touchend', (e) => {
-                        touchEndX = e.changedTouches[0].screenX;
-                        handleSwipe();
-                        startCarousel();
-                    }, { passive: true });
-                    
-                    carouselContainer.addEventListener('touchend', (e) => {
-                        touchEndX = e.changedTouches[0].screenX;
-                        handleSwipe();
-                        startCarousel();
-                    }, { passive: true });
-                    
-                    function handleSwipe() {
-                        const diff = touchStartX - touchEndX;
-                        if (Math.abs(diff) > 50) { // Seuil de glissement
-                            if (diff > 0) {
-                                // Glissement vers la gauche, aller au slide suivant
-                                const newIndex = (currentSlide + 1) % carouselItems.length;
-                                goToSlide(newIndex);
-                            } else {
-                                // Glissement vers la droite, aller au slide précédent
-                                const newIndex = (currentSlide - 1 + carouselItems.length) % carouselItems.length;
-                                goToSlide(newIndex);
-                            }
-                        }
-                    }
+                // Gérer les limites
+                if (index >= slides.length) {
+                    currentSlide = 0;
+                } else if (index < 0) {
+                    currentSlide = slides.length - 1;
+                } else {
+                    currentSlide = index;
                 }
-            } else {
-                // Afficher un message si aucun élément n'est configuré
-                carouselContainer.innerHTML = `
-                    <div style="text-align: center; padding: 2rem;">
-                        <h2>Bienvenue chez Franchini</h2>
-                        <p>Votre concessionnaire Deutz-Fahr depuis plus de 75 ans</p>
-                        <a href="concession.html" class="btn">Découvrir</a>
-                    </div>
-                `;
+                
+                // Afficher la diapositive actuelle
+                slides[currentSlide].classList.add('active');
             }
             
-            // Menu mobile
-            const menuToggle = document.querySelector('.mobile-menu-toggle');
-            const mobileMenu = document.querySelector('.mobile-menu');
-            const dropdownToggles = document.querySelectorAll('.mobile-dropdown > a');
+            // Démarrer le défilement automatique
+            function startCarousel() {
+                stopCarousel();
+                slideInterval = setInterval(() => {
+                    showSlide(currentSlide + 1);
+                }, 5000);
+            }
             
-            menuToggle.addEventListener('click', function() {
-                this.classList.toggle('active');
-                mobileMenu.classList.toggle('active');
-            });
-            
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    this.parentElement.classList.toggle('active');
-                });
-            });
-            
-            // Fermer le menu en cliquant à l'extérieur
-            document.addEventListener('click', function(e) {
-                if (!menuToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
-                    menuToggle.classList.remove('active');
-                    mobileMenu.classList.remove('active');
+            // Arrêter le défilement automatique
+            function stopCarousel() {
+                if (slideInterval) {
+                    clearInterval(slideInterval);
                 }
-            });
-        });
+            }
+            
+            // Gestion du survol
+            carousel.addEventListener('mouseenter', stopCarousel);
+            carousel.addEventListener('mouseleave', startCarousel);
+            
+            // Démarrer le carrousel
+            startCarousel();
+        }
         
-        // Chargement des actualités (à implémenter avec votre backend)
-        document.addEventListener('DOMContentLoaded', function() {
-            const newsContainer = document.getElementById('news-container');
-            // Ici, vous pourriez faire un appel AJAX pour charger les actualités
-            // Exemple de structure :
-            /*
-            fetch('/api/actualites?limit=3')
-                .then(response => response.json())
-                .then(data => {
-                    let html = '';
-                    data.forEach(article => {
-                        html += `
-                            <article class="news-preview">
-                                <h3>${article.titre}</h3>
-                                <p>${article.resume}</p>
-                                <a href="${article.lien}">Lire la suite</a>
-                            </article>
-                        `;
-                    });
-                    newsContainer.innerHTML = html;
-                })
-                .catch(error => {
-                    console.error('Erreur lors du chargement des actualités:', error);
-                    newsContainer.innerHTML = '<p>Impossible de charger les actualités pour le moment.</p>';
-                });
-            */
-        });
-    </script>
-    
-    
-    <!-- Pied de page -->
-    <footer style="background-color: #1a1a1a; color: white; text-align: center; padding: 20px 0; margin-top: 40px;">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
-            <div style="margin-bottom: 15px; font-weight: bold; font-size: 18px;">FRANCHINI</div>
-            <div style="margin-bottom: 10px;">111 av des monts du matin</div>
-            <div style="margin-bottom: 10px;">26300 Marches</div>
-            <div style="margin-bottom: 15px;">
-                <a href="tel:0475474037" style="color: #4CAF50; text-decoration: none;">04 75 47 40 37</a>
-            </div>
-            <div style="font-size: 12px; color: #aaa; margin-top: 20px; padding-top: 15px; border-top: 1px solid #333;">
-                © 2024 Franchini SARL. Tous droits réservés. 
-                <a href="/admin" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+        // Initialiser les carrousels
+        initCarousel('news-carousel');
+        initCarousel('occasions-carousel');
+    });
+</script>

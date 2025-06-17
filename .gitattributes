@@ -1,0 +1,66 @@
+# Définir le comportement par défaut pour tous les fichiers
+* text=auto eol=lf
+
+# Fichiers binaires qui doivent être laissés intacts
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.eot binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.otf binary
+
+# Fichiers de documentation et de configuration
+*.md text
+*.txt text
+*.json text
+*.yml text
+*.yaml text
+*.html text
+*.css text
+*.scss text
+*.sass text
+*.js text
+*.jsx text
+*.ts text
+*.tsx text
+*.rb text
+*.ru text
+*.gemfile text
+*.gemspec text
+*.lock text
+*.sql text
+*.xml text
+*.xsd text
+*.xsl text
+*.xslt text
+*.sh text
+*.bash text
+*.zsh text
+*.ps1 text
+*.cmd text
+*.bat text
+*.psd1 text
+*.psm1 text
+*.ps1xml text
+*.psc1 text
+*.pssc text
+*.cdxml text
+*.graphql text
+*.graphqls text
+*.gql text
+*.sql text
+*.sqlite3 binary
+*.db binary
+*.sqlite binary
+*.pem text
+*.crt text
+*.key text
+*.p12 binary
+*.pfx binary
+*.cer binary
+*.der binary

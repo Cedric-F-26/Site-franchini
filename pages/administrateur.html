@@ -1,13 +1,235 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <!-- Vérification de l'authentification -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth/supabase-config.js"></script>
+    <script>
+        // Vérifier l'authentification avant de charger la page
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Vérifier la session
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            if (error || !session) {
+                // Rediriger vers la page de connexion si non authentifié
+                window.location.href = 'connexion-prive.html';
+                return;
+            }
+            
+            // Si l'utilisateur est authentifié, le reste de la page se charge normalement
+        });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Espace d'administration du site Franchini">
     <title>Administration - Franchini</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/footer-style.css">
     <style>
+        /* Style du logo */
+        .logo-link {
+            text-decoration: none;
+            position: relative;
+            display: block;
+        }
+
+        .logo-text {
+            font-family: Arial, sans-serif;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 1px;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 20px;
+        }
+
+        .header-social {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .header-social .social-icon {
+            color: #888;
+            font-size: 20px;
+            transition: color 0.3s, transform 0.3s;
+            opacity: 0.7;
+        }
+
+        .header-social .social-icon:hover {
+            color: #3D6AA2;
+            transform: translateY(-2px);
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 24px;
+            }
+        }
+
+        /* Styles pour les zones de dépôt */
+        .dropzone {
+            border: 2px dashed #aaa;
+            border-radius: 5px;
+            padding: 25px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px 0;
+            position: relative;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .dropzone.highlight {
+            border-color: #007bff;
+            background-color: #e7f1ff;
+        }
+        
+        .dropzone p, .dropzone span {
+            color: #666;
+            margin: 0;
+        }
+        
+        .dropzone i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+            color: #007bff;
+        }
+        
+        .preview-container {
+            margin-top: 15px;
+        }
+        
+        .preview-container img {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 4px;
+            border: 1px solid #eee;
+        }
+        
+        /* Styles pour le carrousel */
+        .carousel-items-container {
+            margin-top: 20px;
+        }
+        
+        .carousel-item {
+            display: flex;
+            margin-bottom: 15px;
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            background-color: #fff;
+        }
+        
+        .carousel-item-preview {
+            width: 200px;
+            margin-right: 20px;
+        }
+        
+        .carousel-item-preview img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        
+        .carousel-item-details {
+            flex: 1;
+        }
+        
+        .carousel-item h4 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .carousel-item p {
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .carousel-item-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        
+        .carousel-item-link:hover {
+            text-decoration: underline;
+        }
+        
+        .carousel-item-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #eee;
+        }
+        
+        .carousel-item-buttons button {
+            background: none;
+            border: none;
+            color: #6c757d;
+            cursor: pointer;
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        
+        .carousel-item-buttons button:hover {
+            color: #0056b3;
+        }
+        
+        .drag-handle {
+            cursor: move;
+            color: #6c757d;
+            font-size: 16px;
+        }
+        
+        .drag-handle:hover {
+            color: #0056b3;
+        }
+        
+        .dragging {
+            opacity: 0.5;
+        }
+        
+        .drag-over {
+            border: 2px dashed #007bff !important;
+        }
+        
+        .remove-media-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            font-size: 13px;
+        }
+        
+        .remove-media-btn i {
+            margin-right: 5px;
+            font-size: 12px;
+        }
+        
         /* Styles généraux */
         body {
             font-family: 'Roboto', sans-serif;
@@ -48,18 +270,20 @@
             font-weight: 500;
         }
 
-        .admin-header .logout-btn {
-            background-color: rgba(255,255,255,0.2);
+        .header-social .logout-btn {
+            background-color: #dc3545;
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
             border-radius: 4px;
+            padding: 0.5rem 1rem;
+            margin-left: 10px;
             cursor: pointer;
-            transition: background-color 0.3s;
-            text-decoration: none;
-            font-size: 0.9rem;
             display: inline-flex;
             align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
         }
 
         .admin-header .logout-btn i {
@@ -153,6 +377,32 @@
 
         .main-nav a:hover {
             color: #4CAF50;
+        }
+        
+        /* Style du bouton de déconnexion dans la barre de navigation */
+        .logout-nav-item {
+            margin-left: 5px;
+        }
+        
+        .logout-nav-btn {
+            color: #333;
+            text-decoration: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+        }
+        
+        .logout-nav-btn:hover {
+            background-color: #f5f5f5;
+            color: #dc3545;
+        }
+        
+        .logout-nav-btn i {
+            font-size: 0.9em;
         }
 
         .phone-number {
@@ -619,6 +869,147 @@
             background-color: #c0392b;
         }
         
+        /* Styles pour le carrousel d'actualités */
+        .upload-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .dropzone {
+            border: 2px dashed #ccc;
+            border-radius: 4px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+            background-color: #f9f9f9;
+        }
+        
+        .dropzone:hover {
+            border-color: #4CAF50;
+            background-color: #f0f8f0;
+        }
+        
+        .dropzone i {
+            font-size: 2rem;
+            color: #4CAF50;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .preview-container {
+            margin-top: 1rem;
+            min-height: 100px;
+            border: 1px solid #eee;
+            padding: 1rem;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+        
+        .preview-container img,
+        .preview-container video {
+            max-width: 100%;
+            max-height: 200px;
+            display: block;
+            margin: 0 auto;
+        }
+        
+        .sortable-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .carousel-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: move;
+            transition: all 0.3s ease;
+        }
+        
+        .carousel-item:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        .carousel-item-preview {
+            width: 80px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-right: 1rem;
+        }
+        
+        .carousel-item-details {
+            flex: 1;
+        }
+        
+        .carousel-item-title {
+            font-weight: 500;
+            margin: 0 0 0.25rem 0;
+        }
+        
+        .carousel-item-dates {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .carousel-item-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-edit, .btn-delete {
+            padding: 0.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-edit {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .btn-delete {
+            background-color: #f44336;
+            color: white;
+        }
+        
+        .btn-edit:hover, .btn-delete:hover {
+            opacity: 0.9;
+        }
+        
+        .hint {
+            color: #666;
+            font-style: italic;
+            margin-top: -0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
         .preview-container {
             margin-top: 1rem;
         }
@@ -702,9 +1093,7 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li class="dropdown">
-                        <a href="concession.html">La concession</a>
-                    </li>
+                    <li><a href="concession.html">La concession</a></li>
                     <li class="dropdown">
                         <a href="#">Matériel neuf</a>
                         <div class="dropdown-content">
@@ -713,7 +1102,7 @@
                         </div>
                     </li>
                     <li><a href="location.html">Location</a></li>
-                    <li><a href="https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html" target="_blank">Occasion</a></li>
+                    <li><a href="occasion.html">Occasion</a></li>
                     <li><a href="magasin.html">Magasin</a></li>
                     <li><a href="contact.html">Contact</a></li>
                     <li><a href="tel:0475474037" class="phone-number"><i class="fas fa-phone"></i> 04 75 47 40 37</a></li>
@@ -738,25 +1127,35 @@
     </div>
 
     <main class="container">
-            <div class="tabs">
-                <button class="tab-btn active" data-tab="accueil">
-                    <i class="fas fa-home"></i> Page d'accueil
-                </button>
-                <a href="https://supabase.com/dashboard/project/svvupcjjqyyehxbxlkro/auth/users?f={\"search_query\":\"1b13f9b9-a4ab-47da-b29b-9839b126f69b\"}" target="_blank" class="tab-btn" style="text-decoration: none; color: inherit;">
-                    <i class="fas fa-users"></i> Gérer les utilisateurs (Supabase)
-                </a>
-                <button class="tab-btn" data-tab="actualites">
-                    <i class="fas fa-newspaper"></i> Actualités
-                </button>
-                <button class="tab-btn" data-tab="occasions">
-                    <i class="fas fa-car"></i> Occasions
-                </button>
-                <button class="tab-btn" data-tab="promotions">
-                    <i class="fas fa-tags"></i> Promotions
-                </button>
-                <button class="tab-btn" data-tab="contacts">
-                    <i class="fas fa-address-book"></i> Contacts
-                </button>
+            <div style="background: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 2rem; overflow: hidden;">
+                <div class="tabs" style="display: flex; flex-wrap: wrap; gap: 0; border-bottom: 1px solid #e0e0e0;">
+                    <button class="tab-btn active" data-tab="accueil" style="padding: 0.75rem 1rem; white-space: nowrap; border: none; background: none; cursor: pointer; font-size: 0.9rem; border-bottom: 2px solid transparent;">
+                        <i class="fas fa-home" style="margin-right: 0.5rem;"></i> Bandeau d'accueil
+                    </button>
+                    <a href="https://supabase.com/dashboard/project/svvupcjjqyyehxbxlkro/auth/users?f={\"search_query\":\"1b13f9b9-a4ab-47da-b29b-9839b126f69b\"}" 
+                       target="_blank" 
+                       class="tab-btn" 
+                       style="padding: 0.75rem 1rem; white-space: nowrap; text-decoration: none; color: inherit; font-size: 0.9rem; display: flex; align-items: center; border-bottom: 2px solid transparent;">
+                        <i class="fas fa-users" style="margin-right: 0.5rem;"></i> Utilisateurs
+                    </a>
+                    <button class="tab-btn" data-tab="actualites" style="padding: 0.75rem 1rem; white-space: nowrap; border: none; background: none; cursor: pointer; font-size: 0.9rem; border-bottom: 2px solid transparent;">
+                        <i class="fas fa-newspaper" style="margin-right: 0.5rem;"></i> Actualités
+                    </button>
+                    <button class="tab-btn" data-tab="occasions" style="padding: 0.75rem 1rem; white-space: nowrap; border: none; background: none; cursor: pointer; font-size: 0.9rem; border-bottom: 2px solid transparent;">
+                        <i class="fas fa-car" style="margin-right: 0.5rem;"></i> Occasions
+                    </button>
+                    <button class="tab-btn" data-tab="promotions" style="padding: 0.75rem 1rem; white-space: nowrap; border: none; background: none; cursor: pointer; font-size: 0.9rem; border-bottom: 2px solid transparent;">
+                        <i class="fas fa-tags" style="margin-right: 0.5rem;"></i> Promotions
+                    </button>
+                    <button class="tab-btn" data-tab="contacts" style="padding: 0.75rem 1rem; white-space: nowrap; border: none; background: none; cursor: pointer; font-size: 0.9rem; border-bottom: 2px solid transparent;">
+                        <i class="fas fa-address-book" style="margin-right: 0.5rem;"></i> Contacts
+                    </button>
+                    <div style="margin-left: auto; display: flex; align-items: center;">
+                        <button id="logout-btn" class="tab-btn" style="color: #dc3545; padding: 0.75rem 1rem; white-space: nowrap; border: none; background: none; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; border-bottom: 2px solid transparent;">
+                            <i class="fas fa-sign-out-alt" style="margin-right: 0.5rem;"></i> Déconnexion
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <div id="accueil" class="tab-content active">
@@ -820,29 +1219,96 @@
             </div>
             
             <div id="actualites" class="tab-content">
-                <h2>Gestion des Actualités</h2>
+                <h2>Gestion du Carrousel d'Actualités</h2>
+                
+                <!-- Formulaire d'ajout/édition -->
                 <div class="admin-card">
-                    <h3>Ajouter/Modifier une Actualité</h3>
-                    <form id="actualite-form">
-                        <label for="actualite-titre">Titre:</label><input type="text" id="actualite-titre" required><br>
-                        <label for="actualite-contenu">Contenu:</label><textarea id="actualite-contenu" rows="5" required></textarea><br>
-                        <label for="actualite-date">Date:</label><input type="date" id="actualite-date" required><br>
-                        <!-- Pour l'image, une gestion plus complexe serait nécessaire (upload, etc.). Pour l'instant, on omet. -->
-                        <button type="button" id="add-actualite-btn" class="btn-primary"><i class="fas fa-plus"></i> Ajouter l'actualité</button>
+                    <h3>Ajouter/Modifier un élément</h3>
+                    <form id="carousel-form">
+                        <input type="hidden" id="carousel-item-id">
+                        
+                        <div class="form-group">
+                            <label for="carousel-type">Type de contenu :</label>
+                            <select id="carousel-type" class="form-control" required>
+                                <option value="image">Image</option>
+                                <option value="video">Vidéo</option>
+                                <option value="youtube">Lien YouTube</option>
+                            </select>
+                        </div>
+
+                        <!-- Zone de dépôt pour les images -->
+                        <div id="image-upload-group" class="upload-group">
+                            <label>Image :</label>
+                            <div id="carousel-dropzone" class="dropzone">
+                                <span><i class="fas fa-cloud-upload-alt"></i> Glissez-déposez une image ici ou cliquez pour sélectionner</span>
+                                <input type="file" id="carousel-image" accept="image/*" style="display: none;">
+                            </div>
+                            <div id="carousel-preview" class="preview-container"></div>
+                        </div>
+
+                        <!-- Zone de dépôt pour les vidéos -->
+                        <div id="video-upload-group" class="upload-group" style="display: none;">
+                            <label>Vidéo :</label>
+                            <div id="video-dropzone" class="dropzone">
+                                <span><i class="fas fa-cloud-upload-alt"></i> Glissez-déposez une vidéo ici ou cliquez pour sélectionner</span>
+                                <input type="file" id="carousel-video" accept="video/*" style="display: none;">
+                            </div>
+                            <div id="video-preview" class="preview-container"></div>
+                        </div>
+
+                        <!-- Champ pour l'URL YouTube -->
+                        <div id="youtube-url-group" class="upload-group" style="display: none;">
+                            <div class="form-group">
+                                <label for="youtube-url">URL YouTube :</label>
+                                <input type="url" id="youtube-url" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+                            </div>
+                            <div id="youtube-preview" class="preview-container"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carousel-title">Titre (optionnel) :</label>
+                            <input type="text" id="carousel-title" class="form-control">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carousel-description">Description (optionnelle) :</label>
+                            <textarea id="carousel-description" class="form-control" rows="2"></textarea>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="carousel-start-date">Date de début :</label>
+                                <input type="datetime-local" id="carousel-start-date" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="carousel-end-date">Date de fin (optionnel) :</label>
+                                <input type="datetime-local" id="carousel-end-date" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="carousel-link">Lien (optionnel) :</label>
+                            <input type="url" id="carousel-link" class="form-control" placeholder="https://exemple.com">
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Enregistrer
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="resetCarouselForm()">
+                                <i class="fas fa-times"></i> Annuler
+                            </button>
+                        </div>
                     </form>
                 </div>
+
+                <!-- Liste des éléments du carrousel -->
                 <div class="admin-card">
-                    <h3>Liste des Actualités</h3>
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Titre</th><th>Date</th><th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="actualites-table-body">
-                            <!-- Les actualités seront listées ici -->
-                        </tbody>
-                    </table>
+                    <h3>Éléments du carrousel</h3>
+                    <p class="hint">Glissez-déposez les éléments pour les réorganiser</p>
+                    <div id="carousel-items-container" class="sortable-container">
+                        <!-- Les éléments du carrousel seront ajoutés ici dynamiquement -->
+                    </div>
                 </div>
             </div>
             <div id="occasions" class="tab-content">
@@ -962,39 +1428,118 @@
             </div>
         </div>
     <script>
+        // Gestion de la déconnexion
+        document.addEventListener('DOMContentLoaded', async function() {
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async function(e) {
+                    e.preventDefault();
+                    try {
+                        // Déconnexion via Supabase
+                        const { error } = await supabase.auth.signOut();
+                        if (error) throw error;
+                        
+                        // Redirection vers la page de connexion après déconnexion réussie
+                        window.location.href = 'connexion-prive.html';
+                    } catch (error) {
+                        console.error('Erreur lors de la déconnexion:', error.message);
+                        alert('Une erreur est survenue lors de la déconnexion. Veuillez réessayer.');
+                    }
+                });
+            }
+        });
+
         // Stockage des données
         const materiels = JSON.parse(localStorage.getItem('franchiniOccasions')) || [];
         let currentEditId = null;
+        
+        // Gestion du carrousel d'actualités
+        let carouselItems = JSON.parse(localStorage.getItem('franchiniCarousel')) || [];
+        let currentCarouselEditId = null;
+        let draggedItem = null;
 
+        // Gestion des actualités
         const actualites = JSON.parse(localStorage.getItem('franchiniActualites')) || [];
         let currentActualiteEditId = null;
+        const actualitesTableBody = document.getElementById('actualites-table-body');
 
         // Gestion des onglets
+        // Fonction pour extraire l'ID d'une vidéo YouTube
+        function extractYoutubeId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+        
+        // Fonction pour formater la date pour l'affichage
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const options = { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return new Date(dateString).toLocaleDateString('fr-FR', options);
+        }
+        
+        // Initialisation de l'interface
         document.addEventListener('DOMContentLoaded', function() {
-            const tabBtns = document.querySelectorAll('.tab-btn');
-            const tabContents = document.querySelectorAll('.tab-content');
-
-            tabBtns.forEach(btn => {
-                // Si c'est un lien externe, on ne fait rien de plus
-                if (btn.tagName === 'A') return;
+            // Gestion des onglets
+            function initTabs() {
+                const tabBtns = document.querySelectorAll('.tab-btn');
+                const tabContents = document.querySelectorAll('.tab-content');
                 
-                btn.addEventListener('click', () => {
+                // Fonction pour activer un onglet spécifique
+                function activateTab(tabId) {
                     // Désactiver tous les onglets
-                    tabBtns.forEach(b => b.classList.remove('active'));
+                    tabBtns.forEach(btn => btn.classList.remove('active'));
                     tabContents.forEach(content => content.classList.remove('active'));
                     
                     // Activer l'onglet cliqué
-                    btn.classList.add('active');
-                    const tabId = btn.getAttribute('data-tab');
-                    document.getElementById(tabId).classList.add('active');
+                    const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+                    const activeContent = document.getElementById(tabId);
+                    
+                    if (activeBtn) activeBtn.classList.add('active');
+                    if (activeContent) activeContent.classList.add('active');
+                }
+                
+                // Ajouter les écouteurs d'événements
+                tabBtns.forEach(btn => {
+                    // Si c'est un lien externe, on ne fait rien de plus
+                    if (btn.tagName === 'A') return;
+                    
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const tabId = btn.getAttribute('data-tab');
+                        if (tabId) {
+                            activateTab(tabId);
+                        }
+                    });
                 });
-            });
-
-            // Activer le premier onglet par défaut (en sautant le lien externe)
-            const firstTab = document.querySelector('.tab-btn:not([href])');
-            if (firstTab) {
-                firstTab.click();
+                
+                // Vérifier si un onglet est spécifié dans l'URL
+                const urlParams = new URLSearchParams(window.location.search);
+                const activeTab = urlParams.get('tab');
+                
+                if (activeTab && document.getElementById(activeTab)) {
+                    // Activer l'onglet spécifié dans l'URL
+                    activateTab(activeTab);
+                } else {
+                    // Sinon, activer le premier onglet par défaut (sauf les liens externes)
+                    const firstTab = document.querySelector('.tab-btn:not([href])');
+                    if (firstTab) {
+                        const tabId = firstTab.getAttribute('data-tab');
+                        if (tabId) {
+                            activateTab(tabId);
+                        }
+                    }
+                }
             }
+            
+            // Initialiser les onglets
+            initTabs();
 
             // Gestion des occasions (tracteurs et matériels)
             const materielTypeRadios = document.querySelectorAll('input[name="materiel-categorie"]');
@@ -1375,13 +1920,266 @@
                 }
             }
             
-            // Initialisation des dropzones
-            setupDropzone('tracteur-dropzone', 'tracteur-photos', 'tracteur-preview');
-            setupDropzone('materiel-dropzone', 'materiel-photos', 'materiel-preview');
-            setupDropzone('promo-dropzone', 'promo-image', 'promo-preview');
+            // Fonction utilitaire pour empêcher le comportement par défaut
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
 
+            // Fonction pour extraire l'ID d'une vidéo YouTube
+            function extractYoutubeId(url) {
+                const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+                const match = (url + '').match(regExp);
+                return (match && match[7].length === 11) ? match[7] : null;
+            }
+
+            // Fonction générique pour configurer une zone de dépôt
+            function setupDropzone(dropzoneId, fileInputId, previewContainerId) {
+                console.log('Initialisation de la zone de dépôt:', dropzoneId, fileInputId, previewContainerId);
+                
+                const dropzone = document.getElementById(dropzoneId);
+                const fileInput = document.getElementById(fileInputId);
+                const previewContainer = document.getElementById(previewContainerId);
+                
+                if (!dropzone) {
+                    console.error('Zone de dépôt non trouvée:', dropzoneId);
+                    return;
+                }
+                
+                if (!fileInput) {
+                    console.error('Input fichier non trouvé:', fileInputId);
+                    return;
+                }
+                
+                console.log('Éléments trouvés, configuration des événements...');
+                
+                // Fonction pour empêcher le comportement par défaut
+                const preventDefaults = (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                };
+                
+                // Fonction pour mettre en surbrillance la zone de dépôt
+                const highlight = (e) => {
+                    dropzone.classList.add('highlight');
+                };
+                
+                // Fonction pour retirer la surbrillance
+                const unhighlight = (e) => {
+                    dropzone.classList.remove('highlight');
+                };
+                
+                // Gérer le dépôt de fichiers
+                const handleDrop = (e) => {
+                    console.log('Fichier(s) déposé(s)');
+                    const dt = e.dataTransfer;
+                    const files = dt.files;
+                    
+                    if (files.length > 0) {
+                        console.log('Fichier détecté:', files[0].name);
+                        handleFiles(files, false, previewContainer);
+                        // Mettre à jour l'input file avec les fichiers déposés
+                        fileInput.files = files;
+                    }
+                };
+                
+                // Gérer le clic sur la zone de dépôt
+                const handleClick = () => {
+                    console.log('Clic sur la zone de dépôt');
+                    fileInput.click();
+                };
+                
+                // Gérer la sélection de fichiers via l'input
+                const handleFileSelect = (e) => {
+                    console.log('Fichier sélectionné via input');
+                    if (this.files && this.files.length > 0) {
+                        console.log('Fichier sélectionné:', this.files[0].name);
+                        handleFiles(this.files, false, previewContainer);
+                    }
+                };
+                
+                // Ajouter les écouteurs d'événements
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, preventDefaults, false);
+                    document.body.addEventListener(eventName, preventDefaults, false);
+                });
+                
+                // Mettre en surbrillance la zone de dépôt
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, highlight, false);
+                });
+                
+                // Retirer la surbrillance
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, unhighlight, false);
+                });
+                
+                // Gérer le dépôt de fichiers
+                dropzone.addEventListener('drop', handleDrop, false);
+                
+                // Gérer le clic sur la zone de dépôt
+                dropzone.addEventListener('click', handleClick, false);
+                
+                // Gérer la sélection de fichiers via l'input
+                fileInput.addEventListener('change', handleFileSelect, false);
+                
+                console.log('Configuration de la zone de dépôt terminée');
+            }
+            
+            // Fonction pour initialiser toutes les zones de dépôt
+            function initializeAllDropzones() {
+                console.log('Initialisation des zones de dépôt...');
+                
+                // Vérifier si les éléments de la page sont chargés
+                const mediaDropzone = document.getElementById('media-dropzone');
+                const mediaUpload = document.getElementById('media-upload');
+                
+                if (!mediaDropzone || !mediaUpload) {
+                    console.error('Éléments de la zone de dépôt non trouvés, réessai dans 100ms...');
+                    setTimeout(initializeAllDropzones, 100);
+                    return;
+                }
+                
+                console.log('Éléments de la zone de dépôt trouvés, configuration en cours...');
+                
+                // Zones de dépôt principales
+                setupDropzone('tracteur-dropzone', 'tracteur-photos', 'tracteur-preview');
+                setupDropzone('materiel-dropzone', 'materiel-photos', 'materiel-preview');
+                setupDropzone('promo-dropzone', 'promo-image', 'promo-preview');
+                
+                // Zones de dépôt du carrousel
+                setupDropzone('media-dropzone', 'media-upload', 'media-preview');
+                setupDropzone('carousel-dropzone', 'carousel-image', 'carousel-preview');
+                setupDropzone('video-dropzone', 'carousel-video', 'video-preview');
+                
+                // Ajouter un style pour indiquer que la zone est cliquable
+                const dropzones = document.querySelectorAll('.dropzone');
+                dropzones.forEach(dz => {
+                    dz.style.cursor = 'pointer';
+                    dz.style.transition = 'all 0.3s ease';
+                    dz.style.position = 'relative';
+                    
+                    // Ajouter un effet visuel au survol
+                    dz.addEventListener('mouseenter', () => {
+                        dz.style.borderColor = '#666';
+                        dz.style.backgroundColor = '#f0f0f0';
+                    });
+                    
+                    dz.addEventListener('mouseleave', () => {
+                        dz.style.borderColor = '#aaa';
+                        dz.style.backgroundColor = '#f8f9fa';
+                    });
+                });
+                
+                console.log('Toutes les zones de dépôt ont été initialisées');
+            }
+            
+            // Démarrer l'initialisation lorsque le DOM est chargé
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeAllDropzones);
+            } else {
+                // Le DOM est déjà chargé
+                initializeAllDropzones();
+            }
+            
+            // Solution simplifiée pour la zone de dépôt
+            document.addEventListener('DOMContentLoaded', function() {
+                console.log('Démarrage de la configuration de la zone de dépôt...');
+                
+                // Récupérer les éléments
+                const dropzone = document.querySelector('.dropzone');
+                const fileInput = document.querySelector('input[type="file"]');
+                const previewContainer = document.getElementById('media-preview');
+                
+                if (!dropzone || !fileInput) {
+                    console.error('Éléments non trouvés:', { dropzone: !!dropzone, fileInput: !!fileInput });
+                    return;
+                }
+                
+                console.log('Éléments trouvés, configuration en cours...');
+                
+                // Style de base pour la zone de dépôt
+                Object.assign(dropzone.style, {
+                    cursor: 'pointer',
+                    border: '2px dashed #007bff',
+                    padding: '20px',
+                    textAlign: 'center',
+                    borderRadius: '5px',
+                    backgroundColor: '#f8f9fa',
+                    margin: '10px 0',
+                    transition: 'all 0.3s ease'
+                });
+                
+                // Gestionnaire de clic direct
+                dropzone.addEventListener('click', function(e) {
+                    console.log('Clic détecté sur la zone de dépôt');
+                    e.stopPropagation();
+                    fileInput.click();
+                }, false);
+                
+                // Gestionnaire de changement de fichier
+                fileInput.addEventListener('change', function(e) {
+                    console.log('Changement de fichier détecté');
+                    if (this.files && this.files.length > 0) {
+                        console.log('Fichier sélectionné:', this.files[0].name);
+                        handleFiles(this.files, false, previewContainer);
+                    }
+                }, false);
+                
+                // Gestion du glisser-déposer
+                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                    }, false);
+                });
+                
+                // Effet visuel au survol
+                ['dragenter', 'dragover'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, function() {
+                        this.style.borderColor = '#28a745';
+                        this.style.backgroundColor = '#e8f5e9';
+                    }, false);
+                });
+                
+                ['dragleave', 'drop'].forEach(eventName => {
+                    dropzone.addEventListener(eventName, function() {
+                        this.style.borderColor = '#007bff';
+                        this.style.backgroundColor = '#f8f9fa';
+                    }, false);
+                });
+                
+                // Gestion du dépôt de fichier
+                dropzone.addEventListener('drop', function(e) {
+                    console.log('Fichier déposé');
+                    const files = e.dataTransfer.files;
+                    if (files.length) {
+                        console.log('Fichier déposé détecté:', files[0].name);
+                        handleFiles(files, false, previewContainer);
+                        fileInput.files = files;
+                    }
+                }, false);
+                
+                console.log('Configuration de la zone de dépôt terminée avec succès');
+            });
+            
             // Gestion du carrousel d'accueil
-            const carouselItems = JSON.parse(localStorage.getItem('franchiniCarousel')) || [];
+            let carouselItems = [];
+            try {
+                const carouselData = localStorage.getItem('franchiniCarousel');
+                console.log('Données brutes du localStorage:', carouselData);
+                
+                if (carouselData) {
+                    carouselItems = JSON.parse(carouselData);
+                    console.log('Éléments du carrousel chargés:', carouselItems);
+                } else {
+                    console.log('Aucune donnée de carrousel trouvée dans le localStorage');
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement du carrousel depuis le localStorage:', error);
+                carouselItems = [];
+            }
+            
             let currentEditId = null;
             
             // Éléments du formulaire
@@ -1399,22 +2197,27 @@
             const carouselItemsContainer = document.getElementById('carousel-items');
             
             // Gestion du changement d'URL YouTube
-            if (youtubeUrl) {
-                youtubeUrl.addEventListener('input', function() {
+            const youtubeUrlElement = document.getElementById('youtube-url');
+            const mediaPreviewElement = document.getElementById('media-preview');
+            
+            if (youtubeUrlElement) {
+                youtubeUrlElement.addEventListener('input', function() {
+                    const previewContainer = document.getElementById('youtube-preview') || mediaPreviewElement;
+                    
                     // Vérifier si l'URL est une URL YouTube valide
                     if (this.value && (this.value.includes('youtube.com/') || this.value.includes('youtu.be/'))) {
                         const youtubeId = extractYoutubeId(this.value);
                         if (youtubeId) {
                             // Afficher l'aperçu de la vidéo YouTube
-                            handleFiles([this.value], true);
+                            handleFiles([this.value], true, previewContainer);
                             // Activer le bouton d'ajout
                             if (addMediaBtn) {
                                 addMediaBtn.disabled = false;
                             }
                         } else {
                             // Afficher un message d'erreur
-                            if (mediaPreview) {
-                                mediaPreview.innerHTML = `
+                            if (previewContainer) {
+                                previewContainer.innerHTML = `
                                     <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
                                         <i class="fas fa-exclamation-triangle"></i> URL YouTube invalide. Veuillez vérifier le lien.
                                     </div>
@@ -1427,8 +2230,8 @@
                         }
                     } else if (this.value === '') {
                         // Si le champ est vide, effacer l'aperçu et désactiver le bouton d'ajout
-                        if (mediaPreview) {
-                            mediaPreview.innerHTML = '';
+                        if (previewContainer) {
+                            previewContainer.innerHTML = '';
                         }
                         if (addMediaBtn) {
                             addMediaBtn.disabled = true;
@@ -1438,126 +2241,52 @@
             }
             
             // Basculer entre les types de médias
-            mediaTypeSelect.addEventListener('change', function() {
-                if (this.value === 'image') {
+            if (mediaTypeSelect) {
+                mediaTypeSelect.addEventListener('change', function() {
+                    if (!imageUploadSection || !youtubeSection) return;
+                    
+                    if (this.value === 'image') {
+                        imageUploadSection.style.display = 'block';
+                        youtubeSection.style.display = 'none';
+                    } else {
+                        imageUploadSection.style.display = 'none';
+                        youtubeSection.style.display = 'block';
+                    }
+                });
+            }
+            
+            // Initialiser l'état initial des sections
+            if (mediaTypeSelect && imageUploadSection && youtubeSection) {
+                if (mediaTypeSelect.value === 'image') {
                     imageUploadSection.style.display = 'block';
                     youtubeSection.style.display = 'none';
                 } else {
                     imageUploadSection.style.display = 'none';
                     youtubeSection.style.display = 'block';
                 }
-            });
-            
-            // Gestion du glisser-déposer pour les images
-            const dropzone = document.getElementById('media-dropzone');
-            
-            if (dropzone && mediaUpload) {
-                // Empêcher le comportement par défaut pour tous les événements de glisser-déposer
-                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, preventDefaults, false);
-                    document.body.addEventListener(eventName, preventDefaults, false);
-                });
-                
-                function preventDefaults(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                }
-                
-                // Mettre en surbrillance la zone de dépôt
-                ['dragenter', 'dragover'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, highlight, false);
-                });
-                
-                // Retirer la surbrillance
-                ['dragleave', 'drop'].forEach(eventName => {
-                    dropzone.addEventListener(eventName, unhighlight, false);
-                });
-                
-                function highlight() {
-                    dropzone.classList.add('highlight');
-                }
-                
-                function unhighlight() {
-                    dropzone.classList.remove('highlight');
-                }
-                
-                // Gérer le dépôt de fichiers
-                dropzone.addEventListener('drop', handleDrop, false);
-                
-                function handleDrop(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    unhighlight();
-                    
-                    const dt = e.dataTransfer;
-                    const files = dt.files;
-                    const text = dt.getData('text/plain');
-                    
-                    // Vérifier si c'est une URL YouTube collée
-                    if (text && (text.includes('youtube.com/watch') || text.includes('youtu.be/'))) {
-                        if (youtubeUrl) {
-                            youtubeUrl.value = text;
-                            // Simuler un clic sur le bouton d'ajout après un court délai
-                            setTimeout(() => {
-                                if (addMediaBtn) addMediaBtn.click();
-                            }, 100);
-                        }
-                        return;
-                    }
-                    
-                    // Gestion des fichiers déposés
-                    if (files.length > 0) {
-                        // Vérifier si c'est une image
-                        const file = files[0];
-                        if (file.type.startsWith('image/')) {
-                            // Créer un nouveau DataTransfer pour mettre à jour les fichiers
-                            const dataTransfer = new DataTransfer();
-                            dataTransfer.items.add(file);
-                            mediaUpload.files = dataTransfer.files;
-                            
-                            // Déclencher l'événement change manuellement
-                            const event = new Event('change');
-                            mediaUpload.dispatchEvent(event);
-                        } else {
-                            // Afficher un message d'erreur pour les types de fichiers non supportés
-                            if (mediaPreview) {
-                                mediaPreview.innerHTML = `
-                                    <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
-                                        <i class="fas fa-exclamation-triangle"></i> Format non supporté. Veuillez déposer une image (JPG, PNG, etc.) ou une URL YouTube.
-                                    </div>
-                                `;
-                            }
-                        }
-                    }
-                }
-                
-                // Gérer le clic sur la zone de dépôt
-                dropzone.addEventListener('click', () => {
-                    mediaUpload.click();
-                });
             }
             
-            // Gérer la sélection de fichiers via le bouton
-            if (mediaUpload) {
-                mediaUpload.addEventListener('change', function() {
-                    if (this.files && this.files.length > 0) {
-                        handleFiles(this.files);
-                    }
-                });
-            }
-            
-            function handleFiles(files, isYoutubeUrl = false) {
+            function handleFiles(files, isYoutubeUrl = false, previewContainer = null) {
                 if (!files || files.length === 0) return;
                 
                 const file = files[0];
                 if (!file) return;
                 
+                // Utiliser le conteneur d'aperçu fourni ou essayer de trouver un conteneur par défaut
+                const targetPreview = previewContainer || document.getElementById('media-preview');
+                
+                // Si aucun conteneur n'est trouvé, afficher une erreur
+                if (!targetPreview) {
+                    console.error('Aucun conteneur d\'aperçu trouvé');
+                    return;
+                }
+                
                 // Vérifier si c'est une URL YouTube
                 if (isYoutubeUrl) {
                     const youtubeId = extractYoutubeId(file);
                     if (!youtubeId) {
-                        if (mediaPreview) {
-                            mediaPreview.innerHTML = `
+                        if (targetPreview) {
+                            targetPreview.innerHTML = `
                                 <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
                                     <i class="fas fa-exclamation-triangle"></i> URL YouTube invalide. Veuillez vérifier le lien.
                                 </div>
@@ -1567,8 +2296,8 @@
                     }
                     
                     // Afficher l'aperçu de la vidéo YouTube
-                    if (mediaPreview) {
-                        mediaPreview.innerHTML = `
+                    if (targetPreview) {
+                        targetPreview.innerHTML = `
                             <div class="youtube-preview" style="margin-top: 10px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; text-align: center;">
                                 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 10px; background: #000;">
                                     <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="Miniature YouTube" style="width: 100%; height: auto; opacity: 0.8;">
@@ -1592,12 +2321,12 @@
                         `;
                         
                         // Ajouter un écouteur d'événement pour le bouton de suppression
-                        const removeBtn = mediaPreview.querySelector('.remove-media-btn');
+                        const removeBtn = targetPreview.querySelector('.remove-media-btn');
                         if (removeBtn) {
                             removeBtn.addEventListener('click', function(e) {
                                 e.preventDefault();
                                 e.stopPropagation();
-                                mediaPreview.innerHTML = '';
+                                targetPreview.innerHTML = '';
                                 if (youtubeUrl) {
                                     youtubeUrl.value = '';
                                 }
@@ -1609,8 +2338,8 @@
                 
                 // Vérifier le type de fichier pour les images
                 if (!file.type.startsWith('image/')) {
-                    if (mediaPreview) {
-                        mediaPreview.innerHTML = `
+                    if (targetPreview) {
+                        targetPreview.innerHTML = `
                             <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
                                 <i class="fas fa-exclamation-triangle"></i> Format de fichier non supporté. Veuillez utiliser une image (JPG, PNG, etc.) ou une URL YouTube.
                             </div>
@@ -1622,8 +2351,8 @@
                 // Vérifier la taille du fichier (max 5MB)
                 const maxSize = 5 * 1024 * 1024; // 5MB
                 if (file.size > maxSize) {
-                    if (mediaPreview) {
-                        mediaPreview.innerHTML = `
+                    if (targetPreview) {
+                        targetPreview.innerHTML = `
                             <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
                                 <i class="fas fa-exclamation-triangle"></i> Le fichier est trop volumineux (${Math.round(file.size / (1024 * 1024) * 10) / 10} MB). La taille maximale est de 5MB.
                             </div>
@@ -1634,10 +2363,10 @@
                 
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    if (!mediaPreview) return;
+                    if (!targetPreview) return;
                     
                     // Créer un conteneur pour l'aperçu avec un bouton de suppression
-                    mediaPreview.innerHTML = `
+                    targetPreview.innerHTML = `
                         <div class="media-preview-container" style="position: relative; display: inline-block; margin-top: 10px; width: 100%; max-width: 500px;">
                             <div style="position: relative; border: 1px solid #dee2e6; border-radius: 4px; overflow: hidden; background: #f8f9fa;">
                                 <img src="${e.target.result}" alt="Aperçu" style="max-width: 100%; max-height: 300px; display: block; margin: 0 auto;">
@@ -1654,22 +2383,22 @@
                     `;
                     
                     // Ajouter un écouteur d'événement pour le bouton de suppression
-                    const removeBtn = mediaPreview.querySelector('.remove-media-btn');
+                    const removeBtn = targetPreview.querySelector('.remove-media-btn');
                     if (removeBtn) {
                         removeBtn.addEventListener('click', function(e) {
                             e.preventDefault();
                             e.stopPropagation();
-                            mediaPreview.innerHTML = '';
-                            if (mediaUpload) {
-                                mediaUpload.value = '';
+                            targetPreview.innerHTML = '';
+                            if (fileInput) {
+                                fileInput.value = '';
                             }
                         });
                     }
                 };
                 
                 reader.onerror = function() {
-                    if (mediaPreview) {
-                        mediaPreview.innerHTML = `
+                    if (targetPreview) {
+                        targetPreview.innerHTML = `
                             <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
                                 <i class="fas fa-exclamation-triangle"></i> Erreur lors de la lecture du fichier. Veuillez réessayer avec une autre image.
                             </div>
@@ -1894,12 +2623,26 @@
             
             // Mettre à jour l'affichage du carrousel
             function updateCarouselDisplay() {
-                if (!carouselItemsContainer) return;
+                console.log('Début de updateCarouselDisplay');
+                console.log('carouselItems:', carouselItems);
                 
+                // S'assurer que le conteneur existe
+                carouselItemsContainer = document.getElementById('carousel-items');
+                
+                if (!carouselItemsContainer) {
+                    console.error('Erreur: carouselItemsContainer non trouvé');
+                    return;
+                }
+                
+                console.log('Conteneur carouselItemsContainer trouvé:', carouselItemsContainer);
+                
+                console.log('Vidage du conteneur carouselItemsContainer');
                 carouselItemsContainer.innerHTML = '';
                 
                 // Trier les éléments par ordre
+                console.log('Tri des éléments du carrousel');
                 const sortedItems = [...carouselItems].sort((a, b) => a.order - b.order);
+                console.log('Éléments triés:', sortedItems);
                 
                 sortedItems.forEach((item, index) => {
                     const itemElement = document.createElement('div');
@@ -1957,8 +2700,12 @@
                         });
                     }
                     
+                    console.log('Ajout de l\'élément au DOM:', item);
                     carouselItemsContainer.appendChild(itemElement);
+                    console.log('Élément ajouté avec succès');
                 });
+                
+                console.log('Nombre d\'éléments dans le DOM:', carouselItemsContainer.children.length);
             }
             
             // Réinitialiser le formulaire
@@ -2115,26 +2862,44 @@
                 });
             }
             
-            // Initialisation
-            if (carouselItemsContainer) {
-                updateCarouselDisplay();
+            // Fonction d'initialisation
+            function initCarousel() {
+                console.log('Initialisation du carrousel...');
+                console.log('Conteneur carouselItemsContainer:', carouselItemsContainer);
+                console.log('Contenu du localStorage (franchiniCarousel):', localStorage.getItem('franchiniCarousel'));
+                console.log('Nombre d\'éléments chargés:', carouselItems.length);
+                console.log('Détail des éléments:', JSON.stringify(carouselItems, null, 2));
                 
-                // Ajouter les écouteurs d'événements pour le glisser-déposer sur le conteneur
-                carouselItemsContainer.addEventListener('dragover', function(e) {
-                    e.preventDefault();
-                    e.dataTransfer.dropEffect = 'move';
-                    this.classList.add('drag-over-container');
-                });
-                
-                carouselItemsContainer.addEventListener('dragleave', function(e) {
-                    e.preventDefault();
-                    this.classList.remove('drag-over-container');
-                });
-                
-                carouselItemsContainer.addEventListener('drop', function(e) {
-                    e.preventDefault();
-                    this.classList.remove('drag-over-container');
-                });
+                if (carouselItemsContainer) {
+                    console.log('Mise à jour de l\'affichage du carrousel...');
+                    updateCarouselDisplay();
+                    
+                    // Ajouter les gestionnaires d'événements pour le glisser-déposer
+                    carouselItemsContainer.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = 'move';
+                        this.classList.add('drag-over-container');
+                    });
+                    
+                    carouselItemsContainer.addEventListener('dragleave', function(e) {
+                        e.preventDefault();
+                        this.classList.remove('drag-over-container');
+                    });
+                    
+                    carouselItemsContainer.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        this.classList.remove('drag-over-container');
+                    });
+                } else {
+                    console.error('Erreur: carouselItemsContainer non trouvé');
+                }
+            }
+            
+            // Attendre que le DOM soit complètement chargé
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initCarousel);
+            } else {
+                initCarousel();
             }
             
             // Initialisation des données pour les autres onglets
@@ -2145,7 +2910,6 @@
 
             // Gestion des actualités
             const addActualiteBtn = document.getElementById('add-actualite-btn');
-            const actualitesTableBody = document.getElementById('actualites-table-body');
 
             if (addActualiteBtn) {
                 addActualiteBtn.addEventListener('click', function() {
@@ -2273,27 +3037,415 @@
                 const day = date.getDate().toString().padStart(2, '0');
                 const month = (date.getMonth() + 1).toString().padStart(2, '0');
                 const year = date.getFullYear();
-                return `${day}/${month}/${year}`;
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                return `${day}/${month}/${year} ${hours}:${minutes}`;
+            }
+
+            // Gestion du formulaire du carrousel
+            const carouselForm = document.getElementById('carousel-form');
+            if (carouselForm) {
+                carouselForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    saveCarouselItem();
+                });
+
+                // Gestion du changement de type de contenu
+                const carouselType = document.getElementById('carousel-type');
+                if (carouselType) {
+                    carouselType.addEventListener('change', function() {
+                        updateCarouselFormFields(this.value);
+                    });
+                }
+
+            }
+
+            // Mettre à jour les champs du formulaire en fonction du type de contenu
+            function updateCarouselFormFields(type) {
+                document.getElementById('image-upload-group').style.display = type === 'image' ? 'block' : 'none';
+                document.getElementById('video-upload-group').style.display = type === 'video' ? 'block' : 'none';
+                document.getElementById('youtube-url-group').style.display = type === 'youtube' ? 'block' : 'none';
+            }
+
+            // Sauvegarder un élément du carrousel
+            function saveCarouselItem() {
+                const type = document.getElementById('carousel-type').value;
+                const title = document.getElementById('carousel-title').value;
+                const description = document.getElementById('carousel-description').value;
+                const startDate = document.getElementById('carousel-start-date').value;
+                const endDate = document.getElementById('carousel-end-date').value;
+                const link = document.getElementById('carousel-link').value;
+                let mediaUrl = '';
+
+                // Récupérer l'URL du média en fonction du type
+                if (type === 'youtube') {
+                    const youtubeUrl = document.getElementById('youtube-url').value;
+                    const youtubeId = extractYoutubeId(youtubeUrl);
+                    if (!youtubeId) {
+                        alert('Veuillez entrer une URL YouTube valide');
+                        return;
+                    }
+                    mediaUrl = `https://www.youtube.com/embed/${youtubeId}`;
+                } else if (type === 'image') {
+                    const preview = document.getElementById('carousel-preview');
+                    const img = preview.querySelector('img');
+                    if (!img) {
+                        alert('Veuvez ajouter une image');
+                        return;
+                    }
+                    mediaUrl = img.src; // URL de l'image en base64
+                } else if (type === 'video') {
+                    const preview = document.getElementById('video-preview');
+                    const video = preview.querySelector('video');
+                    if (!video) {
+                        alert('Veuvez ajouter une vidéo');
+                        return;
+                    }
+                    mediaUrl = video.querySelector('source').src; // URL de la vidéo en base64
+                }
+
+                // Créer l'objet carouselItem
+                const carouselItem = {
+                    id: currentCarouselEditId || Date.now(),
+                    type,
+                    mediaUrl,
+                    title,
+                    description,
+                    startDate,
+                    endDate,
+                    link,
+                    order: currentCarouselEditId ? 
+                        carouselItems.find(item => item.id === currentCarouselEditId)?.order || carouselItems.length : 
+                        carouselItems.length,
+                    createdAt: currentCarouselEditId ? 
+                        carouselItems.find(item => item.id === currentCarouselEditId)?.createdAt || new Date().toISOString() : 
+                        new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+
+                // Mettre à jour ou ajouter l'élément
+                if (currentCarouselEditId) {
+                    const index = carouselItems.findIndex(item => item.id === currentCarouselEditId);
+                    if (index !== -1) {
+                        carouselItems[index] = carouselItem;
+                    }
+                } else {
+                    carouselItems.push(carouselItem);
+                }
+
+                // Sauvegarder et mettre à jour l'affichage
+                saveCarousel();
+                updateCarouselDisplay();
+                resetCarouselForm();
+                currentCarouselEditId = null;
+            }
+
+
+            // Mettre à jour l'affichage du carrousel
+            function updateCarouselDisplay() {
+                const container = document.getElementById('carousel-items-container');
+                if (!container) return;
+
+                // Trier les éléments par ordre
+                carouselItems.sort((a, b) => a.order - b.order);
+
+                // Vider le conteneur
+                container.innerHTML = '';
+
+                if (carouselItems.length === 0) {
+                    container.innerHTML = '<p class="no-items">Aucun élément dans le carrousel</p>';
+                    return;
+                }
+
+
+                // Ajouter chaque élément au conteneur
+                carouselItems.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'carousel-item';
+                    itemElement.draggable = true;
+                    itemElement.dataset.id = item.id;
+                    
+                    // Créer le contenu de l'élément
+                    let mediaContent = '';
+                    if (item.type === 'youtube') {
+                        const youtubeId = extractYoutubeId(item.mediaUrl);
+                        mediaContent = `
+                            <div class="carousel-media youtube-preview">
+                                <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="Vidéo YouTube">
+                                <div class="play-icon"><i class="fas fa-play"></i></div>
+                            </div>`;
+                    } else if (item.type === 'image') {
+                        mediaContent = `
+                            <div class="carousel-media">
+                                <img src="${item.mediaUrl}" alt="${item.title || 'Image'}">
+                            </div>`;
+                    } else if (item.type === 'video') {
+                        mediaContent = `
+                            <div class="carousel-media">
+                                <video controls>
+                                    <source src="${item.mediaUrl}" type="video/mp4">
+                                    Votre navigateur ne supporte pas la lecture de vidéos.
+                                </video>
+                            </div>`;
+                    }
+
+                    // Créer les dates formatées
+                    const startDate = item.startDate ? new Date(item.startDate).toLocaleString('fr-FR') : 'Non défini';
+                    const endDate = item.endDate ? new Date(item.endDate).toLocaleString('fr-FR') : 'Non défini';
+
+                    // Construire le HTML de l'élément
+                    itemElement.innerHTML = `
+                        <div class="carousel-item-header">
+                            <div class="carousel-item-drag">
+                                <i class="fas fa-grip-vertical"></i>
+                            </div>
+                            <div class="carousel-item-title">${item.title || 'Sans titre'}</div>
+                            <div class="carousel-item-actions">
+                                <button class="btn btn-edit" onclick="editCarouselItem(${item.id})">
+                                    <i class="fas fa-edit"></i> Modifier
+                                </button>
+                                <button class="btn btn-delete" onclick="deleteCarouselItem(${item.id})">
+                                    <i class="fas fa-trash"></i> Supprimer
+                                </button>
+                            </div>
+                        </div>
+                        <div class="carousel-item-content">
+                            ${mediaContent}
+                            <div class="carousel-item-details">
+                                ${item.description ? `<p class="carousel-item-description">${item.description}</p>` : ''}
+                                <div class="carousel-item-dates">
+                                    <div><strong>Début :</strong> ${startDate}</div>
+                                    <div><strong>Fin :</strong> ${endDate}</div>
+                                </div>
+                                ${item.link ? `<div class="carousel-item-link"><a href="${item.link}" target="_blank">${item.link}</a></div>` : ''}
+                            </div>
+                        </div>`;
+
+                    container.appendChild(itemElement);
+                });
+
+                // Ajouter les écouteurs d'événements pour le glisser-déposer
+                setupDragAndDrop();
+            }
+
+            // Réinitialiser le formulaire du carrousel
+            function resetCarouselForm() {
+                document.getElementById('carousel-form').reset();
+                document.getElementById('carousel-item-id').value = '';
+                document.getElementById('carousel-preview').innerHTML = '';
+                document.getElementById('video-preview').innerHTML = '';
+                document.getElementById('youtube-preview').innerHTML = '';
+                document.getElementById('youtube-url').value = '';
+                document.getElementById('carousel-type').value = 'image';
+                updateCarouselFormFields('image');
+                document.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Enregistrer';
+                currentCarouselEditId = null;
+            }
+
+            // Configurer le glisser-déposer pour le réordonnancement
+            function setupDragAndDrop() {
+                const items = document.querySelectorAll('.carousel-item');
+                
+                items.forEach(item => {
+                    item.addEventListener('dragstart', handleDragStart);
+                    item.addEventListener('dragover', handleDragOver);
+                    item.addEventListener('drop', handleDrop);
+                    item.addEventListener('dragend', handleDragEnd);
+                });
+            }
+
+            function handleDragStart(e) {
+                draggedItem = this;
+                this.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/html', this.innerHTML);
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                this.classList.add('drag-over');
+            }
+
+            function handleDrop(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                
+                if (draggedItem !== this) {
+                    // Échanger les éléments dans le DOM
+                    const container = this.parentNode;
+                    const items = Array.from(container.querySelectorAll('.carousel-item'));
+                    const draggedIndex = items.indexOf(draggedItem);
+                    const targetIndex = items.indexOf(this);
+                    
+                    if (draggedIndex < targetIndex) {
+                        container.insertBefore(draggedItem, this.nextSibling);
+                    } else {
+                        container.insertBefore(draggedItem, this);
+                    }
+
+                    // Mettre à jour l'ordre dans le tableau carouselItems
+                    const newItems = Array.from(container.querySelectorAll('.carousel-item'));
+                    newItems.forEach((item, index) => {
+                        const itemId = parseInt(item.dataset.id);
+                        const carouselItem = carouselItems.find(ci => ci.id === itemId);
+                        if (carouselItem) {
+                            carouselItem.order = index;
+                        }
+                    });
+
+                    // Sauvegarder le nouvel ordre
+                    saveCarousel();
+                }
+                
+                this.classList.remove('drag-over');
+            }
+
+            function handleDragEnd() {
+                this.classList.remove('dragging');
+                document.querySelectorAll('.carousel-item').forEach(item => {
+                    item.classList.remove('drag-over');
+                });
+            }
+
+            // Fonction pour éditer un élément du carrousel
+            function editCarouselItem(id) {
+                const item = carouselItems.find(item => item.id === id);
+                if (!item) return;
+
+                // Remplir le formulaire avec les données de l'élément
+                document.getElementById('carousel-type').value = item.type;
+                document.getElementById('carousel-title').value = item.title || '';
+                document.getElementById('carousel-description').value = item.description || '';
+                document.getElementById('carousel-start-date').value = item.startDate ? item.startDate.substring(0, 16) : '';
+                document.getElementById('carousel-end-date').value = item.endDate ? item.endDate.substring(0, 16) : '';
+                document.getElementById('carousel-link').value = item.link || '';
+                
+                // Mettre à jour l'affichage des champs en fonction du type
+                updateCarouselFormFields(item.type);
+                
+                // Afficher la prévisualisation du média
+                const previewContainer = item.type === 'video' ? 
+                    document.getElementById('video-preview') : 
+                    document.getElementById('carousel-preview');
+                
+                if (item.type === 'youtube') {
+                    const youtubeId = extractYoutubeId(item.mediaUrl);
+                    document.getElementById('youtube-url').value = `https://www.youtube.com/watch?v=${youtubeId}`;
+                    document.getElementById('youtube-preview').innerHTML = `
+                        <div class="youtube-preview">
+                            <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="Vidéo YouTube">
+                            <div class="play-icon"><i class="fas fa-play"></i></div>
+                        </div>`;
+                } else if (item.type === 'image') {
+                    previewContainer.innerHTML = `
+                        <div class="thumbnail">
+                            <img src="${item.mediaUrl}" alt="Aperçu" style="max-width: 100%; max-height: 200px;">
+                        </div>`;
+                } else if (item.type === 'video') {
+                    previewContainer.innerHTML = `
+                        <div class="thumbnail">
+                            <video controls style="max-width: 100%; max-height: 200px;">
+                                <source src="${item.mediaUrl}" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>`;
+                }
+                
+                // Mettre à jour le bouton de soumission
+                document.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Mettre à jour';
+                
+                // Faire défiler jusqu'au formulaire
+                document.getElementById('carousel-form').scrollIntoView({ behavior: 'smooth' });
+                
+                // Enregistrer l'ID de l'élément en cours d'édition
+                currentCarouselEditId = id;
+            }
+
+            // Fonction pour supprimer un élément du carrousel
+            function deleteCarouselItem(id) {
+                if (confirm('Êtes-vous sûr de vouloir supprimer cet élément du carrousel ?')) {
+                    carouselItems = carouselItems.filter(item => item.id !== id);
+                    saveCarousel();
+                    updateCarouselDisplay();
+                }
+            }
+
+            // Sauvegarder le carrousel dans le stockage local
+            function saveCarousel() {
+                localStorage.setItem('franchiniCarousel', JSON.stringify(carouselItems));
+            }
+
+            // Fonction pour initialiser le carrousel
+            function initializeCarousel() {
+                console.log('Initialisation du carrousel...');
+                if (document.getElementById('carousel-items')) {
+                    console.log('Conteneur du carrousel trouvé, mise à jour de l\'affichage');
+                    updateCarouselDisplay();
+                } else {
+                    console.error('Erreur: Le conteneur du carrousel avec l\'ID "carousel-items" n\'a pas été trouvé');
+                }
+            }
+
+            // Gestionnaire d'événements pour les onglets
+            document.querySelectorAll('.tab-btn').forEach(tabBtn => {
+                tabBtn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    if (!tabId) return;
+                    
+                    // Masquer tous les contenus d'onglets
+                    document.querySelectorAll('.tab-content').forEach(content => {
+                        content.classList.remove('active');
+                    });
+                    
+                    // Désactiver tous les boutons d'onglets
+                    document.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    
+                    // Activer l'onglet cliqué
+                    this.classList.add('active');
+                    const tabContent = document.getElementById(tabId);
+                    if (tabContent) {
+                        tabContent.classList.add('active');
+                        
+                        // Si c'est l'onglet d'accueil, initialiser le carrousel
+                        if (tabId === 'accueil') {
+                            initializeCarousel();
+                        }
+                    }
+                });
+            });
+            
+            // Initialiser le carrousel au chargement de la page si l'onglet d'accueil est actif
+            if (document.querySelector('.tab-btn.active[data-tab="accueil"]')) {
+                initializeCarousel();
             }
         }); // Fin de l'écouteur d'événement DOMContentLoaded
     </script>
     
     <!-- Chargement du pied de page -->
-    <script src="/assets/js/load-footer.js"></script>
+    <script src="../assets/js/load-footer.js"></script>
     <!-- Pied de page -->
-    <footer style="background-color: #1a1a1a; color: white; text-align: center; padding: 20px 0; margin-top: 40px;">
-        <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
-            <div style="margin-bottom: 15px; font-weight: bold; font-size: 18px;">FRANCHINI</div>
-            <div style="margin-bottom: 10px;">111 av des monts du matin</div>
-            <div style="margin-bottom: 10px;">26300 Marches</div>
-            <div style="margin-bottom: 15px;">
-                <a href="tel:0475474037" style="color: #4CAF50; text-decoration: none;">04 75 47 40 37</a>
-            </div>
-            <div style="font-size: 12px; color: #aaa; margin-top: 20px; padding-top: 15px; border-top: 1px solid #333;">
-                © 2025 Franchini SARL. Tous droits réservés. 
-                <a href="/admin" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
-            </div>
+    <!--#include virtual="/includes/footer.html" -->
+<footer style="background-color: #1a1a1a; color: white; text-align: center; padding: 30px 0; margin-top: 40px;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+        <div style="margin-bottom: 10px;">
+            <span style="color: #4CAF50; font-weight: bold; font-size: 24px; letter-spacing: 1px;">FRANCHINI</span>
         </div>
-    </footer>
+        <div style="margin-bottom: 8px; color: #ddd;">111 av des monts du matin</div>
+        <div style="margin-bottom: 15px; color: #ddd;">26300 Marches</div>
+        <div style="margin-bottom: 20px;">
+            <a href="tel:0475474037" style="color: white; text-decoration: none; font-size: 18px; font-weight: 500;">
+                <i class="fas fa-phone" style="margin-right: 8px;"></i>04 75 47 40 37
+            </a>
+        </div>
+        <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+            © 2024 Franchini SARL. Tous droits réservés.
+            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
