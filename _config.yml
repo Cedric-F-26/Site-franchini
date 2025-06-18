@@ -1,5 +1,6 @@
 # Configuration de base pour GitHub Pages
-baseurl: "/Site-franchini" # Chemin de base pour le dépôt GitHub
+# Pour un dépôt de projet, laissez baseurl vide
+baseurl: "" # Laissez vide pour un dépôt de projet GitHub Pages
 url: "https://cedric-f-26.github.io" # URL de base de GitHub Pages
 
 # Configuration pour GitHub Pages
