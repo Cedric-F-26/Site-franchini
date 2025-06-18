@@ -5,9 +5,46 @@ title: Accueil
 
 <!-- Contenu principal de la page d'accueil -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-<link rel="stylesheet" href="assets/css/carousel.css">
 
 <style>
+    /* Styles spécifiques à la page d'accueil */
+    .main-carousel {
+        width: 100%;
+        height: 500px;
+        position: relative;
+        overflow: hidden;
+        margin-bottom: 40px;
+    }
+    
+    .main-carousel img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .carousel-container {
+        display: flex;
+        gap: 30px;
+        margin: 40px 0;
+        flex-wrap: wrap;
+    }
+    
+    .carousel-section {
+        flex: 1;
+        min-width: 300px;
+        background: #f9f9f9;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .carousel-section h2 {
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid #4CAF50;
+    }
     /* Styles spécifiques à la page d'accueil */
     .main-carousel {
         width: 100%;
