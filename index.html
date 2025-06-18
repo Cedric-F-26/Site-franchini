@@ -4,6 +4,61 @@ title: Accueil
 ---
 
 <!-- Contenu principal de la page d'accueil -->
+<div class="home-page">
+    <!-- Carrousel Principal -->
+    <div class="main-carousel">
+        <img src="{{ '/assets/images/autres/tracteur.jpg' | relative_url }}" alt="Bannière principale" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+    </div>
+
+    <!-- Section des Carrousels -->
+    <div class="carousels-container">
+        <!-- Carrousel des Actualités -->
+        <section class="carousel-section">
+            <h2><a href="{{ '/pages/actualites.html' | relative_url }}">Actualités</a></h2>
+            <div class="carousel" id="news-carousel">
+                <div class="carousel-slide active">
+                    <img src="{{ '/assets/images/news1.jpg' | relative_url }}" alt="Actualité 1" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <div class="carousel-content">
+                        <h3>Titre de l'actualité 1</h3>
+                        <p>Description courte de l'actualité 1 avec quelques détails intéressants.</p>
+                        <a href="#" class="read-more">Lire la suite</a>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ '/assets/images/news2.jpg' | relative_url }}" alt="Actualité 2" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <div class="carousel-content">
+                        <h3>Titre de l'actualité 2</h3>
+                        <p>Description courte de l'actualité 2 avec quelques détails intéressants.</p>
+                        <a href="#" class="read-more">Lire la suite</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Carrousel des Occasions -->
+        <section class="carousel-section">
+            <h2><a href="{{ '/pages/occasion.html' | relative_url }}">Occasions</a></h2>
+            <div class="carousel" id="occasions-carousel">
+                <div class="carousel-slide active">
+                    <img src="{{ '/assets/images/occasion/occasion1.jpg' | relative_url }}" alt="Occasion 1" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <div class="carousel-content">
+                        <h3>Occasion spéciale 1</h3>
+                        <p>Description de l'occasion spéciale avec détails importants.</p>
+                        <span class="price">Prix: €XXX</span>
+                    </div>
+                </div>
+                <div class="carousel-slide">
+                    <img src="{{ '/assets/images/occasion/occasion2.jpg' | relative_url }}" alt="Occasion 2" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <div class="carousel-content">
+                        <h3>Occasion spéciale 2</h3>
+                        <p>Description de l'occasion spéciale avec détails importants.</p>
+                        <span class="price">Prix: €XXX</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <link rel="stylesheet" href="assets/css/carousel.css">
 
@@ -72,9 +127,15 @@ title: Accueil
         width: 100%;
         height: 100%;
         opacity: 0;
-        transition: opacity 0.5s ease-in-out;
+        visibility: hidden;
+        transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
         padding: 10px;
         box-sizing: border-box;
+    }
+    
+    .carousel-slide.active {
+        opacity: 1;
+        visibility: visible;
     }
     
     .carousel-slide img {
@@ -445,72 +506,17 @@ title: Accueil
     }
 </style>
 
-<main class="home-page">
-    <!-- Carrousel Principal -->
-    <div class="main-carousel">
-        <img src="assets/images/autres/tracteur.jpg" alt="Bannière principale" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
-    </div>
-
-    <!-- Section des Carrousels -->
-    <div class="carousels-container">
-        <!-- Carrousel des Actualités -->
-        <section class="carousel-section">
-            <h2><a href="pages/actualites.html">Actualités</a></h2>
-            <div class="carousel" id="news-carousel">
-                <div class="carousel-slide active">
-                    <img src="assets/images/news1.jpg" alt="Actualité 1" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
-                    <div class="carousel-content">
-                        <h3>Titre de l'actualité 1</h3>
-                        <p>Description courte de l'actualité 1 avec quelques détails intéressants.</p>
-                        <a href="#" class="read-more">Lire la suite</a>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <img src="assets/images/news2.jpg" alt="Actualité 2" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
-                    <div class="carousel-content">
-                        <h3>Titre de l'actualité 2</h3>
-                        <p>Description courte de l'actualité 2 avec quelques détails intéressants.</p>
-                        <a href="#" class="read-more">Lire la suite</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Carrousel des Occasions -->
-        <section class="carousel-section">
-            <h2><a href="pages/occasion.html">Occasions</a></h2>
-            <div class="carousel" id="occasions-carousel">
-                <div class="carousel-slide active">
-                    <img src="assets/images/occasion/occasion1.jpg" alt="Occasion 1" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
-                    <div class="carousel-content">
-                        <h3>Occasion spéciale 1</h3>
-                        <p>Description de l'occasion spéciale avec détails importants.</p>
-                        <span class="price">Prix: €XXX</span>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <img src="assets/images/occasion/occasion2.jpg" alt="Occasion 2" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
-                    <div class="carousel-content">
-                        <h3>Occasion spéciale 2</h3>
-                        <p>Description de l'occasion spéciale avec détails importants.</p>
-                        <span class="price">Prix: €XXX</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</main>
-
+<!-- Script de gestion des carrousels -->
 <script>
-    // Gestion des carrousels
-    document.addEventListener('DOMContentLoaded', function() {
-        // Fonction pour initialiser un carrousel
-        function initCarousel(carouselId) {
-            console.log(`Initialisation du carrousel: ${carouselId}`);
-            const carousel = document.querySelector(`#${carouselId}`);
-            if (!carousel) {
-                console.error(`Carrousel non trouvé: #${carouselId}`);
-                return;
+document.addEventListener('DOMContentLoaded', function() {
+    // Fonction pour initialiser un carrousel
+    function initCarousel(carouselId) {
+        console.log(`Initialisation du carrousel: ${carouselId}`);
+        const carousel = document.querySelector(`#${carouselId}`);
+        if (!carousel) {
+            console.error(`Carrousel non trouvé: #${carouselId}`);
+            return;
+        }
             }
             
             const slides = carousel.querySelectorAll('.carousel-slide');
@@ -519,106 +525,37 @@ title: Accueil
             if (slides.length === 0) {
                 console.error('Aucune diapositive trouvée dans le carrousel');
                 return;
-            }
-            
-            let currentSlide = 0;
-            let slideInterval;
-            
-            // Fonction pour afficher une diapositive spécifique
-            function showSlide(index) {
-                console.log(`Affichage de la diapositive ${index}`);
-                // Masquer toutes les diapositives
-                slides.forEach((slide, i) => {
-                    slide.classList.remove('active');
-                    slide.style.opacity = '0';
-                });
-                
-                // Afficher la diapositive actuelle
-                if (slides[index]) {
-                    slides[index].classList.add('active');
-                    slides[index].style.opacity = '1';
-                }
-                
-                currentSlide = index;
-            }
-            
-            // Fonction pour passer à la diapositive suivante
-            function nextSlide() {
-                let newIndex = (currentSlide + 1) % slides.length;
-                showSlide(newIndex);
-            }
-            
-            // Fonction pour démarrer le défilement automatique
-            function startCarousel() {
-                stopCarousel();
-                slideInterval = setInterval(nextSlide, 5000); // Change de slide toutes les 5 secondes
-            }
-            
-            // Fonction pour arrêter le défilement automatique
-            function stopCarousel() {
-                if (slideInterval) {
-                    clearInterval(slideInterval);
-                }
-            }
-            
-            // Événements pour la navigation
-            carousel.addEventListener('mouseenter', stopCarousel);
-            carousel.addEventListener('mouseleave', startCarousel);
-            
-            // Boutons de navigation (si présents)
-            const prevButton = carousel.querySelector('.carousel-prev');
-            const nextButton = carousel.querySelector('.carousel-next');
-            
-            if (prevButton) {
-                prevButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    let newIndex = (currentSlide - 1 + slides.length) % slides.length;
-                    showSlide(newIndex);
-                });
-            }
-            
-            if (nextButton) {
-                nextButton.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    nextSlide();
-                });
-            }
-            
-            // Points de navigation (si présents)
-            const dotsContainer = carousel.querySelector('.carousel-dots');
-            if (dotsContainer) {
-                slides.forEach((slide, index) => {
-                    const dot = document.createElement('button');
-                    dot.classList.add('carousel-dot');
-                    if (index === currentSlide) {
-                        dot.classList.add('active');
-                    }
-                    dot.addEventListener('click', () => showSlide(index));
-                    dotsContainer.appendChild(dot);
-                });
-            }
-            
-            // Afficher la première diapositive
-            showSlide(currentSlide);
-            
-            // Démarrer le défilement automatique
-            startCarousel();
-            
-            // Retourner l'API du carrousel
-            return {
-                next: nextSlide,
-                prev: function() {
-                    let newIndex = (currentSlide - 1 + slides.length) % slides.length;
-                    showSlide(newIndex);
-                },
-                goTo: showSlide,
-                start: startCarousel,
-                stop: stopCarousel
-            };
+        function nextSlide() {
+            let newIndex = (currentSlide + 1) % slides.length;
+            showSlide(newIndex);
         }
         
-        // Initialiser les carrousels
-        initCarousel('news-carousel');
-        initCarousel('occasions-carousel');
-    });
+        // Fonction pour démarrer le défilement automatique
+        function startCarousel() {
+            stopCarousel();
+            slideInterval = setInterval(nextSlide, 5000); // Change de slide toutes les 5 secondes
+        }
+        
+        // Fonction pour arrêter le défilement automatique
+        function stopCarousel() {
+            if (slideInterval) {
+                clearInterval(slideInterval);
+            }
+        }
+        
+        // Événements pour la navigation
+        carousel.addEventListener('mouseenter', stopCarousel);
+        carousel.addEventListener('mouseleave', startCarousel);
+        
+        // Afficher la première diapositive
+        showSlide(currentSlide);
+        
+        // Démarrer le défilement automatique
+        startCarousel();
+    }
+    
+    // Initialiser les carrousels
+    initCarousel('news-carousel');
+    initCarousel('occasions-carousel');
+});
 </script>
