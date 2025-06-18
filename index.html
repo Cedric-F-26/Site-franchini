@@ -5,6 +5,7 @@ title: Accueil
 
 <!-- Contenu principal de la page d'accueil -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link rel="stylesheet" href="assets/css/carousel.css">
 
 <style>
     /* Styles spécifiques à la page d'accueil */
@@ -26,10 +27,12 @@ title: Accueil
         display: flex;
         gap: 30px;
         margin: 40px 0;
+        flex-wrap: wrap;
     }
     
     .carousel-section {
         flex: 1;
+        min-width: 300px;
         background: #f9f9f9;
         padding: 20px;
         border-radius: 8px;
@@ -42,6 +45,15 @@ title: Accueil
         margin-bottom: 20px;
         padding-bottom: 10px;
         border-bottom: 2px solid #4CAF50;
+    }
+    
+    .carousel-section h2 a {
+        text-decoration: none;
+        color: inherit;
+    }
+    
+    .carousel-section h2 a:hover {
+        color: #4CAF50;
     }
     
     .carousel {
@@ -58,10 +70,8 @@ title: Accueil
         height: 100%;
         opacity: 0;
         transition: opacity 0.5s ease-in-out;
-    }
-    
-    .carousel-slide.active {
-        opacity: 1;
+        padding: 10px;
+        box-sizing: border-box;
     }
     
     .carousel-slide img {
@@ -69,37 +79,54 @@ title: Accueil
         height: 200px;
         object-fit: cover;
         border-radius: 4px;
+        margin-bottom: 10px;
     }
     
-    .carousel-content {
-        padding: 15px 0;
+    .carousel-content h3 {
+        margin: 10px 0;
+        color: #2c3e50;
     }
     
-    .carousel-nav {
-        display: flex;
-        justify-content: center;
-        margin-top: 15px;
+    .carousel-content p {
+        color: #666;
+        line-height: 1.5;
+        margin-bottom: 15px;
     }
     
-    .carousel-nav button {
-        background: #4CAF50;
-        color: white;
-        border: none;
-        padding: 5px 15px;
-        margin: 0 5px;
-        border-radius: 4px;
-        cursor: pointer;
+    .carousel-content .read-more {
+        color: #4CAF50;
+        text-decoration: none;
+        font-weight: bold;
     }
     
-    .carousel-nav button:hover {
-        background: #45a049;
+    .carousel-content .read-more:hover {
+        text-decoration: underline;
     }
     
-    .hero h1 {
-        font-size: 3rem;
-        margin-bottom: 20px;
-        font-weight: 700;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    /* Styles responsifs */
+    @media (max-width: 768px) {
+        .carousel-container {
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .carousel-section {
+            width: 100%;
+        }
+        
+        .main-carousel {
+            height: 300px;
+        }
+        
+        .hero h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.4rem;
+        }
     }
     
     .hero p {
@@ -360,58 +387,41 @@ title: Accueil
         }
         
         .btn {
-            display: block;
-            width: 100%;
-            max-width: 250px;
-            margin: 10px auto;
-        }
-        
-        .btn-outline {
-            margin-left: auto;
-            margin-right: auto;
+            padding: 10px 20px;
+            font-size: 0.9rem;
         }
         
         .section-title h2 {
             font-size: 1.8rem;
         }
         
-        .section-title p {
-            font-size: 1rem;
-        }
-        
-        .features {
-            padding: 50px 0;
-        }
-        
         .feature-card {
             padding: 25px 15px;
         }
         
-        .feature-icon {
-            width: 70px;
-            height: 70px;
-            font-size: 1.8rem;
-        }
-        
-        .feature-card h3 {
-            font-size: 1.3rem;
-        }
-        
-        .video-section, .cta-section {
-            padding: 50px 0;
-        }
-        
         .video-container iframe {
-            height: 250px;
+            height: 300px;
         }
-        
-        .cta-content h2 {
-            font-size: 2rem;
-        }
-        
-        .cta-content p {
-            font-size: 1rem;
-        }
+    }
+    
+    .cta-content .btn {
+        margin: 10px;
+    }
+    
+    .cta-content p {
+        font-size: 1rem;
+    }
+    
+    .features-grid {
+        margin-top: 40px;
+    }
+    
+    .feature-card h3 {
+        font-size: 1.3rem;
+    }
+    
+    .feature-card p {
+        font-size: 0.95rem;
     }
 </style>
 
@@ -426,7 +436,7 @@ title: Accueil
         <div class="carousel-container">
             <!-- Carrousel des Actualités -->
             <section class="carousel-section">
-                <h2>Actualités</h2>
+                <h2><a href="pages/actualites.html">Actualités</a></h2>
                 <div class="carousel" id="news-carousel">
                     <div class="carousel-slide active">
                         <img src="assets/images/news1.jpg" alt="Actualité 1">
@@ -444,16 +454,12 @@ title: Accueil
                             <a href="#" class="read-more">Lire la suite</a>
                         </div>
                     </div>
-                    <div class="carousel-nav">
-                        <button class="prev">Précédent</button>
-                        <button class="next">Suivant</button>
-                    </div>
                 </div>
             </section>
 
             <!-- Carrousel des Occasions -->
             <section class="carousel-section">
-                <h2>Occasions</h2>
+                <h2><a href="pages/occasion.html">Occasions</a></h2>
                 <div class="carousel" id="occasions-carousel">
                     <div class="carousel-slide active">
                         <img src="assets/images/occasion1.jpg" alt="Occasion 1">
@@ -471,10 +477,6 @@ title: Accueil
                             <span class="price">Prix: €XXX</span>
                         </div>
                     </div>
-                    <div class="carousel-nav">
-                        <button class="prev">Précédent</button>
-                        <button class="next">Suivant</button>
-                    </div>
                 </div>
             </section>
         </div>
@@ -490,26 +492,11 @@ title: Accueil
             if (!carousel) return;
             
             const slides = carousel.querySelectorAll('.carousel-slide');
-            const prevBtn = carousel.querySelector('.prev');
-            const nextBtn = carousel.querySelector('.next');
             let currentSlide = 0;
             let slideInterval;
             
             // Afficher la première diapositive
             showSlide(currentSlide);
-            
-            // Événements des boutons
-            if (prevBtn) {
-                prevBtn.addEventListener('click', () => {
-                    showSlide(currentSlide - 1);
-                });
-            }
-            
-            if (nextBtn) {
-                nextBtn.addEventListener('click', () => {
-                    showSlide(currentSlide + 1);
-                });
-            }
             
             // Fonction pour afficher une diapositive spécifique
             function showSlide(index) {
@@ -545,10 +532,6 @@ title: Accueil
                     clearInterval(slideInterval);
                 }
             }
-            
-            // Gestion du survol
-            carousel.addEventListener('mouseenter', stopCarousel);
-            carousel.addEventListener('mouseleave', startCarousel);
             
             // Démarrer le carrousel
             startCarousel();

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Supabase</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        #logs {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+    </style>
+</head>
+<body>
+    <h1>Test de connexion Supabase</h1>
+    <div id="result">Initialisation en cours...</div>
+    <div id="logs"></div>
+
+    <!-- Inclure le SDK Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        const resultDiv = document.getElementById('result');
+        const logsDiv = document.getElementById('logs');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toISOString().substr(11, 12);
+            const logEntry = document.createElement('div');
+            logEntry.className = type;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logsDiv.appendChild(logEntry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            console.log(`[${type.toUpperCase()}] ${message}`);
+        }
+
+        async function testConnection() {
+            log('Début du test de connexion...');
+            
+            try {
+                // Vérifier si Supabase est disponible
+                if (typeof supabase === 'undefined') {
+                    throw new Error('Supabase n\'est pas chargé correctement');
+                }
+                
+                log('Supabase est disponible', 'success');
+                
+                // Configuration Supabase
+                const SUPABASE_URL = 'https://svvupcjjqyyehxbxlkro.supabase.co';
+                const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2dnVwY2pqcXl5ZWh4Ynhsa3JvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk0Njg3NjcsImV4cCI6MjA2NTA0NDc2N30.wSK-HT0_UCNIVsfrcHQ1OBOlgdbKR4uMICDtbwg6ivY';
+                
+                log(`Initialisation du client Supabase avec l'URL: ${SUPABASE_URL}`);
+                
+                // Initialiser Supabase
+                const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                log('Client Supabase initialisé', 'success');
+                
+                // Tester la connexion en récupérant les informations de la table 'actualites'
+                log('Tentative de connexion à la table "actualites"...');
+                
+                const { data, error } = await supabaseClient
+                    .from('actualites')
+                    .select('*')
+                    .limit(1);
+                
+                if (error) {
+                    log(`Erreur Supabase: ${error.message}`, 'error');
+                    resultDiv.innerHTML = `
+                        <p class="error">❌ Erreur de connexion à Supabase</p>
+                        <p>Détails: ${error.message}</p>
+                        <p>Code: ${error.code || 'N/A'}</p>
+                        <p>Détails: ${error.details || 'Aucun détail supplémentaire'}</p>
+                        <p>Conseil: Vérifiez que la table "actualites" existe dans votre base de données Supabase.</p>
+                    `;
+                } else {
+                    log('Connexion à Supabase réussie !', 'success');
+                    log(`Données récupérées: ${JSON.stringify(data, null, 2)}`, 'success');
+                    
+                    resultDiv.innerHTML = `
+                        <p class="success">✅ Connexion à Supabase réussie !</p>
+                        <p>Nombre d'actualités trouvées : ${data ? data.length : 0}</p>
+                        <h3>Données brutes :</h3>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                        <h3>Prochaines étapes :</h3>
+                        <ol>
+                            <li>Créez une table "actualites" dans Supabase si elle n'existe pas</li>
+                            <li>Ajoutez des données de test</li>
+                            <li>Rafraîchissez cette page</li>
+                        </ol>
+                    `;
+                }
+            } catch (e) {
+                log(`Erreur inattendue: ${e.message}`, 'error');
+                console.error('Erreur complète:', e);
+                
+                resultDiv.innerHTML = `
+                    <p class="error">❌ Erreur inattendue</p>
+                    <p>${e.message}</p>
+                    <p>Veuillez vérifier la console du navigateur (F12) pour plus de détails.</p>
+                `;
+            }
+        }
+        
+        // Lancer le test au chargement de la page
+        document.addEventListener('DOMContentLoaded', () => {
+            log('Page chargée, démarrage du test...');
+            testConnection().catch(e => {
+                log(`Erreur lors de l'exécution du test: ${e.message}`, 'error');
+            });
+        });
+    </script>
+</body>
+</html>
