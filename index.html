@@ -428,7 +428,7 @@ title: Accueil
 <main class="home-page">
     <!-- Carrousel Principal -->
     <div class="main-carousel">
-        <img src="assets/images/hero-bg.jpg" alt="Bannière principale">
+        <img src="{{ site.baseurl }}/assets/images/autres/tracteur.jpg" alt="Bannière principale">
     </div>
 
     <!-- Section des Carrousels -->
@@ -447,7 +447,7 @@ title: Accueil
                         </div>
                     </div>
                     <div class="carousel-slide">
-                        <img src="{{ site.baseurl }}/public/images/news2.jpg" alt="Actualité 2">
+                        <img src="{{ site.baseurl }}/public/images/news2.jpg" alt="Actualité 2" onerror="this.src='{{ site.baseurl }}/assets/images/news1.jpg'">
                         <div class="carousel-content">
                             <h3>Titre de l'actualité 2</h3>
                             <p>Description courte de l'actualité 2 avec quelques détails intéressants.</p>
@@ -462,7 +462,7 @@ title: Accueil
                 <h2><a href="pages/occasion.html">Occasions</a></h2>
                 <div class="carousel" id="occasions-carousel">
                     <div class="carousel-slide active">
-                        <img src="{{ site.baseurl }}/assets/images/occasion/occasion1.jpg" alt="Occasion 1">
+                        <img src="{{ site.baseurl }}/assets/images/occasion/occasion1.jpg" alt="Occasion 1" onerror="this.src='{{ site.baseurl }}/assets/images/autres/tracteur.jpg'">
                         <div class="carousel-content">
                             <h3>Occasion spéciale 1</h3>
                             <p>Description de l'occasion spéciale avec détails importants.</p>
@@ -470,7 +470,7 @@ title: Accueil
                         </div>
                     </div>
                     <div class="carousel-slide">
-                        <img src="{{ site.baseurl }}/assets/images/occasion/occasion2.jpg" alt="Occasion 2">
+                        <img src="{{ site.baseurl }}/assets/images/occasion/occasion2.jpg" alt="Occasion 2" onerror="this.src='{{ site.baseurl }}/assets/images/autres/tracteur.jpg'">
                         <div class="carousel-content">
                             <h3>Occasion spéciale 2</h3>
                             <p>Description de l'occasion spéciale avec détails importants.</p>
