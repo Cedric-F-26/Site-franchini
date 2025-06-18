@@ -8,6 +8,17 @@
     --transition: 0.3s ease;
 }
 
+/* Styles pour les images de secours */
+img[data-fallback] {
+    transition: opacity 0.3s ease;
+}
+
+img.image-fallback {
+    object-fit: contain;
+    background-color: #f5f5f5;
+    padding: 10px;
+}
+
 /* Reset CSS basique */
 * {
     margin: 0;

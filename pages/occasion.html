@@ -349,7 +349,9 @@
                         
                         card.innerHTML = `
                             <div class="occasion-image">
-                                <img src="${occasion.image || '../assets/images/placeholder.jpg'}" alt="${occasion.titre}">
+                                <img src="${occasion.image || '../assets/images/placeholder.jpg'}" 
+                                     alt="${occasion.titre}"
+                                     onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                             </div>
                             <div class="occasion-details">
                                 <div class="occasion-type">${typeLabel}</div>

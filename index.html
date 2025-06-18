@@ -5,6 +5,7 @@ title: Accueil
 
 <!-- Contenu principal de la page d'accueil -->
 
+<!-- Inclusion des styles spécifiques à la page -->
 <style>
     /* Styles spécifiques à la page d'accueil */
     .main-carousel {
@@ -461,10 +462,13 @@ title: Accueil
     }
 </style>
 
+<!-- Inclusion des scripts spécifiques à la page -->
+{% include scripts.html %}
+
 <main class="home-page">
     <!-- Carrousel Principal -->
     <div class="main-carousel">
-        <img src="{{ site.baseurl }}/Site-franchini/assets/images/autres/tracteur.jpg" alt="Bannière principale" onerror="this.src='{{ site.baseurl }}/Site-franchini/assets/images/logo/Logo Franchini 2.jpg'">
+        <img src="{{ '/assets/images/autres/tracteur.jpg' | relative_url }}" alt="Bannière principale" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
     </div>
 
     <!-- Section des Carrousels -->
@@ -475,7 +479,7 @@ title: Accueil
                 <h2><a href="pages/actualites.html">Actualités</a></h2>
                 <div class="carousel" id="news-carousel">
                     <div class="carousel-slide active">
-                        <img src="{{ site.baseurl }}/Site-franchini/assets/images/news1.jpg" alt="Actualité 1" onerror="this.src='{{ site.baseurl }}/Site-franchini/assets/images/logo/Logo Franchini 2.jpg'">
+                        <img src="{{ '/assets/images/news1.jpg' | relative_url }}" alt="Actualité 1" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
                         <div class="carousel-content">
                             <h3>Titre de l'actualité 1</h3>
                             <p>Description courte de l'actualité 1 avec quelques détails intéressants.</p>
@@ -483,7 +487,7 @@ title: Accueil
                         </div>
                     </div>
                     <div class="carousel-slide">
-                        <img src="{{ site.baseurl }}/Site-franchini/assets/images/news1.jpg" alt="Actualité 2" onerror="this.src='{{ site.baseurl }}/Site-franchini/assets/images/logo/Logo Franchini 2.jpg'">
+                        <img src="{{ '/assets/images/news1.jpg' | relative_url }}" alt="Actualité 2" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
                         <div class="carousel-content">
                             <h3>Titre de l'actualité 2</h3>
                             <p>Description courte de l'actualité 2 avec quelques détails intéressants.</p>
@@ -498,7 +502,7 @@ title: Accueil
                 <h2><a href="pages/occasion.html">Occasions</a></h2>
                 <div class="carousel" id="occasions-carousel">
                     <div class="carousel-slide active">
-                        <img src="{{ site.baseurl }}/Site-franchini/assets/images/autres/tracteur.jpg" alt="Occasion 1" onerror="this.src='{{ site.baseurl }}/Site-franchini/assets/images/logo/Logo Franchini 2.jpg'">
+                        <img src="{{ '/assets/images/autres/tracteur.jpg' | relative_url }}" alt="Occasion 1" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
                         <div class="carousel-content">
                             <h3>Occasion spéciale 1</h3>
                             <p>Description de l'occasion spéciale avec détails importants.</p>
@@ -506,7 +510,7 @@ title: Accueil
                         </div>
                     </div>
                     <div class="carousel-slide">
-                        <img src="{{ site.baseurl }}/Site-franchini/assets/images/autres/tracteur.jpg" alt="Occasion 2" onerror="this.src='{{ site.baseurl }}/Site-franchini/assets/images/logo/Logo Franchini 2.jpg'">
+                        <img src="{{ '/assets/images/autres/tracteur.jpg' | relative_url }}" alt="Occasion 2" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
                         <div class="carousel-content">
                             <h3>Occasion spéciale 2</h3>
                             <p>Description de l'occasion spéciale avec détails importants.</p>
@@ -519,62 +523,4 @@ title: Accueil
     </div>
 </main>
 
-<script>
-    // Gestion des carrousels
-    document.addEventListener('DOMContentLoaded', function() {
-        // Fonction pour initialiser un carrousel
-        function initCarousel(carouselId) {
-            const carousel = document.querySelector(`#${carouselId}`);
-            if (!carousel) return;
-            
-            const slides = carousel.querySelectorAll('.carousel-slide');
-            let currentSlide = 0;
-            let slideInterval;
-            
-            // Afficher la première diapositive
-            showSlide(currentSlide);
-            
-            // Fonction pour afficher une diapositive spécifique
-            function showSlide(index) {
-                // Masquer toutes les diapositives
-                slides.forEach(slide => {
-                    slide.classList.remove('active');
-                });
-                
-                // Gérer les limites
-                if (index >= slides.length) {
-                    currentSlide = 0;
-                } else if (index < 0) {
-                    currentSlide = slides.length - 1;
-                } else {
-                    currentSlide = index;
-                }
-                
-                // Afficher la diapositive actuelle
-                slides[currentSlide].classList.add('active');
-            }
-            
-            // Démarrer le défilement automatique
-            function startCarousel() {
-                stopCarousel();
-                slideInterval = setInterval(() => {
-                    showSlide(currentSlide + 1);
-                }, 5000);
-            }
-            
-            // Arrêter le défilement automatique
-            function stopCarousel() {
-                if (slideInterval) {
-                    clearInterval(slideInterval);
-                }
-            }
-            
-            // Démarrer le carrousel
-            startCarousel();
-        }
-        
-        // Initialiser les carrousels
-        initCarousel('news-carousel');
-        initCarousel('occasions-carousel');
-    });
-</script>
+{% include _includes/scripts.html %}

@@ -244,7 +244,9 @@
                                 }
                                 
                                 locationCard.innerHTML = `
-                                    <img src="${item.image || '../assets/images/placeholder.jpg'}" alt="${item.title}">
+                                    <img src="${item.image || '../assets/images/placeholder.jpg'}" 
+                                         alt="${item.title}" 
+                                         onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                                     <div class="location-card-content">
                                         <h3>${item.title || 'Matériel de location'}</h3>
                                         ${specsHTML}

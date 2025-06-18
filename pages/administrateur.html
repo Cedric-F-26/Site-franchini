@@ -2300,7 +2300,10 @@
                         targetPreview.innerHTML = `
                             <div class="youtube-preview" style="margin-top: 10px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; text-align: center;">
                                 <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom: 10px; background: #000;">
-                                    <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="Miniature YouTube" style="width: 100%; height: auto; opacity: 0.8;">
+                                    <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" 
+                                         alt="Miniature YouTube" 
+                                         style="width: 100%; height: auto; opacity: 0.8;"
+                                         onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                                     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
                                         <div style="width: 68px; height: 48px; background: #ff0000; border-radius: 20%; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="this.parentNode.parentNode.parentNode.querySelector('iframe').style.display='block'; this.parentNode.parentNode.style.display='none';">
                                             <i class="fas fa-play" style="color: white; font-size: 20px; margin-left: 4px;"></i>
@@ -2369,7 +2372,10 @@
                     targetPreview.innerHTML = `
                         <div class="media-preview-container" style="position: relative; display: inline-block; margin-top: 10px; width: 100%; max-width: 500px;">
                             <div style="position: relative; border: 1px solid #dee2e6; border-radius: 4px; overflow: hidden; background: #f8f9fa;">
-                                <img src="${e.target.result}" alt="Aperçu" style="max-width: 100%; max-height: 300px; display: block; margin: 0 auto;">
+                                <img src="${e.target.result}" 
+                                 alt="Aperçu" 
+                                 style="max-width: 100%; max-height: 300px; display: block; margin: 0 auto;"
+                                 onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                                 <button type="button" class="remove-media-btn" style="position: absolute; top: 10px; right: 10px; background: rgba(220, 53, 69, 0.9); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 14px;">
                                     <i class="fas fa-times"></i>
                                 </button>
@@ -2652,7 +2658,9 @@
                     
                     let mediaContent = '';
                     if (item.type === 'image') {
-                        mediaContent = `<img src="${item.url}" alt="${item.title || 'Image du carrousel'}">`;
+                        mediaContent = `<img src="${item.url}" 
+                                          alt="${item.title || 'Image du carrousel'}"
+                                          onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">`;
                     } else {
                         mediaContent = `<iframe src="${item.url}" frameborder="0" allowfullscreen></iframe>`;
                     }
@@ -3171,13 +3179,17 @@
                         const youtubeId = extractYoutubeId(item.mediaUrl);
                         mediaContent = `
                             <div class="carousel-media youtube-preview">
-                                <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="Vidéo YouTube">
+                                <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" 
+                                     alt="Vidéo YouTube"
+                                     onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                                 <div class="play-icon"><i class="fas fa-play"></i></div>
                             </div>`;
                     } else if (item.type === 'image') {
                         mediaContent = `
                             <div class="carousel-media">
-                                <img src="${item.mediaUrl}" alt="${item.title || 'Image'}">
+                                <img src="${item.mediaUrl}" 
+                                     alt="${item.title || 'Image'}"
+                                     onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                             </div>`;
                     } else if (item.type === 'video') {
                         mediaContent = `
@@ -3334,13 +3346,18 @@
                     document.getElementById('youtube-url').value = `https://www.youtube.com/watch?v=${youtubeId}`;
                     document.getElementById('youtube-preview').innerHTML = `
                         <div class="youtube-preview">
-                            <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" alt="Vidéo YouTube">
+                            <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" 
+                                 alt="Vidéo YouTube"
+                                 onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                             <div class="play-icon"><i class="fas fa-play"></i></div>
                         </div>`;
                 } else if (item.type === 'image') {
                     previewContainer.innerHTML = `
                         <div class="thumbnail">
-                            <img src="${item.mediaUrl}" alt="Aperçu" style="max-width: 100%; max-height: 200px;">
+                            <img src="${item.mediaUrl}" 
+                                 alt="Aperçu" 
+                                 style="max-width: 100%; max-height: 200px;"
+                                 onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                         </div>`;
                 } else if (item.type === 'video') {
                     previewContainer.innerHTML = `

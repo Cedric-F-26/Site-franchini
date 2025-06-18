@@ -3,55 +3,18 @@
 <meta property="og:url" content="{{ site.url }}{{ page.url | replace:'index.html','' }}">
 <meta property="og:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
 <meta property="og:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-<meta property="og:image" content="{{ site.url }}{% if page.image %}{{ page.image }}{% else %}/images/og-image.jpg{% endif %}">
+<meta property="og:image" content="{{ site.url }}{% if page.image %}{{ page.image }}{% else %}{{ '/assets/images/og-image.jpg' | relative_url }}{% endif %}">
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:url" content="{{ site.url }}{{ page.url | replace:'index.html','' }}">
 <meta name="twitter:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
 <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
-<meta name="twitter:image" content="{{ site.url }}{% if page.image %}{{ page.image }}{% else %}/images/og-image.jpg{% endif %}">
+<meta name="twitter:image" content="{{ site.url }}{% if page.image %}{{ page.image }}{% else %}{{ '/assets/images/og-image.jpg' | relative_url }}{% endif %}">
 
 <!-- Autres métadonnées -->
 <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}">
 <meta name="theme-color" content="#00963F">
 
-<!-- Favicon -->
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
-<meta name="msapplication-TileColor" content="#00963F">
-<meta name="msapplication-config" content="/browserconfig.xml">
-<meta name="theme-color" content="#00963F">
-
-<!-- Préchargement des polices -->
-<link rel="preload" href="/fonts/opensans-regular.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/fonts/opensans-bold.woff2" as="font" type="font/woff2" crossorigin>
-
-<!-- Préchargement des ressources critiques -->
-<link rel="preload" href="/css/critical.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="/css/critical.css"></noscript>
-
-<!-- Chargement différé des CSS non critiques -->
-<link rel="preload" href="/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="/css/style.css"></noscript>
-
-<!-- Chargement différé des scripts non critiques -->
-<script>
-  // Fonction pour charger les scripts de manière asynchrone
-  function loadScript(src, callback) {
-    var script = document.createElement('script');
-    script.src = src;
-    script.async = true;
-    if (callback) script.onload = callback;
-    document.head.appendChild(script);
-  }
-
-  // Charger les scripts non critiques après le chargement de la page
-  window.addEventListener('load', function() {
-    loadScript('/js/main.js');
-    loadScript('/js/carousel.js');
-  });
-</script>
+<!-- Inclusion des assets (CSS, JS, polices, etc.) -->
+{% include head-assets.html %}

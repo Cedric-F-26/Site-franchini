@@ -1,6 +1,6 @@
 # Configuration de base pour GitHub Pages
 # Pour un dépôt de projet, utilisez le nom du dépôt comme baseurl
-baseurl: "/mon-site-web" # Chemin vers le dépôt GitHub
+baseurl: "/Site-franchini" # Chemin vers le dépôt GitHub
 url: "https://cedric-f-26.github.io" # URL de base de GitHub Pages
 
 # Configuration pour GitHub Pages
@@ -8,6 +8,50 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-assets
+  - jekyll-minifier
+
+# Configuration pour jekyll-assets
+assets:
+  sources:
+    - _assets/images
+    - _assets/fonts
+    - _assets/js
+    - _assets/css
+  compress:
+    css: true
+    js: true
+  cache: false
+  gzip: [.css, .js, .svg, .eot, .ttf, .woff, .woff2]
+  cache_path: "_cache"
+  skip_baseurl_with_cdn: false
+  skip_prefix_with_cdn: false
+  prefix: "/assets"
+  digest: true
+  assets: []
+  features:
+    automatic_img_size: true
+    automatic_img_alt: true
+    automatic_img_loading: true
+    automatic_img_srcset: true
+    automatic_img_sizes: true
+    automatic_img_loading: true
+    automatic_img_alt: true
+    automatic_img_title: true
+    automatic_img_class: true
+    automatic_img_id: true
+    automatic_img_loading: true
+    automatic_img_decoding: true
+    automatic_img_importance: true
+    automatic_img_ismap: true
+    automatic_img_loading: true
+    automatic_img_referrerpolicy: true
+    automatic_img_sizes: true
+    automatic_img_srcset: true
+    automatic_img_style: true
+    automatic_img_usemap: true
+    automatic_img_width: true
+    automatic_img_height: true
 
 # Paramètres du site
 title: Franchini - Concessionnaire Deutz-Fahr

@@ -12,7 +12,7 @@ title: Actualités
         <div class="news-list">
             <!-- Actualité 1 -->
             <article class="news-item">
-                <img src="{{ site.baseurl }}/assets/images/news1.jpg" alt="Actualité 1" class="news-image">
+                <img src="{{ '/assets/images/news1.jpg' | relative_url }}" alt="Actualité 1" class="news-image" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
                 <div class="news-content">
                     <h2>Titre de l'actualité 1</h2>
                     <p class="news-date">18 juin 2024</p>
@@ -23,7 +23,7 @@ title: Actualités
             
             <!-- Actualité 2 -->
             <article class="news-item">
-                <img src="assets/images/news2.jpg" alt="Actualité 2" class="news-image">
+                <img src="{{ '/assets/images/news2.jpg' | relative_url }}" alt="Actualité 2" class="news-image" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
                 <div class="news-content">
                     <h2>Titre de l'actualité 2</h2>
                     <p class="news-date">15 juin 2024</p>

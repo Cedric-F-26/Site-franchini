@@ -18,6 +18,12 @@ group :jekyll_plugins do
   gem "jekyll-paginate-v2", "~> 3.0"
   gem "jekyll-include-cache", "~> 0.2"
   gem "jekyll-minifier", "~> 0.1"
+  gem "jekyll-assets", "~> 3.4"
+  gem "sprockets", "~> 4.2"
+  gem "sprockets-es6", "~> 0.9"
+  gem "autoprefixer-rails", "~> 10.4"
+  gem "uglifier", "~> 4.2"
+  gem "mini_racer", "~> 0.6.2"
 end
 
 # Pour le développement local

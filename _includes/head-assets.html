@@ -1,0 +1,42 @@
+<!-- Chargement des polices -->
+<link rel="preload" href="{{ '/assets/fonts/opensans-regular.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ '/assets/fonts/opensans-bold.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+
+<!-- CSS critiques -->
+<link rel="preload" href="{{ '/assets/css/critical.css' | relative_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ '/assets/css/critical.css' | relative_url }}"></noscript>
+
+<!-- CSS non critiques (chargement différé) -->
+<link rel="preload" href="{{ '/assets/css/style.css' | relative_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}"></noscript>
+
+<!-- Favicon et icônes -->
+<link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/images/favicon/apple-touch-icon.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/images/favicon/favicon-32x32.png' | relative_url }}">
+<link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/images/favicon/favicon-16x16.png' | relative_url }}">
+<link rel="manifest" href="{{ '/site.webmanifest' | relative_url }}">
+<link rel="mask-icon" href="{{ '/safari-pinned-tab.svg' | relative_url }}" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#00963F">
+<meta name="msapplication-config" content="{{ '/browserconfig.xml' | relative_url }}">
+<meta name="theme-color" content="#00963F">
+
+<!-- Préchargement des images critiques -->
+<link rel="preload" href="{{ '/assets/images/logo/Logo%20Franchini%202.jpg' | relative_url }}" as="image">
+
+<!-- Chargement des scripts non critiques -->
+<script>
+  // Fonction pour charger les scripts de manière asynchrone
+  function loadScript(src, callback) {
+    var script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    if (callback) script.onload = callback;
+    document.head.appendChild(script);
+  }
+  
+  // Chargement différé des scripts non critiques
+  document.addEventListener('DOMContentLoaded', function() {
+    // Charger les scripts non critiques ici
+    loadScript('{{ "/assets/js/main.js" | relative_url }}');
+  });
+</script>
