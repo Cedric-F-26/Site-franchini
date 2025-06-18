@@ -23,10 +23,13 @@ title: Accueil
         object-fit: cover;
     }
     
-    .carousel-container {
+    .carousels-container {
         display: flex;
+        justify-content: space-between;
         gap: 30px;
-        margin: 40px 0;
+        margin: 40px auto;
+        max-width: 1200px;
+        padding: 0 20px;
         flex-wrap: wrap;
     }
     
@@ -104,14 +107,31 @@ title: Accueil
     }
     
     /* Styles responsifs */
-    @media (max-width: 768px) {
-        .carousel-container {
+    @media (max-width: 992px) {
+        .carousels-container {
             flex-direction: column;
+            align-items: center;
             gap: 20px;
         }
         
         .carousel-section {
             width: 100%;
+            max-width: 600px;
+        }
+        
+        .main-carousel {
+            height: 350px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .carousels-container {
+            padding: 0 10px;
+        }
+        
+        .main-carousel {
+            height: 300px;
+            margin-bottom: 20px;
         }
         
         .main-carousel {
@@ -432,54 +452,52 @@ title: Accueil
     </div>
 
     <!-- Section des Carrousels -->
-    <div class="container">
-        <div class="carousel-container">
-            <!-- Carrousel des Actualités -->
-            <section class="carousel-section">
-                <h2><a href="pages/actualites.html">Actualités</a></h2>
-                <div class="carousel" id="news-carousel">
-                    <div class="carousel-slide active">
-                        <img src="assets/images/news1.jpg" alt="Actualité 1" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
-                        <div class="carousel-content">
-                            <h3>Titre de l'actualité 1</h3>
-                            <p>Description courte de l'actualité 1 avec quelques détails intéressants.</p>
-                            <a href="#" class="read-more">Lire la suite</a>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="assets/images/news2.jpg" alt="Actualité 2" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
-                        <div class="carousel-content">
-                            <h3>Titre de l'actualité 2</h3>
-                            <p>Description courte de l'actualité 2 avec quelques détails intéressants.</p>
-                            <a href="#" class="read-more">Lire la suite</a>
-                        </div>
+    <div class="carousels-container">
+        <!-- Carrousel des Actualités -->
+        <section class="carousel-section">
+            <h2><a href="pages/actualites.html">Actualités</a></h2>
+            <div class="carousel" id="news-carousel">
+                <div class="carousel-slide active">
+                    <img src="assets/images/news1.jpg" alt="Actualité 1" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
+                    <div class="carousel-content">
+                        <h3>Titre de l'actualité 1</h3>
+                        <p>Description courte de l'actualité 1 avec quelques détails intéressants.</p>
+                        <a href="#" class="read-more">Lire la suite</a>
                     </div>
                 </div>
-            </section>
+                <div class="carousel-slide">
+                    <img src="assets/images/news2.jpg" alt="Actualité 2" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
+                    <div class="carousel-content">
+                        <h3>Titre de l'actualité 2</h3>
+                        <p>Description courte de l'actualité 2 avec quelques détails intéressants.</p>
+                        <a href="#" class="read-more">Lire la suite</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            <!-- Carrousel des Occasions -->
-            <section class="carousel-section">
-                <h2><a href="pages/occasion.html">Occasions</a></h2>
-                <div class="carousel" id="occasions-carousel">
-                    <div class="carousel-slide active">
-                        <img src="assets/images/occasion/occasion1.jpg" alt="Occasion 1" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
-                        <div class="carousel-content">
-                            <h3>Occasion spéciale 1</h3>
-                            <p>Description de l'occasion spéciale avec détails importants.</p>
-                            <span class="price">Prix: €XXX</span>
-                        </div>
-                    </div>
-                    <div class="carousel-slide">
-                        <img src="assets/images/occasion/occasion2.jpg" alt="Occasion 2" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
-                        <div class="carousel-content">
-                            <h3>Occasion spéciale 2</h3>
-                            <p>Description de l'occasion spéciale avec détails importants.</p>
-                            <span class="price">Prix: €XXX</span>
-                        </div>
+        <!-- Carrousel des Occasions -->
+        <section class="carousel-section">
+            <h2><a href="pages/occasion.html">Occasions</a></h2>
+            <div class="carousel" id="occasions-carousel">
+                <div class="carousel-slide active">
+                    <img src="assets/images/occasion/occasion1.jpg" alt="Occasion 1" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
+                    <div class="carousel-content">
+                        <h3>Occasion spéciale 1</h3>
+                        <p>Description de l'occasion spéciale avec détails importants.</p>
+                        <span class="price">Prix: €XXX</span>
                     </div>
                 </div>
-            </section>
-        </div>
+                <div class="carousel-slide">
+                    <img src="assets/images/occasion/occasion2.jpg" alt="Occasion 2" onerror="this.src='assets/images/logo/Logo Franchini 2.jpg'">
+                    <div class="carousel-content">
+                        <h3>Occasion spéciale 2</h3>
+                        <p>Description de l'occasion spéciale avec détails importants.</p>
+                        <span class="price">Prix: €XXX</span>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 </main>
 
