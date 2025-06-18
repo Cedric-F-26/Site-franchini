@@ -61,8 +61,10 @@
     
     <!-- Scripts JS -->
     <script src="{{ '/js/carousel.js' | relative_url }}"></script>
-    <script src="{{ '/js/main.js' | relative_url }}">
-        // Fonction pour afficher un message si le carrousel est vide
+    <script src="{{ '/js/main.js' | relative_url }}"></script>
+    
+    <!-- Script pour gérer les carrousels vides -->
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const carousels = document.querySelectorAll('.carousel');
             carousels.forEach(carousel => {
