@@ -8,9 +8,6 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
-# Désactiver Jekyll sur GitHub Pages
-whitelist: ["jekyll-feed", "jekyll-seo-tag", "jekyll-sitemap"]
-
 # Paramètres du site
 title: Franchini - Concessionnaire Deutz-Fahr
 description: Concessionnaire officiel Deutz-Fahr - Matériel agricole neuf et d'occasion
@@ -19,10 +16,19 @@ language: fr
 
 # Paramètres de construction
 markdown: kramdown
-plugins:
-  - jekyll-sitemap
-  - jekyll-seo-tag
-  - jekyll-feed
+theme: minima
+
+# Activer le support pour les fichiers HTML
+include:
+  - _pages
+  - _includes
+  - _layouts
+  - _sass
+  - assets
+  - .htaccess
+  - CNAME
+  - robots.txt
+  - sitemap.xml
 
 # Paramètres de permaliens (pour des URLs propres)
 permalink: pretty
