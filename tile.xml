@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tile>
+  <visual version="2">
+    <binding template="TileSquare150x150Text04" fallback="TileSquareText04">
+      <text id="1">Franchini</text>
+      <text id="2">Concessionnaire Deutz-Fahr</text>
+    </binding>
+    <binding template="TileWide310x150Text03" fallback="TileWideText03">
+      <text id="1">Bienvenue sur le site de Franchini</text>
+      <text id="2">Concessionnaire agréé Deutz-Fahr</text>
+    </binding>
+  </visual>
+</tile>

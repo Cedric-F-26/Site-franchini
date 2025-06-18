@@ -1,0 +1,42 @@
+# Configuration des en-têtes HTTP pour améliorer la sécurité et les performances
+
+# En-têtes par défaut pour toutes les pages
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://www.google-analytics.com;
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-site
+  Cross-Origin-Embedder-Policy: require-corp
+
+# Configuration du cache pour les fichiers CSS
+/*.css
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# Configuration du cache pour les fichiers JavaScript
+/*.js
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# Configuration du cache pour les images
+/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Configuration du cache pour les polices
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+  Access-Control-Allow-Origin: *
+
+# Configuration du cache pour les fichiers statiques
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Désactiver le cache pour le fichier de service worker
+/sw.js
+  Cache-Control: no-cache, no-store, must-revalidate
+  Service-Worker-Allowed: /

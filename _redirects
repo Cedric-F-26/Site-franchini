@@ -1,0 +1,74 @@
+# Redirections personnalisées
+
+# Redirection de l'ancienne URL vers la nouvelle
+/old-path /new-path 301
+
+# Redirection de l'ancien domaine vers le nouveau
+https://ancien-domaine.fr/* https://nouveau-domaine.fr/:splat 301
+
+# Redirection pour les pages supprimées vers une page d'archive
+/supprime /archives 410
+
+# Gestion des erreurs 404
+/* /404.html 404
+
+# Redirection pour les URLs sans extension vers les pages HTML correspondantes
+/* /:splat.html 200
+
+# Redirection pour les URLs avec trailing slash vers les URLs sans trailing slash
+/*/ /:splat 301
+
+# Redirection pour la page d'accueil
+/ /index.html 200
+
+# Redirection pour les fichiers statiques
+/assets/* /assets/:splat 200
+
+# Redirection pour les fichiers CSS
+/css/* /css/:splat 200
+
+# Redirection pour les fichiers JavaScript
+/js/* /js/:splat 200
+
+# Redirection pour les images
+/images/* /images/:splat 200
+
+# Redirection pour les polices
+/fonts/* /fonts/:splat 200
+
+# Redirection pour les téléchargements
+/downloads/* /downloads/:splat 200
+
+# Redirection pour les fichiers PDF
+/*.pdf /:splat.pdf 200
+
+# Redirection pour les fichiers DOCX
+/*.docx /:splat.docx 200
+
+# Redirection pour les fichiers XLSX
+/*.xlsx /:splat.xlsx 200
+
+# Redirection pour les fichiers ZIP
+/*.zip /:splat.zip 200
+
+# Redirection pour les fichiers de sitemap
+/sitemap.xml /sitemap.xml 200
+/sitemap-:sitemap.xml /sitemap-:sitemap.xml 200
+
+# Redirection pour le fichier robots.txt
+/robots.txt /robots.txt 200
+
+# Redirection pour le favicon
+/favicon.ico /favicon.ico 200
+
+# Redirection pour le fichier de manifeste
+/site.webmanifest /site.webmanifest 200
+
+# Redirection pour le fichier de configuration du navigateur
+/browserconfig.xml /browserconfig.xml 200
+
+# Redirection pour le fichier de configuration des tuiles Windows
+/tile.xml /tile.xml 200
+
+# Redirection pour le fichier de configuration des tuiles Windows (large)
+/tile-wide.xml /tile-wide.xml 200

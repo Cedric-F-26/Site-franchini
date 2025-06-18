@@ -11,17 +11,17 @@
       }
     }
   ],
-  "build": {
-    "env": {
-      "RUBY_VERSION": "3.1.4",
-      "BUNDLE_WITHOUT": "development:test",
-      "BUNDLE_PATH": "vendor/bundle",
-      "BUNDLE_CACHE_ALL": "true",
-      "BUNDLE_DEPLOYMENT": "true",
-      "JEKYLL_ENV": "production"
-    }
-  },
   "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/(.*\\.(?:css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot))$",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
     {
       "src": "^/assets/(.*)",
       "dest": "/assets/$1"

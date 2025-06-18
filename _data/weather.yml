@@ -1,0 +1,182 @@
+# Configuration de l'API Météo
+
+# Clé API
+api_key: ""  # Remplacer par votre clé API OpenWeatherMap
+
+# Emplacement par défaut (Allex, Drôme, France)
+location:
+  city: "Allex"
+  country_code: "FR"
+  lat: 44.7654
+  lon: 5.0123
+  timezone: "Europe/Paris"
+
+# Unités de mesure
+units: "metric"  # metric (Celsius), imperial (Fahrenheit), standard (Kelvin)
+
+# Langue
+language: "fr"  # Code de langue ISO 639-1
+
+# Paramètres d'affichage
+display:
+  current_weather: true
+  daily_forecast: true
+  hourly_forecast: false
+  alerts: true
+  air_quality: true
+  uv_index: true
+  visibility: true
+  humidity: true
+  wind: true
+  pressure: true
+  sunrise_sunset: true
+  moon_phase: true
+
+# Paramètres de mise à jour
+update_interval: 3600  # Mise à jour toutes les heures (en secondes)
+cache_duration: 3600  # Durée de mise en cache (en secondes)
+
+# Paramètres de l'API
+endpoints:
+  current: "https://api.openweathermap.org/data/2.5/weather"
+  forecast: "https://api.openweathermap.org/data/2.5/forecast"
+  onecall: "https://api.openweathermap.org/data/2.5/onecall"
+  air_pollution: "http://api.openweathermap.org/data/2.5/air_pollution"
+  geocoding: "http://api.openweathermap.org/geo/1.0/direct"
+
+# Paramètres de l'interface
+icons:
+  use_animated: true
+  icon_set: "climacons"  # weather-icons, climacons, openweathermap
+  color: "#333333"
+  size: "2x"
+
+# Paramètres de personnalisation
+themes:
+  light:
+    background: "#ffffff"
+    text: "#333333"
+    primary: "#00963F"
+    secondary: "#0056b3"
+    success: "#28a745"
+    danger: "#dc3545"
+    warning: "#ffc107"
+    info: "#17a2b8"
+    light: "#f8f9fa"
+    dark: "#343a40"
+  dark:
+    background: "#343a40"
+    text: "#f8f9fa"
+    primary: "#00c853"
+    secondary: "#5c6bc0"
+    success: "#66bb6a"
+    danger: "#ef5350"
+    warning: "#ffca28"
+    info: "#26c6da"
+    light: "#f8f9fa"
+    dark: "#212529"
+
+# Paramètres de localisation
+translations:
+  fr:
+    current_weather: "Météo actuelle"
+    feels_like: "Ressenti"
+    humidity: "Humidité"
+    pressure: "Pression"
+    wind_speed: "Vent"
+    wind_direction: "Direction du vent"
+    visibility: "Visibilité"
+    uv_index: "Indice UV"
+    sunrise: "Lever du soleil"
+    sunset: "Coucher du soleil"
+    moonrise: "Lever de lune"
+    moonset: "Coucher de lune"
+    moon_phase: "Phase lunaire"
+    new_moon: "Nouvelle lune"
+    first_quarter: "Premier quartier"
+    full_moon: "Pleine lune"
+    last_quarter: "Dernier quartier"
+    weather_alert: "Alerte météo"
+    air_quality: "Qualité de l'air"
+    aqi: "Indice de qualité de l'air"
+    co: "Monoxyde de carbone"
+    no: "Monoxyde d'azote"
+    no2: "Dioxyde d'azote"
+    o3: "Ozone"
+    so2: "Dioxyde de soufre"
+    pm2_5: "Particules fines (PM2.5)"
+    pm10: "Particules (PM10)"
+    nh3: "Ammoniac"
+    good: "Bonne"
+    fair: "Moyenne"
+    moderate: "Médiocre"
+    poor: "Mauvaise"
+    very_poor: "Très mauvaise"
+    severe: "Dangereuse"
+    updated: "Mis à jour à"
+    today: "Aujourd'hui"
+    tomorrow: "Demain"
+    and: "et"
+    weather_conditions:
+      200: "Orage avec pluie fine"
+      201: "Orage avec pluie"
+      202: "Orage avec fortes pluies"
+      210: "Orage léger"
+      211: "Orage"
+      212: "Orage intense"
+      221: "Orage déchaîné"
+      230: "Orage avec bruine"
+      231: "Orage avec bruine"
+      232: "Orage avec forte bruine"
+      300: "Bruine légère"
+      301: "Bruine"
+      302: "Forte bruine"
+      310: "Bruine légère"
+      311: "Bruine"
+      312: "Forte bruine"
+      313: "Averses de bruine"
+      314: "Fortes averses de bruine"
+      321: "Averse de bruine"
+      500: "Pluie légère"
+      501: "Pluie modérée"
+      502: "Forte pluie"
+      503: "Très forte pluie"
+      504: "Pluie extrême"
+      511: "Pluie verglaçante"
+      520: "Averses de pluie légères"
+      521: "Averses de pluie"
+      522: "Fortes averses de pluie"
+      531: "Averses de pluie éparses"
+      600: "Légère neige"
+      601: "Neige"
+      602: "Forte neige"
+      611: "Neige fondante"
+      612: "Légère averse de neige fondante"
+      613: "Averse de neige fondante"
+      615: "Pluie et neige légère"
+      616: "Pluie et neige"
+      620: "Légère averse de neige"
+      621: "Averse de neige"
+      622: "Forte averse de neige"
+      701: "Brume"
+      711: "Fumée"
+      721: "Brume sèche"
+      731: "Tourbillon de poussière"
+      741: "Brouillard"
+      751: "Sable"
+      761: "Poussière"
+      762: "Cendres volcaniques"
+      771: "Rafales"
+      781: "Tornade"
+      800: "Ciel dégagé"
+      801: "Quelques nuages"
+      802: "Nuages épars"
+      803: "Nuages fragmentés"
+      804: "Nuages couverts"
+
+# Paramètres de débogage
+debug:
+  enabled: false
+  log_requests: false
+  log_errors: true
+  show_raw_data: false

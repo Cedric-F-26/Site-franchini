@@ -24,6 +24,8 @@ _site/
 .jekyll-version
 .jekyll
 .jekyll-clean
+.jekyll-vercel
+.jekyll-vercel-cache
 
 # Fichiers de sauvegarde
 *.bak
@@ -42,12 +44,109 @@ yarn-error.log*
 .temp/
 .tmp/
 .parcel-cache/
+.vercel/
+.next/
 
 # Fichiers d'IDE et éditeurs
 .idea/
 .vscode/
 *.sublime-workspace
 *.sublime-project
+*.sublime-*
+
+# Fichiers de déploiement
+.netlify/
+.vercel/
+
+# Fichiers de dépendances système
+Gemfile.lock
+yarn.lock
+package-lock.json
+
+# Fichiers de test
+coverage/
+.rspec_status
+spec/tmp/
+
+# Fichiers de build
+build/
+dist/
+
+# Fichiers de configuration locaux
+_config.local.yml
+_config.development.yml
+
+# Fichiers de débogage
+debug.log
+
+# Fichiers temporaires
+tmp/
+
+# Fichiers de métadonnées macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Fichiers de métadonnées Windows
+[Ll]ibrary/
+[Oo]bj/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
+
+# Fichiers de métadonnées VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Fichiers de métadonnées JetBrains
+.idea/*
+!.idea/codeStyles/
+!.idea/inspectionProfiles/
+!.idea/runConfigurations/
+
+# Fichiers de métadonnées Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Fichiers de métadonnées Vim
+*.swp
+*.swo
+*~
+
+# Fichiers de métadonnées Emacs
+*~
+\#*
+.\#*
+
+# Fichiers de métadonnées Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Fichiers de métadonnées macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Fichiers de métadonnées Windows
+[Ll]ibrary/
+[Oo]bj/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+*.user
+*.userosscache
+*.sln.docstates
 *.sublime-worksheet
 *.code-workspace
 

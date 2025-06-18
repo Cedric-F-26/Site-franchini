@@ -1,0 +1,242 @@
+# Configuration du site Franchini
+
+# Informations de base
+title: "Franchini - Concessionnaire Deutz-Fahr"
+description: >-
+  Franchini, concessionnaire agréé Deutz-Fahr, spécialisé dans la vente et la location de matériel agricole neuf et d'occasion.
+  Découvrez nos offres exceptionnelles et notre service après-vente de qualité.
+url: "https://franchini.fr"  # URL de production
+baseurl: ""  # Chemin de base pour les déploiements dans un sous-dossier
+
+# Paramètres de l'entreprise
+company:
+  name: "Franchini"
+  legal_name: "SAS FRANCHINI"
+  address: "1234 Route de la Plaine, 26300 Allex"
+  city: "Allex"
+  region: "Auvergne-Rhône-Alpes"
+  postal_code: "26300"
+  country: "France"
+  phone: "+33 4 75 00 00 00"
+  email: "contact@franchini.fr"
+  siret: "123 456 789 00012"
+  tva_intra: "FR12345678901"
+  rcs: "RCS Valence 123 456 789"
+
+# Réseaux sociaux
+social:
+  facebook: "Franchini26300"
+  instagram: "franchini_agricole"
+  youtube: "user/FranchiniAgricole"
+  linkedin: "company/franchini-agricole"
+  twitter: "franchini_agri"
+  pinterest: "franchini_agricole"
+
+# Paramètres de référencement
+seo:
+  google_analytics: ""  # UA-XXXXXXXXX-X
+  google_tag_manager: ""  # GTM-XXXXXX
+  google_site_verification: ""
+  bing_verification: ""
+  yandex_verification: ""
+  facebook_app_id: ""
+  twitter_username: "@franchini_agri"
+  default_image: "/images/og-image.jpg"
+  default_keywords: >-
+    franchni, deutz-fahr, tracteur, matériel agricole, concessionnaire agricole, 
+    vente matériel agricole, occasion matériel agricole, pièces détachées agricoles, 
+    réparation matériel agricole, Allex, Drôme, Auvergne-Rhône-Alpes
+
+# Paramètres de l'interface
+ui:
+  theme_color: "#00963F"
+  background_color: "#FFFFFF"
+  text_color: "#333333"
+  accent_color: "#FF6B00"
+  font_family: "'Open Sans', Arial, sans-serif"
+  font_size: "16px"
+  line_height: "1.6"
+
+# Paramètres de contact
+contact:
+  email: "contact@franchini.fr"
+  phone: "04 75 00 00 00"
+  fax: "04 75 00 00 01"
+  address: "1234 Route de la Plaine, 26300 Allex"
+  hours: >-
+    Lundi au vendredi : 8h00 - 12h00 et 13h30 - 18h30
+    Samedi : 8h30 - 12h00
+    Dimanche : Fermé
+  map_embed_url: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2828.123456789012!2d5.0123456!3d44.7654321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDQ1JzU1LjYiTiA1wrAwNyczMjQuNCJF!5e0!3m2!1sfr!2sfr!4v1234567890123!5m2!1sfr!2sfr"
+
+# Paramètres de l'entreprise (suite)
+about:
+  description: >-
+    Fort de plus de 30 ans d'expérience, Franchini est un acteur majeur de la vente et de la location
+    de matériel agricole dans la Drôme et les départements limitrophes. Notre équipe de professionnels
+    vous accompagne dans le choix de votre matériel et vous propose un service après-vente de qualité.
+  year_founded: 1990
+  team_size: 25
+  certifications: ["Certifié ISO 9001", "Label Qualité Occasion"]
+  brands: ["Deutz-Fahr", "Stoll", "Kramp", "Kverneland"]
+
+# Paramètres du blog (si applicable)
+blog:
+  enabled: true
+  title: "Actualités & Conseils"
+  description: "Découvrez nos actualités et conseils pour l'entretien de votre matériel agricole."
+  posts_per_page: 6
+  related_posts: 3
+  author: "Équipe Franchini"
+  author_bio: >-
+    L'équipe Franchini partage avec vous son expertise et ses conseils pour l'entretien
+    et l'utilisation de votre matériel agricole.
+  author_image: "/images/team/equipe-franchini.jpg"
+
+# Paramètres de la boutique (si applicable)
+shop:
+  enabled: true
+  title: "Boutique en ligne"
+  description: "Découvrez nos offres exceptionnelles sur une large gamme de matériel agricole."
+  currency: "EUR"
+  currency_symbol: "€"
+  shipping:
+    enabled: true
+    free_over: 500
+    rates: "Voir nos conditions de livraison"
+  payment_methods: ["Visa", "Mastercard", "PayPal", "Virement bancaire", "Chèque"]
+
+# Paramètres du formulaire de contact
+contact_form:
+  enabled: true
+  recipients: ["contact@franchini.fr"]
+  subject: "Nouveau message depuis le site web"
+  success_message: "Votre message a bien été envoyé. Nous vous recontacterons dès que possible."
+  error_message: "Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer plus tard."
+  fields:
+    - name: "name"
+      label: "Nom complet"
+      type: "text"
+      required: true
+    - name: "email"
+      label: "Adresse email"
+      type: "email"
+      required: true
+    - name: "phone"
+      label: "Téléphone"
+      type: "tel"
+      required: false
+    - name: "subject"
+      label: "Sujet"
+      type: "select"
+      required: true
+      options: ["Demande d'information", "Devis", "SAV", "Autre"]
+    - name: "message"
+      label: "Message"
+      type: "textarea"
+      required: true
+
+# Paramètres du pied de page
+footer:
+  newsletter:
+    enabled: true
+    title: "Inscription à la newsletter"
+    description: "Recevez nos offres et actualités par email."
+    placeholder: "Votre adresse email"
+    button_text: "S'inscrire"
+  copyright: "© 2024 Franchini. Tous droits réservés."
+  legal_links:
+    - text: "Mentions légales"
+      url: "/mentions-legales/"
+    - text: "Politique de confidentialité"
+      url: "/confidentialite/"
+    - text: "CGV"
+      url: "/cgv/"
+    - text: "Plan du site"
+      url: "/plan-du-site/"
+    - text: "Contact"
+      url: "/contact/"
+
+# Paramètres des réseaux sociaux (liens complets)
+social_links:
+  - name: "Facebook"
+    url: "https://www.facebook.com/Franchini26300"
+    icon: "facebook"
+  - name: "Instagram"
+    url: "https://www.instagram.com/franchini_agricole"
+    icon: "instagram"
+  - name: "YouTube"
+    url: "https://www.youtube.com/user/FranchiniAgricole"
+    icon: "youtube"
+  - name: "LinkedIn"
+    url: "https://www.linkedin.com/company/franchini-agricole"
+    icon: "linkedin"
+  - name: "Twitter"
+    url: "https://twitter.com/franchini_agri"
+    icon: "twitter"
+  - name: "Pinterest"
+    url: "https://pinterest.com/franchini_agricole"
+    icon: "pinterest"
+
+# Paramètres des marques partenaires
+brands:
+  - name: "Deutz-Fahr"
+    logo: "/images/brands/deutz-fahr.png"
+    url: "/marques/deutz-fahr"
+  - name: "Stoll"
+    logo: "/images/brands/stoll.png"
+    url: "/marques/stoll"
+  - name: "Kramp"
+    logo: "/images/brands/kramp.png"
+    url: "/marques/kramp"
+  - name: "Kverneland"
+    logo: "/images/brands/kverneland.png"
+    url: "/marques/kverneland"
+
+# Paramètres des services
+services:
+  - title: "Vente de matériel neuf"
+    description: "Découvrez notre large gamme de matériel agricole neuf des plus grandes marques."
+    icon: "tractor"
+    url: "/materiel-neuf/"
+  - title: "Matériel d'occasion"
+    description: "Des occasions contrôlées et garanties pour tous les budgets."
+    icon: "truck"
+    url: "/materiel-occasion/"
+  - title: "Location"
+    description: "Des solutions de location adaptées à vos besoins, à court ou long terme."
+    icon: "calendar"
+    url: "/location/"
+  - title: "SAV & Réparation"
+    description: "Un atelier équipé et des techniciens qualifiés pour l'entretien et la réparation de votre matériel."
+    icon: "tools"
+    url: "/sav/"
+  - title: "Pièces détachées"
+    description: "Un large choix de pièces détachées d'origine et adaptables."
+    icon: "cog"
+    url: "/pieces-detachees/"
+  - title: "Financement"
+    description: "Des solutions de financement adaptées à votre projet."
+    icon: "euro"
+    url: "/financement/"
+
+# Paramètres des témoignages
+testimonials:
+  - name: "Jean DUPONT"
+    role: "Agriculteur céréalier"
+    content: >-
+      "Service irréprochable et professionnel. L'équipe de Franchini m'a conseillé au mieux
+      pour le choix de mon nouveau tracteur. Je recommande vivement !"
+    image: "/images/testimonials/jean-dupont.jpg"
+  - name: "Marie DURAND"
+    role: "Éleveuse"
+    content: >-
+      "Un SAV réactif et des techniciens compétents. Je fais confiance à Franchini depuis plus de 10 ans
+      pour l'entretien de mon matériel."
+    image: "/images/testimonials/marie-durand.jpg"
+  - name: "Pierre MARTIN"
+    role: "Viticulteur"
+    content: >-
+      "Matériel de qualité et équipe à l'écoute. Franchini propose des solutions adaptées aux besoins
+      des viticulteurs comme moi."
+    image: "/images/testimonials/pierre-martin.jpg"

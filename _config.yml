@@ -1,6 +1,6 @@
 # Configuration de base pour GitHub Pages
-# Pour un dépôt de projet, laissez baseurl vide
-baseurl: "" # Laissez vide pour un dépôt de projet GitHub Pages
+# Pour un dépôt de projet, utilisez le nom du dépôt comme baseurl
+baseurl: "/mon-site-web" # Chemin vers le dépôt GitHub
 url: "https://cedric-f-26.github.io" # URL de base de GitHub Pages
 
 # Configuration pour GitHub Pages
@@ -30,6 +30,64 @@ include:
   - CNAME
   - robots.txt
   - sitemap.xml
+
+# Exclure les fichiers et dossiers inutiles
+exclude:
+  - node_modules/
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - README.md
+  - .gitignore
+  - .github/
+  - .vscode/
+  - .git/
+
+# Configuration des chemins
+destination: _site
+plugins_dir: _plugins
+layouts_dir: _layouts
+data_dir: _data
+collections_dir: _collections
+
+# Configuration pour les fichiers statiques
+static_files:
+  - assets/css/:/css/
+  - assets/js/:/js/
+  - assets/images/:/images/
+  - assets/fonts/:/fonts/
+  - assets/downloads/:/downloads/
+
+# Configuration pour les marques et modèles
+brands:
+  - name: Deutz-Fahr
+    logo: /assets/images/brands/deutz-fahr.png
+    url: /marques/deutz-fahr
+  - name: Stoll
+    logo: /assets/images/brands/stoll.png
+    url: /marques/stoll
+  - name: Kramp
+    logo: /assets/images/brands/kramp.png
+    url: /marques/kramp
+  - name: Kverneland
+    logo: /assets/images/brands/kverneland.png
+    url: /marques/kverneland
+
+# Configuration pour les réseaux sociaux
+social_links:
+  - name: Facebook
+    url: https://www.facebook.com/Franchini26300
+    icon: facebook
+  - name: Instagram
+    url: https://www.instagram.com/franchini_agricole
+    icon: instagram
+  - name: YouTube
+    url: https://www.youtube.com/user/FranchiniAgricole
+    icon: youtube
+  - name: LinkedIn
+    url: https://www.linkedin.com/company/franchini-agricole
+    icon: linkedin
 
 # Paramètres de permaliens (pour des URLs propres)
 permalink: pretty
