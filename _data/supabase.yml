@@ -1,6 +1,7 @@
-# Configuration Supabase
-supabase_url: "https://votre-projet-supabase.supabase.co"
-supabase_key: "votre-cle-api-supabase"
+# Configuration Supabase (les valeurs réelles sont chargées depuis les variables d'environnement)
+supabase_url: "${NEXT_PUBLIC_SUPABASE_URL}"
+supabase_key: "${NEXT_PUBLIC_SUPABASE_ANON_KEY}"
+service_role_key: "${SUPABASE_SERVICE_ROLE_KEY}"
 
 # Configuration des tables
 tables:

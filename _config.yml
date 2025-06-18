@@ -1,14 +1,12 @@
-# Configuration de base pour GitHub Pages
-# Pour un dépôt de projet, utilisez le nom du dépôt comme baseurl
-baseurl: "/Site-franchini" # Chemin vers le dépôt GitHub
-url: "https://cedric-f-26.github.io" # URL de base de GitHub Pages
+# Configuration pour Vercel
+baseurl: ""
+url: "" # Laissé vide - sera automatiquement géré par Vercel
 
 # Configuration pour GitHub Pages
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
-  - jekyll-assets
   - jekyll-minifier
 
 # Configuration pour jekyll-assets
@@ -148,7 +146,6 @@ collections:
   pages:
     output: true
     permalink: /:path/
-
 
 # Exclure des fichiers de la construction
 exclude:

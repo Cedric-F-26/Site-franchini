@@ -7,17 +7,24 @@
     "dev": "bundle exec jekyll serve --watch --port 3000 --incremental",
     "build": "bundle exec jekyll build",
     "start": "bundle exec jekyll serve --port 3000",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint '**/*.js' --quiet",
+    "format": "prettier --write '**/*.{js,json,md,yml}'",
+    "analyze": "bundle-audit check --update"
   },
   "engines": {
     "node": ">=16.0.0",
     "ruby": ">=3.1.0"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
     "@vercel/static-build": "^3.0.0"
   },
   "devDependencies": {
-    "vercel": "^28.0.0"
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.1.1",
+    "vercel": "^33.1.7"
   },
   "vercel": {
     "buildCommand": "npm install && bundle install && bundle exec jekyll build",
