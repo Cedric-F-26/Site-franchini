@@ -6,12 +6,8 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "_site",
-        "cleanUrls": true,
-        "trailingSlash": false,
-        "env": {
-          "VERCEL_ENV": "production"
-        },
-        "outputDirectory": "_site"
+        "installCommand": "npm install --ignore-scripts=false",
+        "buildCommand": "bundle install && bundle exec jekyll build"
       }
     }
   ],
