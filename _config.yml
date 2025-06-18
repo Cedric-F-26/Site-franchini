@@ -2,6 +2,15 @@
 baseurl: "/Site-franchini" # Chemin de base pour le dépôt GitHub
 url: "https://cedric-f-26.github.io" # URL de base de GitHub Pages
 
+# Configuration pour GitHub Pages
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Désactiver Jekyll sur GitHub Pages
+whitelist: ["jekyll-feed", "jekyll-seo-tag", "jekyll-sitemap"]
+
 # Paramètres du site
 title: Franchini - Concessionnaire Deutz-Fahr
 description: Concessionnaire officiel Deutz-Fahr - Matériel agricole neuf et d'occasion
