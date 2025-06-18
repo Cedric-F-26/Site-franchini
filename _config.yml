@@ -1,6 +1,6 @@
 # Configuration de base pour GitHub Pages
-baseurl: "" # Chemin de base pour le site (laisser vide pour la racine)
-url: "https://franchini.fr" # URL de production du site
+baseurl: "/Site-franchini" # Chemin de base pour le dépôt GitHub
+url: "https://cedric-f-26.github.io" # URL de base de GitHub Pages
 
 # Paramètres du site
 title: Franchini - Concessionnaire Deutz-Fahr

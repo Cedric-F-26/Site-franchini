@@ -9,12 +9,12 @@
     {% seo %}
     
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
+    <link rel="icon" type="image/x-icon" href="{{ site.baseurl }}/favicon.ico">
     
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ '/assets/css/carousel.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/css/header.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/css/footer.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/carousel.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/header.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/footer.css">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -27,7 +27,7 @@
     <style>
         /* Styles spécifiques à la page d'accueil */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('assets/images/hero-bg.jpg') no-repeat center center/cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ site.baseurl }}/assets/images/autres/tracteur.jpg') no-repeat center center/cover;
             color: white;
             text-align: center;
             padding: 150px 20px;
@@ -57,8 +57,8 @@
     {% include footer.html %}
     
     <!-- Scripts JS -->
-    <script src="{{ '/assets/js/carousel.js' | relative_url }}"></script>
-    <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+    <script src="{{ site.baseurl }}/assets/js/carousel.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/main.js"></script>
     
     <!-- Scripts spécifiques à la page -->
     {% if page.scripts %}
