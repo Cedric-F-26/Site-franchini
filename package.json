@@ -27,21 +27,8 @@
     "vercel": "^33.x"
   },
   "vercel": {
-    "buildCommand": "npm install && bundle install && bundle exec jekyll build",
-    "outputDirectory": "_site",
-    "cleanUrls": true,
-    "trailingSlash": false,
-    "headers": [
-      {
-        "source": "/(.*)",
-        "headers": [
-          {
-            "key": "Cache-Control",
-            "value": "public, max-age=31536000, immutable"
-          }
-        ]
-      }
-    ]
+    "buildCommand": "npm install && gem install bundler && bundle install && bundle exec jekyll build",
+    "outputDirectory": "_site"
   },
   "browserslist": [
     "defaults"

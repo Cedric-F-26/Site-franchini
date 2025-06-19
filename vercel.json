@@ -6,8 +6,7 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "_site",
-        "installCommand": "npm install --ignore-scripts=false",
-        "buildCommand": "bundle install && bundle exec jekyll build"
+        "installCommand": "npm install --ignore-scripts=false && gem install bundler && bundle install"
       }
     }
   ],
