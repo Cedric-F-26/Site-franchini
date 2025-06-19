@@ -90,13 +90,17 @@ function initMobileMenu() {
  * Charge un fichier HTML et l'insère dans l'élément spécifié
  * @param {string} elementId - ID de l'élément cible
  * @param {string} filePath - Chemin vers le fichier à charger
- * @returns {Promise<boolean>} True si le chargement a réussi
+ * @returns {Promise<string>} JSON stringifié avec le statut et les données
  */
 async function loadInclude(elementId, filePath) {
     try {
         const response = await fetch(filePath);
         if (!response.ok) {
-            throw new Error(`Erreur de chargement: ${response.status} ${response.statusText}`);
+            throw new Error(JSON.stringify({
+                error: `Erreur de chargement: ${response.status} ${response.statusText}`,
+                status: response.status,
+                file: filePath
+            }));
         }
         
         const html = await response.text();
@@ -104,8 +108,20 @@ async function loadInclude(elementId, filePath) {
         
         if (element) {
             element.outerHTML = html;
-            return true;
+            return JSON.stringify({ 
+                success: true, 
+                elementId,
+                filePath
+            });
         }
+        
+        return JSON.stringify({ 
+            success: false, 
+            error: 'Élément cible non trouvé',
+            elementId,
+            filePath
+        });
+        
     } catch (error) {
         console.error(`Erreur lors du chargement de ${filePath}:`, error);
         
@@ -115,9 +131,23 @@ async function loadInclude(elementId, filePath) {
             console.log(`Tentative de chargement avec le chemin alternatif: ${altPath}`);
             return loadInclude(elementId, altPath);
         }
+        
+        // Gérer l'erreur et retourner un message d'erreur structuré
+        let errorMessage = 'Erreur inconnue';
+        try {
+            const errorData = JSON.parse(error.message);
+            errorMessage = errorData.error || error.message;
+        } catch (e) {
+            errorMessage = error.message || 'Erreur inconnue';
+        }
+        
+        return JSON.stringify({
+            success: false,
+            error: errorMessage,
+            elementId,
+            filePath
+        });
     }
-    
-    return false;
 }
 
 /**

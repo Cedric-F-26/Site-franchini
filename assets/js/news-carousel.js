@@ -160,34 +160,114 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Tenter de charger les actualités depuis l'API
         fetch('/api/actualites')
-            .then(response => {
+            .then(async response => {
+                const responseData = await response.json().catch(() => ({}));
+                
                 if (!response.ok) {
-                    throw new Error(`Erreur HTTP ! statut: ${response.status}`);
+                    throw new Error(JSON.stringify({
+                        error: `Erreur HTTP: ${response.status} ${response.statusText}`,
+                        status: response.status,
+                        details: responseData.message || 'Aucun détail supplémentaire',
+                        timestamp: new Date().toISOString()
+                    }));
                 }
-                return response.json();
+                
+                if (!responseData.success) {
+                    throw new Error(JSON.stringify({
+                        error: 'Réponse API non réussie',
+                        status: 200, // Le statut HTTP est 200 mais success est false
+                        details: responseData.message || 'Aucun détail supplémentaire',
+                        timestamp: new Date().toISOString()
+                    }));
+                }
+                
+                return responseData;
             })
             .then(data => {
-                if (data.success && data.actualites && data.actualites.length > 0) {
+                if (data.actualites && data.actualites.length > 0) {
                     initNewsCarousel(data.actualites);
+                    return JSON.stringify({
+                        success: true,
+                        count: data.actualites.length,
+                        message: 'Actualités chargées avec succès',
+                        timestamp: new Date().toISOString()
+                    });
                 } else {
                     // Si l'API ne renvoie pas de données, utiliser les données statiques
                     const actualites = typeof actualitesStatiques !== 'undefined' ? actualitesStatiques : [];
                     if (actualites && actualites.length > 0) {
                         initNewsCarousel(actualites);
+                        return JSON.stringify({
+                            success: true,
+                            count: actualites.length,
+                            source: 'fallback',
+                            message: 'Actualités chargées depuis la source de secours',
+                            timestamp: new Date().toISOString()
+                        });
                     } else {
-                        showNoNewsMessage(actualitesContainer, data?.message);
+                        const message = data?.message || 'Aucune actualité disponible';
+                        showNoNewsMessage(actualitesContainer, message);
+                        return JSON.stringify({
+                            success: false,
+                            error: 'Aucune donnée disponible',
+                            details: message,
+                            timestamp: new Date().toISOString()
+                        });
                     }
                 }
             })
-            .catch(apiError => {
-                console.error('Erreur API, utilisation des données statiques:', apiError);
+            .catch(error => {
+                console.error('Erreur lors du chargement des actualités:', error);
+                
+                let errorMessage = 'Impossible de charger les actualités';
+                let errorDetails = {};
+                
+                try {
+                    const errorData = JSON.parse(error.message);
+                    errorMessage = errorData.error || errorMessage;
+                    errorDetails = {
+                        status: errorData.status,
+                        details: errorData.details,
+                        timestamp: errorData.timestamp
+                    };
+                } catch (e) {
+                    errorDetails = {
+                        originalError: error.message,
+                        timestamp: new Date().toISOString()
+                    };
+                }
+                
                 // En cas d'erreur API, utiliser les données statiques
                 const actualites = typeof actualitesStatiques !== 'undefined' ? actualitesStatiques : [];
                 if (actualites && actualites.length > 0) {
                     initNewsCarousel(actualites);
+                    return JSON.stringify({
+                        success: true,
+                        count: actualites.length,
+                        source: 'fallback',
+                        message: 'Actualités chargées depuis la source de secours après une erreur',
+                        error: errorMessage,
+                        ...errorDetails
+                    });
                 } else {
-                    showNoNewsMessage(actualitesContainer, 'Impossible de charger les actualités.');
+                    showNoNewsMessage(actualitesContainer, errorMessage);
+                    return JSON.stringify({
+                        success: false,
+                        error: errorMessage,
+                        ...errorDetails
+                    });
                 }
+            })
+            .then(result => {
+                if (result) {
+                    try {
+                        const data = JSON.parse(result);
+                        console.log('Résultat du chargement des actualités:', data);
+                    } catch (e) {
+                        console.log('Résultat du chargement des actualités (format non JSON):', result);
+                    }
+                }
+                return result;
             });
     } catch (error) {
         console.error('Erreur lors du chargement des actualités:', error);
