@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réinitialisation du mot de passe - Franchini</title>
+    <title>RÃ©initialisation du mot de passe - Franchini</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/footer-style.css">
+    <link rel="stylesheet" href="../assets/css/footer-optimized.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
@@ -168,10 +168,10 @@
                         <a href="concession.html">La concession</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#">Matériel neuf</a>
+                        <a href="#">MatÃ©riel neuf</a>
                         <div class="dropdown-content">
-                            <a href="materiel.html">Matériel neuf</a>
-                            <a href="materiel-disponible.html">Matériel neuf disponible</a>
+                            <a href="materiel.html">MatÃ©riel neuf</a>
+                            <a href="materiel-disponible.html">MatÃ©riel neuf disponible</a>
                         </div>
                     </li>
                     <li><a href="location.html">Location</a></li>
@@ -189,8 +189,8 @@
             <div class="login-box">
                 <div class="login-header">
                     <i class="fas fa-envelope-open-text"></i>
-                    <h1>Mot de passe oublié ?</h1>
-                    <p>Entrez votre adresse e-mail ci-dessous. Si un compte est associé à cet e-mail, nous vous enverrons un lien pour réinitialiser votre mot de passe.</p>
+                    <h1>Mot de passe oubliÃ© ?</h1>
+                    <p>Entrez votre adresse e-mail ci-dessous. Si un compte est associÃ© Ã  cet e-mail, nous vous enverrons un lien pour rÃ©initialiser votre mot de passe.</p>
                 </div>
 
                 <div id="response-message" class="message" style="display: none;">
@@ -208,13 +208,13 @@
                     </div>
                     <button type="submit" class="btn-submit">
                         <i class="fas fa-paper-plane"></i>
-                        Envoyer le lien de réinitialisation
+                        Envoyer le lien de rÃ©initialisation
                     </button>
                 </form>
                 
                 <a href="connexion-prive.html" class="back-link">
                     <i class="fas fa-arrow-left"></i>
-                    Retour à la connexion
+                    Retour Ã  la connexion
                 </a>
             </div>
         </div>
@@ -236,15 +236,15 @@
                 event.preventDefault();
                 const email = emailInput.value;
 
-                // Temporaire: Afficher un message de succès simulé
+                // Temporaire: Afficher un message de succÃ¨s simulÃ©
                 // Plus tard, ici on fera un appel AJAX vers un script PHP
                 responseMessageDiv.className = 'message success'; // Change la classe pour le style
                 responseMessageIcon.className = 'fas fa-check-circle';
-                responseMessageSpan.textContent = 'Si un compte est associé à ' + email + ', un e-mail de réinitialisation a été envoyé. Veuillez vérifier votre boîte de réception (et vos spams).';
+                responseMessageSpan.textContent = 'Si un compte est associÃ© Ã  ' + email + ', un e-mail de rÃ©initialisation a Ã©tÃ© envoyÃ©. Veuillez vÃ©rifier votre boÃ®te de rÃ©ception (et vos spams).';
                 responseMessageDiv.style.display = 'flex';
                 emailInput.value = ''; // Vider le champ email
 
-                // TODO: Implémenter l'appel AJAX vers l'API de réinitialisation de mot de passe
+                // TODO: ImplÃ©menter l'appel AJAX vers l'API de rÃ©initialisation de mot de passe
                 /*
                 const formData = new FormData();
                 formData.append('email', email);
@@ -261,7 +261,7 @@
                             if (response.success) {
                                 responseMessageDiv.className = 'message success';
                                 responseMessageIcon.className = 'fas fa-check-circle';
-                                responseMessageSpan.textContent = response.message || 'Demande traitée. Vérifiez vos e-mails.';
+                                responseMessageSpan.textContent = response.message || 'Demande traitÃ©e. VÃ©rifiez vos e-mails.';
                                 emailInput.value = ''; // Vider le champ email
                             } else {
                                 responseMessageDiv.className = 'message error';
@@ -284,7 +284,7 @@
                     responseMessageDiv.style.display = 'flex';
                     responseMessageDiv.className = 'message error';
                     responseMessageIcon.className = 'fas fa-exclamation-triangle';
-                    responseMessageSpan.textContent = 'Erreur réseau.';
+                    responseMessageSpan.textContent = 'Erreur rÃ©seau.';
                 };
                 xhr.send(formData);
                 */
@@ -310,11 +310,12 @@
             </a>
         </div>
         <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
-            © 2024 Franchini SARL. Tous droits réservés.
-            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
+            Â© 2024 Franchini SARL. Tous droits rÃ©servÃ©s.
+            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privÃ©e</a>
         </div>
     </div>
 </footer>
 
 </body>
 </html>
+

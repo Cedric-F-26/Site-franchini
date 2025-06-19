@@ -1,4 +1,4 @@
----
+﻿---
 layout: default
 title: Accueil
 ---
@@ -7,28 +7,28 @@ title: Accueil
 <div class="home-page">
     <!-- Carrousel Principal -->
     <div class="main-carousel">
-        <img src="{{ '/assets/images/autres/tracteur.jpg' | relative_url }}" alt="Bannière principale" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+        <img src="{{ '/assets/images/autres/tracteur.jpg' | relative_url }}" alt="BanniÃ¨re principale" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
     </div>
 
     <!-- Section des Carrousels -->
     <div class="carousels-container">
-        <!-- Carrousel des Actualités -->
+        <!-- Carrousel des ActualitÃ©s -->
         <section class="carousel-section">
-            <h2><a href="{{ '/pages/actualites.html' | relative_url }}">Actualités</a></h2>
+            <h2><a href="{{ '/pages/actualites.html' | relative_url }}">ActualitÃ©s</a></h2>
             <div class="carousel" id="news-carousel">
                 <div class="carousel-slide active">
-                    <img src="{{ '/assets/images/news1.jpg' | relative_url }}" alt="Actualité 1" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <img src="{{ '/assets/images/news1.jpg' | relative_url }}" alt="ActualitÃ© 1" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
                     <div class="carousel-content">
-                        <h3>Titre de l'actualité 1</h3>
-                        <p>Description courte de l'actualité 1 avec quelques détails intéressants.</p>
+                        <h3>Titre de l'actualitÃ© 1</h3>
+                        <p>Description courte de l'actualitÃ© 1 avec quelques dÃ©tails intÃ©ressants.</p>
                         <a href="#" class="read-more">Lire la suite</a>
                     </div>
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ '/assets/images/news2.jpg' | relative_url }}" alt="Actualité 2" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <img src="{{ '/assets/images/news2.jpg' | relative_url }}" alt="ActualitÃ© 2" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
                     <div class="carousel-content">
-                        <h3>Titre de l'actualité 2</h3>
-                        <p>Description courte de l'actualité 2 avec quelques détails intéressants.</p>
+                        <h3>Titre de l'actualitÃ© 2</h3>
+                        <p>Description courte de l'actualitÃ© 2 avec quelques dÃ©tails intÃ©ressants.</p>
                         <a href="#" class="read-more">Lire la suite</a>
                     </div>
                 </div>
@@ -42,29 +42,29 @@ title: Accueil
                 <div class="carousel-slide active">
                     <img src="{{ '/assets/images/occasion/occasion1.jpg' | relative_url }}" alt="Occasion 1" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
                     <div class="carousel-content">
-                        <h3>Occasion spéciale 1</h3>
-                        <p>Description de l'occasion spéciale avec détails importants.</p>
-                        <span class="price">Prix: €XXX</span>
+                        <h3>Occasion spÃ©ciale 1</h3>
+                        <p>Description de l'occasion spÃ©ciale avec dÃ©tails importants.</p>
+                        <span class="price">Prix: â‚¬XXX</span>
                     </div>
                 </div>
                 <div class="carousel-slide">
                     <img src="{{ '/assets/images/occasion/occasion2.jpg' | relative_url }}" alt="Occasion 2" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
                     <div class="carousel-content">
-                        <h3>Occasion spéciale 2</h3>
-                        <p>Description de l'occasion spéciale avec détails importants.</p>
-                        <span class="price">Prix: €XXX</span>
+                        <h3>Occasion spÃ©ciale 2</h3>
+                        <p>Description de l'occasion spÃ©ciale avec dÃ©tails importants.</p>
+                        <span class="price">Prix: â‚¬XXX</span>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 </div>
-<!-- Les styles sont déjà inclus dans le layout -->
+<!-- Les styles sont dÃ©jÃ  inclus dans le layout -->
 
 <style>
-    /* Styles spécifiques à la page d'accueil */
+    /* Styles spÃ©cifiques Ã  la page d'accueil */
     .home-page {
-        margin-top: 20px; /* Ajout d'une marge en haut pour l'espacement avec l'en-tête */
+        margin-top: 20px; /* Ajout d'une marge en haut pour l'espacement avec l'en-tÃªte */
     }
     
     .main-carousel {
@@ -517,43 +517,43 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(`Initialisation du carrousel: ${carouselId}`);
         const carousel = document.querySelector(`#${carouselId}`);
         if (!carousel) {
-            console.error(`Carrousel non trouvé: #${carouselId}`);
+            console.error(`Carrousel non trouvÃ©: #${carouselId}`);
             return;
         }
             }
             
             const slides = carousel.querySelectorAll('.carousel-slide');
-            console.log(`${slides.length} diapositives trouvées`);
+            console.log(`${slides.length} diapositives trouvÃ©es`);
             
             if (slides.length === 0) {
-                console.error('Aucune diapositive trouvée dans le carrousel');
+                console.error('Aucune diapositive trouvÃ©e dans le carrousel');
                 return;
         function nextSlide() {
             let newIndex = (currentSlide + 1) % slides.length;
             showSlide(newIndex);
         }
         
-        // Fonction pour démarrer le défilement automatique
+        // Fonction pour dÃ©marrer le dÃ©filement automatique
         function startCarousel() {
             stopCarousel();
             slideInterval = setInterval(nextSlide, 5000); // Change de slide toutes les 5 secondes
         }
         
-        // Fonction pour arrêter le défilement automatique
+        // Fonction pour arrÃªter le dÃ©filement automatique
         function stopCarousel() {
             if (slideInterval) {
                 clearInterval(slideInterval);
             }
         }
         
-        // Événements pour la navigation
+        // Ã‰vÃ©nements pour la navigation
         carousel.addEventListener('mouseenter', stopCarousel);
         carousel.addEventListener('mouseleave', startCarousel);
         
-        // Afficher la première diapositive
+        // Afficher la premiÃ¨re diapositive
         showSlide(currentSlide);
         
-        // Démarrer le défilement automatique
+        // DÃ©marrer le dÃ©filement automatique
         startCarousel();
     }
     
@@ -562,3 +562,4 @@ document.addEventListener('DOMContentLoaded', function() {
     initCarousel('occasions-carousel');
 });
 </script>
+

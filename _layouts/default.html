@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -14,10 +14,8 @@
     <!-- CSS -->
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/carousel.css">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/header.css">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/footer.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/footer-optimized.css">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/footer-logo.css">
-    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/footer-style.css">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -28,7 +26,7 @@
     <!-- Styles inline pour la page d'accueil -->
     {% if page.url == '/' %}
     <style>
-        /* Styles spécifiques à la page d'accueil */
+        /* Styles spÃ©cifiques Ã  la page d'accueil */
         .hero {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{{ site.baseurl }}/assets/images/autres/tracteur.jpg') no-repeat center center/cover;
             color: white;
@@ -63,7 +61,7 @@
     <script src="{{ site.baseurl }}/assets/js/carousel.js"></script>
     <script src="{{ site.baseurl }}/assets/js/main.js"></script>
     
-    <!-- Script pour gérer les carrousels vides -->
+    <!-- Script pour gÃ©rer les carrousels vides -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const carousels = document.querySelectorAll('.carousel');
@@ -78,7 +76,7 @@
         });
     </script>
     
-    <!-- Scripts spécifiques à la page -->
+    <!-- Scripts spÃ©cifiques Ã  la page -->
     {% if page.scripts %}
         {% for script in page.scripts %}
             <script src="{{ script | relative_url }}"></script>
@@ -86,3 +84,4 @@
     {% endif %}
 </body>
 </html>
+

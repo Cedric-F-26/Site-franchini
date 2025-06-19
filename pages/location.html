@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Location - Franchini</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/footer-style.css">
+    <link rel="stylesheet" href="../assets/css/footer-optimized.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -167,10 +167,10 @@
                         <a href="concession.html">La concession</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#">Matériel neuf</a>
+                        <a href="#">MatÃ©riel neuf</a>
                         <div class="dropdown-content">
-                            <a href="materiel.html">Matériel neuf</a>
-                            <a href="materiel-disponible.html">Matériel neuf disponible</a>
+                            <a href="materiel.html">MatÃ©riel neuf</a>
+                            <a href="materiel-disponible.html">MatÃ©riel neuf disponible</a>
                         </div>
                     </li>
                     <li><a href="location.html" class="active">Location</a></li>
@@ -186,8 +186,8 @@
     <main>
         <section class="page-header">
             <div class="container">
-                <h1>Location de Matériel Agricole</h1>
-                <p>Franchini vous propose une large gamme de matériels agricoles à la location pour répondre à vos besoins saisonniers.</p>
+                <h1>Location de MatÃ©riel Agricole</h1>
+                <p>Franchini vous propose une large gamme de matÃ©riels agricoles Ã  la location pour rÃ©pondre Ã  vos besoins saisonniers.</p>
             </div>
         </section>
 
@@ -195,33 +195,33 @@
             <div class="container">
                 <div class="location-info">
                     <h2>Nos services de location</h2>
-                    <p>Franchini met à votre disposition une flotte de matériels agricoles récents et parfaitement entretenus pour répondre à vos besoins ponctuels ou saisonniers. Notre service de location vous permet de :</p>
+                    <p>Franchini met Ã  votre disposition une flotte de matÃ©riels agricoles rÃ©cents et parfaitement entretenus pour rÃ©pondre Ã  vos besoins ponctuels ou saisonniers. Notre service de location vous permet de :</p>
                     <ul>
-                        <li>Accéder à du matériel performant sans investissement lourd</li>
-                        <li>Répondre à vos besoins ponctuels lors des pics d'activité</li>
-                        <li>Tester un matériel avant un éventuel achat</li>
-                        <li>Bénéficier d'un matériel toujours en parfait état de fonctionnement</li>
+                        <li>AccÃ©der Ã  du matÃ©riel performant sans investissement lourd</li>
+                        <li>RÃ©pondre Ã  vos besoins ponctuels lors des pics d'activitÃ©</li>
+                        <li>Tester un matÃ©riel avant un Ã©ventuel achat</li>
+                        <li>BÃ©nÃ©ficier d'un matÃ©riel toujours en parfait Ã©tat de fonctionnement</li>
                         <li>Profiter d'une assistance technique en cas de besoin</li>
                     </ul>
-                    <p>Pour toute demande de location, contactez notre service commercial au <strong>04 75 73 52 82</strong> ou par email à <strong>commerce@franchini-agri.fr</strong>.</p>
+                    <p>Pour toute demande de location, contactez notre service commercial au <strong>04 75 73 52 82</strong> ou par email Ã  <strong>commerce@franchini-agri.fr</strong>.</p>
                 </div>
 
-                <h2>Matériels disponibles à la location</h2>
+                <h2>MatÃ©riels disponibles Ã  la location</h2>
                 <div id="location-container" class="location-grid">
-                    <!-- Le contenu sera chargé dynamiquement depuis l'administration -->
+                    <!-- Le contenu sera chargÃ© dynamiquement depuis l'administration -->
                 </div>
                 <div class="no-results" style="display: block; text-align: center; padding: 2rem;">
-                    <p>Aucun matériel disponible à la location pour le moment.</p>
-                    <p>N'hésitez pas à nous contacter pour plus d'informations sur nos offres de location.</p>
+                    <p>Aucun matÃ©riel disponible Ã  la location pour le moment.</p>
+                    <p>N'hÃ©sitez pas Ã  nous contacter pour plus d'informations sur nos offres de location.</p>
                 </div>
                 
                 <script>
-                    // Fonction pour charger les matériels de location depuis l'administration
+                    // Fonction pour charger les matÃ©riels de location depuis l'administration
                     document.addEventListener('DOMContentLoaded', function() {
-                        // Tableau vide car on supprime les entrées statiques
+                        // Tableau vide car on supprime les entrÃ©es statiques
                         const locationItems = [];
                         
-                        // Affichage des matériels de location
+                        // Affichage des matÃ©riels de location
                         const locationContainer = document.getElementById('location-container');
                         const noResults = document.querySelector('.no-results');
                         
@@ -248,7 +248,7 @@
                                          alt="${item.title}" 
                                          onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                                     <div class="location-card-content">
-                                        <h3>${item.title || 'Matériel de location'}</h3>
+                                        <h3>${item.title || 'MatÃ©riel de location'}</h3>
                                         ${specsHTML}
                                         <div class="price">${item.price || 'Prix sur demande'}</div>
                                         <a href="contact.html" class="btn-details">Demander un devis</a>
@@ -264,14 +264,14 @@
                 <div class="location-info" style="margin-top: 30px;">
                     <h2>Conditions de location</h2>
                     <ul>
-                        <li>Durée minimum de location : 1 jour</li>
-                        <li>Tarifs dégressifs en fonction de la durée</li>
-                        <li>Caution demandée avant la prise en charge du matériel</li>
-                        <li>Livraison possible sur votre exploitation (en supplément)</li>
-                        <li>Formation à l'utilisation du matériel incluse</li>
-                        <li>Assurance à la charge du locataire</li>
+                        <li>DurÃ©e minimum de location : 1 jour</li>
+                        <li>Tarifs dÃ©gressifs en fonction de la durÃ©e</li>
+                        <li>Caution demandÃ©e avant la prise en charge du matÃ©riel</li>
+                        <li>Livraison possible sur votre exploitation (en supplÃ©ment)</li>
+                        <li>Formation Ã  l'utilisation du matÃ©riel incluse</li>
+                        <li>Assurance Ã  la charge du locataire</li>
                     </ul>
-                    <p>N'hésitez pas à nous contacter pour obtenir un devis personnalisé adapté à vos besoins spécifiques.</p>
+                    <p>N'hÃ©sitez pas Ã  nous contacter pour obtenir un devis personnalisÃ© adaptÃ© Ã  vos besoins spÃ©cifiques.</p>
                 </div>
             </div>
         </section>
@@ -297,11 +297,12 @@
             </a>
         </div>
         <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
-            © 2024 Franchini SARL. Tous droits réservés.
-            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
+            Â© 2024 Franchini SARL. Tous droits rÃ©servÃ©s.
+            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privÃ©e</a>
         </div>
     </div>
 </footer>
 
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -50,12 +50,12 @@
         }
 
         async function testConnection() {
-            log('Début du test de connexion...');
+            log('DÃ©but du test de connexion...');
             
             try {
-                // Vérifier si Supabase est disponible
+                // VÃ©rifier si Supabase est disponible
                 if (typeof supabase === 'undefined') {
-                    throw new Error('Supabase n\'est pas chargé correctement');
+                    throw new Error('Supabase n\'est pas chargÃ© correctement');
                 }
                 
                 log('Supabase est disponible', 'success');
@@ -68,10 +68,10 @@
                 
                 // Initialiser Supabase
                 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                log('Client Supabase initialisé', 'success');
+                log('Client Supabase initialisÃ©', 'success');
                 
-                // Tester la connexion en récupérant les informations de la table 'actualites'
-                log('Tentative de connexion à la table "actualites"...');
+                // Tester la connexion en rÃ©cupÃ©rant les informations de la table 'actualites'
+                log('Tentative de connexion Ã  la table "actualites"...');
                 
                 const { data, error } = await supabaseClient
                     .from('actualites')
@@ -81,48 +81,49 @@
                 if (error) {
                     log(`Erreur Supabase: ${error.message}`, 'error');
                     resultDiv.innerHTML = `
-                        <p class="error">❌ Erreur de connexion à Supabase</p>
-                        <p>Détails: ${error.message}</p>
+                        <p class="error">âŒ Erreur de connexion Ã  Supabase</p>
+                        <p>DÃ©tails: ${error.message}</p>
                         <p>Code: ${error.code || 'N/A'}</p>
-                        <p>Détails: ${error.details || 'Aucun détail supplémentaire'}</p>
-                        <p>Conseil: Vérifiez que la table "actualites" existe dans votre base de données Supabase.</p>
+                        <p>DÃ©tails: ${error.details || 'Aucun dÃ©tail supplÃ©mentaire'}</p>
+                        <p>Conseil: VÃ©rifiez que la table "actualites" existe dans votre base de donnÃ©es Supabase.</p>
                     `;
                 } else {
-                    log('Connexion à Supabase réussie !', 'success');
-                    log(`Données récupérées: ${JSON.stringify(data, null, 2)}`, 'success');
+                    log('Connexion Ã  Supabase rÃ©ussie !', 'success');
+                    log(`DonnÃ©es rÃ©cupÃ©rÃ©es: ${JSON.stringify(data, null, 2)}`, 'success');
                     
                     resultDiv.innerHTML = `
-                        <p class="success">✅ Connexion à Supabase réussie !</p>
-                        <p>Nombre d'actualités trouvées : ${data ? data.length : 0}</p>
-                        <h3>Données brutes :</h3>
+                        <p class="success">âœ… Connexion Ã  Supabase rÃ©ussie !</p>
+                        <p>Nombre d'actualitÃ©s trouvÃ©es : ${data ? data.length : 0}</p>
+                        <h3>DonnÃ©es brutes :</h3>
                         <pre>${JSON.stringify(data, null, 2)}</pre>
-                        <h3>Prochaines étapes :</h3>
+                        <h3>Prochaines Ã©tapes :</h3>
                         <ol>
-                            <li>Créez une table "actualites" dans Supabase si elle n'existe pas</li>
-                            <li>Ajoutez des données de test</li>
-                            <li>Rafraîchissez cette page</li>
+                            <li>CrÃ©ez une table "actualites" dans Supabase si elle n'existe pas</li>
+                            <li>Ajoutez des donnÃ©es de test</li>
+                            <li>RafraÃ®chissez cette page</li>
                         </ol>
                     `;
                 }
             } catch (e) {
                 log(`Erreur inattendue: ${e.message}`, 'error');
-                console.error('Erreur complète:', e);
+                console.error('Erreur complÃ¨te:', e);
                 
                 resultDiv.innerHTML = `
-                    <p class="error">❌ Erreur inattendue</p>
+                    <p class="error">âŒ Erreur inattendue</p>
                     <p>${e.message}</p>
-                    <p>Veuillez vérifier la console du navigateur (F12) pour plus de détails.</p>
+                    <p>Veuillez vÃ©rifier la console du navigateur (F12) pour plus de dÃ©tails.</p>
                 `;
             }
         }
         
         // Lancer le test au chargement de la page
         document.addEventListener('DOMContentLoaded', () => {
-            log('Page chargée, démarrage du test...');
+            log('Page chargÃ©e, dÃ©marrage du test...');
             testConnection().catch(e => {
-                log(`Erreur lors de l'exécution du test: ${e.message}`, 'error');
+                log(`Erreur lors de l'exÃ©cution du test: ${e.message}`, 'error');
             });
         });
     </script>
 </body>
 </html>
+

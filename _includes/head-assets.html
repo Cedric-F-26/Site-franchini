@@ -1,4 +1,4 @@
-<!-- Chargement des polices -->
+﻿<!-- Chargement des polices -->
 <link rel="preload" href="{{ '/assets/fonts/opensans-regular.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="{{ '/assets/fonts/opensans-bold.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
 
@@ -6,11 +6,21 @@
 <link rel="preload" href="{{ '/assets/css/critical.css' | relative_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{{ '/assets/css/critical.css' | relative_url }}"></noscript>
 
-<!-- CSS non critiques (chargement différé) -->
+<!-- CSS non critiques (chargement diffÃ©rÃ©) -->
 <link rel="preload" href="{{ '/assets/css/style.css' | relative_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}"></noscript>
 
-<!-- Favicon et icônes -->
+<!-- Composants CSS -->
+<link rel="preload" href="{{ '/assets/css/header.css' | relative_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ '/assets/css/header.css' | relative_url }}"></noscript>
+
+<link rel="preload" href="{{ '/assets/css/footer-optimized.css' | relative_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ '/assets/css/footer-optimized.css' | relative_url }}"></noscript>
+
+<link rel="preload" href="{{ '/assets/css/carousel.css' | relative_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="{{ '/assets/css/carousel.css' | relative_url }}"></noscript>
+
+<!-- Favicon et icÃ´nes -->
 <link rel="apple-touch-icon" sizes="180x180" href="{{ '/assets/images/favicon/apple-touch-icon.png' | relative_url }}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{ '/assets/images/favicon/favicon-32x32.png' | relative_url }}">
 <link rel="icon" type="image/png" sizes="16x16" href="{{ '/assets/images/favicon/favicon-16x16.png' | relative_url }}">
@@ -20,12 +30,12 @@
 <meta name="msapplication-config" content="{{ '/browserconfig.xml' | relative_url }}">
 <meta name="theme-color" content="#00963F">
 
-<!-- Préchargement des images critiques -->
+<!-- PrÃ©chargement des images critiques -->
 <link rel="preload" href="{{ '/assets/images/logo/Logo%20Franchini%202.jpg' | relative_url }}" as="image">
 
 <!-- Chargement des scripts non critiques -->
 <script>
-  // Fonction pour charger les scripts de manière asynchrone
+  // Fonction pour charger les scripts de maniÃ¨re asynchrone
   function loadScript(src, callback) {
     var script = document.createElement('script');
     script.src = src;
@@ -34,9 +44,10 @@
     document.head.appendChild(script);
   }
   
-  // Chargement différé des scripts non critiques
+  // Chargement diffÃ©rÃ© des scripts non critiques
   document.addEventListener('DOMContentLoaded', function() {
     // Charger les scripts non critiques ici
     loadScript('{{ "/assets/js/main.js" | relative_url }}');
   });
 </script>
+

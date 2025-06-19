@@ -1,0 +1,191 @@
+/* ==========================================================================
+   #FOOTER STYLES - OPTIMIZED
+   ========================================================================== */
+/**
+ * Styles optimisés pour le pied de page du site Franchini
+ * Fusion de footer.css et footer-style.css
+ */
+
+:root {
+    --footer-bg: #1a1a1a;
+    --footer-text: #ffffff;
+    --footer-accent: #4CAF50;
+    --footer-hover: #45a049;
+    --footer-transition: all 0.3s ease;
+    --footer-border: rgba(255, 255, 255, 0.1);
+}
+
+/* ==========================================================================
+   #1. LAYOUT PRINCIPAL
+   ========================================================================== */
+
+.site-footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    padding: 60px 0 0;
+    margin-top: 60px;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Effet de séparation visuelle */
+.site-footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--footer-accent), #2e7d32);
+}
+
+/* Conteneur principal */
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+    position: relative;
+}
+
+/* Grille de colonnes */
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.footer-col {
+    padding: 0 15px;
+}
+
+/* Colonne de marque */
+.footer-brand {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.footer-logo {
+    color: var(--footer-accent);
+    font-size: 28px;
+    font-weight: 700;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+    display: block;
+    transition: color 0.3s ease;
+}
+
+.footer-logo:hover {
+    color: var(--footer-hover);
+}
+
+/* Liens du footer */
+.footer-links h3,
+.footer-contact h3 {
+    color: var(--footer-accent);
+    font-size: 18px;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-links h3::after,
+.footer-contact h3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--footer-accent);
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links ul li {
+    margin-bottom: 10px;
+}
+
+.footer-links ul li a {
+    color: #ddd;
+    text-decoration: none;
+    transition: var(--footer-transition);
+    display: block;
+    padding: 5px 0;
+}
+
+.footer-links ul li a:hover {
+    color: var(--footer-accent);
+    padding-left: 5px;
+}
+
+/* Section contact */
+.footer-contact {
+    margin-bottom: 20px;
+}
+
+.footer-contact p {
+    color: #ddd;
+    margin: 10px 0;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-contact i {
+    color: var(--footer-accent);
+    width: 20px;
+    text-align: center;
+}
+
+/* Bas du footer */
+.footer-bottom {
+    background-color: #111;
+    padding: 20px 0;
+    text-align: center;
+    border-top: 1px solid var(--footer-border);
+}
+
+.footer-bottom p {
+    margin: 0;
+    color: #aaa;
+    font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .footer-col {
+        padding: 0;
+        margin-bottom: 20px;
+    }
+    
+    .footer-links h3,
+    .footer-contact h3 {
+        cursor: pointer;
+    }
+    
+    .footer-links h3::after,
+    .footer-contact h3::after {
+        content: '▼';
+        right: 0;
+        left: auto;
+        width: auto;
+        height: auto;
+        background: none;
+        font-size: 12px;
+    }
+}

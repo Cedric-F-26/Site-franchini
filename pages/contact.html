@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -80,10 +80,10 @@
                         <a href="concession.html">La concession</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#">Matériel neuf</a>
+                        <a href="#">MatÃ©riel neuf</a>
                         <div class="dropdown-content">
-                            <a href="materiel.html">Matériel neuf</a>
-                            <a href="materiel-disponible.html">Matériel neuf disponible</a>
+                            <a href="materiel.html">MatÃ©riel neuf</a>
+                            <a href="materiel-disponible.html">MatÃ©riel neuf disponible</a>
                         </div>
                     </li>
                     <li><a href="location.html">Location</a></li>
@@ -108,22 +108,22 @@
                 <div class="contact-form-container">
                     <form id="contactForm" class="contact-form">
                         <div class="form-group">
-                            <label for="service">Service à contacter *</label>
+                            <label for="service">Service Ã  contacter *</label>
                             <select id="service" name="service" required>
-                                <option value="">Sélectionnez un service</option>
+                                <option value="">SÃ©lectionnez un service</option>
                                 <option value="commerce">Commercial</option>
                                 <option value="magasin">Magasin</option>
                                 <option value="sav">SAV</option>
-                                <option value="comptabilite">Comptabilité</option>
+                                <option value="comptabilite">ComptabilitÃ©</option>
                                 <option value="candidature">Candidature</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="name">Nom et Prénom *</label>
+                            <label for="name">Nom et PrÃ©nom *</label>
                             <input type="text" id="name" name="name" required>
                         </div>
                         <div class="form-group">
-                            <label for="company">Société</label>
+                            <label for="company">SociÃ©tÃ©</label>
                             <input type="text" id="company" name="company" placeholder="Nom de votre entreprise">
                         </div>
                         <div class="form-group">
@@ -131,7 +131,7 @@
                             <input type="email" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="phone">Téléphone</label>
+                            <label for="phone">TÃ©lÃ©phone</label>
                             <input type="tel" id="phone" name="phone">
                         </div>
                         <div class="form-group">
@@ -139,9 +139,9 @@
                             <textarea id="message" name="message" rows="5" required></textarea>
                         </div>
                         <div class="form-group" id="fichiers-candidature" style="display: none;">
-                            <label for="candidature-fichiers">Pièces jointes (CV, lettre de motivation...)</label>
+                            <label for="candidature-fichiers">PiÃ¨ces jointes (CV, lettre de motivation...)</label>
                             <input type="file" id="candidature-fichiers" name="fichiers" multiple accept=".pdf,.doc,.docx">
-                            <small class="file-info">Formats acceptés : PDF, DOC, DOCX (max. 10 Mo)</small>
+                            <small class="file-info">Formats acceptÃ©s : PDF, DOC, DOCX (max. 10 Mo)</small>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn-submit">Envoyer le message</button>
@@ -164,7 +164,7 @@
                             <p><i class="fas fa-envelope"></i> sav@franchini-agri.fr</p>
                         </div>
                         <div class="contact-card">
-                            <h3>Comptabilité</h3>
+                            <h3>ComptabilitÃ©</h3>
                             <p><i class="fas fa-phone"></i> 04 75 47 40 37</p>
                             <p><i class="fas fa-envelope"></i> comptabilite@franchini-agri.fr</p>
                         </div>
@@ -181,13 +181,13 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // Coordonnées de la concession
+        // CoordonnÃ©es de la concession
         const destinationCoords = [44.988699190507205, 5.1035036237241105];
 
         // Initialisation de la carte
         const map = L.map('map').setView(destinationCoords, 15);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
+            attribution: 'Â© OpenStreetMap contributors'
         }).addTo(map);
 
         // Marqueur de la concession
@@ -199,7 +199,7 @@
             <a href="https://maps.app.goo.gl/FtHrDhjkSmq5tMdg6" target="_blank">Voir sur Google Maps</a>
         `).openPopup();
         
-        // Afficher/masquer les champs de candidature en fonction du service sélectionné
+        // Afficher/masquer les champs de candidature en fonction du service sÃ©lectionnÃ©
         document.getElementById('service').addEventListener('change', function() {
             const fichiersDiv = document.getElementById('fichiers-candidature');
             if (this.value === 'candidature') {
@@ -209,7 +209,7 @@
             }
         });
         
-        // Limiter la taille des fichiers à 10Mo
+        // Limiter la taille des fichiers Ã  10Mo
         document.getElementById('candidature-fichiers').addEventListener('change', function() {
             const maxSize = 10 * 1024 * 1024; // 10 Mo en octets
             let totalSize = 0;
@@ -219,8 +219,8 @@
             }
             
             if (totalSize > maxSize) {
-                alert('La taille totale des fichiers ne doit pas dépasser 10 Mo.');
-                this.value = ''; // Réinitialiser le champ de fichier
+                alert('La taille totale des fichiers ne doit pas dÃ©passer 10 Mo.');
+                this.value = ''; // RÃ©initialiser le champ de fichier
             }
         });
     </script>
@@ -244,11 +244,12 @@
             </a>
         </div>
         <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
-            © 2024 Franchini SARL. Tous droits réservés.
-            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
+            Â© 2024 Franchini SARL. Tous droits rÃ©servÃ©s.
+            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privÃ©e</a>
         </div>
     </div>
 </footer>
 
 </body>
 </html>
+

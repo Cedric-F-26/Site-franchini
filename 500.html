@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -61,11 +61,11 @@
     <div class="error-container">
         <h1 class="error-code">500</h1>
         <h2 class="error-message">Oups ! Une erreur est survenue</h2>
-        <p>Désolé, une erreur interne du serveur s'est produite. Notre équipe technique a été notifiée et travaille à résoudre le problème.</p>
+        <p>DÃ©solÃ©, une erreur interne du serveur s'est produite. Notre Ã©quipe technique a Ã©tÃ© notifiÃ©e et travaille Ã  rÃ©soudre le problÃ¨me.</p>
         
         <div class="contact-info">
             <h3>Besoin d'aide ?</h3>
-            <p>Si le problème persiste, n'hésitez pas à nous contacter :</p>
+            <p>Si le problÃ¨me persiste, n'hÃ©sitez pas Ã  nous contacter :</p>
             <p>
                 <i class="fas fa-phone"></i> <a href="tel:+33475000000">04 75 00 00 00</a><br>
                 <i class="fas fa-envelope"></i> <a href="mailto:contact@franchini.fr">contact@franchini.fr</a>
@@ -73,8 +73,8 @@
         </div>
         
         <div style="margin-top: 30px;">
-            <a href="/" class="btn-home"><i class="fas fa-home"></i> Retour à l'accueil</a>
-            <a href="javascript:window.history.back();" class="btn-home"><i class="fas fa-arrow-left"></i> Page précédente</a>
+            <a href="/" class="btn-home"><i class="fas fa-home"></i> Retour Ã  l'accueil</a>
+            <a href="javascript:window.history.back();" class="btn-home"><i class="fas fa-arrow-left"></i> Page prÃ©cÃ©dente</a>
         </div>
     </div>
     
@@ -83,7 +83,7 @@
         if (window.performance && window.performance.getEntriesByType) {
             const navEntries = window.performance.getEntriesByType('navigation');
             if (navEntries.length > 0 && navEntries[0].type === 'back_forward') {
-                // Ne pas enregistrer les erreurs de navigation arrière/avant
+                // Ne pas enregistrer les erreurs de navigation arriÃ¨re/avant
                 return;
             }
         }
@@ -97,14 +97,14 @@
             error: '500 Internal Server Error'
         };
         
-        // Utiliser l'API de navigation pour détecter le type de connexion
+        // Utiliser l'API de navigation pour dÃ©tecter le type de connexion
         if (navigator.connection) {
             errorData.connectionType = navigator.connection.effectiveType;
             errorData.downlink = navigator.connection.downlink;
             errorData.rtt = navigator.connection.rtt;
         }
         
-        // Envoyer les données au serveur (si une API est disponible)
+        // Envoyer les donnÃ©es au serveur (si une API est disponible)
         if (typeof window.trackError === 'function') {
             window.trackError(errorData);
         } else {
@@ -114,3 +114,4 @@
     </script>
 </body>
 </html>
+

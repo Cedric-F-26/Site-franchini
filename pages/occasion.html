@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Occasions - Franchini</title>
     <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/footer-style.css">
+    <link rel="stylesheet" href="../assets/css/footer-optimized.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         /* Style du logo */
@@ -246,10 +246,10 @@
                         <a href="concession.html">La concession</a>
                     </li>
                     <li class="dropdown">
-                        <a href="#">Matériel neuf</a>
+                        <a href="#">MatÃ©riel neuf</a>
                         <div class="dropdown-content">
-                            <a href="materiel.html">Matériel neuf</a>
-                            <a href="materiel-disponible.html">Matériel neuf disponible</a>
+                            <a href="materiel.html">MatÃ©riel neuf</a>
+                            <a href="materiel-disponible.html">MatÃ©riel neuf disponible</a>
                         </div>
                     </li>
                     <li><a href="location.html">Location</a></li>
@@ -266,7 +266,7 @@
         <section class="page-header">
             <div class="container">
                 <h1>Nos occasions</h1>
-                <p>Découvrez notre sélection de tracteurs et matériels d'occasion</p>
+                <p>DÃ©couvrez notre sÃ©lection de tracteurs et matÃ©riels d'occasion</p>
             </div>
         </section>
 
@@ -276,23 +276,23 @@
                     <select id="type-filter" class="filter-select">
                         <option value="all">Tous les types</option>
                         <option value="tracteur">Tracteurs</option>
-                        <option value="materiel">Matériels</option>
+                        <option value="materiel">MatÃ©riels</option>
                     </select>
                     <select id="sort-filter" class="filter-select">
-                        <option value="recent">Plus récents</option>
+                        <option value="recent">Plus rÃ©cents</option>
                         <option value="price-asc">Prix croissant</option>
-                        <option value="price-desc">Prix décroissant</option>
+                        <option value="price-desc">Prix dÃ©croissant</option>
                     </select>
                 </div>
 
                 <div id="occasions-grid" class="occasions-grid">
-                    <!-- Les occasions seront chargées dynamiquement -->
+                    <!-- Les occasions seront chargÃ©es dynamiquement -->
                 </div>
 
                 <div id="no-occasions" class="no-occasions" style="display: none;">
                     <i class="fas fa-search"></i>
                     <h3>Aucune occasion disponible pour le moment</h3>
-                    <p>Veuillez revenir ultérieurement ou modifier vos critères de recherche.</p>
+                    <p>Veuillez revenir ultÃ©rieurement ou modifier vos critÃ¨res de recherche.</p>
                 </div>
             </div>
         </section>
@@ -303,7 +303,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Simuler le chargement des occasions depuis l'administration
-            // Dans une implémentation réelle, ces données viendraient d'une base de données
+            // Dans une implÃ©mentation rÃ©elle, ces donnÃ©es viendraient d'une base de donnÃ©es
             const occasionsData = [];
             
             // Afficher les occasions ou le message "aucune occasion"
@@ -311,7 +311,7 @@
                 const occasionsGrid = document.getElementById('occasions-grid');
                 const noOccasions = document.getElementById('no-occasions');
                 
-                // Filtrer les occasions selon les critères
+                // Filtrer les occasions selon les critÃ¨res
                 const typeFilter = document.getElementById('type-filter').value;
                 const sortFilter = document.getElementById('sort-filter').value;
                 
@@ -331,7 +331,7 @@
                     filteredOccasions.sort((a, b) => new Date(b.dateAjout) - new Date(a.dateAjout));
                 }
                 
-                // Afficher les résultats
+                // Afficher les rÃ©sultats
                 occasionsGrid.innerHTML = '';
                 
                 if (filteredOccasions.length === 0) {
@@ -345,7 +345,7 @@
                         const card = document.createElement('div');
                         card.className = 'occasion-card';
                         
-                        let typeLabel = occasion.type === 'tracteur' ? 'Tracteur' : 'Matériel';
+                        let typeLabel = occasion.type === 'tracteur' ? 'Tracteur' : 'MatÃ©riel';
                         
                         card.innerHTML = `
                             <div class="occasion-image">
@@ -377,10 +377,10 @@
                                         <span>${occasion.puissance} CV</span>
                                     </div>` : ''}
                                 </div>
-                                <div class="occasion-price">${occasion.prix.toLocaleString()} €</div>
+                                <div class="occasion-price">${occasion.prix.toLocaleString()} â‚¬</div>
                                 <div class="occasion-location">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <span>Disponible à Marches (26)</span>
+                                    <span>Disponible Ã  Marches (26)</span>
                                 </div>
                                 <a href="contact.html" class="occasion-contact">
                                     <i class="fas fa-envelope"></i>
@@ -394,7 +394,7 @@
                 }
             }
             
-            // Événements de filtrage
+            // Ã‰vÃ©nements de filtrage
             document.getElementById('type-filter').addEventListener('change', renderOccasions);
             document.getElementById('sort-filter').addEventListener('change', renderOccasions);
             
@@ -421,11 +421,12 @@
             </a>
         </div>
         <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
-            © 2024 Franchini SARL. Tous droits réservés.
-            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
+            Â© 2024 Franchini SARL. Tous droits rÃ©servÃ©s.
+            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privÃ©e</a>
         </div>
     </div>
 </footer>
 
 </body>
 </html>
+

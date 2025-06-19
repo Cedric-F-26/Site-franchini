@@ -1,22 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Vérification de l'authentification -->
+    <!-- VÃ©rification de l'authentification -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth/supabase-config.js"></script>
     <script>
-        // Vérifier l'authentification avant de charger la page
+        // VÃ©rifier l'authentification avant de charger la page
         document.addEventListener('DOMContentLoaded', async function() {
-            // Vérifier la session
+            // VÃ©rifier la session
             const { data: { session }, error } = await supabase.auth.getSession();
             
             if (error || !session) {
-                // Rediriger vers la page de connexion si non authentifié
+                // Rediriger vers la page de connexion si non authentifiÃ©
                 window.location.href = 'connexion-prive.html';
                 return;
             }
             
-            // Si l'utilisateur est authentifié, le reste de la page se charge normalement
+            // Si l'utilisateur est authentifiÃ©, le reste de la page se charge normalement
         });
     </script>
     <meta charset="UTF-8">
@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/footer-style.css">
+    <link rel="stylesheet" href="../assets/css/footer-optimized.css">
     <style>
         /* Style du logo */
         .logo-link {
@@ -76,7 +76,7 @@
             }
         }
 
-        /* Styles pour les zones de dépôt */
+        /* Styles pour les zones de dÃ©pÃ´t */
         .dropzone {
             border: 2px dashed #aaa;
             border-radius: 5px;
@@ -230,7 +230,7 @@
             font-size: 12px;
         }
         
-        /* Styles généraux */
+        /* Styles gÃ©nÃ©raux */
         body {
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
@@ -379,7 +379,7 @@
             color: #4CAF50;
         }
         
-        /* Style du bouton de déconnexion dans la barre de navigation */
+        /* Style du bouton de dÃ©connexion dans la barre de navigation */
         .logout-nav-item {
             margin-left: 5px;
         }
@@ -633,7 +633,7 @@
             margin-bottom: 10px;
         }
 
-        /* Styles pour les vignettes d'aperçu */
+        /* Styles pour les vignettes d'aperÃ§u */
         .thumbnail-preview {
             display: flex;
             flex-wrap: wrap;
@@ -694,7 +694,7 @@
             margin-right: 5px;
         }
 
-        /* Déjà défini plus haut */
+        /* DÃ©jÃ  dÃ©fini plus haut */
 
         .dropzone i {
             font-size: 2rem;
@@ -767,7 +767,7 @@
             text-decoration: underline;
         }
         
-        /* Styles pour le glisser-déposer */
+        /* Styles pour le glisser-dÃ©poser */
         .carousel-item {
             transition: transform 0.2s, box-shadow 0.2s;
             position: relative;
@@ -869,7 +869,7 @@
             background-color: #c0392b;
         }
         
-        /* Styles pour le carrousel d'actualités */
+        /* Styles pour le carrousel d'actualitÃ©s */
         .upload-group {
             margin-bottom: 1.5rem;
         }
@@ -1095,10 +1095,10 @@
                 <ul>
                     <li><a href="concession.html">La concession</a></li>
                     <li class="dropdown">
-                        <a href="#">Matériel neuf</a>
+                        <a href="#">MatÃ©riel neuf</a>
                         <div class="dropdown-content">
-                            <a href="materiel.html">Matériel neuf</a>
-                            <a href="materiel-disponible.html">Matériel neuf disponible</a>
+                            <a href="materiel.html">MatÃ©riel neuf</a>
+                            <a href="materiel-disponible.html">MatÃ©riel neuf disponible</a>
                         </div>
                     </li>
                     <li><a href="location.html">Location</a></li>
@@ -1116,10 +1116,10 @@
             <div class="user-info">
                 <h1>Panneau d'administration</h1>
                 <div>
-                    <span class="user-name">Connecté en tant que Cedric</span>
+                    <span class="user-name">ConnectÃ© en tant que Cedric</span>
                     <a href="connexion-prive.html" class="logout-btn">
                         <i class="fas fa-sign-out-alt"></i>
-                        Déconnexion
+                        DÃ©connexion
                     </a>
                 </div>
             </div>
@@ -1139,7 +1139,7 @@
                         <i class="fas fa-users" style="margin-right: 0.5rem;"></i> Utilisateurs
                     </a>
                     <button class="tab-btn" data-tab="actualites" style="padding: 0.75rem 1rem; white-space: nowrap; border: none; background: none; cursor: pointer; font-size: 0.9rem; border-bottom: 2px solid transparent;">
-                        <i class="fas fa-newspaper" style="margin-right: 0.5rem;"></i> Actualités
+                        <i class="fas fa-newspaper" style="margin-right: 0.5rem;"></i> ActualitÃ©s
                     </button>
                     <button class="tab-btn" data-tab="occasions" style="padding: 0.75rem 1rem; white-space: nowrap; border: none; background: none; cursor: pointer; font-size: 0.9rem; border-bottom: 2px solid transparent;">
                         <i class="fas fa-car" style="margin-right: 0.5rem;"></i> Occasions
@@ -1152,7 +1152,7 @@
                     </button>
                     <div style="margin-left: auto; display: flex; align-items: center;">
                         <button id="logout-btn" class="tab-btn" style="color: #dc3545; padding: 0.75rem 1rem; white-space: nowrap; border: none; background: none; cursor: pointer; font-size: 0.9rem; display: flex; align-items: center; border-bottom: 2px solid transparent;">
-                            <i class="fas fa-sign-out-alt" style="margin-right: 0.5rem;"></i> Déconnexion
+                            <i class="fas fa-sign-out-alt" style="margin-right: 0.5rem;"></i> DÃ©connexion
                         </button>
                     </div>
                 </div>
@@ -1163,18 +1163,18 @@
                 <div class="admin-card">
                     <h3>Gestion du carrousel</h3>
                     <div class="form-group">
-                        <label for="media-type">Type de média :</label>
+                        <label for="media-type">Type de mÃ©dia :</label>
                         <select id="media-type" class="form-control">
                             <option value="image">Image</option>
-                            <option value="youtube">Vidéo YouTube</option>
+                            <option value="youtube">VidÃ©o YouTube</option>
                         </select>
                     </div>
                     
                     <div id="image-upload-section">
                         <div class="form-group">
-                            <label for="media-upload">Téléverser une image :</label>
+                            <label for="media-upload">TÃ©lÃ©verser une image :</label>
                             <div class="dropzone" id="media-dropzone">
-                                <p>Glissez-déposez une image ici ou cliquez pour sélectionner</p>
+                                <p>Glissez-dÃ©posez une image ici ou cliquez pour sÃ©lectionner</p>
                                 <input type="file" id="media-upload" accept="image/*" style="display: none;">
                             </div>
                             <div id="media-preview" class="preview-container"></div>
@@ -1183,19 +1183,19 @@
                     
                     <div id="youtube-section" style="display: none;">
                         <div class="form-group">
-                            <label for="youtube-url">URL de la vidéo YouTube :</label>
+                            <label for="youtube-url">URL de la vidÃ©o YouTube :</label>
                             <input type="text" id="youtube-url" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <label for="media-title">Titre (optionnel) :</label>
-                        <input type="text" id="media-title" class="form-control" placeholder="Titre du média">
+                        <input type="text" id="media-title" class="form-control" placeholder="Titre du mÃ©dia">
                     </div>
                     
                     <div class="form-group">
                         <label for="media-description">Description (optionnel) :</label>
-                        <textarea id="media-description" class="form-control" rows="3" placeholder="Description du média"></textarea>
+                        <textarea id="media-description" class="form-control" rows="3" placeholder="Description du mÃ©dia"></textarea>
                     </div>
                     
                     <div class="form-group">
@@ -1211,19 +1211,19 @@
                 </div>
                 
                 <div class="admin-card">
-                    <h3>Éléments du carrousel</h3>
+                    <h3>Ã‰lÃ©ments du carrousel</h3>
                     <div id="carousel-items" class="carousel-items-container">
-                        <!-- Les éléments du carrousel seront ajoutés ici dynamiquement -->
+                        <!-- Les Ã©lÃ©ments du carrousel seront ajoutÃ©s ici dynamiquement -->
                     </div>
                 </div>
             </div>
             
             <div id="actualites" class="tab-content">
-                <h2>Gestion du Carrousel d'Actualités</h2>
+                <h2>Gestion du Carrousel d'ActualitÃ©s</h2>
                 
-                <!-- Formulaire d'ajout/édition -->
+                <!-- Formulaire d'ajout/Ã©dition -->
                 <div class="admin-card">
-                    <h3>Ajouter/Modifier un élément</h3>
+                    <h3>Ajouter/Modifier un Ã©lÃ©ment</h3>
                     <form id="carousel-form">
                         <input type="hidden" id="carousel-item-id">
                         
@@ -1231,26 +1231,26 @@
                             <label for="carousel-type">Type de contenu :</label>
                             <select id="carousel-type" class="form-control" required>
                                 <option value="image">Image</option>
-                                <option value="video">Vidéo</option>
+                                <option value="video">VidÃ©o</option>
                                 <option value="youtube">Lien YouTube</option>
                             </select>
                         </div>
 
-                        <!-- Zone de dépôt pour les images -->
+                        <!-- Zone de dÃ©pÃ´t pour les images -->
                         <div id="image-upload-group" class="upload-group">
                             <label>Image :</label>
                             <div id="carousel-dropzone" class="dropzone">
-                                <span><i class="fas fa-cloud-upload-alt"></i> Glissez-déposez une image ici ou cliquez pour sélectionner</span>
+                                <span><i class="fas fa-cloud-upload-alt"></i> Glissez-dÃ©posez une image ici ou cliquez pour sÃ©lectionner</span>
                                 <input type="file" id="carousel-image" accept="image/*" style="display: none;">
                             </div>
                             <div id="carousel-preview" class="preview-container"></div>
                         </div>
 
-                        <!-- Zone de dépôt pour les vidéos -->
+                        <!-- Zone de dÃ©pÃ´t pour les vidÃ©os -->
                         <div id="video-upload-group" class="upload-group" style="display: none;">
-                            <label>Vidéo :</label>
+                            <label>VidÃ©o :</label>
                             <div id="video-dropzone" class="dropzone">
-                                <span><i class="fas fa-cloud-upload-alt"></i> Glissez-déposez une vidéo ici ou cliquez pour sélectionner</span>
+                                <span><i class="fas fa-cloud-upload-alt"></i> Glissez-dÃ©posez une vidÃ©o ici ou cliquez pour sÃ©lectionner</span>
                                 <input type="file" id="carousel-video" accept="video/*" style="display: none;">
                             </div>
                             <div id="video-preview" class="preview-container"></div>
@@ -1277,7 +1277,7 @@
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="carousel-start-date">Date de début :</label>
+                                <label for="carousel-start-date">Date de dÃ©but :</label>
                                 <input type="datetime-local" id="carousel-start-date" class="form-control" required>
                             </div>
                             <div class="form-group">
@@ -1302,64 +1302,64 @@
                     </form>
                 </div>
 
-                <!-- Liste des éléments du carrousel -->
+                <!-- Liste des Ã©lÃ©ments du carrousel -->
                 <div class="admin-card">
-                    <h3>Éléments du carrousel</h3>
-                    <p class="hint">Glissez-déposez les éléments pour les réorganiser</p>
+                    <h3>Ã‰lÃ©ments du carrousel</h3>
+                    <p class="hint">Glissez-dÃ©posez les Ã©lÃ©ments pour les rÃ©organiser</p>
                     <div id="carousel-items-container" class="sortable-container">
-                        <!-- Les éléments du carrousel seront ajoutés ici dynamiquement -->
+                        <!-- Les Ã©lÃ©ments du carrousel seront ajoutÃ©s ici dynamiquement -->
                     </div>
                 </div>
             </div>
             <div id="occasions" class="tab-content">
-                <h2>Gestion des Occasions (Matériels et Tracteurs)</h2>
+                <h2>Gestion des Occasions (MatÃ©riels et Tracteurs)</h2>
                 <div class="admin-card">
-                    <h3>Ajouter/Modifier un Matériel/Tracteur</h3>
+                    <h3>Ajouter/Modifier un MatÃ©riel/Tracteur</h3>
                     <form id="materiel-type-selector">
                         <label><input type="radio" name="materiel-categorie" value="tracteur" checked> Tracteur</label>
-                        <label><input type="radio" name="materiel-categorie" value="materiel"> Autre Matériel</label>
+                        <label><input type="radio" name="materiel-categorie" value="materiel"> Autre MatÃ©riel</label>
                     </form>
                     <form id="tracteur-form" style="display: block;">
                         <h4>Formulaire Tracteur</h4>
                         <label for="tracteur-marque">Marque:</label><input type="text" id="tracteur-marque"><br>
-                        <label for="tracteur-modele">Modèle:</label><input type="text" id="tracteur-modele"><br>
+                        <label for="tracteur-modele">ModÃ¨le:</label><input type="text" id="tracteur-modele"><br>
                         <label for="tracteur-puissance">Puissance (ch):</label><input type="number" id="tracteur-puissance"><br>
-                        <label for="tracteur-boite">Boîte de vitesses:</label><input type="text" id="tracteur-boite"><br>
+                        <label for="tracteur-boite">BoÃ®te de vitesses:</label><input type="text" id="tracteur-boite"><br>
                         <label for="tracteur-pneus-av">Pneus AV:</label><input type="text" id="tracteur-pneus-av"><br>
                         <label for="tracteur-pneus-ar">Pneus AR:</label><input type="text" id="tracteur-pneus-ar"><br>
-                        <label for="tracteur-prix">Prix (€):</label><input type="number" id="tracteur-prix"><br>
-                        <label>État:</label>
+                        <label for="tracteur-prix">Prix (â‚¬):</label><input type="number" id="tracteur-prix"><br>
+                        <label>Ã‰tat:</label>
                         <label><input type="radio" name="materiel-etat" value="neuf" checked> Neuf</label>
                         <label><input type="radio" name="materiel-etat" value="occasion"> Occasion</label><br>
-                        <label><input type="checkbox" id="tracteur-location"> Proposer à la location</label>
+                        <label><input type="checkbox" id="tracteur-location"> Proposer Ã  la location</label>
                         <div id="tracteur-location-details" style="display:none;">
-                            <label for="tracteur-prix-jour">Prix/Jour (€):</label><input type="number" id="tracteur-prix-jour"><br>
-                            <label for="tracteur-prix-semaine">Prix/Semaine (€):</label><input type="number" id="tracteur-prix-semaine"><br>
+                            <label for="tracteur-prix-jour">Prix/Jour (â‚¬):</label><input type="number" id="tracteur-prix-jour"><br>
+                            <label for="tracteur-prix-semaine">Prix/Semaine (â‚¬):</label><input type="number" id="tracteur-prix-semaine"><br>
                         </div>
                         <label for="tracteur-photos">Photos:</label>
-                        <div id="tracteur-dropzone" class="dropzone"><p>Glissez-déposez des photos ici ou cliquez pour sélectionner.</p></div>
+                        <div id="tracteur-dropzone" class="dropzone"><p>Glissez-dÃ©posez des photos ici ou cliquez pour sÃ©lectionner.</p></div>
                         <input type="file" id="tracteur-photos" multiple accept="image/*" style="display:none;">
                         <div id="tracteur-preview" class="preview-container"></div>
                         <button type="button" id="add-tracteur-btn" class="btn-primary"><i class="fas fa-plus"></i> Ajouter le tracteur</button>
                     </form>
                     <form id="materiel-form" style="display: none;">
-                        <h4>Formulaire Autre Matériel</h4>
-                        <label for="materiel-type">Type de matériel:</label><input type="text" id="materiel-type"><br>
+                        <h4>Formulaire Autre MatÃ©riel</h4>
+                        <label for="materiel-type">Type de matÃ©riel:</label><input type="text" id="materiel-type"><br>
                         <label for="materiel-marque">Marque:</label><input type="text" id="materiel-marque"><br>
-                        <label for="materiel-prix">Prix (€):</label><input type="number" id="materiel-prix"><br>
-                        <label>État:</label>
+                        <label for="materiel-prix">Prix (â‚¬):</label><input type="number" id="materiel-prix"><br>
+                        <label>Ã‰tat:</label>
                         <label><input type="radio" name="materiel-etat-autre" value="neuf" checked> Neuf</label>
                         <label><input type="radio" name="materiel-etat-autre" value="occasion"> Occasion</label><br>
-                        <label><input type="checkbox" id="materiel-location"> Proposer à la location</label>
+                        <label><input type="checkbox" id="materiel-location"> Proposer Ã  la location</label>
                         <div id="materiel-location-details" style="display:none;">
-                            <label for="materiel-prix-jour">Prix/Jour (€):</label><input type="number" id="materiel-prix-jour"><br>
-                            <label for="materiel-prix-semaine">Prix/Semaine (€):</label><input type="number" id="materiel-prix-semaine"><br>
+                            <label for="materiel-prix-jour">Prix/Jour (â‚¬):</label><input type="number" id="materiel-prix-jour"><br>
+                            <label for="materiel-prix-semaine">Prix/Semaine (â‚¬):</label><input type="number" id="materiel-prix-semaine"><br>
                         </div>
                         <label for="materiel-photos">Photos:</label>
-                        <div id="materiel-dropzone" class="dropzone"><p>Glissez-déposez des photos ici ou cliquez pour sélectionner.</p></div>
+                        <div id="materiel-dropzone" class="dropzone"><p>Glissez-dÃ©posez des photos ici ou cliquez pour sÃ©lectionner.</p></div>
                         <input type="file" id="materiel-photos" multiple accept="image/*" style="display:none;">
                         <div id="materiel-preview" class="preview-container"></div>
-                        <button type="button" id="add-materiel-btn" class="btn-primary"><i class="fas fa-plus"></i> Ajouter le matériel</button>
+                        <button type="button" id="add-materiel-btn" class="btn-primary"><i class="fas fa-plus"></i> Ajouter le matÃ©riel</button>
                     </form>
                 </div>
                 <div class="admin-card">
@@ -1367,7 +1367,7 @@
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>Type</th><th>Marque</th><th>Modèle/Type</th><th>État</th><th>Prix</th><th>Location</th><th>Actions</th>
+                                <th>Type</th><th>Marque</th><th>ModÃ¨le/Type</th><th>Ã‰tat</th><th>Prix</th><th>Location</th><th>Actions</th>
                             </tr>
                         </thead>
                         <tbody id="occasions-table-body">
@@ -1382,10 +1382,10 @@
                      <form id="promo-form">
                         <label for="promo-title">Titre:</label><input type="text" id="promo-title" required><br>
                         <label for="promo-description">Description:</label><textarea id="promo-description"></textarea><br>
-                        <label for="promo-date-debut">Date de début:</label><input type="date" id="promo-date-debut" required><br>
+                        <label for="promo-date-debut">Date de dÃ©but:</label><input type="date" id="promo-date-debut" required><br>
                         <label for="promo-date-fin">Date de fin:</label><input type="date" id="promo-date-fin" required><br>
                         <label for="promo-image">Image:</label>
-                        <div id="promo-dropzone" class="dropzone"><p>Glissez-déposez une image ici ou cliquez pour sélectionner.</p></div>
+                        <div id="promo-dropzone" class="dropzone"><p>Glissez-dÃ©posez une image ici ou cliquez pour sÃ©lectionner.</p></div>
                         <input type="file" id="promo-image" accept="image/*" style="display:none;">
                         <div id="promo-preview" class="preview-container"></div>
                         <button type="button" id="add-promo-btn" class="btn-primary"><i class="fas fa-plus"></i> Ajouter la promotion</button>
@@ -1394,7 +1394,7 @@
                 <div class="admin-card">
                     <h3>Liste des Promotions</h3>
                     <table class="admin-table">
-                        <thead><tr><th>Titre</th><th>Période</th><th>Actions</th></tr></thead>
+                        <thead><tr><th>Titre</th><th>PÃ©riode</th><th>Actions</th></tr></thead>
                         <tbody id="promos-table-body">
                         </tbody>
                     </table>
@@ -1407,12 +1407,12 @@
                     <form id="contact-form">
                         <label for="contact-service">Service:</label>
                         <select id="contact-service" required>
-                            <option value="direction">Direction</option><option value="commercial">Commercial</option><option value="atelier">Atelier</option><option value="magasin">Magasin</option><option value="secretariat">Secrétariat</option>
+                            <option value="direction">Direction</option><option value="commercial">Commercial</option><option value="atelier">Atelier</option><option value="magasin">Magasin</option><option value="secretariat">SecrÃ©tariat</option>
                         </select><br>
                         <label for="contact-nom">Nom:</label><input type="text" id="contact-nom" required><br>
-                        <label for="contact-prenom">Prénom:</label><input type="text" id="contact-prenom" required><br>
+                        <label for="contact-prenom">PrÃ©nom:</label><input type="text" id="contact-prenom" required><br>
                         <label for="contact-fonction">Fonction:</label><input type="text" id="contact-fonction" required><br>
-                        <label for="contact-tel">Téléphone:</label><input type="tel" id="contact-tel"><br>
+                        <label for="contact-tel">TÃ©lÃ©phone:</label><input type="tel" id="contact-tel"><br>
                         <label for="contact-email">Email:</label><input type="email" id="contact-email"><br>
                         <button type="button" id="add-contact-btn" class="btn-primary"><i class="fas fa-plus"></i> Ajouter le contact</button>
                     </form>
@@ -1420,7 +1420,7 @@
                 <div class="admin-card">
                     <h3>Liste des Contacts</h3>
                     <table class="admin-table">
-                        <thead><tr><th>Service</th><th>Nom Prénom</th><th>Fonction</th><th>Actions</th></tr></thead>
+                        <thead><tr><th>Service</th><th>Nom PrÃ©nom</th><th>Fonction</th><th>Actions</th></tr></thead>
                         <tbody id="contacts-table-body">
                         </tbody>
                     </table>
@@ -1428,43 +1428,43 @@
             </div>
         </div>
     <script>
-        // Gestion de la déconnexion
+        // Gestion de la dÃ©connexion
         document.addEventListener('DOMContentLoaded', async function() {
             const logoutBtn = document.getElementById('logout-btn');
             if (logoutBtn) {
                 logoutBtn.addEventListener('click', async function(e) {
                     e.preventDefault();
                     try {
-                        // Déconnexion via Supabase
+                        // DÃ©connexion via Supabase
                         const { error } = await supabase.auth.signOut();
                         if (error) throw error;
                         
-                        // Redirection vers la page de connexion après déconnexion réussie
+                        // Redirection vers la page de connexion aprÃ¨s dÃ©connexion rÃ©ussie
                         window.location.href = 'connexion-prive.html';
                     } catch (error) {
-                        console.error('Erreur lors de la déconnexion:', error.message);
-                        alert('Une erreur est survenue lors de la déconnexion. Veuillez réessayer.');
+                        console.error('Erreur lors de la dÃ©connexion:', error.message);
+                        alert('Une erreur est survenue lors de la dÃ©connexion. Veuillez rÃ©essayer.');
                     }
                 });
             }
         });
 
-        // Stockage des données
+        // Stockage des donnÃ©es
         const materiels = JSON.parse(localStorage.getItem('franchiniOccasions')) || [];
         let currentEditId = null;
         
-        // Gestion du carrousel d'actualités
+        // Gestion du carrousel d'actualitÃ©s
         let carouselItems = JSON.parse(localStorage.getItem('franchiniCarousel')) || [];
         let currentCarouselEditId = null;
         let draggedItem = null;
 
-        // Gestion des actualités
+        // Gestion des actualitÃ©s
         const actualites = JSON.parse(localStorage.getItem('franchiniActualites')) || [];
         let currentActualiteEditId = null;
         const actualitesTableBody = document.getElementById('actualites-table-body');
 
         // Gestion des onglets
-        // Fonction pour extraire l'ID d'une vidéo YouTube
+        // Fonction pour extraire l'ID d'une vidÃ©o YouTube
         function extractYoutubeId(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
             const match = url.match(regExp);
@@ -1491,13 +1491,13 @@
                 const tabBtns = document.querySelectorAll('.tab-btn');
                 const tabContents = document.querySelectorAll('.tab-content');
                 
-                // Fonction pour activer un onglet spécifique
+                // Fonction pour activer un onglet spÃ©cifique
                 function activateTab(tabId) {
-                    // Désactiver tous les onglets
+                    // DÃ©sactiver tous les onglets
                     tabBtns.forEach(btn => btn.classList.remove('active'));
                     tabContents.forEach(content => content.classList.remove('active'));
                     
-                    // Activer l'onglet cliqué
+                    // Activer l'onglet cliquÃ©
                     const activeBtn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
                     const activeContent = document.getElementById(tabId);
                     
@@ -1505,7 +1505,7 @@
                     if (activeContent) activeContent.classList.add('active');
                 }
                 
-                // Ajouter les écouteurs d'événements
+                // Ajouter les Ã©couteurs d'Ã©vÃ©nements
                 tabBtns.forEach(btn => {
                     // Si c'est un lien externe, on ne fait rien de plus
                     if (btn.tagName === 'A') return;
@@ -1519,15 +1519,15 @@
                     });
                 });
                 
-                // Vérifier si un onglet est spécifié dans l'URL
+                // VÃ©rifier si un onglet est spÃ©cifiÃ© dans l'URL
                 const urlParams = new URLSearchParams(window.location.search);
                 const activeTab = urlParams.get('tab');
                 
                 if (activeTab && document.getElementById(activeTab)) {
-                    // Activer l'onglet spécifié dans l'URL
+                    // Activer l'onglet spÃ©cifiÃ© dans l'URL
                     activateTab(activeTab);
                 } else {
-                    // Sinon, activer le premier onglet par défaut (sauf les liens externes)
+                    // Sinon, activer le premier onglet par dÃ©faut (sauf les liens externes)
                     const firstTab = document.querySelector('.tab-btn:not([href])');
                     if (firstTab) {
                         const tabId = firstTab.getAttribute('data-tab');
@@ -1541,12 +1541,12 @@
             // Initialiser les onglets
             initTabs();
 
-            // Gestion des occasions (tracteurs et matériels)
+            // Gestion des occasions (tracteurs et matÃ©riels)
             const materielTypeRadios = document.querySelectorAll('input[name="materiel-categorie"]');
             const tracteurForm = document.getElementById('tracteur-form');
             const materielForm = document.getElementById('materiel-form');
             
-            // Gestion de l'affichage des formulaires de matériel/tracteur
+            // Gestion de l'affichage des formulaires de matÃ©riel/tracteur
             materielTypeRadios.forEach(radio => {
                 radio.addEventListener('change', function() {
                     tracteurForm.style.display = this.value === 'tracteur' ? 'block' : 'none';
@@ -1559,7 +1559,7 @@
                 document.getElementById('tracteur-location-details').style.display = this.checked ? 'block' : 'none';
             });
 
-            // Gestion de la location pour le matériel
+            // Gestion de la location pour le matÃ©riel
             document.getElementById('materiel-location').addEventListener('change', function() {
                 document.getElementById('materiel-location-details').style.display = this.checked ? 'block' : 'none';
             });
@@ -1583,11 +1583,11 @@
                     location: location,
                     prixJour: location ? document.getElementById('tracteur-prix-jour').value : null,
                     prixSemaine: location ? document.getElementById('tracteur-prix-semaine').value : null,
-                    photos: [] // À implémenter: gestion des photos
+                    photos: [] // Ã€ implÃ©menter: gestion des photos
                 };
 
                 if (currentEditId) {
-                    // Mise à jour d'un matériel existant
+                    // Mise Ã  jour d'un matÃ©riel existant
                     const index = materiels.findIndex(m => m.id === currentEditId);
                     if (index !== -1) {
                         materiels[index] = { ...materiel, id: currentEditId };
@@ -1595,7 +1595,7 @@
                     currentEditId = null;
                     this.innerHTML = '<i class="fas fa-plus"></i> Ajouter le tracteur';
                 } else {
-                    // Ajout d'un nouveau matériel
+                    // Ajout d'un nouveau matÃ©riel
                     materiels.push(materiel);
                 }
 
@@ -1603,7 +1603,7 @@
                 resetTracteurForm();
             });
 
-            // Gestion de l'ajout d'un matériel
+            // Gestion de l'ajout d'un matÃ©riel
             document.getElementById('add-materiel-btn').addEventListener('click', function() {
                 const etat = document.querySelector('input[name="materiel-etat-autre"]:checked').value; // Changed name here to avoid conflict
                 const location = document.getElementById('materiel-location').checked;
@@ -1618,19 +1618,19 @@
                     location: location,
                     prixJour: location ? document.getElementById('materiel-prix-jour').value : null,
                     prixSemaine: location ? document.getElementById('materiel-prix-semaine').value : null,
-                    photos: [] // À implémenter: gestion des photos
+                    photos: [] // Ã€ implÃ©menter: gestion des photos
                 };
 
                 if (currentEditId) {
-                    // Mise à jour d'un matériel existant
+                    // Mise Ã  jour d'un matÃ©riel existant
                     const index = materiels.findIndex(m => m.id === currentEditId);
                     if (index !== -1) {
                         materiels[index] = { ...materiel, id: currentEditId };
                     }
                     currentEditId = null;
-                    this.innerHTML = '<i class="fas fa-plus"></i> Ajouter le matériel';
+                    this.innerHTML = '<i class="fas fa-plus"></i> Ajouter le matÃ©riel';
                 } else {
-                    // Ajout d'un nouveau matériel
+                    // Ajout d'un nouveau matÃ©riel
                     materiels.push(materiel);
                 }
 
@@ -1638,7 +1638,7 @@
                 resetMaterielForm();
             });
 
-            // Fonction pour mettre à jour le tableau des matériels
+            // Fonction pour mettre Ã  jour le tableau des matÃ©riels
             function updateMaterielsTable() {
                 const tbody = document.getElementById('occasions-table-body');
                 tbody.innerHTML = '';
@@ -1646,11 +1646,11 @@
                 materiels.forEach(materiel => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td>${materiel.type === 'tracteur' ? 'Tracteur' : 'Matériel'}</td>
+                        <td>${materiel.type === 'tracteur' ? 'Tracteur' : 'MatÃ©riel'}</td>
                         <td>${materiel.marque}</td>
                         <td>${materiel.type === 'tracteur' ? materiel.modele : materiel.typeMateriel}</td>
                         <td>${materiel.etat.charAt(0).toUpperCase() + materiel.etat.slice(1)}</td>
-                        <td>${materiel.prix} €</td>
+                        <td>${materiel.prix} â‚¬</td>
                         <td>${materiel.location ? 'Oui' : 'Non'}</td>
                         <td>
                             <div class="action-btns">
@@ -1666,7 +1666,7 @@
                     tbody.appendChild(tr);
                 });
 
-                // Ajout des écouteurs d'événements pour les boutons d'action
+                // Ajout des Ã©couteurs d'Ã©vÃ©nements pour les boutons d'action
                 document.querySelectorAll('#occasions-table-body .action-btn.edit').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const id = parseInt(this.getAttribute('data-id'));
@@ -1681,14 +1681,14 @@
                     });
                 });
 
-                // Mise à jour des pages concernées (simulé pour l'instant)
+                // Mise Ã  jour des pages concernÃ©es (simulÃ© pour l'instant)
                 // updateMaterielDisponiblePage(); 
                 // updateOccasionPage();
                 // updateLocationPage();
                 localStorage.setItem('franchiniOccasions', JSON.stringify(materiels));
             }
 
-            // Fonction pour éditer un matériel
+            // Fonction pour Ã©diter un matÃ©riel
             function editMateriel(id) {
                 const materiel = materiels.find(m => m.id === id);
                 if (!materiel) return;
@@ -1728,7 +1728,7 @@
             }
 
             function deleteMateriel(id) {
-                if (confirm('Êtes-vous sûr de vouloir supprimer ce matériel ?')) {
+                if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer ce matÃ©riel ?')) {
                     const index = materiels.findIndex(m => m.id === id);
                     if (index !== -1) {
                         materiels.splice(index, 1);
@@ -1750,7 +1750,7 @@
                 document.getElementById('materiel-form').reset();
                 document.getElementById('materiel-location-details').style.display = 'none';
                 document.getElementById('materiel-preview').innerHTML = '';
-                document.getElementById('add-materiel-btn').innerHTML = '<i class="fas fa-plus"></i> Ajouter le matériel';
+                document.getElementById('add-materiel-btn').innerHTML = '<i class="fas fa-plus"></i> Ajouter le matÃ©riel';
                 currentEditId = null;
             }
 
@@ -1766,7 +1766,7 @@
                     const description = document.getElementById('promo-description').value;
                     const dateDebut = document.getElementById('promo-date-debut').value;
                     const dateFin = document.getElementById('promo-date-fin').value;
-                    // const image = document.getElementById('promo-image').files[0]; // Gestion d'image à affiner
+                    // const image = document.getElementById('promo-image').files[0]; // Gestion d'image Ã  affiner
 
                     if (title && dateDebut && dateFin) {
                         const promo = { id: currentPromoEditId || Date.now(), title, description, dateDebut, dateFin }; //, imageName: image ? image.name : null };
@@ -1826,7 +1826,7 @@
             }
 
             function deletePromo(id) {
-                if (confirm('Êtes-vous sûr de vouloir supprimer cette promotion ?')) {
+                if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer cette promotion ?')) {
                     const index = promos.findIndex(p => p.id === id);
                     if (index !== -1) {
                         promos.splice(index, 1);
@@ -1863,7 +1863,7 @@
                         updateContactsTable();
                         resetContactForm();
                     } else {
-                        alert('Veuillez remplir les champs Service, Nom, Prénom et Fonction.');
+                        alert('Veuillez remplir les champs Service, Nom, PrÃ©nom et Fonction.');
                     }
                 });
             }
@@ -1910,7 +1910,7 @@
             }
 
             function deleteContact(id) {
-                if (confirm('Êtes-vous sûr de vouloir supprimer ce contact ?')) {
+                if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer ce contact ?')) {
                     const index = contacts.findIndex(c => c.id === id);
                     if (index !== -1) {
                         contacts.splice(index, 1);
@@ -1920,46 +1920,46 @@
                 }
             }
             
-            // Fonction utilitaire pour empêcher le comportement par défaut
+            // Fonction utilitaire pour empÃªcher le comportement par dÃ©faut
             function preventDefaults(e) {
                 e.preventDefault();
                 e.stopPropagation();
             }
 
-            // Fonction pour extraire l'ID d'une vidéo YouTube
+            // Fonction pour extraire l'ID d'une vidÃ©o YouTube
             function extractYoutubeId(url) {
                 const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
                 const match = (url + '').match(regExp);
                 return (match && match[7].length === 11) ? match[7] : null;
             }
 
-            // Fonction générique pour configurer une zone de dépôt
+            // Fonction gÃ©nÃ©rique pour configurer une zone de dÃ©pÃ´t
             function setupDropzone(dropzoneId, fileInputId, previewContainerId) {
-                console.log('Initialisation de la zone de dépôt:', dropzoneId, fileInputId, previewContainerId);
+                console.log('Initialisation de la zone de dÃ©pÃ´t:', dropzoneId, fileInputId, previewContainerId);
                 
                 const dropzone = document.getElementById(dropzoneId);
                 const fileInput = document.getElementById(fileInputId);
                 const previewContainer = document.getElementById(previewContainerId);
                 
                 if (!dropzone) {
-                    console.error('Zone de dépôt non trouvée:', dropzoneId);
+                    console.error('Zone de dÃ©pÃ´t non trouvÃ©e:', dropzoneId);
                     return;
                 }
                 
                 if (!fileInput) {
-                    console.error('Input fichier non trouvé:', fileInputId);
+                    console.error('Input fichier non trouvÃ©:', fileInputId);
                     return;
                 }
                 
-                console.log('Éléments trouvés, configuration des événements...');
+                console.log('Ã‰lÃ©ments trouvÃ©s, configuration des Ã©vÃ©nements...');
                 
-                // Fonction pour empêcher le comportement par défaut
+                // Fonction pour empÃªcher le comportement par dÃ©faut
                 const preventDefaults = (e) => {
                     e.preventDefault();
                     e.stopPropagation();
                 };
                 
-                // Fonction pour mettre en surbrillance la zone de dépôt
+                // Fonction pour mettre en surbrillance la zone de dÃ©pÃ´t
                 const highlight = (e) => {
                     dropzone.classList.add('highlight');
                 };
@@ -1969,42 +1969,42 @@
                     dropzone.classList.remove('highlight');
                 };
                 
-                // Gérer le dépôt de fichiers
+                // GÃ©rer le dÃ©pÃ´t de fichiers
                 const handleDrop = (e) => {
-                    console.log('Fichier(s) déposé(s)');
+                    console.log('Fichier(s) dÃ©posÃ©(s)');
                     const dt = e.dataTransfer;
                     const files = dt.files;
                     
                     if (files.length > 0) {
-                        console.log('Fichier détecté:', files[0].name);
+                        console.log('Fichier dÃ©tectÃ©:', files[0].name);
                         handleFiles(files, false, previewContainer);
-                        // Mettre à jour l'input file avec les fichiers déposés
+                        // Mettre Ã  jour l'input file avec les fichiers dÃ©posÃ©s
                         fileInput.files = files;
                     }
                 };
                 
-                // Gérer le clic sur la zone de dépôt
+                // GÃ©rer le clic sur la zone de dÃ©pÃ´t
                 const handleClick = () => {
-                    console.log('Clic sur la zone de dépôt');
+                    console.log('Clic sur la zone de dÃ©pÃ´t');
                     fileInput.click();
                 };
                 
-                // Gérer la sélection de fichiers via l'input
+                // GÃ©rer la sÃ©lection de fichiers via l'input
                 const handleFileSelect = (e) => {
-                    console.log('Fichier sélectionné via input');
+                    console.log('Fichier sÃ©lectionnÃ© via input');
                     if (this.files && this.files.length > 0) {
-                        console.log('Fichier sélectionné:', this.files[0].name);
+                        console.log('Fichier sÃ©lectionnÃ©:', this.files[0].name);
                         handleFiles(this.files, false, previewContainer);
                     }
                 };
                 
-                // Ajouter les écouteurs d'événements
+                // Ajouter les Ã©couteurs d'Ã©vÃ©nements
                 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                     dropzone.addEventListener(eventName, preventDefaults, false);
                     document.body.addEventListener(eventName, preventDefaults, false);
                 });
                 
-                // Mettre en surbrillance la zone de dépôt
+                // Mettre en surbrillance la zone de dÃ©pÃ´t
                 ['dragenter', 'dragover'].forEach(eventName => {
                     dropzone.addEventListener(eventName, highlight, false);
                 });
@@ -2014,40 +2014,40 @@
                     dropzone.addEventListener(eventName, unhighlight, false);
                 });
                 
-                // Gérer le dépôt de fichiers
+                // GÃ©rer le dÃ©pÃ´t de fichiers
                 dropzone.addEventListener('drop', handleDrop, false);
                 
-                // Gérer le clic sur la zone de dépôt
+                // GÃ©rer le clic sur la zone de dÃ©pÃ´t
                 dropzone.addEventListener('click', handleClick, false);
                 
-                // Gérer la sélection de fichiers via l'input
+                // GÃ©rer la sÃ©lection de fichiers via l'input
                 fileInput.addEventListener('change', handleFileSelect, false);
                 
-                console.log('Configuration de la zone de dépôt terminée');
+                console.log('Configuration de la zone de dÃ©pÃ´t terminÃ©e');
             }
             
-            // Fonction pour initialiser toutes les zones de dépôt
+            // Fonction pour initialiser toutes les zones de dÃ©pÃ´t
             function initializeAllDropzones() {
-                console.log('Initialisation des zones de dépôt...');
+                console.log('Initialisation des zones de dÃ©pÃ´t...');
                 
-                // Vérifier si les éléments de la page sont chargés
+                // VÃ©rifier si les Ã©lÃ©ments de la page sont chargÃ©s
                 const mediaDropzone = document.getElementById('media-dropzone');
                 const mediaUpload = document.getElementById('media-upload');
                 
                 if (!mediaDropzone || !mediaUpload) {
-                    console.error('Éléments de la zone de dépôt non trouvés, réessai dans 100ms...');
+                    console.error('Ã‰lÃ©ments de la zone de dÃ©pÃ´t non trouvÃ©s, rÃ©essai dans 100ms...');
                     setTimeout(initializeAllDropzones, 100);
                     return;
                 }
                 
-                console.log('Éléments de la zone de dépôt trouvés, configuration en cours...');
+                console.log('Ã‰lÃ©ments de la zone de dÃ©pÃ´t trouvÃ©s, configuration en cours...');
                 
-                // Zones de dépôt principales
+                // Zones de dÃ©pÃ´t principales
                 setupDropzone('tracteur-dropzone', 'tracteur-photos', 'tracteur-preview');
                 setupDropzone('materiel-dropzone', 'materiel-photos', 'materiel-preview');
                 setupDropzone('promo-dropzone', 'promo-image', 'promo-preview');
                 
-                // Zones de dépôt du carrousel
+                // Zones de dÃ©pÃ´t du carrousel
                 setupDropzone('media-dropzone', 'media-upload', 'media-preview');
                 setupDropzone('carousel-dropzone', 'carousel-image', 'carousel-preview');
                 setupDropzone('video-dropzone', 'carousel-video', 'video-preview');
@@ -2071,34 +2071,34 @@
                     });
                 });
                 
-                console.log('Toutes les zones de dépôt ont été initialisées');
+                console.log('Toutes les zones de dÃ©pÃ´t ont Ã©tÃ© initialisÃ©es');
             }
             
-            // Démarrer l'initialisation lorsque le DOM est chargé
+            // DÃ©marrer l'initialisation lorsque le DOM est chargÃ©
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', initializeAllDropzones);
             } else {
-                // Le DOM est déjà chargé
+                // Le DOM est dÃ©jÃ  chargÃ©
                 initializeAllDropzones();
             }
             
-            // Solution simplifiée pour la zone de dépôt
+            // Solution simplifiÃ©e pour la zone de dÃ©pÃ´t
             document.addEventListener('DOMContentLoaded', function() {
-                console.log('Démarrage de la configuration de la zone de dépôt...');
+                console.log('DÃ©marrage de la configuration de la zone de dÃ©pÃ´t...');
                 
-                // Récupérer les éléments
+                // RÃ©cupÃ©rer les Ã©lÃ©ments
                 const dropzone = document.querySelector('.dropzone');
                 const fileInput = document.querySelector('input[type="file"]');
                 const previewContainer = document.getElementById('media-preview');
                 
                 if (!dropzone || !fileInput) {
-                    console.error('Éléments non trouvés:', { dropzone: !!dropzone, fileInput: !!fileInput });
+                    console.error('Ã‰lÃ©ments non trouvÃ©s:', { dropzone: !!dropzone, fileInput: !!fileInput });
                     return;
                 }
                 
-                console.log('Éléments trouvés, configuration en cours...');
+                console.log('Ã‰lÃ©ments trouvÃ©s, configuration en cours...');
                 
-                // Style de base pour la zone de dépôt
+                // Style de base pour la zone de dÃ©pÃ´t
                 Object.assign(dropzone.style, {
                     cursor: 'pointer',
                     border: '2px dashed #007bff',
@@ -2112,21 +2112,21 @@
                 
                 // Gestionnaire de clic direct
                 dropzone.addEventListener('click', function(e) {
-                    console.log('Clic détecté sur la zone de dépôt');
+                    console.log('Clic dÃ©tectÃ© sur la zone de dÃ©pÃ´t');
                     e.stopPropagation();
                     fileInput.click();
                 }, false);
                 
                 // Gestionnaire de changement de fichier
                 fileInput.addEventListener('change', function(e) {
-                    console.log('Changement de fichier détecté');
+                    console.log('Changement de fichier dÃ©tectÃ©');
                     if (this.files && this.files.length > 0) {
-                        console.log('Fichier sélectionné:', this.files[0].name);
+                        console.log('Fichier sÃ©lectionnÃ©:', this.files[0].name);
                         handleFiles(this.files, false, previewContainer);
                     }
                 }, false);
                 
-                // Gestion du glisser-déposer
+                // Gestion du glisser-dÃ©poser
                 ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
                     dropzone.addEventListener(eventName, function(e) {
                         e.preventDefault();
@@ -2149,31 +2149,31 @@
                     }, false);
                 });
                 
-                // Gestion du dépôt de fichier
+                // Gestion du dÃ©pÃ´t de fichier
                 dropzone.addEventListener('drop', function(e) {
-                    console.log('Fichier déposé');
+                    console.log('Fichier dÃ©posÃ©');
                     const files = e.dataTransfer.files;
                     if (files.length) {
-                        console.log('Fichier déposé détecté:', files[0].name);
+                        console.log('Fichier dÃ©posÃ© dÃ©tectÃ©:', files[0].name);
                         handleFiles(files, false, previewContainer);
                         fileInput.files = files;
                     }
                 }, false);
                 
-                console.log('Configuration de la zone de dépôt terminée avec succès');
+                console.log('Configuration de la zone de dÃ©pÃ´t terminÃ©e avec succÃ¨s');
             });
             
             // Gestion du carrousel d'accueil
             let carouselItems = [];
             try {
                 const carouselData = localStorage.getItem('franchiniCarousel');
-                console.log('Données brutes du localStorage:', carouselData);
+                console.log('DonnÃ©es brutes du localStorage:', carouselData);
                 
                 if (carouselData) {
                     carouselItems = JSON.parse(carouselData);
-                    console.log('Éléments du carrousel chargés:', carouselItems);
+                    console.log('Ã‰lÃ©ments du carrousel chargÃ©s:', carouselItems);
                 } else {
-                    console.log('Aucune donnée de carrousel trouvée dans le localStorage');
+                    console.log('Aucune donnÃ©e de carrousel trouvÃ©e dans le localStorage');
                 }
             } catch (error) {
                 console.error('Erreur lors du chargement du carrousel depuis le localStorage:', error);
@@ -2182,7 +2182,7 @@
             
             let currentEditId = null;
             
-            // Éléments du formulaire
+            // Ã‰lÃ©ments du formulaire
             const mediaTypeSelect = document.getElementById('media-type');
             const imageUploadSection = document.getElementById('image-upload-section');
             const youtubeSection = document.getElementById('youtube-section');
@@ -2204,11 +2204,11 @@
                 youtubeUrlElement.addEventListener('input', function() {
                     const previewContainer = document.getElementById('youtube-preview') || mediaPreviewElement;
                     
-                    // Vérifier si l'URL est une URL YouTube valide
+                    // VÃ©rifier si l'URL est une URL YouTube valide
                     if (this.value && (this.value.includes('youtube.com/') || this.value.includes('youtu.be/'))) {
                         const youtubeId = extractYoutubeId(this.value);
                         if (youtubeId) {
-                            // Afficher l'aperçu de la vidéo YouTube
+                            // Afficher l'aperÃ§u de la vidÃ©o YouTube
                             handleFiles([this.value], true, previewContainer);
                             // Activer le bouton d'ajout
                             if (addMediaBtn) {
@@ -2219,17 +2219,17 @@
                             if (previewContainer) {
                                 previewContainer.innerHTML = `
                                     <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
-                                        <i class="fas fa-exclamation-triangle"></i> URL YouTube invalide. Veuillez vérifier le lien.
+                                        <i class="fas fa-exclamation-triangle"></i> URL YouTube invalide. Veuillez vÃ©rifier le lien.
                                     </div>
                                 `;
                             }
-                            // Désactiver le bouton d'ajout si l'URL n'est pas valide
+                            // DÃ©sactiver le bouton d'ajout si l'URL n'est pas valide
                             if (addMediaBtn) {
                                 addMediaBtn.disabled = true;
                             }
                         }
                     } else if (this.value === '') {
-                        // Si le champ est vide, effacer l'aperçu et désactiver le bouton d'ajout
+                        // Si le champ est vide, effacer l'aperÃ§u et dÃ©sactiver le bouton d'ajout
                         if (previewContainer) {
                             previewContainer.innerHTML = '';
                         }
@@ -2240,7 +2240,7 @@
                 });
             }
             
-            // Basculer entre les types de médias
+            // Basculer entre les types de mÃ©dias
             if (mediaTypeSelect) {
                 mediaTypeSelect.addEventListener('change', function() {
                     if (!imageUploadSection || !youtubeSection) return;
@@ -2255,7 +2255,7 @@
                 });
             }
             
-            // Initialiser l'état initial des sections
+            // Initialiser l'Ã©tat initial des sections
             if (mediaTypeSelect && imageUploadSection && youtubeSection) {
                 if (mediaTypeSelect.value === 'image') {
                     imageUploadSection.style.display = 'block';
@@ -2272,30 +2272,30 @@
                 const file = files[0];
                 if (!file) return;
                 
-                // Utiliser le conteneur d'aperçu fourni ou essayer de trouver un conteneur par défaut
+                // Utiliser le conteneur d'aperÃ§u fourni ou essayer de trouver un conteneur par dÃ©faut
                 const targetPreview = previewContainer || document.getElementById('media-preview');
                 
-                // Si aucun conteneur n'est trouvé, afficher une erreur
+                // Si aucun conteneur n'est trouvÃ©, afficher une erreur
                 if (!targetPreview) {
-                    console.error('Aucun conteneur d\'aperçu trouvé');
+                    console.error('Aucun conteneur d\'aperÃ§u trouvÃ©');
                     return;
                 }
                 
-                // Vérifier si c'est une URL YouTube
+                // VÃ©rifier si c'est une URL YouTube
                 if (isYoutubeUrl) {
                     const youtubeId = extractYoutubeId(file);
                     if (!youtubeId) {
                         if (targetPreview) {
                             targetPreview.innerHTML = `
                                 <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
-                                    <i class="fas fa-exclamation-triangle"></i> URL YouTube invalide. Veuillez vérifier le lien.
+                                    <i class="fas fa-exclamation-triangle"></i> URL YouTube invalide. Veuillez vÃ©rifier le lien.
                                 </div>
                             `;
                         }
                         return;
                     }
                     
-                    // Afficher l'aperçu de la vidéo YouTube
+                    // Afficher l'aperÃ§u de la vidÃ©o YouTube
                     if (targetPreview) {
                         targetPreview.innerHTML = `
                             <div class="youtube-preview" style="margin-top: 10px; background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 15px; text-align: center;">
@@ -2314,16 +2314,16 @@
                                         frameborder="0" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none;"></iframe>
                                 </div>
                                 <div style="font-size: 14px; color: #333; margin-bottom: 10px; text-align: left;">
-                                    <div><strong>Type :</strong> Vidéo YouTube</div>
+                                    <div><strong>Type :</strong> VidÃ©o YouTube</div>
                                     <div><strong>URL :</strong> ${file}</div>
                                 </div>
                                 <button type="button" class="remove-media-btn" style="background: #dc3545; color: white; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer; font-size: 13px; display: flex; align-items: center; margin: 0 auto;">
-                                    <i class="fas fa-times" style="margin-right: 5px;"></i> Supprimer la vidéo
+                                    <i class="fas fa-times" style="margin-right: 5px;"></i> Supprimer la vidÃ©o
                                 </button>
                             </div>
                         `;
                         
-                        // Ajouter un écouteur d'événement pour le bouton de suppression
+                        // Ajouter un Ã©couteur d'Ã©vÃ©nement pour le bouton de suppression
                         const removeBtn = targetPreview.querySelector('.remove-media-btn');
                         if (removeBtn) {
                             removeBtn.addEventListener('click', function(e) {
@@ -2339,19 +2339,19 @@
                     return;
                 }
                 
-                // Vérifier le type de fichier pour les images
+                // VÃ©rifier le type de fichier pour les images
                 if (!file.type.startsWith('image/')) {
                     if (targetPreview) {
                         targetPreview.innerHTML = `
                             <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
-                                <i class="fas fa-exclamation-triangle"></i> Format de fichier non supporté. Veuillez utiliser une image (JPG, PNG, etc.) ou une URL YouTube.
+                                <i class="fas fa-exclamation-triangle"></i> Format de fichier non supportÃ©. Veuillez utiliser une image (JPG, PNG, etc.) ou une URL YouTube.
                             </div>
                         `;
                     }
                     return;
                 }
                 
-                // Vérifier la taille du fichier (max 5MB)
+                // VÃ©rifier la taille du fichier (max 5MB)
                 const maxSize = 5 * 1024 * 1024; // 5MB
                 if (file.size > maxSize) {
                     if (targetPreview) {
@@ -2368,12 +2368,12 @@
                 reader.onload = function(e) {
                     if (!targetPreview) return;
                     
-                    // Créer un conteneur pour l'aperçu avec un bouton de suppression
+                    // CrÃ©er un conteneur pour l'aperÃ§u avec un bouton de suppression
                     targetPreview.innerHTML = `
                         <div class="media-preview-container" style="position: relative; display: inline-block; margin-top: 10px; width: 100%; max-width: 500px;">
                             <div style="position: relative; border: 1px solid #dee2e6; border-radius: 4px; overflow: hidden; background: #f8f9fa;">
                                 <img src="${e.target.result}" 
-                                 alt="Aperçu" 
+                                 alt="AperÃ§u" 
                                  style="max-width: 100%; max-height: 300px; display: block; margin: 0 auto;"
                                  onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                                 <button type="button" class="remove-media-btn" style="position: absolute; top: 10px; right: 10px; background: rgba(220, 53, 69, 0.9); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 14px;">
@@ -2388,7 +2388,7 @@
                         </div>
                     `;
                     
-                    // Ajouter un écouteur d'événement pour le bouton de suppression
+                    // Ajouter un Ã©couteur d'Ã©vÃ©nement pour le bouton de suppression
                     const removeBtn = targetPreview.querySelector('.remove-media-btn');
                     if (removeBtn) {
                         removeBtn.addEventListener('click', function(e) {
@@ -2406,7 +2406,7 @@
                     if (targetPreview) {
                         targetPreview.innerHTML = `
                             <div style="color: #dc3545; padding: 10px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 4px; margin-top: 10px;">
-                                <i class="fas fa-exclamation-triangle"></i> Erreur lors de la lecture du fichier. Veuillez réessayer avec une autre image.
+                                <i class="fas fa-exclamation-triangle"></i> Erreur lors de la lecture du fichier. Veuillez rÃ©essayer avec une autre image.
                             </div>
                         `;
                     }
@@ -2415,22 +2415,22 @@
                 reader.readAsDataURL(file);
             }
             
-            // Ajouter un élément au carrousel
+            // Ajouter un Ã©lÃ©ment au carrousel
             if (addMediaBtn) {
                 addMediaBtn.addEventListener('click', function() {
                     try {
-                        // Désactiver le bouton pour éviter les clics multiples
+                        // DÃ©sactiver le bouton pour Ã©viter les clics multiples
                         addMediaBtn.disabled = true;
                         addMediaBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Traitement en cours...';
                         
                         const type = mediaTypeSelect ? mediaTypeSelect.value : 'image';
                         
                         if (type === 'image') {
-                            // Vérifier si un fichier a été sélectionné via l'input file
+                            // VÃ©rifier si un fichier a Ã©tÃ© sÃ©lectionnÃ© via l'input file
                             if (mediaUpload && mediaUpload.files && mediaUpload.files.length > 0) {
                                 const file = mediaUpload.files[0];
                                 
-                                // Vérifier la taille du fichier (max 5MB)
+                                // VÃ©rifier la taille du fichier (max 5MB)
                                 const maxSize = 5 * 1024 * 1024; // 5MB
                                 if (file.size > maxSize) {
                                     alert('Le fichier est trop volumineux. La taille maximale est de 5MB.');
@@ -2448,7 +2448,7 @@
                                         addCarouselItem(type, mediaUrl);
                                     } catch (error) {
                                         console.error('Erreur lors du traitement de l\'image:', error);
-                                        alert('Une erreur est survenue lors du traitement de l\'image. Veuillez réessayer.');
+                                        alert('Une erreur est survenue lors du traitement de l\'image. Veuillez rÃ©essayer.');
                                         addMediaBtn.disabled = false;
                                         addMediaBtn.innerHTML = currentEditId ? 
                                             '<i class="fas fa-save"></i> Enregistrer les modifications' : 
@@ -2457,7 +2457,7 @@
                                 };
                                 
                                 reader.onerror = function() {
-                                    alert('Erreur lors de la lecture du fichier. Veuillez réessayer avec une autre image.');
+                                    alert('Erreur lors de la lecture du fichier. Veuillez rÃ©essayer avec une autre image.');
                                     addMediaBtn.disabled = false;
                                     addMediaBtn.innerHTML = currentEditId ? 
                                         '<i class="fas fa-save"></i> Enregistrer les modifications' : 
@@ -2465,9 +2465,9 @@
                                 };
                                 
                                 reader.readAsDataURL(file);
-                                return; // On sort de la fonction ici, le reste sera géré dans le callback
+                                return; // On sort de la fonction ici, le reste sera gÃ©rÃ© dans le callback
                             } 
-                            // Vérifier si une image est déjà affichée dans la prévisualisation (pour l'édition)
+                            // VÃ©rifier si une image est dÃ©jÃ  affichÃ©e dans la prÃ©visualisation (pour l'Ã©dition)
                             else if (mediaPreview && mediaPreview.querySelector('img') && currentEditId) {
                                 const imgSrc = mediaPreview.querySelector('img').src;
                                 if (imgSrc && imgSrc.startsWith('data:image/')) {
@@ -2476,7 +2476,7 @@
                                 }
                             } 
                             else {
-                                alert('Veuvez sélectionner une image à téléverser');
+                                alert('Veuvez sÃ©lectionner une image Ã  tÃ©lÃ©verser');
                                 addMediaBtn.disabled = false;
                                 addMediaBtn.innerHTML = currentEditId ? 
                                     '<i class="fas fa-save"></i> Enregistrer les modifications' : 
@@ -2484,7 +2484,7 @@
                                 return;
                             }
                         } else {
-                            // Pour les vidéos YouTube
+                            // Pour les vidÃ©os YouTube
                             const youtubeId = youtubeUrl ? extractYoutubeId(youtubeUrl.value.trim()) : null;
                             if (!youtubeId) {
                                 alert('URL YouTube invalide. Veuillez entrer une URL YouTube valide.');
@@ -2500,7 +2500,7 @@
                         }
                     } catch (error) {
                         console.error('Erreur inattendue:', error);
-                        alert('Une erreur inattendue est survenue. Veuillez réessayer.');
+                        alert('Une erreur inattendue est survenue. Veuillez rÃ©essayer.');
                         addMediaBtn.disabled = false;
                         addMediaBtn.innerHTML = currentEditId ? 
                             '<i class="fas fa-save"></i> Enregistrer les modifications' : 
@@ -2509,24 +2509,24 @@
                 });
             }
             
-            // Fonction pour ajouter un élément au carrousel
+            // Fonction pour ajouter un Ã©lÃ©ment au carrousel
             function addCarouselItem(type, mediaUrl) {
                 try {
                     if (!mediaUrl) {
-                        console.error('Aucune URL de média fournie');
+                        console.error('Aucune URL de mÃ©dia fournie');
                         return;
                     }
                     
-                    // Vérifier si c'est une URL YouTube valide pour le type vidéo
+                    // VÃ©rifier si c'est une URL YouTube valide pour le type vidÃ©o
                     if (type === 'youtube') {
                         const youtubeId = extractYoutubeId(mediaUrl);
                         if (!youtubeId) {
-                            alert('URL YouTube invalide. Veuillez vérifier le lien.');
+                            alert('URL YouTube invalide. Veuillez vÃ©rifier le lien.');
                             return;
                         }
                         mediaUrl = `https://www.youtube.com/embed/${youtubeId}`;
                     } else if (type === 'image' && !mediaUrl.startsWith('data:image/')) {
-                        // Vérifier si c'est une image valide (format base64 ou URL)
+                        // VÃ©rifier si c'est une image valide (format base64 ou URL)
                         console.error('Format d\'image non valide');
                         return;
                     }
@@ -2544,13 +2544,13 @@
                     };
                     
                     if (currentEditId) {
-                        // Mise à jour d'un élément existant
+                        // Mise Ã  jour d'un Ã©lÃ©ment existant
                         const index = carouselItems.findIndex(item => item.id === currentEditId);
                         if (index !== -1) {
-                            // Préserver la date de création originale
+                            // PrÃ©server la date de crÃ©ation originale
                             item.createdAt = carouselItems[index].createdAt;
                             carouselItems[index] = item;
-                            console.log('Élément mis à jour avec succès:', item);
+                            console.log('Ã‰lÃ©ment mis Ã  jour avec succÃ¨s:', item);
                         }
                         currentEditId = null;
                         if (addMediaBtn) {
@@ -2558,16 +2558,16 @@
                             addMediaBtn.disabled = false;
                         }
                     } else {
-                        // Ajout d'un nouvel élément
+                        // Ajout d'un nouvel Ã©lÃ©ment
                         carouselItems.push(item);
-                        console.log('Nouvel élément ajouté avec succès:', item);
+                        console.log('Nouvel Ã©lÃ©ment ajoutÃ© avec succÃ¨s:', item);
                     }
                     
                     saveCarousel();
                     updateCarouselDisplay();
                     resetForm();
                     
-                    // Afficher un message de succès
+                    // Afficher un message de succÃ¨s
                     const successMessage = document.createElement('div');
                     successMessage.className = 'alert alert-success';
                     successMessage.style.marginTop = '10px';
@@ -2576,12 +2576,12 @@
                     successMessage.style.backgroundColor = '#d4edda';
                     successMessage.style.color = '#155724';
                     successMessage.style.border = '1px solid #c3e6cb';
-                    successMessage.textContent = currentEditId ? 'Élément mis à jour avec succès !' : 'Élément ajouté avec succès !';
+                    successMessage.textContent = currentEditId ? 'Ã‰lÃ©ment mis Ã  jour avec succÃ¨s !' : 'Ã‰lÃ©ment ajoutÃ© avec succÃ¨s !';
                     
                     const formCard = document.querySelector('#accueil .admin-card');
                     if (formCard) {
                         formCard.appendChild(successMessage);
-                        // Supprimer le message après 3 secondes
+                        // Supprimer le message aprÃ¨s 3 secondes
                         setTimeout(() => {
                             if (successMessage.parentNode === formCard) {
                                 formCard.removeChild(successMessage);
@@ -2589,8 +2589,8 @@
                         }, 3000);
                     }
                 } catch (error) {
-                    console.error('Erreur lors de l\'ajout de l\'élément au carrousel:', error);
-                    alert('Une erreur est survenue lors de l\'ajout de l\'élément. Veuillez réessayer.');
+                    console.error('Erreur lors de l\'ajout de l\'Ã©lÃ©ment au carrousel:', error);
+                    alert('Une erreur est survenue lors de l\'ajout de l\'Ã©lÃ©ment. Veuillez rÃ©essayer.');
                     
                     if (addMediaBtn) {
                         addMediaBtn.disabled = false;
@@ -2605,7 +2605,7 @@
             function extractYoutubeId(url) {
                 if (!url) return null;
                 
-                // Nettoyer l'URL des paramètres supplémentaires
+                // Nettoyer l'URL des paramÃ¨tres supplÃ©mentaires
                 url = url.trim();
                 
                 // Gestion des URLs courtes youtu.be
@@ -2614,12 +2614,12 @@
                     return id ? id.split(/[?&#]/)[0] : null;
                 }
                 
-                // Gestion des URLs complètes
+                // Gestion des URLs complÃ¨tes
                 const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
                 const match = url.match(regExp);
                 
                 if (match && match[2]) {
-                    // Extraire l'ID et nettoyer les paramètres supplémentaires
+                    // Extraire l'ID et nettoyer les paramÃ¨tres supplÃ©mentaires
                     const id = match[2].split(/[?&#]/)[0];
                     return id.length === 11 ? id : null;
                 }
@@ -2627,28 +2627,28 @@
                 return null;
             }
             
-            // Mettre à jour l'affichage du carrousel
+            // Mettre Ã  jour l'affichage du carrousel
             function updateCarouselDisplay() {
-                console.log('Début de updateCarouselDisplay');
+                console.log('DÃ©but de updateCarouselDisplay');
                 console.log('carouselItems:', carouselItems);
                 
                 // S'assurer que le conteneur existe
                 carouselItemsContainer = document.getElementById('carousel-items');
                 
                 if (!carouselItemsContainer) {
-                    console.error('Erreur: carouselItemsContainer non trouvé');
+                    console.error('Erreur: carouselItemsContainer non trouvÃ©');
                     return;
                 }
                 
-                console.log('Conteneur carouselItemsContainer trouvé:', carouselItemsContainer);
+                console.log('Conteneur carouselItemsContainer trouvÃ©:', carouselItemsContainer);
                 
                 console.log('Vidage du conteneur carouselItemsContainer');
                 carouselItemsContainer.innerHTML = '';
                 
-                // Trier les éléments par ordre
-                console.log('Tri des éléments du carrousel');
+                // Trier les Ã©lÃ©ments par ordre
+                console.log('Tri des Ã©lÃ©ments du carrousel');
                 const sortedItems = [...carouselItems].sort((a, b) => a.order - b.order);
-                console.log('Éléments triés:', sortedItems);
+                console.log('Ã‰lÃ©ments triÃ©s:', sortedItems);
                 
                 sortedItems.forEach((item, index) => {
                     const itemElement = document.createElement('div');
@@ -2682,14 +2682,14 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
-                                <div class="drag-handle" title="Déplacer">
+                                <div class="drag-handle" title="DÃ©placer">
                                     <i class="fas fa-arrows-alt"></i>
                                 </div>
                             </div>
                         </div>
                     `;
                     
-                    // Ajouter les gestionnaires d'événements
+                    // Ajouter les gestionnaires d'Ã©vÃ©nements
                     const editBtn = itemElement.querySelector('.edit-item');
                     const deleteBtn = itemElement.querySelector('.delete-item');
                     const dragHandle = itemElement.querySelector('.drag-handle');
@@ -2697,7 +2697,7 @@
                     editBtn.addEventListener('click', () => editCarouselItem(item.id));
                     deleteBtn.addEventListener('click', () => deleteCarouselItem(item.id));
                     
-                    // Ajouter les gestionnaires d'événements pour le glisser-déposer
+                    // Ajouter les gestionnaires d'Ã©vÃ©nements pour le glisser-dÃ©poser
                     if (itemElement) {
                         itemElement.addEventListener('dragstart', handleDragStart);
                         itemElement.addEventListener('dragover', handleDragOver);
@@ -2708,15 +2708,15 @@
                         });
                     }
                     
-                    console.log('Ajout de l\'élément au DOM:', item);
+                    console.log('Ajout de l\'Ã©lÃ©ment au DOM:', item);
                     carouselItemsContainer.appendChild(itemElement);
-                    console.log('Élément ajouté avec succès');
+                    console.log('Ã‰lÃ©ment ajoutÃ© avec succÃ¨s');
                 });
                 
-                console.log('Nombre d\'éléments dans le DOM:', carouselItemsContainer.children.length);
+                console.log('Nombre d\'Ã©lÃ©ments dans le DOM:', carouselItemsContainer.children.length);
             }
             
-            // Réinitialiser le formulaire
+            // RÃ©initialiser le formulaire
             function resetForm() {
                 mediaTypeSelect.value = 'image';
                 mediaPreview.innerHTML = '';
@@ -2727,37 +2727,37 @@
                 linkText.value = 'Voir plus';
                 imageUploadSection.style.display = 'block';
                 youtubeSection.style.display = 'none';
-                // Réinitialiser l'input de fichier
+                // RÃ©initialiser l'input de fichier
                 if (mediaUpload) {
                     mediaUpload.value = '';
                 }
             }
             
-            // Éditer un élément du carrousel
+            // Ã‰diter un Ã©lÃ©ment du carrousel
             function editCarouselItem(id) {
                 try {
                     const item = carouselItems.find(item => item.id === id);
                     if (!item) {
-                        console.error('Élément non trouvé avec l\'ID:', id);
+                        console.error('Ã‰lÃ©ment non trouvÃ© avec l\'ID:', id);
                         return;
                     }
                     
                     currentEditId = id;
                     
-                    // Remplir le formulaire avec les données de l'élément
+                    // Remplir le formulaire avec les donnÃ©es de l'Ã©lÃ©ment
                     if (mediaTypeSelect) {
                         mediaTypeSelect.value = item.type;
                         
-                        // Afficher la section appropriée selon le type de média
+                        // Afficher la section appropriÃ©e selon le type de mÃ©dia
                         if (item.type === 'image') {
                             imageUploadSection.style.display = 'block';
                             youtubeSection.style.display = 'none';
                             
-                            // Afficher un aperçu de l'image existante
+                            // Afficher un aperÃ§u de l'image existante
                             if (mediaPreview) {
                                 mediaPreview.innerHTML = `
                                     <div class="media-preview-container" style="position: relative; display: inline-block; margin-top: 10px;">
-                                        <img src="${item.url}" alt="Aperçu" style="max-width: 100%; max-height: 200px; display: block; border-radius: 4px;">
+                                        <img src="${item.url}" alt="AperÃ§u" style="max-width: 100%; max-height: 200px; display: block; border-radius: 4px;">
                                         <div style="font-size: 12px; color: #666; margin-top: 5px; text-align: center;">
                                             Image existante
                                         </div>
@@ -2765,7 +2765,7 @@
                                 `;
                             }
                         } else {
-                            // Pour les vidéos YouTube
+                            // Pour les vidÃ©os YouTube
                             imageUploadSection.style.display = 'none';
                             youtubeSection.style.display = 'block';
                             if (youtubeUrl) {
@@ -2781,28 +2781,28 @@
                     if (mediaLink) mediaLink.value = item.link || '';
                     if (linkText) linkText.value = item.linkText || 'Voir plus';
                     
-                    // Mettre à jour le bouton d'ajout
+                    // Mettre Ã  jour le bouton d'ajout
                     if (addMediaBtn) {
                         addMediaBtn.innerHTML = '<i class="fas fa-save"></i> Enregistrer les modifications';
                         addMediaBtn.disabled = false;
                     }
                     
-                    // Faire défiler vers le formulaire
+                    // Faire dÃ©filer vers le formulaire
                     const formHeader = document.querySelector('#accueil .admin-card h3');
                     if (formHeader) {
                         formHeader.scrollIntoView({ behavior: 'smooth' });
                     }
                     
-                    console.log('Édition de l\'élément:', item);
+                    console.log('Ã‰dition de l\'Ã©lÃ©ment:', item);
                 } catch (error) {
-                    console.error('Erreur lors de l\'édition de l\'élément:', error);
-                    alert('Une erreur est survenue lors du chargement de l\'élément à éditer.');
+                    console.error('Erreur lors de l\'Ã©dition de l\'Ã©lÃ©ment:', error);
+                    alert('Une erreur est survenue lors du chargement de l\'Ã©lÃ©ment Ã  Ã©diter.');
                 }
             }
             
-            // Supprimer un élément du carrousel
+            // Supprimer un Ã©lÃ©ment du carrousel
             function deleteCarouselItem(id) {
-                if (confirm('Êtes-vous sûr de vouloir supprimer cet élément du carrousel ?')) {
+                if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer cet Ã©lÃ©ment du carrousel ?')) {
                     const index = carouselItems.findIndex(item => item.id === id);
                     if (index !== -1) {
                         carouselItems.splice(index, 1);
@@ -2817,7 +2817,7 @@
                 localStorage.setItem('franchiniCarousel', JSON.stringify(carouselItems));
             }
             
-            // Gestion du glisser-déposer pour le réordonnancement
+            // Gestion du glisser-dÃ©poser pour le rÃ©ordonnancement
             let draggedItem = null;
             
             function handleDragStart(e) {
@@ -2838,7 +2838,7 @@
                 this.classList.remove('drag-over');
                 
                 if (draggedItem !== this) {
-                    // Échanger les positions dans le tableau
+                    // Ã‰changer les positions dans le tableau
                     const fromId = parseInt(draggedItem.dataset.id);
                     const toId = parseInt(this.dataset.id);
                     
@@ -2846,11 +2846,11 @@
                     const toIndex = carouselItems.findIndex(item => item.id === toId);
                     
                     if (fromIndex !== -1 && toIndex !== -1) {
-                        // Mettre à jour l'ordre
+                        // Mettre Ã  jour l'ordre
                         const [movedItem] = carouselItems.splice(fromIndex, 1);
                         carouselItems.splice(toIndex, 0, movedItem);
                         
-                        // Mettre à jour les ordres
+                        // Mettre Ã  jour les ordres
                         carouselItems.forEach((item, index) => {
                             item.order = index;
                         });
@@ -2875,14 +2875,14 @@
                 console.log('Initialisation du carrousel...');
                 console.log('Conteneur carouselItemsContainer:', carouselItemsContainer);
                 console.log('Contenu du localStorage (franchiniCarousel):', localStorage.getItem('franchiniCarousel'));
-                console.log('Nombre d\'éléments chargés:', carouselItems.length);
-                console.log('Détail des éléments:', JSON.stringify(carouselItems, null, 2));
+                console.log('Nombre d\'Ã©lÃ©ments chargÃ©s:', carouselItems.length);
+                console.log('DÃ©tail des Ã©lÃ©ments:', JSON.stringify(carouselItems, null, 2));
                 
                 if (carouselItemsContainer) {
-                    console.log('Mise à jour de l\'affichage du carrousel...');
+                    console.log('Mise Ã  jour de l\'affichage du carrousel...');
                     updateCarouselDisplay();
                     
-                    // Ajouter les gestionnaires d'événements pour le glisser-déposer
+                    // Ajouter les gestionnaires d'Ã©vÃ©nements pour le glisser-dÃ©poser
                     carouselItemsContainer.addEventListener('dragover', function(e) {
                         e.preventDefault();
                         e.dataTransfer.dropEffect = 'move';
@@ -2899,24 +2899,24 @@
                         this.classList.remove('drag-over-container');
                     });
                 } else {
-                    console.error('Erreur: carouselItemsContainer non trouvé');
+                    console.error('Erreur: carouselItemsContainer non trouvÃ©');
                 }
             }
             
-            // Attendre que le DOM soit complètement chargé
+            // Attendre que le DOM soit complÃ¨tement chargÃ©
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', initCarousel);
             } else {
                 initCarousel();
             }
             
-            // Initialisation des données pour les autres onglets
+            // Initialisation des donnÃ©es pour les autres onglets
             updateMaterielsTable();
             updateActualitesTable();
             updatePromosTable();
             updateContactsTable();
 
-            // Gestion des actualités
+            // Gestion des actualitÃ©s
             const addActualiteBtn = document.getElementById('add-actualite-btn');
 
             if (addActualiteBtn) {
@@ -2942,7 +2942,7 @@
                         updateActualitesTable();
                         resetActualiteForm();
                     } else {
-                        alert('Veuillez remplir tous les champs pour l\'actualité.');
+                        alert('Veuillez remplir tous les champs pour l\'actualitÃ©.');
                     }
                 });
             }
@@ -2950,7 +2950,7 @@
             function updateActualitesTable() {
                 if (!actualitesTableBody) return;
                 actualitesTableBody.innerHTML = '';
-                actualites.sort((a, b) => new Date(b.date) - new Date(a.date)); // Trier par date décroissante
+                actualites.sort((a, b) => new Date(b.date) - new Date(a.date)); // Trier par date dÃ©croissante
                 actualites.forEach(actualite => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
@@ -2971,7 +2971,7 @@
 
             function resetActualiteForm() {
                 document.getElementById('actualite-form').reset();
-                addActualiteBtn.innerHTML = '<i class="fas fa-plus"></i> Ajouter l\'actualité';
+                addActualiteBtn.innerHTML = '<i class="fas fa-plus"></i> Ajouter l\'actualitÃ©';
                 currentActualiteEditId = null;
             }
 
@@ -2987,7 +2987,7 @@
             }
 
             function deleteActualite(id) {
-                if (confirm('Êtes-vous sûr de vouloir supprimer cette actualité ?')) {
+                if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer cette actualitÃ© ?')) {
                     const index = actualites.findIndex(a => a.id === id);
                     if (index !== -1) {
                         actualites.splice(index, 1);
@@ -3029,12 +3029,12 @@
                         reader.onload = function(e) {
                             const thumbnail = document.createElement('div');
                             thumbnail.className = 'thumbnail';
-                            thumbnail.innerHTML = `<img src="${e.target.result}" alt="Aperçu" style="max-width: 100%; max-height: 200px;"><div class="thumbnail-name">${file.name}</div>`;
+                            thumbnail.innerHTML = `<img src="${e.target.result}" alt="AperÃ§u" style="max-width: 100%; max-height: 200px;"><div class="thumbnail-name">${file.name}</div>`;
                             preview.appendChild(thumbnail);
                         };
                         reader.readAsDataURL(file);
                     } else if (preview) {
-                        preview.innerHTML = '<p>Format de fichier non supporté. Veuillez utiliser une image.</p>';
+                        preview.innerHTML = '<p>Format de fichier non supportÃ©. Veuillez utiliser une image.</p>';
                     }
                 }
             }
@@ -3068,14 +3068,14 @@
 
             }
 
-            // Mettre à jour les champs du formulaire en fonction du type de contenu
+            // Mettre Ã  jour les champs du formulaire en fonction du type de contenu
             function updateCarouselFormFields(type) {
                 document.getElementById('image-upload-group').style.display = type === 'image' ? 'block' : 'none';
                 document.getElementById('video-upload-group').style.display = type === 'video' ? 'block' : 'none';
                 document.getElementById('youtube-url-group').style.display = type === 'youtube' ? 'block' : 'none';
             }
 
-            // Sauvegarder un élément du carrousel
+            // Sauvegarder un Ã©lÃ©ment du carrousel
             function saveCarouselItem() {
                 const type = document.getElementById('carousel-type').value;
                 const title = document.getElementById('carousel-title').value;
@@ -3085,7 +3085,7 @@
                 const link = document.getElementById('carousel-link').value;
                 let mediaUrl = '';
 
-                // Récupérer l'URL du média en fonction du type
+                // RÃ©cupÃ©rer l'URL du mÃ©dia en fonction du type
                 if (type === 'youtube') {
                     const youtubeUrl = document.getElementById('youtube-url').value;
                     const youtubeId = extractYoutubeId(youtubeUrl);
@@ -3106,13 +3106,13 @@
                     const preview = document.getElementById('video-preview');
                     const video = preview.querySelector('video');
                     if (!video) {
-                        alert('Veuvez ajouter une vidéo');
+                        alert('Veuvez ajouter une vidÃ©o');
                         return;
                     }
-                    mediaUrl = video.querySelector('source').src; // URL de la vidéo en base64
+                    mediaUrl = video.querySelector('source').src; // URL de la vidÃ©o en base64
                 }
 
-                // Créer l'objet carouselItem
+                // CrÃ©er l'objet carouselItem
                 const carouselItem = {
                     id: currentCarouselEditId || Date.now(),
                     type,
@@ -3131,7 +3131,7 @@
                     updatedAt: new Date().toISOString()
                 };
 
-                // Mettre à jour ou ajouter l'élément
+                // Mettre Ã  jour ou ajouter l'Ã©lÃ©ment
                 if (currentCarouselEditId) {
                     const index = carouselItems.findIndex(item => item.id === currentCarouselEditId);
                     if (index !== -1) {
@@ -3141,7 +3141,7 @@
                     carouselItems.push(carouselItem);
                 }
 
-                // Sauvegarder et mettre à jour l'affichage
+                // Sauvegarder et mettre Ã  jour l'affichage
                 saveCarousel();
                 updateCarouselDisplay();
                 resetCarouselForm();
@@ -3149,38 +3149,38 @@
             }
 
 
-            // Mettre à jour l'affichage du carrousel
+            // Mettre Ã  jour l'affichage du carrousel
             function updateCarouselDisplay() {
                 const container = document.getElementById('carousel-items-container');
                 if (!container) return;
 
-                // Trier les éléments par ordre
+                // Trier les Ã©lÃ©ments par ordre
                 carouselItems.sort((a, b) => a.order - b.order);
 
                 // Vider le conteneur
                 container.innerHTML = '';
 
                 if (carouselItems.length === 0) {
-                    container.innerHTML = '<p class="no-items">Aucun élément dans le carrousel</p>';
+                    container.innerHTML = '<p class="no-items">Aucun Ã©lÃ©ment dans le carrousel</p>';
                     return;
                 }
 
 
-                // Ajouter chaque élément au conteneur
+                // Ajouter chaque Ã©lÃ©ment au conteneur
                 carouselItems.forEach(item => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'carousel-item';
                     itemElement.draggable = true;
                     itemElement.dataset.id = item.id;
                     
-                    // Créer le contenu de l'élément
+                    // CrÃ©er le contenu de l'Ã©lÃ©ment
                     let mediaContent = '';
                     if (item.type === 'youtube') {
                         const youtubeId = extractYoutubeId(item.mediaUrl);
                         mediaContent = `
                             <div class="carousel-media youtube-preview">
                                 <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" 
-                                     alt="Vidéo YouTube"
+                                     alt="VidÃ©o YouTube"
                                      onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                                 <div class="play-icon"><i class="fas fa-play"></i></div>
                             </div>`;
@@ -3196,16 +3196,16 @@
                             <div class="carousel-media">
                                 <video controls>
                                     <source src="${item.mediaUrl}" type="video/mp4">
-                                    Votre navigateur ne supporte pas la lecture de vidéos.
+                                    Votre navigateur ne supporte pas la lecture de vidÃ©os.
                                 </video>
                             </div>`;
                     }
 
-                    // Créer les dates formatées
-                    const startDate = item.startDate ? new Date(item.startDate).toLocaleString('fr-FR') : 'Non défini';
-                    const endDate = item.endDate ? new Date(item.endDate).toLocaleString('fr-FR') : 'Non défini';
+                    // CrÃ©er les dates formatÃ©es
+                    const startDate = item.startDate ? new Date(item.startDate).toLocaleString('fr-FR') : 'Non dÃ©fini';
+                    const endDate = item.endDate ? new Date(item.endDate).toLocaleString('fr-FR') : 'Non dÃ©fini';
 
-                    // Construire le HTML de l'élément
+                    // Construire le HTML de l'Ã©lÃ©ment
                     itemElement.innerHTML = `
                         <div class="carousel-item-header">
                             <div class="carousel-item-drag">
@@ -3226,7 +3226,7 @@
                             <div class="carousel-item-details">
                                 ${item.description ? `<p class="carousel-item-description">${item.description}</p>` : ''}
                                 <div class="carousel-item-dates">
-                                    <div><strong>Début :</strong> ${startDate}</div>
+                                    <div><strong>DÃ©but :</strong> ${startDate}</div>
                                     <div><strong>Fin :</strong> ${endDate}</div>
                                 </div>
                                 ${item.link ? `<div class="carousel-item-link"><a href="${item.link}" target="_blank">${item.link}</a></div>` : ''}
@@ -3236,11 +3236,11 @@
                     container.appendChild(itemElement);
                 });
 
-                // Ajouter les écouteurs d'événements pour le glisser-déposer
+                // Ajouter les Ã©couteurs d'Ã©vÃ©nements pour le glisser-dÃ©poser
                 setupDragAndDrop();
             }
 
-            // Réinitialiser le formulaire du carrousel
+            // RÃ©initialiser le formulaire du carrousel
             function resetCarouselForm() {
                 document.getElementById('carousel-form').reset();
                 document.getElementById('carousel-item-id').value = '';
@@ -3254,7 +3254,7 @@
                 currentCarouselEditId = null;
             }
 
-            // Configurer le glisser-déposer pour le réordonnancement
+            // Configurer le glisser-dÃ©poser pour le rÃ©ordonnancement
             function setupDragAndDrop() {
                 const items = document.querySelectorAll('.carousel-item');
                 
@@ -3284,7 +3284,7 @@
                 e.preventDefault();
                 
                 if (draggedItem !== this) {
-                    // Échanger les éléments dans le DOM
+                    // Ã‰changer les Ã©lÃ©ments dans le DOM
                     const container = this.parentNode;
                     const items = Array.from(container.querySelectorAll('.carousel-item'));
                     const draggedIndex = items.indexOf(draggedItem);
@@ -3296,7 +3296,7 @@
                         container.insertBefore(draggedItem, this);
                     }
 
-                    // Mettre à jour l'ordre dans le tableau carouselItems
+                    // Mettre Ã  jour l'ordre dans le tableau carouselItems
                     const newItems = Array.from(container.querySelectorAll('.carousel-item'));
                     newItems.forEach((item, index) => {
                         const itemId = parseInt(item.dataset.id);
@@ -3320,12 +3320,12 @@
                 });
             }
 
-            // Fonction pour éditer un élément du carrousel
+            // Fonction pour Ã©diter un Ã©lÃ©ment du carrousel
             function editCarouselItem(id) {
                 const item = carouselItems.find(item => item.id === id);
                 if (!item) return;
 
-                // Remplir le formulaire avec les données de l'élément
+                // Remplir le formulaire avec les donnÃ©es de l'Ã©lÃ©ment
                 document.getElementById('carousel-type').value = item.type;
                 document.getElementById('carousel-title').value = item.title || '';
                 document.getElementById('carousel-description').value = item.description || '';
@@ -3333,10 +3333,10 @@
                 document.getElementById('carousel-end-date').value = item.endDate ? item.endDate.substring(0, 16) : '';
                 document.getElementById('carousel-link').value = item.link || '';
                 
-                // Mettre à jour l'affichage des champs en fonction du type
+                // Mettre Ã  jour l'affichage des champs en fonction du type
                 updateCarouselFormFields(item.type);
                 
-                // Afficher la prévisualisation du média
+                // Afficher la prÃ©visualisation du mÃ©dia
                 const previewContainer = item.type === 'video' ? 
                     document.getElementById('video-preview') : 
                     document.getElementById('carousel-preview');
@@ -3347,7 +3347,7 @@
                     document.getElementById('youtube-preview').innerHTML = `
                         <div class="youtube-preview">
                             <img src="https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg" 
-                                 alt="Vidéo YouTube"
+                                 alt="VidÃ©o YouTube"
                                  onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                             <div class="play-icon"><i class="fas fa-play"></i></div>
                         </div>`;
@@ -3355,7 +3355,7 @@
                     previewContainer.innerHTML = `
                         <div class="thumbnail">
                             <img src="${item.mediaUrl}" 
-                                 alt="Aperçu" 
+                                 alt="AperÃ§u" 
                                  style="max-width: 100%; max-height: 200px;"
                                  onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                         </div>`;
@@ -3364,24 +3364,24 @@
                         <div class="thumbnail">
                             <video controls style="max-width: 100%; max-height: 200px;">
                                 <source src="${item.mediaUrl}" type="video/mp4">
-                                Votre navigateur ne supporte pas la lecture de vidéos.
+                                Votre navigateur ne supporte pas la lecture de vidÃ©os.
                             </video>
                         </div>`;
                 }
                 
-                // Mettre à jour le bouton de soumission
-                document.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Mettre à jour';
+                // Mettre Ã  jour le bouton de soumission
+                document.querySelector('button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> Mettre Ã  jour';
                 
-                // Faire défiler jusqu'au formulaire
+                // Faire dÃ©filer jusqu'au formulaire
                 document.getElementById('carousel-form').scrollIntoView({ behavior: 'smooth' });
                 
-                // Enregistrer l'ID de l'élément en cours d'édition
+                // Enregistrer l'ID de l'Ã©lÃ©ment en cours d'Ã©dition
                 currentCarouselEditId = id;
             }
 
-            // Fonction pour supprimer un élément du carrousel
+            // Fonction pour supprimer un Ã©lÃ©ment du carrousel
             function deleteCarouselItem(id) {
-                if (confirm('Êtes-vous sûr de vouloir supprimer cet élément du carrousel ?')) {
+                if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer cet Ã©lÃ©ment du carrousel ?')) {
                     carouselItems = carouselItems.filter(item => item.id !== id);
                     saveCarousel();
                     updateCarouselDisplay();
@@ -3397,14 +3397,14 @@
             function initializeCarousel() {
                 console.log('Initialisation du carrousel...');
                 if (document.getElementById('carousel-items')) {
-                    console.log('Conteneur du carrousel trouvé, mise à jour de l\'affichage');
+                    console.log('Conteneur du carrousel trouvÃ©, mise Ã  jour de l\'affichage');
                     updateCarouselDisplay();
                 } else {
-                    console.error('Erreur: Le conteneur du carrousel avec l\'ID "carousel-items" n\'a pas été trouvé');
+                    console.error('Erreur: Le conteneur du carrousel avec l\'ID "carousel-items" n\'a pas Ã©tÃ© trouvÃ©');
                 }
             }
 
-            // Gestionnaire d'événements pour les onglets
+            // Gestionnaire d'Ã©vÃ©nements pour les onglets
             document.querySelectorAll('.tab-btn').forEach(tabBtn => {
                 tabBtn.addEventListener('click', function() {
                     const tabId = this.getAttribute('data-tab');
@@ -3415,12 +3415,12 @@
                         content.classList.remove('active');
                     });
                     
-                    // Désactiver tous les boutons d'onglets
+                    // DÃ©sactiver tous les boutons d'onglets
                     document.querySelectorAll('.tab-btn').forEach(btn => {
                         btn.classList.remove('active');
                     });
                     
-                    // Activer l'onglet cliqué
+                    // Activer l'onglet cliquÃ©
                     this.classList.add('active');
                     const tabContent = document.getElementById(tabId);
                     if (tabContent) {
@@ -3438,7 +3438,7 @@
             if (document.querySelector('.tab-btn.active[data-tab="accueil"]')) {
                 initializeCarousel();
             }
-        }); // Fin de l'écouteur d'événement DOMContentLoaded
+        }); // Fin de l'Ã©couteur d'Ã©vÃ©nement DOMContentLoaded
     </script>
     
     <!-- Chargement du pied de page -->
@@ -3458,11 +3458,12 @@
             </a>
         </div>
         <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
-            © 2024 Franchini SARL. Tous droits réservés.
-            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
+            Â© 2024 Franchini SARL. Tous droits rÃ©servÃ©s.
+            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privÃ©e</a>
         </div>
     </div>
 </footer>
 
 </body>
 </html>
+

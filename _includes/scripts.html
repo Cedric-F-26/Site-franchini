@@ -1,17 +1,17 @@
-<!-- Scripts principaux du site -->
+﻿<!-- Scripts principaux du site -->
 <script src="{{ '/assets/js/vendor/modernizr-3.11.2.min.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/plugins.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/image-fallback.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
 
-<!-- Scripts spécifiques à la page -->
+<!-- Scripts spÃ©cifiques Ã  la page -->
 {% if page.scripts %}
   {% for script in page.scripts %}
     <script src="{{ script | relative_url }}" {% if forloop.last == false %}defer{% endif %}></script>
   {% endfor %}
 {% endif %}
 
-<!-- Initialisation des scripts après le chargement du DOM -->
+<!-- Initialisation des scripts aprÃ¨s le chargement du DOM -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Initialisation des composants JavaScript
@@ -20,6 +20,7 @@
       initCarousel('occasions-carousel');
     }
     
-    // Autres initialisations de scripts peuvent être ajoutées ici
+    // Autres initialisations de scripts peuvent Ãªtre ajoutÃ©es ici
   });
 </script>
+

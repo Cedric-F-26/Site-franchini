@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -8,10 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Styles personnalisés -->
+    <!-- Styles personnalisÃ©s -->
     <link rel="stylesheet" href="css/admin-common.css">
     <style>
-        /* Styles spécifiques à la page d'accueil admin */
+        /* Styles spÃ©cifiques Ã  la page d'accueil admin */
         .admin-container {
             padding: 20px;
             max-width: 1200px;
@@ -33,7 +33,7 @@
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
-        /* Styles spécifiques à la page d'accueil */
+        /* Styles spÃ©cifiques Ã  la page d'accueil */
         .media-upload-container {
             margin-top: 20px;
             padding: 20px;
@@ -198,7 +198,7 @@
     </style>
 </head>
 <body>
-    <!-- En-tête d'administration -->
+    <!-- En-tÃªte d'administration -->
     <div data-include="includes/admin-header.html"></div>
 
     <div class="admin-container">
@@ -210,18 +210,18 @@
             <div class="admin-card">
                 <h3>Gestion du carrousel</h3>
                 <div class="form-group">
-                    <label for="media-type">Type de média :</label>
+                    <label for="media-type">Type de mÃ©dia :</label>
                     <select id="media-type" class="form-control">
                         <option value="image">Image</option>
-                        <option value="youtube">Vidéo YouTube</option>
+                        <option value="youtube">VidÃ©o YouTube</option>
                     </select>
                 </div>
                 
                 <div id="image-upload-section">
                     <div class="form-group">
-                        <label for="media-upload">Téléverser une image :</label>
+                        <label for="media-upload">TÃ©lÃ©verser une image :</label>
                         <div class="dropzone" id="media-dropzone">
-                            <p>Glissez-déposez une image ici ou cliquez pour sélectionner</p>
+                            <p>Glissez-dÃ©posez une image ici ou cliquez pour sÃ©lectionner</p>
                             <input type="file" id="media-upload" accept="image/*" style="display: none;">
                         </div>
                         <div id="media-preview" class="preview-container"></div>
@@ -230,19 +230,19 @@
                 
                 <div id="youtube-section" style="display: none;">
                     <div class="form-group">
-                        <label for="youtube-url">URL de la vidéo YouTube :</label>
+                        <label for="youtube-url">URL de la vidÃ©o YouTube :</label>
                         <input type="text" id="youtube-url" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="media-title">Titre (optionnel) :</label>
-                    <input type="text" id="media-title" class="form-control" placeholder="Titre du média">
+                    <input type="text" id="media-title" class="form-control" placeholder="Titre du mÃ©dia">
                 </div>
                 
                 <div class="form-group">
                     <label for="media-description">Description (optionnel) :</label>
-                    <textarea id="media-description" class="form-control" rows="3" placeholder="Description du média"></textarea>
+                    <textarea id="media-description" class="form-control" rows="3" placeholder="Description du mÃ©dia"></textarea>
                 </div>
                 
                 <div class="form-group">
@@ -258,20 +258,20 @@
             </div>
             
             <div class="admin-card">
-                <h3>Éléments du carrousel</h3>
+                <h3>Ã‰lÃ©ments du carrousel</h3>
                 <div id="carousel-items" class="carousel-items-container">
-                    <!-- Les éléments du carrousel seront ajoutés ici dynamiquement -->
+                    <!-- Les Ã©lÃ©ments du carrousel seront ajoutÃ©s ici dynamiquement -->
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Modal pour ajouter/modifier un élément -->
+    <!-- Modal pour ajouter/modifier un Ã©lÃ©ment -->
     <div class="modal fade" id="carousel-modal" tabindex="-1" aria-labelledby="carousel-modal-label" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="carousel-modal-label">Ajouter un élément au carrousel</h5>
+                    <h5 class="modal-title" id="carousel-modal-label">Ajouter un Ã©lÃ©ment au carrousel</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                 </div>
                 <form id="carousel-form">
@@ -287,19 +287,19 @@
                         </div>
                         
                         <div class="mb-3">
-                            <label class="form-label">Type de média</label>
+                            <label class="form-label">Type de mÃ©dia</label>
                             <select class="form-select" id="media-type" name="media-type" required>
                                 <option value="image">Image</option>
-                                <option value="video">Vidéo YouTube</option>
+                                <option value="video">VidÃ©o YouTube</option>
                             </select>
                         </div>
                         
                         <!-- Section pour l'upload d'image -->
                         <div id="image-input-group">
                             <div class="mb-3">
-                                <label for="carousel-media" class="form-label">Téléverser une image</label>
+                                <label for="carousel-media" class="form-label">TÃ©lÃ©verser une image</label>
                                 <input class="form-control" type="file" id="carousel-media" accept="image/*">
-                                <div class="form-text">Format recommandé : 1200x400px</div>
+                                <div class="form-text">Format recommandÃ© : 1200x400px</div>
                             </div>
                             
                             <div class="mb-3">
@@ -308,19 +308,19 @@
                             </div>
                             
                             <div id="image-preview-container" class="text-center mb-3" style="display: none;">
-                                <img id="image-preview" src="" alt="Aperçu de l'image" class="img-fluid rounded" onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
+                                <img id="image-preview" src="" alt="AperÃ§u de l'image" class="img-fluid rounded" onerror="this.onerror=null; this.src='../assets/images/logo/Logo Franchini 2.jpg'; this.classList.add('image-fallback')">
                             </div>
                         </div>
                         
-                        <!-- Section pour l'URL de vidéo YouTube -->
+                        <!-- Section pour l'URL de vidÃ©o YouTube -->
                         <div id="video-input-group" style="display: none;">
                             <div class="mb-3">
-                                <label for="video-url" class="form-label">URL de la vidéo YouTube</label>
+                                <label for="video-url" class="form-label">URL de la vidÃ©o YouTube</label>
                                 <input type="url" class="form-control" id="video-url" name="video-url" placeholder="https://www.youtube.com/watch?v=...">
                             </div>
                             <div id="video-preview-container" class="text-center mb-3" style="display: none;">
                                 <div id="video-preview" class="ratio ratio-16x9">
-                                    <!-- La vidéo YouTube sera chargée ici dynamiquement -->
+                                    <!-- La vidÃ©o YouTube sera chargÃ©e ici dynamiquement -->
                                 </div>
                             </div>
                         </div>
@@ -342,7 +342,7 @@
                         
                         <div class="form-check form-switch mb-3">
                             <input class="form-check-input" type="checkbox" id="is-active" name="is-active" checked>
-                            <label class="form-check-label" for="is-active">Activer cet élément</label>
+                            <label class="form-check-label" for="is-active">Activer cet Ã©lÃ©ment</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -363,7 +363,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
                 </div>
                 <div class="modal-body">
-                    Êtes-vous sûr de vouloir supprimer cet élément ? Cette action est irréversible.
+                    ÃŠtes-vous sÃ»r de vouloir supprimer cet Ã©lÃ©ment ? Cette action est irrÃ©versible.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -373,38 +373,38 @@
         </div>
     </div>
                     
-    <!-- Bootstrap JS et dépendances -->
+    <!-- Bootstrap JS et dÃ©pendances -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
     
     <!-- Configuration -->
     <script src="js/config.js"></script>
     
-    <!-- Scripts personnalisés -->
+    <!-- Scripts personnalisÃ©s -->
     <script src="js/admin-common.js"></script>
     <script src="js/accueil.js" type="module"></script>
-    <script src="js/admin-common.js" onload="console.log('admin-common.js chargé avec succès')" onerror="console.error('Erreur lors du chargement de admin-common.js')"></script>
+    <script src="js/admin-common.js" onload="console.log('admin-common.js chargÃ© avec succÃ¨s')" onerror="console.error('Erreur lors du chargement de admin-common.js')"></script>
     
-    <!-- Script spécifique à la page d'accueil -->
+    <!-- Script spÃ©cifique Ã  la page d'accueil -->
     <script>
         console.log('Chargement de accueil.js...');
     </script>
     <script>
         // Fonction d'initialisation de la page
         function initPage() {
-            console.log('[initPage] Début de l\'initialisation de la page');
+            console.log('[initPage] DÃ©but de l\'initialisation de la page');
             
             try {
-                // Vérifier si Bootstrap est disponible
+                // VÃ©rifier si Bootstrap est disponible
                 if (typeof bootstrap === 'undefined') {
-                    console.error('[initPage] ERREUR: Bootstrap n\'est pas chargé');
+                    console.error('[initPage] ERREUR: Bootstrap n\'est pas chargÃ©');
                 } else {
-                    console.log('[initPage] Bootstrap est chargé');
+                    console.log('[initPage] Bootstrap est chargÃ©');
                 }
                 
                 // Initialiser les tooltips Bootstrap
                 const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                console.log(`[initPage] ${tooltipTriggerList.length} tooltips à initialiser`);
+                console.log(`[initPage] ${tooltipTriggerList.length} tooltips Ã  initialiser`);
                 
                 tooltipTriggerList.map(function (tooltipTriggerEl, index) {
                     console.log(`[initPage] Initialisation du tooltip ${index + 1}`);
@@ -418,7 +418,7 @@
                 
                 // Initialiser les popovers Bootstrap
                 const popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-                console.log(`[initPage] ${popoverTriggerList.length} popovers à initialiser`);
+                console.log(`[initPage] ${popoverTriggerList.length} popovers Ã  initialiser`);
                 
                 popoverTriggerList.map(function (popoverTriggerEl, index) {
                     console.log(`[initPage] Initialisation du popover ${index + 1}`);
@@ -433,15 +433,15 @@
                 // Initialiser le formulaire du carrousel
                 const carouselForm = document.getElementById('carousel-form');
                 if (carouselForm) {
-                    console.log('[initPage] Formulaire du carrousel trouvé');
+                    console.log('[initPage] Formulaire du carrousel trouvÃ©');
                     
-                    // Supprimer les anciens écouteurs pour éviter les doublons
+                    // Supprimer les anciens Ã©couteurs pour Ã©viter les doublons
                     const newCarouselForm = carouselForm.cloneNode(true);
                     carouselForm.parentNode.replaceChild(newCarouselForm, carouselForm);
                     
-                    console.log('[initPage] Ajout du gestionnaire d\'événements sur le formulaire');
+                    console.log('[initPage] Ajout du gestionnaire d\'Ã©vÃ©nements sur le formulaire');
                     newCarouselForm.addEventListener('submit', async function(e) {
-                        console.log('[initPage] Soumission du formulaire détectée');
+                        console.log('[initPage] Soumission du formulaire dÃ©tectÃ©e');
                         e.preventDefault();
                         
                         try {
@@ -449,8 +449,8 @@
                                 console.log('[initPage] Appel de handleFormSubmit...');
                                 await handleFormSubmit(e);
                             } else {
-                                console.error('[initPage] ERREUR: La fonction handleFormSubmit n\'est pas définie');
-                                throw new Error('La fonction handleFormSubmit n\'est pas définie');
+                                console.error('[initPage] ERREUR: La fonction handleFormSubmit n\'est pas dÃ©finie');
+                                throw new Error('La fonction handleFormSubmit n\'est pas dÃ©finie');
                             }
                         } catch (error) {
                             console.error('[initPage] Erreur lors de la soumission du formulaire:', error);
@@ -470,16 +470,16 @@
                         return false;
                     });
                     
-                    console.log('[initPage] Gestionnaire d\'événements ajouté avec succès');
+                    console.log('[initPage] Gestionnaire d\'Ã©vÃ©nements ajoutÃ© avec succÃ¨s');
                 } else {
                     console.warn('[initPage] Formulaire du carrousel introuvable');
                 }
                 
-                console.log('[initPage] Initialisation de la page terminée avec succès');
+                console.log('[initPage] Initialisation de la page terminÃ©e avec succÃ¨s');
             } catch (error) {
                 console.error('[initPage] ERREUR CRITIQUE lors de l\'initialisation de la page:', error);
                 
-                // Essayer d'afficher l'erreur à l'utilisateur
+                // Essayer d'afficher l'erreur Ã  l'utilisateur
                 try {
                     if (typeof AdminCommon !== 'undefined' && typeof AdminCommon.showNotification === 'function') {
                         AdminCommon.showNotification(
@@ -495,7 +495,7 @@
             }
         }
         
-        // Fonction pour réinitialiser le formulaire
+        // Fonction pour rÃ©initialiser le formulaire
         function resetForm() {
             const form = document.getElementById('carousel-form');
             if (form) form.reset();
@@ -508,7 +508,7 @@
             
             const addMediaBtn = document.getElementById('add-carousel-btn');
             if (addMediaBtn) {
-                addMediaBtn.textContent = 'Ajouter un élément';
+                addMediaBtn.textContent = 'Ajouter un Ã©lÃ©ment';
                 addMediaBtn.removeAttribute('data-edit-id');
             }
         }
@@ -529,3 +529,4 @@
     </script>
 </body>
 </html>
+
