@@ -7,7 +7,7 @@ title: Accueil
 <div class="home-page">
     <!-- Carrousel Principal -->
     <div class="main-carousel">
-        <img src="{{ '/assets/images/autres/tracteur.jpg' | relative_url }}" alt="Bannière principale" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+        <img src='{{ "/assets/images/autres/tracteur.jpg" | relative_url }}' alt='Bannière principale' class='fallback-image' data-fallback='{{ "/assets/images/logo/Logo-Franchini-2.jpg" | relative_url }}'>
     </div>
 
     <!-- Section des Carrousels -->
@@ -17,7 +17,7 @@ title: Accueil
             <h2><a href="{{ '/pages/actualites.html' | relative_url }}">Actualités</a></h2>
             <div class="carousel" id="news-carousel">
                 <div class="carousel-slide active">
-                    <img src="{{ '/assets/images/actualites/gagnez tracteur.jpg' | relative_url }}" alt="Actualité 1" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <img src='{{ "/assets/images/actualites/gagnez-tracteur.jpg" | relative_url }}' alt='Actualité 1' class='fallback-image' data-fallback='{{ "/assets/images/logo/Logo-Franchini-2.jpg" | relative_url }}'>
                     <div class="carousel-content">
                         <h3>Titre de l'actualitÃ© 1</h3>
                         <p>Description courte de l'actualitÃ© 1 avec quelques dÃ©tails intÃ©ressants.</p>
@@ -25,7 +25,7 @@ title: Accueil
                     </div>
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ '/assets/images/autres/hoge-res--3600.jpg' | relative_url }}" alt="Actualité 2" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <img src='{{ "/assets/images/autres/hoge-res--3600.jpg" | relative_url }}' alt='Actualité 2' class='fallback-image' data-fallback='{{ "/assets/images/logo/Logo-Franchini-2.jpg" | relative_url }}'>
                     <div class="carousel-content">
                         <h3>Titre de l'actualitÃ© 2</h3>
                         <p>Description courte de l'actualitÃ© 2 avec quelques dÃ©tails intÃ©ressants.</p>
@@ -40,7 +40,7 @@ title: Accueil
             <h2><a href="{{ '/pages/occasion.html' | relative_url }}">Occasions</a></h2>
             <div class="carousel" id="occasions-carousel">
                 <div class="carousel-slide active">
-                    <img src="{{ '/assets/images/occasion/occasion1.jpg' | relative_url }}" alt="Occasion 1" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <img src='{{ "/assets/images/occasion/occasion1.jpg" | relative_url }}' alt='Occasion 1' class='fallback-image' data-fallback='{{ "/assets/images/logo/Logo-Franchini-2.jpg" | relative_url }}'>
                     <div class="carousel-content">
                         <h3>Occasion spÃ©ciale 1</h3>
                         <p>Description de l'occasion spÃ©ciale avec dÃ©tails importants.</p>
@@ -48,7 +48,7 @@ title: Accueil
                     </div>
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ '/assets/images/occasion/occasion2.jpg' | relative_url }}" alt="Occasion 2" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <img src='{{ "/assets/images/occasion/occasion2.jpg" | relative_url }}' alt='Occasion 2' class='fallback-image' data-fallback='{{ "/assets/images/logo/Logo-Franchini-2.jpg" | relative_url }}'>
                     <div class="carousel-content">
                         <h3>Occasion spÃ©ciale 2</h3>
                         <p>Description de l'occasion spÃ©ciale avec dÃ©tails importants.</p>
@@ -511,69 +511,101 @@ title: Accueil
 
 <!-- Script de gestion des carrousels -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Fonction pour initialiser un carrousel
-    function initCarousel(carouselId) {
-        console.log('Initialisation du carrousel: ' + carouselId);
-        const carousel = document.getElementById(carouselId);
-        if (!carousel) {
-            console.error('Carrousel non trouvé: #' + carouselId);
-            return;
-        }
-            
-        const slides = carousel.getElementsByClassName('carousel-slide');
-        console.log(slides.length + ' diapositives trouvées');
+// Fonction pour initialiser un carrousel
+function initCarousel(carouselId) {
+    console.log('Initialisation du carrousel: ' + carouselId);
+    const carousel = document.getElementById(carouselId);
+    if (!carousel) {
+        console.error('Carrousel non trouvÃ©: #' + carouselId);
+        return;
+    }
         
-        if (slides.length === 0) {
-            console.error('Aucune diapositive trouvée dans le carrousel');
-            return;
-        }
-        
-        let currentSlide = 0;
-        let slideInterval;
-        
-        function showSlide(index) {
-            // Masquer toutes les diapositives
-            for (let i = 0; i < slides.length; i++) {
-                slides[i].classList.remove('active');
-            }
-            
-            // Afficher la diapositive courante
-            slides[index].classList.add('active');
-            currentSlide = index;
-        }
-        
-        function nextSlide() {
-            let newIndex = (currentSlide + 1) % slides.length;
-            showSlide(newIndex);
-        }
-        
-        function startCarousel() {
-            stopCarousel();
-            slideInterval = setInterval(nextSlide, 5000); // Change de slide toutes les 5 secondes
-        }
-        
-        // Fonction pour arrêter le défilement automatique
-        function stopCarousel() {
-            if (slideInterval) {
-                clearInterval(slideInterval);
-            }
-        }
-        
-        // Événements pour la navigation
-        carousel.addEventListener('mouseenter', stopCarousel);
-        carousel.addEventListener('mouseleave', startCarousel);
-        
-        // Afficher la première diapositive
-        showSlide(currentSlide);
-        
-        // Démarrer le défilement automatique
-        startCarousel();
+    const slides = carousel.getElementsByClassName('carousel-slide');
+    console.log(slides.length + ' diapositives trouvÃ©es');
+    
+    if (slides.length === 0) {
+        console.error('Aucune diapositive trouvÃ©e dans le carrousel');
+        return;
     }
     
+    let currentSlide = 0;
+    let slideInterval;
+    
+    function showSlide(index) {
+        // Masquer toutes les diapositives
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].classList.remove('active');
+        }
+        
+        // Afficher la diapositive courante
+        slides[index].classList.add('active');
+        currentSlide = index;
+    }
+    
+    function nextSlide() {
+        let newIndex = (currentSlide + 1) % slides.length;
+        showSlide(newIndex);
+    }
+    
+    function startCarousel() {
+        stopCarousel();
+        slideInterval = setInterval(nextSlide, 5000); // Change de slide toutes les 5 secondes
+    }
+    
+    // Fonction pour arrÃªter le dÃ©filement automatique
+    function stopCarousel() {
+        if (slideInterval) {
+            clearInterval(slideInterval);
+        }
+    }
+    
+    // Ã‰vÃ©nements pour la navigation
+    carousel.addEventListener('mouseenter', stopCarousel);
+    carousel.addEventListener('mouseleave', startCarousel);
+    
+    // Afficher la premiÃ¨re diapositive
+    showSlide(currentSlide);
+    
+    // DÃ©marrer le dÃ©filement automatique
+    startCarousel();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
     // Initialiser les carrousels
     initCarousel('news-carousel');
     initCarousel('occasions-carousel');
+});
+</script>
+
+<!-- Gestion des images manquantes -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Sélectionner toutes les images avec la classe fallback-image
+    const images = document.querySelectorAll('.fallback-image');
+    
+    // Fonction pour gérer les erreurs de chargement d'image
+    function handleImageError(img) {
+        const fallbackSrc = img.getAttribute('data-fallback');
+        if (fallbackSrc) {
+            img.onerror = null; // Éviter les boucles d'erreur
+            img.src = fallbackSrc;
+            img.classList.add('image-fallback');
+        }
+    }
+    
+    // Ajouter les gestionnaires d'événements
+    images.forEach(img => {
+        // Vérifier si l'image est déjà chargée avec succès
+        if (!img.complete || img.naturalWidth === 0) {
+            // L'image n'est pas encore chargée, ajouter un écouteur d'événements
+            img.onerror = function() {
+                handleImageError(this);
+            };
+        } else if (img.naturalWidth === 0) {
+            // L'image a échoué au chargement
+            handleImageError(img);
+        }
+    });
 });
 </script>
 
