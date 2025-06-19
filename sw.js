@@ -5,14 +5,14 @@ const OFFLINE_URL = '/offline.html';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/css/style.css',
-  '/css/header.css',
-  '/css/footer.css',
-  '/css/carousel.css',
-  '/js/main.js',
-  '/js/carousel.js',
-  '/images/logo.png',
-  '/images/favicon.ico',
+  '/assets/css/style.css',
+  '/assets/css/header.css',
+  '/assets/css/footer.css',
+  '/assets/css/carousel.css',
+  '/assets/js/main.js',
+  '/assets/js/carousel.js',
+  '/assets/images/logo.png',
+  '/assets/images/favicon.ico',
   OFFLINE_URL
 ];
 
