@@ -1,4 +1,4 @@
-﻿---
+---
 layout: default
 title: Accueil
 ---
@@ -7,17 +7,17 @@ title: Accueil
 <div class="home-page">
     <!-- Carrousel Principal -->
     <div class="main-carousel">
-        <img src="{{ '/assets/images/autres/tracteur.jpg' | relative_url }}" alt="BanniÃ¨re principale" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+        <img src="{{ '/assets/images/autres/tracteur.jpg' | relative_url }}" alt="Bannière principale" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
     </div>
 
     <!-- Section des Carrousels -->
     <div class="carousels-container">
         <!-- Carrousel des ActualitÃ©s -->
         <section class="carousel-section">
-            <h2><a href="{{ '/pages/actualites.html' | relative_url }}">ActualitÃ©s</a></h2>
+            <h2><a href="{{ '/pages/actualites.html' | relative_url }}">Actualités</a></h2>
             <div class="carousel" id="news-carousel">
                 <div class="carousel-slide active">
-                    <img src="{{ '/assets/images/news1.jpg' | relative_url }}" alt="ActualitÃ© 1" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <img src="{{ '/assets/images/actualites/gagnez tracteur.jpg' | relative_url }}" alt="Actualité 1" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
                     <div class="carousel-content">
                         <h3>Titre de l'actualitÃ© 1</h3>
                         <p>Description courte de l'actualitÃ© 1 avec quelques dÃ©tails intÃ©ressants.</p>
@@ -25,7 +25,7 @@ title: Accueil
                     </div>
                 </div>
                 <div class="carousel-slide">
-                    <img src="{{ '/assets/images/news2.jpg' | relative_url }}" alt="ActualitÃ© 2" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
+                    <img src="{{ '/assets/images/autres/hoge-res--3600.jpg' | relative_url }}" alt="Actualité 2" onerror="this.src='{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}';">
                     <div class="carousel-content">
                         <h3>Titre de l'actualitÃ© 2</h3>
                         <p>Description courte de l'actualitÃ© 2 avec quelques dÃ©tails intÃ©ressants.</p>
@@ -59,12 +59,12 @@ title: Accueil
         </section>
     </div>
 </div>
-<!-- Les styles sont dÃ©jÃ  inclus dans le layout -->
+<!-- Les styles sont déjà inclus dans le layout -->
 
 <style>
-    /* Styles spÃ©cifiques Ã  la page d'accueil */
+    /* Styles spécifiques à la page d'accueil */
     .home-page {
-        margin-top: 20px; /* Ajout d'une marge en haut pour l'espacement avec l'en-tÃªte */
+        margin-top: 20px; /* Ajout d'une marge en haut pour l'espacement avec l'en-tête */
     }
     
     .main-carousel {
@@ -514,46 +514,60 @@ title: Accueil
 document.addEventListener('DOMContentLoaded', function() {
     // Fonction pour initialiser un carrousel
     function initCarousel(carouselId) {
-        console.log(`Initialisation du carrousel: ${carouselId}`);
-        const carousel = document.querySelector(`#${carouselId}`);
+        console.log('Initialisation du carrousel: ' + carouselId);
+        const carousel = document.getElementById(carouselId);
         if (!carousel) {
-            console.error(`Carrousel non trouvÃ©: #${carouselId}`);
+            console.error('Carrousel non trouvé: #' + carouselId);
             return;
         }
+            
+        const slides = carousel.getElementsByClassName('carousel-slide');
+        console.log(slides.length + ' diapositives trouvées');
+        
+        if (slides.length === 0) {
+            console.error('Aucune diapositive trouvée dans le carrousel');
+            return;
+        }
+        
+        let currentSlide = 0;
+        let slideInterval;
+        
+        function showSlide(index) {
+            // Masquer toutes les diapositives
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active');
             }
             
-            const slides = carousel.querySelectorAll('.carousel-slide');
-            console.log(`${slides.length} diapositives trouvÃ©es`);
-            
-            if (slides.length === 0) {
-                console.error('Aucune diapositive trouvÃ©e dans le carrousel');
-                return;
+            // Afficher la diapositive courante
+            slides[index].classList.add('active');
+            currentSlide = index;
+        }
+        
         function nextSlide() {
             let newIndex = (currentSlide + 1) % slides.length;
             showSlide(newIndex);
         }
         
-        // Fonction pour dÃ©marrer le dÃ©filement automatique
         function startCarousel() {
             stopCarousel();
             slideInterval = setInterval(nextSlide, 5000); // Change de slide toutes les 5 secondes
         }
         
-        // Fonction pour arrÃªter le dÃ©filement automatique
+        // Fonction pour arrêter le défilement automatique
         function stopCarousel() {
             if (slideInterval) {
                 clearInterval(slideInterval);
             }
         }
         
-        // Ã‰vÃ©nements pour la navigation
+        // Événements pour la navigation
         carousel.addEventListener('mouseenter', stopCarousel);
         carousel.addEventListener('mouseleave', startCarousel);
         
-        // Afficher la premiÃ¨re diapositive
+        // Afficher la première diapositive
         showSlide(currentSlide);
         
-        // DÃ©marrer le dÃ©filement automatique
+        // Démarrer le défilement automatique
         startCarousel();
     }
     

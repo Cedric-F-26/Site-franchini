@@ -1,4 +1,4 @@
-﻿<!-- Open Graph / Facebook -->
+<!-- Open Graph / Facebook -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ site.url }}{{ page.url | replace:'index.html','' }}">
 <meta property="og:title" content="{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}">
@@ -12,8 +12,9 @@
 <meta name="twitter:description" content="{% if page.description %}{{ page.description }}{% else %}{{ site.description }}{% endif %}">
 <meta name="twitter:image" content="{{ site.url }}{% if page.image %}{{ page.image }}{% else %}{{ '/assets/images/og-image.jpg' | relative_url }}{% endif %}">
 
-<!-- Autres mÃ©tadonnÃ©es -->
+<!-- Autres métadonnées -->
 <link rel="canonical" href="{{ site.url }}{{ page.url | replace:'index.html','' }}">
+<link rel="icon" type="image/x-icon" href="{{ '/favicon.ico' | relative_url }}">
 <meta name="theme-color" content="#00963F">
 
 <!-- Inclusion des assets (CSS, JS, polices, etc.) -->
