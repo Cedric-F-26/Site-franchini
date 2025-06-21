@@ -4,19 +4,13 @@
   "description": "Site web de Franchini - Concessionnaire Deutz-Fahr",
   "private": true,
   "scripts": {
-    "dev": "bundle exec jekyll serve --watch --port 3000 --incremental",
-    "build": "bundle exec jekyll build --config _config.yml,_config_vercel.yml",
-    "start": "bundle exec jekyll serve --port 3000",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint '**/*.js' --quiet",
-    "format": "prettier --write '**/*.{js,json,md,yml}'",
-    "analyze": "bundle-audit check --update",
-    "vercel-build": "node vercel-build.js",
-    "vercel-dev": "bundle install && npm run vercel-build"
+    "dev": "echo \"Ouvrez directement le fichier public/index.html dans votre navigateur\"",
+    "build": "echo \"Le site est prêt dans le dossier public/\"",
+    "start": "echo \"Ouvrez directement le fichier public/index.html dans votre navigateur\"",
+    "test": "echo \"Tests non configurés\" && exit 0"
   },
   "engines": {
-    "node": "20.x",
-    "ruby": ">=3.1.0"
+    "node": "20.x"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.8"

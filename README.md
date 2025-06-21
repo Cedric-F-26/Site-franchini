@@ -2,24 +2,21 @@
 
 [![Déploiement Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvotre-utilisateur%2Fmon-site-web)
 
-Site web officiel de Franchini, concessionnaire agréé Deutz-Fahr. Construit avec [Jekyll](https://jekyllrb.com/), déployé sur Vercel avec intégration Supabase pour une gestion avancée des utilisateurs et du contenu.
+Site vitrine officiel de Franchini, concessionnaire agréé Deutz-Fahr. Site statique simple déployé sur Vercel.
 
 ## 🚀 Fonctionnalités
 
 - Site vitrine responsive
-- Gestion des actualités
-- Formulaire de contact
-- Intégration avec Supabase pour le backend
+- Page d'accueil avec coordonnées
+- Page d'erreur 404 personnalisée
 - Déploiement continu avec Vercel
 
 ## 🛠 Configuration requise
 
-- Node.js 16+
-- Ruby 3.1+
-- Bundler
-- Compte Supabase
+- Aucune installation requise localement
+- Un compte Vercel pour le déploiement
 
-## 🚀 Installation
+## 🚀 Démarrage local
 
 1. **Cloner le dépôt**
    ```bash
@@ -27,26 +24,20 @@ Site web officiel de Franchini, concessionnaire agréé Deutz-Fahr. Construit av
    cd mon-site-web/Site-franchini
    ```
 
-2. **Installer les dépendances**
-   ```bash
-   # Installer les gems Ruby
-   bundle install --path vendor/bundle
-   
-   # Installer les packages Node.js
-   npm install
-   ```
+2. **Ouvrir le site**
+   - Double-cliquez simplement sur le fichier `public/index.html` pour l'ouvrir dans votre navigateur
+   - Ou utilisez un serveur local comme `live-server` si vous en avez un installé
 
-3. **Configurer les variables d'environnement**
-   ```bash
-   cp .env.example .env
-   # Éditer le fichier .env avec vos propres valeurs
-   ```
+## 🚀 Déploiement sur Vercel
 
-4. **Démarrer le serveur de développement**
-   ```bash
-   bundle exec jekyll serve --livereload --incremental
-   ```
-   Le site sera accessible à l'adresse : http://localhost:4000
+1. Poussez votre code sur GitHub, GitLab ou Bitbucket
+2. Connectez-vous à [Vercel](https://vercel.com)
+3. Cliquez sur "New Project"
+4. Importez votre dépôt
+5. Laissez les paramètres par défaut (Vercel détectera automatiquement la configuration)
+6. Cliquez sur "Deploy"
+
+Votre site sera déployé et accessible immédiatement !
 
 ## 🏗 Déploiement
 
