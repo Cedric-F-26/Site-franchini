@@ -2,11 +2,10 @@
   "version": 2,
   "builds": [
     {
-      "src": "build.sh",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_site",
-        "installCommand": "chmod +x build.sh && ./build.sh"
+        "distDir": "_site"
       }
     }
   ],
@@ -29,11 +28,5 @@
       "src": "^/((?!assets/|images/|_next/).*)$",
       "dest": "/index.html"
     }
-  ],
-  "build": {
-    "env": {
-      "NODE_ENV": "production",
-      "JEKYLL_ENV": "production"
-    }
-  }
+  ]
 }

@@ -5,16 +5,16 @@
   "private": true,
   "scripts": {
     "dev": "bundle exec jekyll serve --watch --port 3000 --incremental",
-    "build": "bundle exec jekyll build",
+    "build": "bundle exec jekyll build --config _config.yml,_config_vercel.yml",
     "start": "bundle exec jekyll serve --port 3000",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint '**/*.js' --quiet",
     "format": "prettier --write '**/*.{js,json,md,yml}'",
     "analyze": "bundle-audit check --update",
-    "vercel-build": "chmod +x build.sh && ./build.sh"
+    "vercel-build": "node vercel-build.js"
   },
   "engines": {
-    "node": ">=20.0.0",
+    "node": "20.x",
     "ruby": ">=3.1.0"
   },
   "dependencies": {
@@ -27,6 +27,5 @@
   },
   "browserslist": [
     "defaults"
-  ],
-  "packageManager": "npm@10.0.0"
+  ]
 }
