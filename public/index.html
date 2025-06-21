@@ -6,6 +6,7 @@
     <title>Franchini - Accueil</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="../assets/css/style.css" rel="stylesheet">
     <style>
         /* Reset et styles de base */
         * {
@@ -18,52 +19,350 @@
             font-family: 'Roboto', sans-serif;
             line-height: 1.6;
             color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         
         .container {
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 15px;
+            width: 100%;
+        }
+        
+        .main-content {
+            flex: 1;
+        }
+
+        /* Styles pour les carrousels */
+        .carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #home-carousel {
+            height: 500px;
+        }
+
+        #news-carousel,
+        #occasions-carousel {
+            height: 400px;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .slide-content {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+            color: white;
+            padding: 30px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+        }
+
+        .slide-overlay h2 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .slide-overlay p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .slide-overlay .price {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #f1c40f;
+            margin: 10px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #d35400;
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 2;
+            padding: 0 15px;
+        }
+
+        .carousel-prev,
+        .carousel-next {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 24px;
+            width: 40px;
+            height: 60px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .carousel-prev:hover,
+        .carousel-next:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 2;
+        }
+
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: background 0.3s;
+        }
+
+        .carousel-dot.active,
+        .carousel-dot:hover {
+            background: white;
+        }
+
+        /* Grille des carrousels secondaires */
+        .carousels-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .carousel-container {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #4CAF50;
+        }
+
+        /* Styles responsifs */
+        @media (max-width: 768px) {
+            #home-carousel {
+                height: 350px;
+            }
+
+            #news-carousel,
+            #occasions-carousel {
+                height: 300px;
+            }
+
+            .slide-overlay h2 {
+                font-size: 1.8em;
+            }
+
+            .slide-overlay p {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #home-carousel {
+                height: 250px;
+            }
+
+            #news-carousel,
+            #occasions-carousel {
+                height: 250px;
+            }
+
+            .slide-overlay {
+                padding: 15px;
+            }
+
+            .slide-overlay h2 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+
+            .slide-overlay p {
+                font-size: 0.9em;
+                margin-bottom: 10px;
+            }
         }
         
         /* Header */
-        header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .main-header {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: relative;
+            z-index: 1000;
         }
         
         .logo {
-            font-size: 24px;
-            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
         
-        nav ul {
+        .logo-link {
+            text-decoration: none;
+            position: relative;
+        }
+        
+        .logo-text {
+            font-family: Arial, sans-serif;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+            letter-spacing: 1px;
+            position: relative;
+        }
+        
+        .logo-text::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: #4CAF50;
+        }
+        
+        .header-social {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .social-icon {
+            color: #888;
+            font-size: 20px;
+            transition: color 0.3s, transform 0.3s;
+            opacity: 0.7;
+        }
+        
+        .social-icon:hover {
+            color: #3D6AA2;
+            transform: translateY(-2px);
+            opacity: 1;
+        }
+        
+        .main-nav ul {
             display: flex;
             list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 25px;
+            align-items: center;
         }
         
-        nav ul li {
-            margin-left: 20px;
-        }
-        
-        nav ul li a {
-            color: white;
+        .main-nav a {
             text-decoration: none;
+            color: #000000;
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
             font-weight: 500;
             transition: color 0.3s;
+            padding: 5px 0;
+            position: relative;
         }
         
-        nav ul li a:hover {
-            color: #e74c3c;
+        .main-nav a:hover {
+            color: #4CAF50;
+        }
+        
+        .main-nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #4CAF50;
+        }
+        
+        .phone-number {
+            color: #4CAF50;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+        
+        .phone-number i {
+            color: #4CAF50;
+            font-size: 18px;
+        }
+        
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 24px;
+            }
         }
         
         /* Carrousel principal */
@@ -215,64 +514,115 @@
         }
         
         /* Footer */
-        footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 30px 0;
-            text-align: center;
-            margin-top: 40px;
+        .main-footer {
+            background-color: #1a1a1a !important;
+            color: white !important;
+            padding: 30px 0 !important;
+            margin-top: 40px !important;
         }
-        
+
+        .footer-container {
+            max-width: 1200px !important;
+            margin: 0 auto !important;
+            padding: 0 15px !important;
+            width: 100% !important;
+        }
+
         .footer-content {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 20px;
+            display: block !important;
+            grid-template-columns: none !important;
+            gap: 0 !important;
+            margin-bottom: 0 !important;
+            text-align: center !important;
+            max-width: 100% !important;
         }
-        
-        .footer-section {
-            flex: 1;
-            min-width: 200px;
+
+        .footer-info {
+            margin: 0 auto 20px !important;
+            text-align: center !important;
+            max-width: 100% !important;
         }
-        
-        .footer-section h3 {
-            color: #e74c3c;
-            margin-bottom: 15px;
+
+        .footer-info h4 {
+            color: #4CAF50 !important;
+            font-weight: bold !important;
+            font-size: 24px !important;
+            letter-spacing: 1px !important;
+            margin: 0 0 15px 0 !important;
+            text-align: center !important;
         }
-        
-        .footer-section p, .footer-section a {
-            color: #ecf0f1;
-            margin-bottom: 10px;
-            display: block;
-            text-decoration: none;
+
+        .footer-info p {
+            color: #ddd !important;
+            margin: 0 0 8px 0 !important;
+            text-align: center !important;
         }
-        
-        .footer-section a:hover {
-            color: #e74c3c;
+
+        .phone-container {
+            margin-top: 15px !important;
         }
-        
-        .social-links {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin-top: 20px;
+
+        .phone-link {
+            color: white !important;
+            text-decoration: none !important;
+            font-size: 18px !important;
+            font-weight: 500 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
         }
-        
-        .social-links a {
-            color: white;
-            font-size: 20px;
-            transition: color 0.3s;
+
+        .phone-link i {
+            margin-right: 8px !important;
         }
-        
-        .social-links a:hover {
-            color: #e74c3c;
+
+        .footer-bottom {
+            margin-top: 25px !important;
+            padding-top: 15px !important;
+            border-top: 1px solid #333 !important;
+            font-size: 12px !important;
+            color: #aaa !important;
+            text-align: center !important;
+            width: 100% !important;
         }
-        
+
         .copyright {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #34495e;
-            font-size: 14px;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .footer-login {
+            color: #4CAF50 !important;
+            text-decoration: none !important;
+            display: inline-block !important;
+            margin-left: 0 !important;
+        }
+
+        /* Styles pour les écrans plus larges */
+        @media (min-width: 768px) {
+            .copyright {
+                flex-direction: row !important;
+                gap: 15px !important;
+            }
+            
+            .footer-content {
+                padding: 0 !important;
+            }
+            
+            .footer-info {
+                max-width: 100% !important;
+            }
+        }
+
+        /* Assurer que le texte du copyright est bien centré */
+        .copyright span,
+        .copyright a {
+            display: inline-block !important;
         }
         
         /* Responsive */
@@ -303,76 +653,85 @@
 </head>
 <body>
     <!-- Header -->
-    <header>
-        <div class="container header-content">
-            <div class="logo">Franchini</div>
-            <nav>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html" class="logo-link">
+                    <div class="logo-text">FRANCHINI</div>
+                </a>
+                <div class="header-social">
+                    <a href="#" class="social-icon" aria-label="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon" aria-label="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+            <nav class="main-nav">
                 <ul>
-                    <li><a href="#">Accueil</a></li>
-                    <li><a href="#">Actualités</a></li>
-                    <li><a href="#">Occasions</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="../pages/concession.html">La concession</a></li>
+                    <li><a href="../pages/materiel.html">Matériel neuf</a></li>
+                    <li><a href="../pages/location.html">Location</a></li>
+                    <li><a href="../pages/occasion.html">Occasion</a></li>
+                    <li><a href="../pages/magasin.html">Magasin</a></li>
+                    <li><a href="../pages/contact.html">Contact</a></li>
+                    <li><a href="tel:0475474037" class="phone-number"><i class="fas fa-phone"></i> 04 75 47 40 37</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <!-- Carrousel principal -->
-    <div class="main-carousel" id="mainCarousel">
-        <!-- Les slides seront ajoutés dynamiquement par JavaScript -->
-    </div>
+    <!-- Contenu principal -->
+    <main class="main-content">
+        <!-- Carrousel principal -->
+        <div id="home-carousel" class="carousel">
+            <!-- Le contenu sera généré par carousel.js -->
+        </div>
 
-    <!-- Grille des carrousels secondaires -->
-    <div class="container">
-        <div class="carousels-grid">
-            <!-- Carrousel d'actualités -->
-            <div class="carousel-container">
-                <h2 class="carousel-title">Actualités</h2>
-                <div class="secondary-carousel" id="newsCarousel">
-                    <!-- Les slides seront ajoutés dynamiquement par JavaScript -->
+        <!-- Section des carrousels secondaires -->
+        <div class="container">
+            <div class="carousels-grid">
+                <!-- Carrousel d'actualités -->
+                <div class="carousel-container">
+                    <h2 class="section-title">Actualités</h2>
+                    <div id="news-carousel" class="carousel">
+                        <!-- Le contenu sera généré par JavaScript -->
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Carrousel d'occasions -->
-            <div class="carousel-container">
-                <h2 class="carousel-title">Occasions</h2>
-                <div class="secondary-carousel" id="occasionsCarousel">
-                    <!-- Les slides seront ajoutés dynamiquement par JavaScript -->
+                
+                <!-- Carrousel d'occasions -->
+                <div class="carousel-container">
+                    <h2 class="section-title">Occasions</h2>
+                    <div id="occasions-carousel" class="carousel">
+                        <!-- Le contenu sera généré par JavaScript -->
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
+    <footer class="main-footer">
+        <div class="footer-container">
             <div class="footer-content">
-                <div class="footer-section">
-                    <h3>À propos</h3>
-                    <p>Franchini, votre partenaire de confiance pour le matériel agricole depuis plus de 20 ans.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Contact</h3>
-                    <p><i class="fas fa-phone"></i> 01 23 45 67 89</p>
-                    <p><i class="fas fa-envelope"></i> contact@franchini.fr</p>
-                    <p><i class="fas fa-map-marker-alt"></i> 123 Rue de l'Agriculture, 75000 Paris</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Liens rapides</h3>
-                    <a href="#">Accueil</a>
-                    <a href="#">Actualités</a>
-                    <a href="#">Occasions</a>
-                    <a href="#">Contact</a>
+                <div class="footer-info">
+                    <h4>FRANCHINI</h4>
+                    <p>111 av des monts du matin<br>26300 Marches</p>
+                    <p class="phone-container">
+                        <a href="tel:0475474037" class="phone-link">
+                            <i class="fas fa-phone"></i> 04 75 47 40 37
+                        </a>
+                    </p>
                 </div>
             </div>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-                <a href="#"><i class="fab fa-linkedin"></i></a>
-            </div>
-            <div class="copyright">
-                &copy; 2025 Franchini. Tous droits réservés.
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <span>© 2024 Franchini SARL. Tous droits réservés.</span>
+                    <a href="../pages/connexion-prive.html" class="footer-login">
+                        Connexion privée
+                    </a>
+                </div>
             </div>
         </div>
     </footer>
@@ -380,89 +739,96 @@
     <script>
         // Données pour les carrousels
         const carouselsData = {
-            main: [
+            'home-carousel': [
+                {
+                    image: 'https://via.placeholder.com/1200x500/2c3e50/ffffff?text=Tracteur+Franchini',
+                    title: 'Bienvenue chez Franchini',
+                    description: 'Votre partenaire agricole de confiance',
+                    buttonText: 'Découvrir',
+                    buttonLink: 'pages/neuf.html'
+                },
                 {
                     image: 'https://via.placeholder.com/1200x500/2c3e50/ffffff?text=Promotion+Spéciale',
                     title: 'Nouveaux modèles 2025',
-                    description: 'Découvrez notre nouvelle gamme de matériel agricole'
-                },
-                {
-                    image: 'https://via.placeholder.com/1200x500/3498db/ffffff?text=Événement+à+venir',
-                    title: 'Portes ouvertes',
-                    description: 'Venez nous rencontrer lors de notre journée portes ouvertes'
-                },
-                {
-                    image: 'https://via.placeholder.com/1200x500/e74c3c/ffffff?text=Offre+Spéciale',
-                    title: 'Remise exceptionnelle',
-                    description: 'Jusqu\'à -30% sur une sélection de machines'
+                    description: 'Découvrez notre nouvelle gamme de matériel agricole',
+                    buttonText: 'En savoir plus',
+                    buttonLink: '#'
                 }
             ],
-            news: [
+            'news-carousel': [
                 {
                     image: 'https://via.placeholder.com/600x400/2ecc71/ffffff?text=Actualité+1',
                     title: 'Nouvelle gamme de tracteurs',
-                    date: '15 juin 2025'
+                    description: 'Découvrez nos nouveaux modèles 2025',
+                    buttonText: 'Lire la suite',
+                    buttonLink: '#'
                 },
                 {
-                    image: 'https://via.placeholder.com/600x400/9b59b6/ffffff?text=Actualité+2',
+                    image: 'https://via.placeholder.com/600x400/3498db/ffffff?text=Actualité+2',
                     title: 'Salon agricole 2025',
-                    date: '1er juin 2025'
+                    description: 'Retrouvez-nous au prochain salon',
+                    buttonText: 'En savoir plus',
+                    buttonLink: '#'
                 },
                 {
                     image: 'https://via.placeholder.com/600x400/e67e22/ffffff?text=Actualité+3',
-                    title: 'Formation sécurité',
-                    date: '20 mai 2025'
+                    title: 'Nouveaux équipements',
+                    description: 'Découvrez nos dernières innovations',
+                    buttonText: 'Découvrir',
+                    buttonLink: '#'
                 }
             ],
-            occasions: [
+            'occasions-carousel': [
                 {
-                    image: 'https://via.placeholder.com/600x400/34495e/ffffff?text=Occasion+1',
-                    title: 'Tracteur 2020',
-                    price: '25 000 €'
+                    image: 'https://via.placeholder.com/600x400/e74c3c/ffffff?text=Tracteur+2020',
+                    title: 'Tracteur d\'occasion',
+                    description: 'Modèle 2020, 500 heures',
+                    price: '25 000 €',
+                    buttonText: 'Voir détail',
+                    buttonLink: '#'
                 },
                 {
-                    image: 'https://via.placeholder.com/600x400/16a085/ffffff?text=Occasion+2',
-                    title: 'Moissonneuse 2019',
-                    price: '45 000 €'
+                    image: 'https://via.placeholder.com/600x400/9b59b6/ffffff?text=Moissonneuse',
+                    title: 'Moissonneuse-batteuse',
+                    description: 'Modèle 2019, excellent état',
+                    price: '45 000 €',
+                    buttonText: 'Voir détail',
+                    buttonLink: '#'
                 },
                 {
-                    image: 'https://via.placeholder.com/600x400/c0392b/ffffff?text=Occasion+3',
+                    image: 'https://via.placeholder.com/600x400/1abc9c/ffffff?text=Remorque',
                     title: 'Remorque agricole',
-                    price: '8 500 €'
+                    description: '10 tonnes, très bon état',
+                    price: '8 500 €',
+                    buttonText: 'Voir détail',
+                    buttonLink: '#'
                 }
             ]
         };
 
         // Fonction pour initialiser un carrousel
-        function initCarousel(containerId, slides, isMain = false) {
+        function initCarousel(containerId, items) {
             const container = document.getElementById(containerId);
-            if (!container) return;
+            if (!container || !items || items.length === 0) return;
 
             // Créer les slides
             let slidesHtml = '';
             let dotsHtml = '';
             
-            slides.forEach((slide, index) => {
+            items.forEach((item, index) => {
                 const activeClass = index === 0 ? 'active' : '';
                 
-                if (isMain) {
-                    slidesHtml += `
-                        <div class="slide ${activeClass}" style="background-image: url('${slide.image}')">
-                            <div class="slide-content">
-                                <h2>${slide.title}</h2>
-                                <p>${slide.description}</p>
+                slidesHtml += `
+                    <div class="carousel-slide ${activeClass}">
+                        <div class="slide-content" style="background-image: url('${item.image || item.src}');">
+                            <div class="slide-overlay">
+                                <h2>${item.title}</h2>
+                                ${item.description ? `<p>${item.description}</p>` : ''}
+                                ${item.price ? `<p class="price">${item.price}</p>` : ''}
+                                ${item.buttonText ? `<a href="${item.buttonLink || '#'}" class="btn">${item.buttonText}</a>` : ''}
                             </div>
-                        </div>`;
-                } else {
-                    slidesHtml += `
-                        <div class="slide ${activeClass}">
-                            <img src="${slide.image}" alt="${slide.title}" class="carousel-img">
-                            <div class="carousel-caption">
-                                <h3>${slide.title}</h3>
-                                <p>${slide.date || slide.price || ''}</p>
-                            </div>
-                        </div>`;
-                }
+                        </div>
+                    </div>`;
                 
                 dotsHtml += `<button class="carousel-dot ${activeClass}" data-index="${index}"></button>`;
             });
