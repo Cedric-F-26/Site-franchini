@@ -8,13 +8,13 @@ description: "Espace d'administration du site Franchini"
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="{{ '/assets/js/auth/supabase-config.js' | relative_url }}"></script>
     <script>
-        // VÃ©rifier l'authentification avant de charger la page
+        // Vérifier l'authentification avant de charger la page
         document.addEventListener('DOMContentLoaded', async function() {
             // VÃ©rifier la session
             const { data: { session }, error } = await supabase.auth.getSession();
             
             if (error || !session) {
-                // Rediriger vers la page de connexion si non authentifiÃ©
+                // Rediriger vers la page de connexion si non authentifié
                 window.location.href = 'connexion-prive.html';
                 return;
             }
@@ -1214,11 +1214,11 @@ description: "Espace d'administration du site Franchini"
             </div>
             
             <div id="actualites" class="tab-content">
-                <h2>Gestion du Carrousel d'ActualitÃ©s</h2>
+                <h2>Gestion du Carrousel d'Actualités</h2>
                 
-                <!-- Formulaire d'ajout/Ã©dition -->
+                <!-- Formulaire d'ajout/édition -->
                 <div class="admin-card">
-                    <h3>Ajouter/Modifier un Ã©lÃ©ment</h3>
+                    <h3>Ajouter/Modifier un élément</h3>
                     <form id="carousel-form">
                         <input type="hidden" id="carousel-item-id">
                         
@@ -1299,17 +1299,17 @@ description: "Espace d'administration du site Franchini"
 
                 <!-- Liste des Ã©lÃ©ments du carrousel -->
                 <div class="admin-card">
-                    <h3>Ã‰lÃ©ments du carrousel</h3>
-                    <p class="hint">Glissez-dÃ©posez les Ã©lÃ©ments pour les rÃ©organiser</p>
+                    <h3>Éléments du carrousel</h3>
+                    <p class="hint">Glissez-déposez les éléments pour les réorganiser</p>
                     <div id="carousel-items-container" class="sortable-container">
                         <!-- Les Ã©lÃ©ments du carrousel seront ajoutÃ©s ici dynamiquement -->
                     </div>
                 </div>
             </div>
             <div id="occasions" class="tab-content">
-                <h2>Gestion des Occasions (MatÃ©riels et Tracteurs)</h2>
+                <h2>Gestion des Occasions (Matériels et Tracteurs)</h2>
                 <div class="admin-card">
-                    <h3>Ajouter/Modifier un MatÃ©riel/Tracteur</h3>
+                    <h3>Ajouter/Modifier un Matériel/Tracteur</h3>
                     <form id="materiel-type-selector">
                         <label><input type="radio" name="materiel-categorie" value="tracteur" checked> Tracteur</label>
                         <label><input type="radio" name="materiel-categorie" value="materiel"> Autre MatÃ©riel</label>
@@ -1633,7 +1633,7 @@ description: "Espace d'administration du site Franchini"
                 resetMaterielForm();
             });
 
-            // Fonction pour mettre Ã  jour le tableau des matÃ©riels
+            // Fonction pour mettre à jour le tableau des matériels
             function updateMaterielsTable() {
                 const tbody = document.getElementById('occasions-table-body');
                 tbody.innerHTML = '';
@@ -1683,7 +1683,7 @@ description: "Espace d'administration du site Franchini"
                 localStorage.setItem('franchiniOccasions', JSON.stringify(materiels));
             }
 
-            // Fonction pour Ã©diter un matÃ©riel
+            // Fonction pour éditer un matériel
             function editMateriel(id) {
                 const materiel = materiels.find(m => m.id === id);
                 if (!materiel) return;
@@ -1915,7 +1915,7 @@ description: "Espace d'administration du site Franchini"
                 }
             }
             
-            // Fonction utilitaire pour empÃªcher le comportement par dÃ©faut
+            // Fonction utilitaire pour empêcher le comportement par défaut
             function preventDefaults(e) {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1928,7 +1928,7 @@ description: "Espace d'administration du site Franchini"
                 return (match && match[7].length === 11) ? match[7] : null;
             }
 
-            // Fonction gÃ©nÃ©rique pour configurer une zone de dÃ©pÃ´t
+            // Fonction générique pour configurer une zone de dépôt
             function setupDropzone(dropzoneId, fileInputId, previewContainerId) {
                 console.log('Initialisation de la zone de dÃ©pÃ´t:', dropzoneId, fileInputId, previewContainerId);
                 
@@ -2021,7 +2021,7 @@ description: "Espace d'administration du site Franchini"
                 console.log('Configuration de la zone de dÃ©pÃ´t terminÃ©e');
             }
             
-            // Fonction pour initialiser toutes les zones de dÃ©pÃ´t
+            // Fonction pour initialiser toutes les zones de dépôt
             function initializeAllDropzones() {
                 console.log('Initialisation des zones de dÃ©pÃ´t...');
                 
@@ -2069,7 +2069,7 @@ description: "Espace d'administration du site Franchini"
                 console.log('Toutes les zones de dÃ©pÃ´t ont Ã©tÃ© initialisÃ©es');
             }
             
-            // DÃ©marrer l'initialisation lorsque le DOM est chargÃ©
+            // Démarrer l'initialisation lorsque le DOM est chargé
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', initializeAllDropzones);
             } else {
@@ -2462,7 +2462,7 @@ description: "Espace d'administration du site Franchini"
                                 reader.readAsDataURL(file);
                                 return; // On sort de la fonction ici, le reste sera gÃ©rÃ© dans le callback
                             } 
-                            // VÃ©rifier si une image est dÃ©jÃ  affichÃ©e dans la prÃ©visualisation (pour l'Ã©dition)
+                            // Vérifier si une image est déjà affichée dans la prévisualisation (pour l'édition)
                             else if (mediaPreview && mediaPreview.querySelector('img') && currentEditId) {
                                 const imgSrc = mediaPreview.querySelector('img').src;
                                 if (imgSrc && imgSrc.startsWith('data:image/')) {
@@ -2504,7 +2504,7 @@ description: "Espace d'administration du site Franchini"
                 });
             }
             
-            // Fonction pour ajouter un Ã©lÃ©ment au carrousel
+            // Fonction pour ajouter un élément au carrousel
             function addCarouselItem(type, mediaUrl) {
                 try {
                     if (!mediaUrl) {
@@ -2728,7 +2728,7 @@ description: "Espace d'administration du site Franchini"
                 }
             }
             
-            // Ã‰diter un Ã©lÃ©ment du carrousel
+            // Éditer un élément du carrousel
             function editCarouselItem(id) {
                 try {
                     const item = carouselItems.find(item => item.id === id);
@@ -2795,7 +2795,7 @@ description: "Espace d'administration du site Franchini"
                 }
             }
             
-            // Supprimer un Ã©lÃ©ment du carrousel
+            // Supprimer un élément du carrousel
             function deleteCarouselItem(id) {
                 if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer cet Ã©lÃ©ment du carrousel ?')) {
                     const index = carouselItems.findIndex(item => item.id === id);
@@ -2812,7 +2812,7 @@ description: "Espace d'administration du site Franchini"
                 localStorage.setItem('franchiniCarousel', JSON.stringify(carouselItems));
             }
             
-            // Gestion du glisser-dÃ©poser pour le rÃ©ordonnancement
+            // Gestion du glisser-déposer pour le réordonnancement
             let draggedItem = null;
             
             function handleDragStart(e) {
@@ -3063,14 +3063,14 @@ description: "Espace d'administration du site Franchini"
 
             }
 
-            // Mettre Ã  jour les champs du formulaire en fonction du type de contenu
+            // Mettre à jour les champs du formulaire en fonction du type de contenu
             function updateCarouselFormFields(type) {
                 document.getElementById('image-upload-group').style.display = type === 'image' ? 'block' : 'none';
                 document.getElementById('video-upload-group').style.display = type === 'video' ? 'block' : 'none';
                 document.getElementById('youtube-url-group').style.display = type === 'youtube' ? 'block' : 'none';
             }
 
-            // Sauvegarder un Ã©lÃ©ment du carrousel
+            // Sauvegarder un élément du carrousel
             function saveCarouselItem() {
                 const type = document.getElementById('carousel-type').value;
                 const title = document.getElementById('carousel-title').value;
@@ -3235,7 +3235,7 @@ description: "Espace d'administration du site Franchini"
                 setupDragAndDrop();
             }
 
-            // RÃ©initialiser le formulaire du carrousel
+            // Réinitialiser le formulaire du carrousel
             function resetCarouselForm() {
                 document.getElementById('carousel-form').reset();
                 document.getElementById('carousel-item-id').value = '';
@@ -3249,7 +3249,7 @@ description: "Espace d'administration du site Franchini"
                 currentCarouselEditId = null;
             }
 
-            // Configurer le glisser-dÃ©poser pour le rÃ©ordonnancement
+            // Configurer le glisser-déposer pour le réordonnancement
             function setupDragAndDrop() {
                 const items = document.querySelectorAll('.carousel-item');
                 
@@ -3315,7 +3315,7 @@ description: "Espace d'administration du site Franchini"
                 });
             }
 
-            // Fonction pour Ã©diter un Ã©lÃ©ment du carrousel
+            // Fonction pour éditer un élément du carrousel
             function editCarouselItem(id) {
                 const item = carouselItems.find(item => item.id === id);
                 if (!item) return;
@@ -3374,7 +3374,7 @@ description: "Espace d'administration du site Franchini"
                 currentCarouselEditId = id;
             }
 
-            // Fonction pour supprimer un Ã©lÃ©ment du carrousel
+            // Fonction pour supprimer un élément du carrousel
             function deleteCarouselItem(id) {
                 if (confirm('ÃŠtes-vous sÃ»r de vouloir supprimer cet Ã©lÃ©ment du carrousel ?')) {
                     carouselItems = carouselItems.filter(item => item.id !== id);
@@ -3399,7 +3399,7 @@ description: "Espace d'administration du site Franchini"
                 }
             }
 
-            // Gestionnaire d'Ã©vÃ©nements pour les onglets
+            // Gestionnaire d'événements pour les onglets
             document.querySelectorAll('.tab-btn').forEach(tabBtn => {
                 tabBtn.addEventListener('click', function() {
                     const tabId = this.getAttribute('data-tab');

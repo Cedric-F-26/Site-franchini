@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion PrivÃ©e - Franchini</title>
+    <title>Connexion Privée - Franchini</title>
     <link rel="stylesheet" href="../assets/css/style.css"> <!-- Style global, peut contenir des reset/normalize utiles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -47,7 +47,7 @@
             height: auto; /* Maintient les proportions */
             margin: 0 auto 1.5rem; /* Centre le logo horizontalement et ajoute une marge en dessous */
             display: block; /* Important pour que la marge auto fonctionne */
-            max-width: 100%; /* S'assure que le logo ne dÃ©passe pas de son conteneur */
+            max-width: 100%; /* S'assure que le logo ne dépasse pas de son conteneur */
         }
 
         .login-header h1 {
@@ -277,7 +277,7 @@
             }
             
             // Initialisation
-            // La vÃ©rification d'authentification est maintenant gÃ©rÃ©e par la fonction globale checkAuth
+            // La vérification d'authentification est maintenant gérée par la fonction globale checkAuth
             
             // Basculer la visibilitÃ© du mot de passe
             if (togglePassword) {
@@ -345,7 +345,7 @@
                 }, 5000);
             }
             
-            // Afficher le formulaire de rÃ©initialisation de mot de passe
+            // Afficher le formulaire de réinitialisation de mot de passe
             if (forgotPasswordLink) {
                 forgotPasswordLink.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -389,7 +389,7 @@
                 });
             }
             
-            // Fonction pour afficher les messages de rÃ©initialisation
+            // Fonction pour afficher les messages de réinitialisation
             function showResetMessage(message, type) {
                 if (!resetMessage) return;
                 
@@ -420,7 +420,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../assets/js/auth/supabase-config.js"></script>
     <script>
-        // DÃ©finir checkAuth dans la portÃ©e globale
+        // Définir checkAuth dans la portée globale
         window.checkAuth = async function() {
             try {
                 console.log('VÃ©rification de la session...');
@@ -447,7 +447,7 @@
             }
         };
         
-        // S'assurer que la fonction checkAuth est dÃ©finie avant de l'appeler
+        // S'assurer que la fonction checkAuth est définie avant de l'appeler
         function waitForSupabase() {
             if (typeof window.supabase !== 'undefined' && window.supabase.auth) {
                 console.log('Supabase est prÃªt, vÃ©rification de l\'authentification...');
@@ -458,7 +458,7 @@
             }
         }
         
-        // DÃ©marrer la vÃ©rification de l'authentification une fois que tout est chargÃ©
+        // Démarrer la vérification de l'authentification une fois que tout est chargé
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', waitForSupabase);
         } else {
