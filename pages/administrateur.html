@@ -1,9 +1,12 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <!-- VÃ©rification de l'authentification -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../assets/js/auth/supabase-config.js"></script>
+---
+layout: default
+title: Administration - Franchini
+description: "Espace d'administration du site Franchini"
+---
+
+<!-- Vérification de l'authentification -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="{{ '/assets/js/auth/supabase-config.js' | relative_url }}"></script>
     <script>
         // VÃ©rifier l'authentification avant de charger la page
         document.addEventListener('DOMContentLoaded', async function() {
@@ -19,14 +22,8 @@
             // Si l'utilisateur est authentifiÃ©, le reste de la page se charge normalement
         });
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Espace d'administration du site Franchini">
-    <title>Administration - Franchini</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- Pied de page supprimé -->
+{% include head.html %}
+<link rel="stylesheet" href="{{ '/assets/css/admin.css' | relative_url }}">
     <style>
         /* Style du logo */
         .logo-link {
@@ -1075,11 +1072,9 @@
         }
     </style>
 </head>
-<body>
-    <header class="main-header">
-        <div class="container">
-            <div class="logo">
-                <a href="../index.html" class="logo-link">
+{% include header.html %}
+
+<div class="admin-container">
                     <div class="logo-text">FRANCHINI</div>
                 </a>
                 <div class="header-social">
@@ -3454,11 +3449,14 @@
                     <i class="fas fa-phone" style="margin-right: 8px;"></i>04 75 47 40 37
                 </a>
             </div>
-            <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
-                © 2024 Franchini SARL. Tous droits réservés.
-                <a href="connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
-            </div>
         </div>
-    </footer>
+    </main>
+</div>
+
+{% include footer.html %}
+
+<!-- Scripts spÃcifiques Ã  l'administration -->
+<script src="{{ '/assets/js/admin.js' | relative_url }}"></script>
+
 </body>
 </html>
