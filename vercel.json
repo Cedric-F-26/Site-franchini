@@ -20,5 +20,5 @@
       "JEKYLL_ENV": "production"
     }
   },
-  "installCommand": "gem install bundler && bundle install"
+  "installCommand": "gem install bundler jekyll && bundle install"
 }
