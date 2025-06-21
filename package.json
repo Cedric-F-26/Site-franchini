@@ -10,25 +10,20 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint '**/*.js' --quiet",
     "format": "prettier --write '**/*.{js,json,md,yml}'",
-    "analyze": "bundle-audit check --update"
+    "analyze": "bundle-audit check --update",
+    "vercel-build": "chmod +x build.sh && ./build.sh"
   },
   "engines": {
-    "node": ">=16.0.0",
+    "node": "18.x",
     "ruby": ">=3.1.0"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.x",
-    "@vercel/static-build": "^2.0.0"
+    "@supabase/supabase-js": "^2.39.0"
   },
   "devDependencies": {
-    "eslint": "^8.x",
-    "eslint-config-prettier": "^9.x",
-    "prettier": "^3.x",
-    "vercel": "^33.x"
-  },
-  "vercel": {
-    "buildCommand": "npm install && gem install bundler && bundle install && bundle exec jekyll build",
-    "outputDirectory": "_site"
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5"
   },
   "browserslist": [
     "defaults"

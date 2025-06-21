@@ -2,20 +2,13 @@
   "version": 2,
   "builds": [
     {
-      "src": "build.sh",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_site",
-        "installCommand": "chmod +x build.sh && ./build.sh"
+        "distDir": "_site"
       }
     }
   ],
-  "build": {
-    "env": {
-      "NODE_ENV": "production",
-      "JEKYLL_ENV": "production"
-    }
-  },
   "routes": [
     {
       "src": "^/assets/(.*\\.(css|js))$",
@@ -37,8 +30,7 @@
     }
   ],
   "env": {
-    "NODE_VERSION": "16.x"
-  },
-  "buildCommand": "bundle exec jekyll build",
-  "outputDirectory": "_site"
+    "NODE_ENV": "production",
+    "JEKYLL_ENV": "production"
+  }
 }
