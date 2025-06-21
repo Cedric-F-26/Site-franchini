@@ -3,7 +3,10 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "_site"
+      }
     }
   ],
   "routes": [
@@ -15,8 +18,7 @@
   "build": {
     "env": {
       "JEKYLL_ENV": "production"
-    },
-    "outputDirectory": "_site"
+    }
   },
   "installCommand": "gem install bundler jekyll && bundle install"
 }
