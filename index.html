@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franchini - Accueil</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/carousel.css">
+    <style>
+        /* Styles de base */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Styles du carrousel */
+        #home-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px auto;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .carousel-slide {
+            display: none;
+            width: 100%;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .carousel-slide.active {
+            display: block;
+        }
+        
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .slide-content {
+            position: relative;
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .slide-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .slide-overlay h2 {
+            font-size: 2.5em;
+            margin: 0 0 15px 0;
+            color: #fff;
+        }
+        
+        .slide-overlay p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background-color: #e74c3c;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Navigation du carrousel */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        
+        .carousel-prev, .carousel-next {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 24px;
+            padding: 15px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .carousel-prev:hover, .carousel-next:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* Points de navigation */
+        .carousel-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            z-index: 10;
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .carousel-dot.active {
+            background: #e74c3c;
+        }
+        
+        /* Contenu principal */
+        .main-content {
+            padding: 50px 0;
+            text-align: center;
+        }
+        
+        .main-content h1 {
+            font-size: 2.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        
+        .main-content p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Section services */
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .service-card {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-card i {
+            font-size: 2.5em;
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+        
+        /* Pied de page */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 50px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slide-content {
+                height: 400px;
+            }
+            
+            .slide-overlay h2 {
+                font-size: 1.8em;
+            }
+            
+            .services {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- En-tête -->
+    <header>
+        <div class="container">
+            <h1>Bienvenue chez Franchini</h1>
+            <p>Votre partenaire agricole de confiance</p>
+        </div>
+    </header>
+
+    <!-- Carrousel principal -->
+    <div id="home-carousel" class="carousel">
+        <!-- Le contenu sera généré par carousel.js -->
+    </div>
+
+    <!-- Contenu principal -->
+    <main class="main-content container">
+        <h2>Nos Services</h2>
+        <p>Découvrez notre gamme complète de services pour répondre à tous vos besoins agricoles.</p>
+        
+        <div class="services">
+            <div class="service-card">
+                <i class="fas fa-tractor"></i>
+                <h3>Matériel Agricole</h3>
+                <p>Large choix de matériel agricole neuf et d'occasion.</p>
+                <a href="#" class="btn">En savoir plus</a>
+            </div>
+            
+            <div class="service-card">
+                <i class="fas fa-tools"></i>
+                <h3>Entretien & Réparation</h3>
+                <p>Service après-vente et réparation de votre matériel.</p>
+                <a href="#" class="btn">En savoir plus</a>
+            </div>
+            
+            <div class="service-card">
+                <i class="fas fa-seedling"></i>
+                <h3>Conseils Experts</h3>
+                <p>Des conseils personnalisés pour votre exploitation.</p>
+                <a href="#" class="btn">En savoir plus</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Pied de page -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Franchini. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/carousel.js"></script>
+    <script>
+        // Initialisation du carrousel
+        document.addEventListener('DOMContentLoaded', function() {
+            const carouselContainer = document.getElementById('home-carousel');
+            if (carouselContainer) {
+                // Le script carousel.js va générer le contenu ici
+                console.log('Carrousel initialisé');
+            }
+        });
+    </script>
+</body>
+</html>
