@@ -1,180 +1,21 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Matériel Neuf - Franchini</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Franchini - Materiel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/footer-style.css">
-    <style>
-    /* Style du logo */
-    .logo-link {
-        text-decoration: none;
-        position: relative;
-        display: block;
-    }
-
-    .logo-text {
-        font-family: Arial, sans-serif;
-        font-size: 32px;
-        font-weight: bold;
-        color: #333;
-        letter-spacing: 1px;
-        position: relative;
-    }
-
-    .logo {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 20px;
-    }
-
-    .header-social {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .header-social .social-icon {
-        color: #888;
-        font-size: 20px;
-        transition: color 0.3s, transform 0.3s;
-        opacity: 0.7;
-    }
-
-    .header-social .social-icon:hover {
-        color: #3D6AA2;
-        transform: translateY(-2px);
-        opacity: 1;
-    }
-
-    @media (max-width: 768px) {
-        .logo-text {
-            font-size: 24px;
-        }
-    }
-    </style>
+    <link rel="stylesheet" href="../assets/css/style.css">
 </head>
 <body>
-    <header class="main-header">
-        <div class="container">
-            <div class="logo">
-                <a href="../index.html" class="logo-link">
-                    <div class="logo-text">FRANCHINI</div>
-                </a>
-                <div class="header-social">
-                    <a href="https://www.facebook.com/franchinimarches" target="_blank" class="social-icon">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="https://www.instagram.com/franchini_deutzfahr" target="_blank" class="social-icon">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                </div>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li class="dropdown">
-                        <a href="concession.html">La concession</a>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="active">MatÃ©riel neuf</a>
-                        <div class="dropdown-content">
-                            <a href="materiel.html">MatÃ©riel neuf</a>
-                            <a href="materiel-disponible.html">MatÃ©riel neuf disponible</a>
-                        </div>
-                    </li>
-                    <li><a href="location.html">Location</a></li>
-                    <li><a href="occasion.html">Occasion</a></li>
-                    <li><a href="magasin.html">Magasin</a></li>
-
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="tel:0475474037" class="phone-number"><i class="fas fa-phone"></i> 04 75 47 40 37</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
-
-    <main>
-        <section class="page-header">
-            <div class="container">
-                <h1>Matériel Neuf</h1>
-            </div>
-        </section>
-
-        <section class="materiel-section">
-            <div class="container">
-                <div class="category-section">
-                    <h2>Agricole</h2>
-                    <div class="brand-grid">
-                        <a href="https://www.deutz-fahr.com/fr-fr" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}" alt="Deutz-Fahr" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>Deutz-Fahr</span>
-                        </a>
-                        <a href="https://www.vaderstad.com/fr/" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}" alt="VÃ¤derstad" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>VÃ¤derstad</span>
-                        </a>
-                        <a href="https://www.agrimaster.com/" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/agrimaster-logo2-2.jpg' | relative_url }}" alt="Agrimaster" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>Agrimaster</span>
-                        </a>
-                        <a href="https://www.tallerescorbins.com/" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/Corbins-logo.png' | relative_url }}" alt="Corbins" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>Corbins</span>
-                        </a>
-                        <a href="https://www.berthoud.com/fr/" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}" alt="Berthoud" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>Berthoud</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="category-section">
-                    <h2>Agriculture de prÃ©cision</h2>
-                    <div class="brand-grid">
-                        <a href="https://www.topconpositioning.com/fr/fr/solutions/technology/agriculture-products/guidance-and-auto-steering" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}" alt="Topcon" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>Topcon</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="category-section">
-                    <h2>TP-Manutention</h2>
-                    <div class="brand-grid">
-                        <a href="https://www.bobcat.com/eu/fr/equipment/telehandlers" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}" alt="Bobcat" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>Bobcat</span>
-                        </a>
-                        <a href="https://www.stoll-germany.com/fr/" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/stoll-logo.svg' | relative_url }}" alt="Stoll" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>Stoll</span>
-                        </a>
-                        <a href="https://www.m-x.eu/fr/" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}" alt="MX" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>MX</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="category-section">
-                    <h2>Parc et Jardin</h2>
-                    <div class="brand-grid">
-                        <a href="https://egopowerplus.fr/" target="_blank" class="brand-card">
-                            <img src="{{ '/assets/images/logo/Ego-logo.jpg' | relative_url }}" alt="EGO" class="brand-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                            <span>EGO</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <!--#include file="../_includes/header.html" -->
+    
+    <!-- Contenu principal -->
+    <main class="main-content">
+        
     </main>
-
-    <!-- Chargement du pied de page -->
-    <!--#include virtual="/includes/footer.html" -->
-
+    
+    <!--#include file="../_includes/footer.html" -->
 </body>
 </html>

@@ -1,102 +1,21 @@
----
-layout: default
-title: Actualités
----
-
-<main class="page">
-    <div class="container">
-        <h1>Actualités</h1>
-        <p>Découvrez nos dernières actualités.</p>
-        
-        <!-- Liste des actualités -->
-        <div class="news-list">
-            <!-- Actualité 1 -->
-            <article class="news-item">
-                <img src="{{ '/assets/images/news1.jpg' | relative_url }}" alt="Actualité 1" class="news-image" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                <div class="news-content">
-                    <h2>Titre de l'actualité 1</h2>
-                    <p class="news-date">18 juin 2024</p>
-                    <p>Description complète de l'actualité 1 avec tous les détails importants.</p>
-                    <a href="#" class="read-more">Lire la suite</a>
-                </div>
-            </article>
-            
-            <!-- Actualité 2 -->
-            <article class="news-item">
-                <img src="{{ '/assets/images/news2.jpg' | relative_url }}" alt="Actualité 2" class="news-image" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                <div class="news-content">
-                    <h2>Titre de l'actualité 2</h2>
-                    <p class="news-date">15 juin 2024</p>
-                    <p>Description complète de l'actualité 2 avec tous les détails importants.</p>
-                    <a href="#" class="read-more">Lire la suite</a>
-                </div>
-            </article>
-        </div>
-    </div>
-</main>
-
-<style>
-.page {
-    padding: 60px 0;
-}
-
-.news-list {
-    margin-top: 40px;
-}
-
-.news-item {
-    display: flex;
-    margin-bottom: 40px;
-    padding-bottom: 40px;
-    border-bottom: 1px solid #eee;
-}
-
-.news-image {
-    width: 300px;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-right: 30px;
-}
-
-.news-content {
-    flex: 1;
-}
-
-.news-content h2 {
-    margin-top: 0;
-    color: #333;
-}
-
-.news-date {
-    color: #666;
-    font-style: italic;
-    margin-bottom: 15px;
-}
-
-.read-more {
-    display: inline-block;
-    margin-top: 15px;
-    color: #4CAF50;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.read-more:hover {
-    text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-    .news-item {
-        flex-direction: column;
-    }
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franchini - Actualites</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!--#include file="../_includes/header.html" -->
     
-    .news-image {
-        width: 100%;
-        height: 250px;
-        margin-right: 0;
-        margin-bottom: 20px;
-    }
-}
-</style>
-
+    <!-- Contenu principal -->
+    <main class="main-content">
+        
+    </main>
+    
+    <!--#include file="../_includes/footer.html" -->
+</body>
+</html>

@@ -2,21 +2,128 @@
 
 [![Déploiement Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvotre-utilisateur%2Fmon-site-web)
 
-Site vitrine officiel de Franchini, concessionnaire agréé Deutz-Fahr. Site statique simple déployé sur Vercel.
+Site vitrine officiel de Franchini, concessionnaire agréé Deutz-Fahr. Site statique moderne avec des fonctionnalités avancées et une interface utilisateur réactive.
 
 ## 🚀 Fonctionnalités
 
-- Site vitrine responsive
-- Page d'accueil avec coordonnées
-- Page d'erreur 404 personnalisée
-- Déploiement continu avec Vercel
+- Site vitrine responsive et moderne
+- Carrousels interactifs pour mettre en avant les produits et actualités
+- Navigation intuitive avec menu déroulant
+- Pages dédiées pour chaque section (Matériel neuf, Occasions, etc.)
+- Formulaire de contact fonctionnel
+- Optimisé pour le référencement (SEO)
+- Compatible avec tous les appareils (mobile, tablette, ordinateur)
+- Chargement rapide grâce à l'optimisation des ressources
 
 ## 🛠 Configuration requise
 
-- Aucune installation requise localement
-- Un compte Vercel pour le déploiement
+- Node.js (version 14 ou supérieure)
+- npm (gestionnaire de paquets Node.js)
+- Un serveur web local (comme Apache avec mod_include pour les SSI)
+- Un compte Vercel pour le déploiement (optionnel)
 
-## 🚀 Démarrage local
+## 🚀 Installation et démarrage local
+
+### Prérequis
+
+1. Assurez-vous d'avoir Node.js et npm installés sur votre machine.
+2. Clonez ce dépôt sur votre machine locale :
+   ```bash
+   git clone https://github.com/votre-utilisateur/mon-site-web.git
+   cd mon-site-web/Site-franchini
+   ```
+
+### Installation avec Docker (Recommandé)
+
+1. Assurez-vous d'avoir Docker installé sur votre machine.
+2. Exécutez la commande suivante pour construire l'image et démarrer le conteneur :
+   ```bash
+   docker-compose up --build
+   ```
+3. Ouvrez votre navigateur à l'adresse : http://localhost:8080
+
+### Installation manuelle
+
+1. Installez les dépendances :
+   ```bash
+   npm install -g http-server
+   ```
+
+2. Pour le développement local avec support SSI (Server Side Includes) :
+   - Utilisez un serveur Apache local avec le module mod_include activé
+   - Ou utilisez la commande suivante pour un serveur de développement simple (sans SSI) :
+     ```bash
+     npx http-server -p 3000
+     ```
+   - Ouvrez votre navigateur à l'adresse : http://localhost:3000
+
+## 🏗 Structure du projet
+
+```
+Site-franchini/
+├── public/                    # Fichiers statiques
+│   ├── assets/                # Ressources (images, CSS, JS)
+│   │   ├── css/              # Feuilles de style
+│   │   ├── js/                # Fichiers JavaScript
+│   │   └── images/            # Images du site
+│   ├── pages/                 # Pages HTML du site
+│   ├── _includes/             # Fichiers inclus (header, footer)
+│   ├── index.html             # Page d'accueil
+│   └── .htaccess             # Configuration Apache
+├── .docker/                  # Fichiers de configuration Docker
+├── .github/                  # Fichiers de configuration GitHub
+├── .vscode/                  # Configuration VS Code
+├── docker-compose.yml        # Configuration Docker Compose
+├── Dockerfile               # Fichier de build Docker
+└── README.md                # Ce fichier
+```
+
+## 🔧 Configuration
+
+### Variables d'environnement
+
+Créez un fichier `.env` à la racine du projet avec les variables suivantes :
+
+```env
+NODE_ENV=development
+PORT=3000
+BASE_URL=http://localhost:3000
+```
+
+### Configuration Apache pour SSI
+
+Pour que les includes côté serveur (SSI) fonctionnent, assurez-vous que votre serveur Apache est configuré avec :
+
+```apache
+<Directory "/chemin/vers/votre/site">
+    Options +Includes
+    AddType text/html .shtml .html .htm
+    AddOutputFilter INCLUDES .shtml .html .htm
+</Directory>
+```
+
+## 🚀 Déploiement
+
+### Vercel
+
+1. Installez l'outil en ligne de commande Vercel :
+   ```bash
+   npm install -g vercel
+   ```
+
+2. Connectez-vous à votre compte Vercel :
+   ```bash
+   vercel login
+   ```
+
+3. Déployez l'application :
+   ```bash
+   vercel
+   ```
+
+### Autres plateformes
+
+Le site peut être déployé sur n'importe quel hébergement prenant en charge les fichiers statiques. Pour les fonctionnalités avancées comme les SSI, un serveur web comme Apache ou Nginx est recommandé.
 
 1. **Cloner le dépôt**
    ```bash
