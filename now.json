@@ -14,12 +14,5 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ],
-  "build": {
-    "env": {
-      "JEKYLL_ENV": "production"
-    }
-  },
-  "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
-  "buildCommand": "echo 'Build already done in installCommand'"
+  ]
 }

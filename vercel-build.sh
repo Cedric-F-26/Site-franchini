@@ -8,23 +8,30 @@ gem -v
 node -v
 npm -v
 
-echo "\n=== Installation des gems Ruby ==="
+echo "\n=== Installation de Ruby et Jekyll ==="
+sudo gem install bundler
 bundle config set path 'vendor/bundle'
-bundle install --jobs=3 --retry=3 --verbose
 
-# Afficher les gems installées
-echo "\n=== Gems installées ==="
-bundle list
+# Créer un Gemfile minimal si nécessaire
+if [ ! -f "Gemfile" ]; then
+  cat > Gemfile <<EOL
+source 'https://rubygems.org'
+gem 'jekyll'
+gem 'webrick'
+EOL
+fi
 
-echo "\n=== Installation des dépendances Node.js ==="
-npm install --ignore-scripts=false
+# Installer les gems
+echo "\n=== Installation des gems ==="
+bundle install
 
-echo "\n=== Construction du site Jekyll ==="
+# Construire le site
+echo "\n=== Construction du site ==="
 bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace
 
-# Vérifier que le répertoire de sortie existe
+# Vérifier la sortie
 if [ ! -d "_site" ]; then
-  echo "\n❌ Erreur: Le répertoire _site n'a pas été généré"
+  echo "\n❌ ERREUR: Le répertoire _site n'a pas été généré"
   echo "Contenu du répertoire :"
   ls -la
   exit 1
