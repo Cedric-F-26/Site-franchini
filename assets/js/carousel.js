@@ -1,280 +1,250 @@
-// Gestion du carrousel
-document.addEventListener('DOMContentLoaded', function() {
-    const carouselContainer = document.getElementById('home-carousel');
-    if (!carouselContainer) return;
+// Fonction pour initialiser un carrousel
+function initCarousel(carouselId) {
+    const carousel = document.getElementById(carouselId);
+    if (!carousel) return;
     
-    // Configuration du carrousel
-    const carouselItems = [
-        {
-            type: 'image',
-            src: 'assets/images/slide1.jpg',
-            alt: 'Tracteur Franchini',
-            title: 'Bienvenue chez Franchini',
-            description: 'Votre partenaire agricole de confiance',
-            buttonText: 'Découvrir',
-            buttonLink: 'pages/neuf.html'
-        },
-        {
-            type: 'youtube',
-            videoId: 'votre_video_id',
-            title: 'Découvrez notre gamme',
-            description: 'Vidéo de présentation de nos produits'
-        },
-        {
-            type: 'image',
-            src: 'assets/images/slide2.jpg',
-            alt: 'Matériel agricole',
-            title: 'Matériel de qualité',
-            description: 'Des équipements adaptés à vos besoins',
-            buttonText: 'Voir nos produits',
-            buttonLink: 'pages/occasion.html'
+    const container = carousel.closest('.carousel-container');
+    const items = carousel.querySelectorAll('.carousel-item');
+    const dotsContainer = container.querySelector('.carousel-dots');
+    
+    if (items.length === 0) return;
+    
+    let currentIndex = 0;
+    const totalItems = items.length;
+    let slideInterval;
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let inactivityTimer;
+    
+    // Créer les points de navigation si nécessaire
+    if (dotsContainer) {
+        // Vider les points existants
+        dotsContainer.innerHTML = '';
+        
+        for (let i = 0; i < totalItems; i++) {
+            const dot = document.createElement('button');
+            dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('data-index', i);
+            dot.setAttribute('aria-label', 'Aller au slide ' + (i + 1));
+            dot.addEventListener('click', () => goToSlide(i));
+            dotsContainer.appendChild(dot);
         }
-    ];
-
-    // Fonction pour extraire l'ID d'une vidéo YouTube depuis une URL
-    function extractYoutubeId(url) {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-        const match = url.match(regExp);
-        return (match && match[2].length === 11) ? match[2] : null;
     }
     
-    // Créer le carrousel s'il y a des éléments
-    if (carouselItems.length > 0) {
-        // Créer les slides
-        carouselItems.forEach((item, index) => {
-            const slide = document.createElement('div');
-            slide.className = 'carousel-slide' + (index === 0 ? ' active' : '');
-            
-            if (item.type === 'youtube') {
-                const videoId = item.videoId || extractYoutubeId(item.src);
-                if (videoId) {
-                    slide.innerHTML = `
-                        <div class="video-container">
-                            <iframe 
-                                width="100%" 
-                                height="100%" 
-                                src="https://www.youtube.com/embed/${videoId}?controls=0&showinfo=0&rel=0&autoplay=0" 
-                                frameborder="0" 
-                                allowfullscreen>
-                            </iframe>
-                            <div class="video-overlay">
-                                <h2>${item.title || ''}</h2>
-                                <p>${item.description || ''}</p>
-                            </div>
-                        </div>`;
-                }
-            } else {
-                slide.innerHTML = `
-                    <div class="slide-content" style="background-image: url('${item.src}');">
-                        <div class="slide-overlay">
-                            <h2>${item.title || ''}</h2>
-                            <p>${item.description || ''}</p>
-                            ${item.buttonText ? `<a href="${item.buttonLink || '#'}" class="btn">${item.buttonText}</a>` : ''}
-                        </div>
-                    </div>`;
-            }
-            
-            carouselContainer.appendChild(slide);
-        });
-        
-        // Ajouter la navigation
-        const nav = document.createElement('div');
-        nav.className = 'carousel-nav';
-        nav.innerHTML = `
-            <button class="carousel-prev">❮</button>
-            <button class="carousel-next">❯</button>`;
-        carouselContainer.appendChild(nav);
-        
-        // Ajouter les points de navigation
-        const dots = document.createElement('div');
-        dots.className = 'carousel-dots';
-        carouselItems.forEach((_, index) => {
-            const dot = document.createElement('button');
-            dot.className = 'carousel-dot' + (index === 0 ? ' active' : '');
-            dot.setAttribute('data-index', index);
-            dots.appendChild(dot);
-        });
-        carouselContainer.appendChild(dots);
-        
-        // Variables de contrôle
-        let currentSlide = 0;
-        let slideInterval;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const dotsList = document.querySelectorAll('.carousel-dot');
-        const prevBtn = document.querySelector('.carousel-prev');
-        const nextBtn = document.querySelector('.carousel-next');
-        
-        // Fonction pour changer de slide
-        function goToSlide(index) {
-            if (index < 0) index = slides.length - 1;
-            if (index >= slides.length) index = 0;
-            
-            // Masquer toutes les slides
-            slides.forEach(slide => slide.classList.remove('active'));
-            dotsList.forEach(dot => dot.classList.remove('active'));
-            
-            // Afficher la slide courante
-            slides[index].classList.add('active');
-            dotsList[index].classList.add('active');
-            
-            currentSlide = index;
-            
-            // Redémarrer le timer
-            resetInterval();
-        }
-        
-        // Événements des boutons de navigation
-        if (prevBtn) {
-            prevBtn.addEventListener('click', () => {
-                const newIndex = (currentSlide - 1 + carouselItems.length) % carouselItems.length;
-                goToSlide(newIndex);
-            });
-        }
-        
-        if (nextBtn) {
-            nextBtn.addEventListener('click', () => {
-                const newIndex = (currentSlide + 1) % carouselItems.length;
-                goToSlide(newIndex);
-            });
-        }
-        
-        // Navigation par les points
-        dotsList.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                goToSlide(index);
-            });
-        });
-        
-        // Navigation au clavier
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                const newIndex = (currentSlide - 1 + carouselItems.length) % carouselItems.length;
-                goToSlide(newIndex);
-            } else if (e.key === 'ArrowRight') {
-                const newIndex = (currentSlide + 1) % carouselItems.length;
-                goToSlide(newIndex);
-            }
-        });
-        
-        // Fonction pour démarrer le timer avec une durée spécifique
-        function startSlideTimer(duration) {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(() => {
-                const newIndex = (currentSlide + 1) % carouselItems.length;
-                goToSlide(newIndex);
-            }, duration || 5000);
-        }
-        
-        // Démarrer le défilement automatique
-        function startCarousel() {
-            // Ne pas démarrer le carrousel s'il n'y a qu'une seule slide
-            if (carouselItems.length <= 1) return;
-            
-            // Vérifier si l'utilisateur préfère les animations réduites
-            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            
-            if (!prefersReducedMotion) {
-                startSlideTimer(5000);
-            }
-            
-            // Gestion du mode picture-in-picture pour les vidéos
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    stopCarousel();
-                } else {
-                    startCarousel();
-                }
-            });
-            
-            // Gestion de la visibilité de l'onglet
-            document.addEventListener('visibilitychange', () => {
-                if (document.hidden) {
-                    stopCarousel();
-                } else {
-                    startCarousel();
-                }
-            });
-            
-            // Gestion de la mise en veille de l'écran
-            document.addEventListener('resume', startCarousel);
-            window.addEventListener('focus', startCarousel);
-            
-            // Gestion de la suspension de l'onglet
-            document.addEventListener('freeze', stopCarousel);
-            window.addEventListener('blur', stopCarousel);
-        }
-        
-        // Arrêter le défilement automatique
-        function stopCarousel() {
-            clearInterval(slideInterval);
-        }
-        
-        // Réinitialiser l'intervalle
-        function resetInterval() {
-            stopCarousel();
-            startCarousel();
-        }
-        
-        // Gérer le clic sur le bouton de lecture des vidéos
-        document.addEventListener('click', function(e) {
-            const playButton = e.target.closest('.play-button');
-            if (playButton) {
-                const video = playButton.closest('.slide-content').querySelector('video');
-                if (video) {
-                    video.play();
-                    playButton.style.display = 'none';
-                }
-            }
-        });
-        
-        // Gestion du swipe sur mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-        
-        function handleSwipe() {
-            if (touchEndX < touchStartX) {
-                // Swipe vers la gauche
-                const newIndex = (currentSlide + 1) % carouselItems.length;
-                goToSlide(newIndex);
-            } else if (touchEndX > touchStartX) {
-                // Swipe vers la droite
-                const newIndex = (currentSlide - 1 + carouselItems.length) % carouselItems.length;
-                goToSlide(newIndex);
-            }
-        }
-        
-        // Événements tactiles pour le swipe
-        carouselContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, false);
-        
-        carouselContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-        }, false);
-        
-        // Démarrer le carrousel
-        startCarousel();
+    // Afficher le premier slide
+    updateCarousel();
+    
+    // Gestion des événements
+    const prevBtn = container.querySelector('.carousel-control.prev');
+    const nextBtn = container.querySelector('.carousel-control.next');
+    const playPauseBtn = container.querySelector('.carousel-play');
+    
+    if (prevBtn) prevBtn.addEventListener('click', () => moveSlide(-1));
+    if (nextBtn) nextBtn.addEventListener('click', () => moveSlide(1));
+    if (playPauseBtn) {
+        playPauseBtn.addEventListener('click', togglePlayPause);
+    }
+    
+    // Activer le défilement automatique pour le carrousel principal
+    if (carouselId === 'home-carousel' && sessionStorage.getItem('carouselAutoplay') !== 'disabled') {
+        startAutoPlay();
         
         // Arrêter le défilement automatique au survol
-        carouselContainer.addEventListener('mouseenter', stopCarousel);
-        carouselContainer.addEventListener('mouseleave', startCarousel);
-        
-        // Gestion du redimensionnement de la fenêtre
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                // Réinitialiser le carrousel après le redimensionnement
-                goToSlide(currentSlide);
-            }, 250);
+        carousel.addEventListener('mouseenter', stopAutoPlay);
+        carousel.addEventListener('mouseleave', () => {
+            if (sessionStorage.getItem('carouselAutoplay') !== 'disabled') {
+                startAutoPlay();
+            }
         });
-    } else {
-        // Afficher un message si aucun élément n'est configuré
-        carouselContainer.innerHTML = `
-            <div style="text-align: center; padding: 2rem;">
-                <h3>Aucun contenu à afficher pour le moment</h3>
-                <p>Veuillez configurer les éléments du carrousel dans le fichier de configuration.</p>
-            </div>`;
     }
+    
+    // Fonction pour basculer entre lecture et pause
+    function togglePlayPause() {
+        if (slideInterval) {
+            stopAutoPlay();
+            if (playPauseBtn) {
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                playPauseBtn.setAttribute('title', 'Lire le diaporama');
+            }
+        } else {
+            startAutoPlay();
+            if (playPauseBtn) {
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                playPauseBtn.setAttribute('title', 'Mettre en pause');
+            }
+        }
+    }
+    
+    // Fonction pour démarrer le défilement automatique
+    function startAutoPlay() {
+        stopAutoPlay();
+        
+        // Ne pas démarrer l'autoplay si désactivé par l'utilisateur
+        if (sessionStorage.getItem('carouselAutoplay') === 'disabled') {
+            return;
+        }
+        
+        slideInterval = setInterval(() => moveSlide(1), 5000); // Change de slide toutes les 5 secondes
+        
+        // Mettre à jour l'état du bouton de lecture
+        if (playPauseBtn) {
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            playPauseBtn.setAttribute('title', 'Mettre en pause');
+        }
+        
+        // Réinitialiser le timer d'inactivité
+        resetInactivityTimer();
+    }
+    
+    // Fonction pour arrêter le défilement automatique
+    function stopAutoPlay() {
+        if (slideInterval) {
+            clearInterval(slideInterval);
+            slideInterval = null;
+        }
+    }
+    
+    // Fonction pour déplacer le carrousel
+    function moveSlide(direction) {
+        currentIndex = (currentIndex + direction + totalItems) % totalItems;
+        updateCarousel();
+        resetInactivityTimer();
+    }
+    
+    // Fonction pour aller à un slide spécifique
+    function goToSlide(index) {
+        currentIndex = (index + totalItems) % totalItems;
+        updateCarousel();
+        resetInactivityTimer();
+    }
+    
+    // Mettre à jour l'affichage du carrousel
+    function updateCarousel() {
+        // Masquer tous les slides
+        items.forEach((item, index) => {
+            item.style.display = index === currentIndex ? 'block' : 'none';
+            item.setAttribute('aria-hidden', index !== currentIndex);
+        });
+        
+        // Mettre à jour les points de navigation
+        if (dotsContainer) {
+            const dots = dotsContainer.querySelectorAll('.carousel-dot');
+            dots.forEach((dot, index) => {
+                const isActive = index === currentIndex;
+                dot.classList.toggle('active', isActive);
+                dot.setAttribute('aria-current', isActive);
+            });
+        }
+        
+        // Mettre à jour l'accessibilité
+        carousel.setAttribute('aria-live', 'polite');
+        carousel.setAttribute('aria-atomic', 'true');
+    }
+    
+    // Gestion du swipe sur mobile
+    function handleSwipe() {
+        const swipeThreshold = 50; // Seuil minimal en pixels pour considérer un swipe
+        
+        if (touchEndX < touchStartX - swipeThreshold) {
+            // Swipe vers la gauche
+            moveSlide(1);
+        } else if (touchEndX > touchStartX + swipeThreshold) {
+            // Swipe vers la droite
+            moveSlide(-1);
+        }
+    }
+    
+    // Événements tactiles pour le swipe
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    carousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+    
+    // Navigation au clavier
+    carousel.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            moveSlide(-1);
+        } else if (e.key === 'ArrowRight') {
+            e.preventDefault();
+            moveSlide(1);
+        } else if (e.key === 'Home') {
+            e.preventDefault();
+            goToSlide(0);
+        } else if (e.key === 'End') {
+            e.preventDefault();
+            goToSlide(totalItems - 1);
+        } else if (e.key === ' ' || e.key === 'Enter') {
+            const focusedElement = document.activeElement;
+            if (focusedElement && focusedElement.classList.contains('carousel-dot')) {
+                e.preventDefault();
+                const index = parseInt(focusedElement.getAttribute('data-index'), 10);
+                goToSlide(index);
+            }
+        }
+    });
+    
+    // Gestion de la visibilité de la page (API Page Visibility)
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            // La page est en arrière-plan, arrêter le carrousel
+            stopAutoPlay();
+        } else if (sessionStorage.getItem('carouselAutoplay') !== 'disabled') {
+            // La page est au premier plan, redémarrer le carrousel si l'autoplay n'est pas désactivé
+            startAutoPlay();
+        }
+    });
+    
+    // Fonction pour réinitialiser le timer d'inactivité
+    function resetInactivityTimer() {
+        clearTimeout(inactivityTimer);
+        
+        // Si l'autoplay est désactivé, ne pas le réactiver automatiquement
+        if (sessionStorage.getItem('carouselAutoplay') === 'disabled') {
+            return;
+        }
+        
+        // Désactiver l'autoplay après 10 minutes d'inactivité
+        inactivityTimer = setTimeout(() => {
+            stopAutoPlay();
+            sessionStorage.setItem('carouselAutoplay', 'disabled');
+            
+            // Mettre à jour l'état du bouton de lecture
+            if (playPauseBtn) {
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                playPauseBtn.setAttribute('title', 'Lire le diaporama');
+            }
+        }, 600000); // 10 minutes
+    }
+    
+    // Réinitialiser le timer d'inactivité lors des interactions utilisateur
+    const userEvents = ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click'];
+    userEvents.forEach(event => {
+        document.addEventListener(event, resetInactivityTimer, { passive: true });
+    });
+    
+    // Initialiser le timer d'inactivité
+    resetInactivityTimer();
+    
+    // Retourner les fonctions pour une utilisation externe si nécessaire
+    return {
+        next: () => moveSlide(1),
+        prev: () => moveSlide(-1),
+        goTo: goToSlide,
+        startAutoPlay,
+        stopAutoPlay,
+        togglePlayPause
+    };
+}
+
+// Initialiser tous les carrousels au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    const carousels = document.querySelectorAll('.carousel');
+    carousels.forEach(carousel => {
+        initCarousel(carousel.id);
+    });
 });
