@@ -17,9 +17,10 @@
   ],
   "build": {
     "env": {
-      "JEKYLL_ENV": "production"
+      "JEKYLL_ENV": "production",
+      "BUNDLE_PATH": "/tmp/vendor/bundle"
     }
   },
-  "installCommand": "gem install bundler && bundle install --jobs=3 --retry=3 && npm install",
-  "buildCommand": "bundle exec jekyll build --config _config.yml,_config_vercel.yml"
+  "installCommand": "gem install bundler -v '~> 2.3.0' && bundle config set path 'vendor/bundle' && bundle install --jobs=3 --retry=3 && npm install",
+  "buildCommand": "bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace"
 }
