@@ -134,7 +134,7 @@
     <header class="main-header">
         <div class="container">
             <div class="logo">
-                <a href="../index.html" class="logo-link">
+                <a href="{{ '/' | relative_url }}" class="logo-link">
                     <div class="logo-text">FRANCHINI</div>
                 </a>
                 <div class="header-social">
@@ -148,12 +148,12 @@
             </div>
             <nav class="main-nav">
                 <ul>
-                    <li><a href="#">La concession</a></li>
-                    <li><a href="#">Matériel neuf</a></li>
-                    <li><a href="#">Location</a></li>
-                    <li><a href="#">Occasion</a></li>
-                    <li><a href="#">Magasin</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="{{ '/pages/la-concession.html' | relative_url }}">La concession</a></li>
+                    <li><a href="{{ '/pages/materiel-neuf.html' | relative_url }}">Matériel neuf</a></li>
+                    <li><a href="{{ '/pages/location.html' | relative_url }}">Location</a></li>
+                    <li><a href="{{ '/pages/occasion.html' | relative_url }}">Occasion</a></li>
+                    <li><a href="{{ '/pages/magasin.html' | relative_url }}">Magasin</a></li>
+                    <li><a href="{{ '/pages/contact.html' | relative_url }}">Contact</a></li>
                     <li><a href="tel:0475474037" class="phone-number"><i class="fas fa-phone"></i> 04 75 47 40 37</a></li>
                 </ul>
             </nav>
