@@ -5,6 +5,9 @@ url: "https://site-franchini.vercel.app"  # URL de votre site Vercel
 # Configuration de l'environnement
 environment: production
 
+# Configuration du favicon
+favicon: /favicon.ico
+
 # Configuration des plugins
 plugins:
   - jekyll-feed
@@ -21,13 +24,6 @@ exclude:
   - package-lock.json
   - README.md
   - vercel.json
-
-# Configuration pour GitHub Pages
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
-  - jekyll-minifier
 
 # Configuration pour jekyll-assets
 assets:
