@@ -7,7 +7,7 @@ gem "jekyll", "~> 4.3"
 # gem "webrick", "~> 1.8"
 
 # Plugins Jekyll
-gem "jekyll-assets", "~> 3.0"
+gem "jekyll-assets", "~> 4.0" # Mise à jour pour Jekyll 4.x
 gem "html-proofer", "~> 5.0"
 gem "mini_racer", "~> 0.6.2"
 
