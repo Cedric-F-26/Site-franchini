@@ -13,7 +13,6 @@ desktop.ini
 node_modules/
 vendor/
 .bundle/
-.ruby-version
 .ruby-gemset
 
 # Jekyll

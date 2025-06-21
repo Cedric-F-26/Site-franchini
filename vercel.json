@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "vercel-build.sh",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "_site"
@@ -20,6 +20,5 @@
       "JEKYLL_ENV": "production"
     }
   },
-  "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
-  "buildCommand": "echo 'Build already done in installCommand'"
+  "installCommand": "gem install bundler && bundle install"
 }

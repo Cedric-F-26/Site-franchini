@@ -4,12 +4,11 @@ set -e  # Arrêter le script en cas d'erreur
 echo "=== Vérification des versions ==="
 ruby -v
 bundle -v
-gem -v
 node -v
 npm -v
 
 echo "\n=== Installation de Ruby et Jekyll ==="
-sudo gem install bundler
+gem install bundler
 bundle config set path 'vendor/bundle'
 
 # Créer un Gemfile minimal si nécessaire
