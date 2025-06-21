@@ -2,24 +2,6 @@
 layout: default
 title: Accueil
 carousels:
-  - id: home-carousel
-    title: ""
-    items:
-      - image: /assets/images/carousel/slide1.jpg
-        title: "Bienvenue chez Franchini"
-        description: "Votre concessionnaire agricole de confiance"
-        button_text: "Découvrir"
-        button_url: "/pages/concession.html"
-      - image: /assets/images/carousel/slide2.jpg
-        title: "Matériel neuf"
-        description: "Découvrez nos dernières machines agricoles"
-        button_text: "Voir les offres"
-        button_url: "/pages/materiel.html"
-      - image: /assets/images/carousel/slide3.jpg
-        title: "Occasions"
-        description: "Des machines d'occasion vérifiées et garanties"
-        button_text: "Voir les occasions"
-        button_url: "/pages/occasion.html"
   - id: news-carousel
     title: "Actualités"
     items:
@@ -50,38 +32,15 @@ carousels:
         button_url: "#"
 ---
 
-<!-- Carrousel principal pleine largeur -->
-<div class="carousel-wrapper">
-    <div class="carousel-container full-width">
-        <div id="home-carousel" class="carousel-slider">
-            {% for item in page.carousels[0].items %}
-            <div class="carousel-slide">
-                <div class="slide-content" style="background-image: url('{{ item.image | relative_url }}');">
-                    <div class="carousel-caption">
-                        <h2>{{ item.title }}</h2>
-                        <p>{{ item.description }}</p>
-                        <a href="{{ item.button_url | relative_url }}" class="btn btn-primary">{{ item.button_text }}</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <button class="carousel-control prev" aria-label="Précédent">&#10094;</button>
-        <button class="carousel-control next" aria-label="Suivant">&#10095;</button>
-        <div class="carousel-dots"></div>
-    </div>
-</div>
-
-<!-- Conteneur pour les deux carrousels côte à côte -->
-<div class="container mt-5">
+<div class="container mt-4">
     <div class="row">
         <!-- Carrousel d'actualités -->
         <div class="col-md-6 mb-4">
             <div class="carousel-wrapper">
-                <h2 class="section-title">{{ page.carousels[1].title }}</h2>
+                <h2 class="section-title">{{ page.carousels[0].title }}</h2>
                 <div class="carousel-container">
                     <div id="news-carousel" class="carousel-slider">
-                        {% for item in page.carousels[1].items %}
+                        {% for item in page.carousels[0].items %}
                         <div class="carousel-slide">
                             <div class="card h-100">
                                 <img src="{{ item.image | relative_url }}" class="card-img-top" alt="{{ item.title }}">
@@ -104,10 +63,10 @@ carousels:
         <!-- Carrousel d'occasions -->
         <div class="col-md-6 mb-4">
             <div class="carousel-wrapper">
-                <h2 class="section-title">{{ page.carousels[2].title }}</h2>
+                <h2 class="section-title">{{ page.carousels[1].title }}</h2>
                 <div class="carousel-container">
                     <div id="occasions-carousel" class="carousel-slider">
-                        {% for item in page.carousels[2].items %}
+                        {% for item in page.carousels[1].items %}
                         <div class="carousel-slide">
                             <div class="card h-100">
                                 <img src="{{ item.image | relative_url }}" class="card-img-top" alt="{{ item.title }}">
@@ -134,7 +93,6 @@ carousels:
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Initialisation des carrousels
-    initCarousel('home-carousel');
     initCarousel('news-carousel');
     initCarousel('occasions-carousel');
 });
