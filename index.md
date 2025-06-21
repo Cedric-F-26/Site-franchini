@@ -51,22 +51,25 @@ carousels:
 ---
 
 <!-- Carrousel principal pleine largeur -->
-<div class="carousel-container full-width">
-    <div id="home-carousel" class="carousel">
-        {% for item in page.carousels[0].items %}
-        <div class="carousel-item">
-            <img src="{{ item.image | relative_url }}" alt="{{ item.title }}" class="carousel-image">
-            <div class="carousel-caption">
-                <h2>{{ item.title }}</h2>
-                <p>{{ item.description }}</p>
-                <a href="{{ item.button_url | relative_url }}" class="btn btn-primary">{{ item.button_text }}</a>
+<div class="carousel-wrapper">
+    <div class="carousel-container full-width">
+        <div id="home-carousel" class="carousel-slider">
+            {% for item in page.carousels[0].items %}
+            <div class="carousel-slide">
+                <div class="slide-content" style="background-image: url('{{ item.image | relative_url }}');">
+                    <div class="carousel-caption">
+                        <h2>{{ item.title }}</h2>
+                        <p>{{ item.description }}</p>
+                        <a href="{{ item.button_url | relative_url }}" class="btn btn-primary">{{ item.button_text }}</a>
+                    </div>
+                </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+        <button class="carousel-control prev" aria-label="Précédent">&#10094;</button>
+        <button class="carousel-control next" aria-label="Suivant">&#10095;</button>
+        <div class="carousel-dots"></div>
     </div>
-    <button class="carousel-control prev" onclick="moveSlide('home-carousel', -1)">&#10094;</button>
-    <button class="carousel-control next" onclick="moveSlide('home-carousel', 1)">&#10095;</button>
-    <div class="carousel-dots" id="home-carousel-dots"></div>
 </div>
 
 <!-- Conteneur pour les deux carrousels côte à côte -->
@@ -74,50 +77,54 @@ carousels:
     <div class="row">
         <!-- Carrousel d'actualités -->
         <div class="col-md-6 mb-4">
-            <div class="carousel-container">
+            <div class="carousel-wrapper">
                 <h2 class="section-title">{{ page.carousels[1].title }}</h2>
-                <div id="news-carousel" class="carousel">
-                    {% for item in page.carousels[1].items %}
-                    <div class="carousel-item">
-                        <div class="card h-100">
-                            <img src="{{ item.image | relative_url }}" class="card-img-top" alt="{{ item.title }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ item.title }}</h5>
-                                <p class="card-text">{{ item.description }}</p>
-                                <a href="{{ item.button_url | relative_url }}" class="btn btn-outline-primary">{{ item.button_text }}</a>
+                <div class="carousel-container">
+                    <div id="news-carousel" class="carousel-slider">
+                        {% for item in page.carousels[1].items %}
+                        <div class="carousel-slide">
+                            <div class="card h-100">
+                                <img src="{{ item.image | relative_url }}" class="card-img-top" alt="{{ item.title }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.title }}</h5>
+                                    <p class="card-text">{{ item.description }}</p>
+                                    <a href="{{ item.button_url | relative_url }}" class="btn btn-outline-primary">{{ item.button_text }}</a>
+                                </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <button class="carousel-control prev" aria-label="Précédent">&#10094;</button>
+                    <button class="carousel-control next" aria-label="Suivant">&#10095;</button>
+                    <div class="carousel-dots"></div>
                 </div>
-                <button class="carousel-control prev" onclick="moveSlide('news-carousel', -1)">&#10094;</button>
-                <button class="carousel-control next" onclick="moveSlide('news-carousel', 1)">&#10095;</button>
-                <div class="carousel-dots" id="news-carousel-dots"></div>
             </div>
         </div>
 
         <!-- Carrousel d'occasions -->
         <div class="col-md-6 mb-4">
-            <div class="carousel-container">
+            <div class="carousel-wrapper">
                 <h2 class="section-title">{{ page.carousels[2].title }}</h2>
-                <div id="occasions-carousel" class="carousel">
-                    {% for item in page.carousels[2].items %}
-                    <div class="carousel-item">
-                        <div class="card h-100">
-                            <img src="{{ item.image | relative_url }}" class="card-img-top" alt="{{ item.title }}">
-                            <div class="card-body">
-                                <h5 class="card-title">{{ item.title }}</h5>
-                                <p class="card-text">{{ item.description }}</p>
-                                <p class="price">{{ item.price }}</p>
-                                <a href="{{ item.button_url | relative_url }}" class="btn btn-outline-primary">{{ item.button_text }}</a>
+                <div class="carousel-container">
+                    <div id="occasions-carousel" class="carousel-slider">
+                        {% for item in page.carousels[2].items %}
+                        <div class="carousel-slide">
+                            <div class="card h-100">
+                                <img src="{{ item.image | relative_url }}" class="card-img-top" alt="{{ item.title }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ item.title }}</h5>
+                                    <p class="card-text">{{ item.description }}</p>
+                                    {% if item.price %}<p class="price">{{ item.price }}</p>{% endif %}
+                                    <a href="{{ item.button_url | relative_url }}" class="btn btn-outline-primary">{{ item.button_text }}</a>
+                                </div>
                             </div>
                         </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
+                    <button class="carousel-control prev" aria-label="Précédent">&#10094;</button>
+                    <button class="carousel-control next" aria-label="Suivant">&#10095;</button>
+                    <div class="carousel-dots"></div>
                 </div>
-                <button class="carousel-control prev" onclick="moveSlide('occasions-carousel', -1)">&#10094;</button>
-                <button class="carousel-control next" onclick="moveSlide('occasions-carousel', 1)">&#10095;</button>
-                <div class="carousel-dots" id="occasions-carousel-dots"></div>
             </div>
         </div>
     </div>

@@ -1,148 +1,263 @@
-// Fonction pour initialiser un carrousel
+/**
+ * Initialise un carrousel avec navigation, autoplay et accessibilité
+ * @param {string} carouselId - L'ID de l'élément carrousel à initialiser
+ */
 function initCarousel(carouselId) {
     const carousel = document.getElementById(carouselId);
-    if (!carousel) return;
+    if (!carousel) {
+        console.warn(`Carrousel avec l'ID "${carouselId}" non trouvé.`);
+        return;
+    }
     
     const container = carousel.closest('.carousel-container');
-    const items = carousel.querySelectorAll('.carousel-item');
+    if (!container) {
+        console.warn('Conteneur parent .carousel-container non trouvé.');
+        return;
+    }
+    
+    const slides = carousel.querySelectorAll('.carousel-slide');
     const dotsContainer = container.querySelector('.carousel-dots');
+    const prevBtn = container.querySelector('.carousel-control.prev');
+    const nextBtn = container.querySelector('.carousel-control.next');
     
-    if (items.length === 0) return;
+    if (slides.length === 0) {
+        console.warn('Aucun slide trouvé dans le carrousel.');
+        return;
+    }
     
+    // Variables d'état
     let currentIndex = 0;
-    const totalItems = items.length;
-    let slideInterval;
+    const totalSlides = slides.length;
+    let slideInterval = null;
     let touchStartX = 0;
     let touchEndX = 0;
-    let inactivityTimer;
+    let isPaused = false;
+    let isAutoPlaying = false;
+    let inactivityTimer = null;
     
-    // Créer les points de navigation si nécessaire
-    if (dotsContainer) {
+    /**
+     * Initialise les points de navigation
+     */
+    function initDots() {
+        if (!dotsContainer) return;
+        
         // Vider les points existants
         dotsContainer.innerHTML = '';
         
-        for (let i = 0; i < totalItems; i++) {
+        // Créer un point pour chaque slide
+        for (let i = 0; i < totalSlides; i++) {
             const dot = document.createElement('button');
             dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+            dot.setAttribute('type', 'button');
             dot.setAttribute('data-index', i);
-            dot.setAttribute('aria-label', 'Aller au slide ' + (i + 1));
+            dot.setAttribute('aria-label', `Aller au slide ${i + 1} sur ${totalSlides}`);
+            dot.setAttribute('aria-controls', carouselId);
+            dot.setAttribute('tabindex', '0');
+            
+            // Gestion des événements
             dot.addEventListener('click', () => goToSlide(i));
+            dot.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    goToSlide(i);
+                }
+            });
+            
             dotsContainer.appendChild(dot);
         }
     }
     
-    // Afficher le premier slide
-    updateCarousel();
-    
-    // Gestion des événements
-    const prevBtn = container.querySelector('.carousel-control.prev');
-    const nextBtn = container.querySelector('.carousel-control.next');
-    const playPauseBtn = container.querySelector('.carousel-play');
-    
-    if (prevBtn) prevBtn.addEventListener('click', () => moveSlide(-1));
-    if (nextBtn) nextBtn.addEventListener('click', () => moveSlide(1));
-    if (playPauseBtn) {
-        playPauseBtn.addEventListener('click', togglePlayPause);
-    }
-    
-    // Activer le défilement automatique pour le carrousel principal
-    if (carouselId === 'home-carousel' && sessionStorage.getItem('carouselAutoplay') !== 'disabled') {
-        startAutoPlay();
+    /**
+     * Met à jour l'état des points de navigation
+     */
+    function updateDots() {
+        if (!dotsContainer) return;
         
-        // Arrêter le défilement automatique au survol
-        carousel.addEventListener('mouseenter', stopAutoPlay);
-        carousel.addEventListener('mouseleave', () => {
-            if (sessionStorage.getItem('carouselAutoplay') !== 'disabled') {
-                startAutoPlay();
-            }
+        const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, index) => {
+            const isActive = index === currentIndex;
+            dot.classList.toggle('active', isActive);
+            dot.setAttribute('aria-current', isActive);
+            dot.setAttribute('tabindex', isActive ? '0' : '-1');
         });
     }
     
-    // Fonction pour basculer entre lecture et pause
-    function togglePlayPause() {
-        if (slideInterval) {
-            stopAutoPlay();
-            if (playPauseBtn) {
-                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-                playPauseBtn.setAttribute('title', 'Lire le diaporama');
+    /**
+     * Affiche le slide actif et met à jour l'état
+     */
+    function updateCarousel() {
+        // Mettre à jour les slides
+        slides.forEach((slide, index) => {
+            const isActive = index === currentIndex;
+            slide.classList.toggle('active', isActive);
+            slide.setAttribute('aria-hidden', !isActive);
+            
+            // Mettre à jour l'accessibilité
+            if (isActive) {
+                slide.removeAttribute('inert');
+                slide.setAttribute('tabindex', '0');
+            } else {
+                slide.setAttribute('inert', '');
+                slide.setAttribute('tabindex', '-1');
             }
-        } else {
-            startAutoPlay();
-            if (playPauseBtn) {
-                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                playPauseBtn.setAttribute('title', 'Mettre en pause');
-            }
+        });
+        
+        // Mettre à jour les points de navigation
+        updateDots();
+        
+        // Mettre à jour l'accessibilité des boutons de navigation
+        if (prevBtn) {
+            prevBtn.setAttribute('aria-label', 'Précédent');
+            prevBtn.setAttribute('aria-controls', carouselId);
         }
+        
+        if (nextBtn) {
+            nextBtn.setAttribute('aria-label', 'Suivant');
+            nextBtn.setAttribute('aria-controls', carouselId);
+        }
+        
+        // Annoncer le changement de slide pour les lecteurs d'écran
+        const activeSlide = slides[currentIndex];
+        const slideLabel = activeSlide.querySelector('h2, .card-title')?.textContent || `Slide ${currentIndex + 1}`;
+        
+        // Créer une zone live pour les annonces
+        let liveRegion = carousel.querySelector('.sr-announce');
+        if (!liveRegion) {
+            liveRegion = document.createElement('div');
+            liveRegion.className = 'sr-announce';
+            liveRegion.setAttribute('aria-live', 'polite');
+            liveRegion.setAttribute('aria-atomic', 'true');
+            liveRegion.style.position = 'absolute';
+            liveRegion.style.overflow = 'hidden';
+            liveRegion.style.clip = 'rect(0 0 0 0)';
+            liveRegion.style.height = '1px';
+            liveRegion.style.width = '1px';
+            liveRegion.style.margin = '-1px';
+            liveRegion.style.padding = '0';
+            liveRegion.style.border = '0';
+            carousel.appendChild(liveRegion);
+        }
+        
+        liveRegion.textContent = `Diapositive ${currentIndex + 1} sur ${totalSlides}: ${slideLabel}`;
     }
     
-    // Fonction pour démarrer le défilement automatique
+    /**
+     * Passe au slide suivant ou précédent
+     * @param {number} direction - 1 pour suivant, -1 pour précédent
+     */
+    function moveSlide(direction) {
+        currentIndex = (currentIndex + direction + totalSlides) % totalSlides;
+        updateCarousel();
+        resetInactivityTimer();
+    }
+    
+    /**
+     * Va à un slide spécifique
+     * @param {number} index - Index du slide à afficher
+     */
+    function goToSlide(index) {
+        if (index < 0 || index >= totalSlides) return;
+        currentIndex = index;
+        updateCarousel();
+        resetInactivityTimer();
+    }
+    
+    /**
+     * Démarre le défilement automatique
+     */
     function startAutoPlay() {
-        stopAutoPlay();
+        if (isAutoPlaying) return;
         
-        // Ne pas démarrer l'autoplay si désactivé par l'utilisateur
+        // Vérifier si l'utilisateur a désactivé l'autoplay
         if (sessionStorage.getItem('carouselAutoplay') === 'disabled') {
             return;
         }
         
-        slideInterval = setInterval(() => moveSlide(1), 5000); // Change de slide toutes les 5 secondes
-        
-        // Mettre à jour l'état du bouton de lecture
-        if (playPauseBtn) {
-            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            playPauseBtn.setAttribute('title', 'Mettre en pause');
+        // Vérifier si l'utilisateur a désactivé les animations
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) {
+            return;
         }
         
-        // Réinitialiser le timer d'inactivité
-        resetInactivityTimer();
+        isPaused = false;
+        isAutoPlaying = true;
+        
+        // Arrêter tout intervalle existant
+        stopAutoPlay();
+        
+        // Démarrer un nouvel intervalle
+        slideInterval = setInterval(() => {
+            if (!isPaused) {
+                moveSlide(1);
+            }
+        }, 5000); // 5 secondes entre chaque slide
+        
+        // Mettre à jour l'état des boutons
+        updatePlayPauseButton();
     }
     
-    // Fonction pour arrêter le défilement automatique
+    /**
+     * Arrête le défilement automatique
+     */
     function stopAutoPlay() {
         if (slideInterval) {
             clearInterval(slideInterval);
             slideInterval = null;
         }
+        isAutoPlaying = false;
     }
     
-    // Fonction pour déplacer le carrousel
-    function moveSlide(direction) {
-        currentIndex = (currentIndex + direction + totalItems) % totalItems;
-        updateCarousel();
-        resetInactivityTimer();
-    }
-    
-    // Fonction pour aller à un slide spécifique
-    function goToSlide(index) {
-        currentIndex = (index + totalItems) % totalItems;
-        updateCarousel();
-        resetInactivityTimer();
-    }
-    
-    // Mettre à jour l'affichage du carrousel
-    function updateCarousel() {
-        // Masquer tous les slides
-        items.forEach((item, index) => {
-            item.style.display = index === currentIndex ? 'block' : 'none';
-            item.setAttribute('aria-hidden', index !== currentIndex);
-        });
+    /**
+     * Bascule entre lecture et pause
+     */
+    function togglePlayPause() {
+        isPaused = !isPaused;
         
-        // Mettre à jour les points de navigation
-        if (dotsContainer) {
-            const dots = dotsContainer.querySelectorAll('.carousel-dot');
-            dots.forEach((dot, index) => {
-                const isActive = index === currentIndex;
-                dot.classList.toggle('active', isActive);
-                dot.setAttribute('aria-current', isActive);
-            });
+        if (isPaused) {
+            stopAutoPlay();
+        } else {
+            startAutoPlay();
         }
         
-        // Mettre à jour l'accessibilité
-        carousel.setAttribute('aria-live', 'polite');
-        carousel.setAttribute('aria-atomic', 'true');
+        updatePlayPauseButton();
     }
     
-    // Gestion du swipe sur mobile
-    function handleSwipe() {
+    /**
+     * Met à jour l'état du bouton lecture/pause
+     */
+    function updatePlayPauseButton() {
+        const playPauseBtn = container.querySelector('.carousel-play');
+        if (!playPauseBtn) return;
+        
+        if (isPaused || !isAutoPlaying) {
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            playPauseBtn.setAttribute('aria-label', 'Lire le diaporama');
+        } else {
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            playPauseBtn.setAttribute('aria-label', 'Mettre en pause');
+        }
+    }
+    
+    /**
+     * Réinitialise le timer d'inactivité
+     */
+    function resetInactivityTimer() {
+        // Arrêter le timer existant
+        if (inactivityTimer) {
+            clearTimeout(inactivityTimer);
+        }
+        
+        // Démarrer un nouveau timer (10 minutes d'inactivité)
+        inactivityTimer = setTimeout(() => {
+            stopAutoPlay();
+        }, 10 * 60 * 1000);
+    }
+    
+    /**
+     * Gestion du swipe sur mobile
+     * @param {TouchEvent} e - L'événement tactile
+     */
+    function handleSwipe(e) {
         const swipeThreshold = 50; // Seuil minimal en pixels pour considérer un swipe
         
         if (touchEndX < touchStartX - swipeThreshold) {
@@ -154,50 +269,101 @@ function initCarousel(carouselId) {
         }
     }
     
-    // Événements tactiles pour le swipe
-    carousel.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
+    // Initialisation
+    initDots();
+    updateCarousel();
     
-    carousel.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
+    // Gestion des événements
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => moveSlide(-1));
+    }
     
-    // Navigation au clavier
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => moveSlide(1));
+    }
+    
+    // Gestion du clavier
     carousel.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
             e.preventDefault();
             moveSlide(-1);
+            resetInactivityTimer();
         } else if (e.key === 'ArrowRight') {
             e.preventDefault();
             moveSlide(1);
+            resetInactivityTimer();
         } else if (e.key === 'Home') {
             e.preventDefault();
             goToSlide(0);
+            resetInactivityTimer();
         } else if (e.key === 'End') {
             e.preventDefault();
-            goToSlide(totalItems - 1);
-        } else if (e.key === ' ' || e.key === 'Enter') {
-            const focusedElement = document.activeElement;
-            if (focusedElement && focusedElement.classList.contains('carousel-dot')) {
-                e.preventDefault();
-                const index = parseInt(focusedElement.getAttribute('data-index'), 10);
-                goToSlide(index);
-            }
+            goToSlide(totalSlides - 1);
+            resetInactivityTimer();
         }
     });
     
-    // Gestion de la visibilité de la page (API Page Visibility)
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            // La page est en arrière-plan, arrêter le carrousel
-            stopAutoPlay();
-        } else if (sessionStorage.getItem('carouselAutoplay') !== 'disabled') {
-            // La page est au premier plan, redémarrer le carrousel si l'autoplay n'est pas désactivé
-            startAutoPlay();
+    // Gestion du swipe tactile
+    carousel.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        stopAutoPlay();
+    }, { passive: true });
+    
+    carousel.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe(e);
+        resetInactivityTimer();
+    }, { passive: true });
+    
+    // Gestion de la souris
+    carousel.addEventListener('mouseenter', () => {
+        isPaused = true;
+        updatePlayPauseButton();
+    });
+    
+    carousel.addEventListener('mouseleave', () => {
+        isPaused = false;
+        if (isAutoPlaying) {
+            resetInactivityTimer();
         }
     });
+    
+    // Gestion de la visibilité de la page
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            // La page est en arrière-plan, mettre en pause
+            isPaused = true;
+        } else if (isAutoPlaying) {
+            // La page est au premier plan, reprendre si nécessaire
+            isPaused = false;
+            resetInactivityTimer();
+        }
+    });
+    
+    // Démarrer l'autoplay pour le carrousel principal
+    if (carouselId === 'home-carousel' && sessionStorage.getItem('carouselAutoplay') !== 'disabled') {
+        startAutoPlay();
+    }
+    
+    // Fonction pour réinitialiser le timer d'inactivité
+    function resetInactivityTimer() {
+        // Arrêter le timer existant
+        if (inactivityTimer) {
+            clearTimeout(inactivityTimer);
+        }
+        
+        // Si l'autoplay est actif, redémarrer le timer
+        if (isAutoPlaying && !isPaused) {
+            inactivityTimer = setTimeout(() => {
+                stopAutoPlay();
+                // Désactiver l'autoplay pour cette session
+                sessionStorage.setItem('carouselAutoplay', 'disabled');
+                
+                // Mettre à jour le bouton de lecture/pause
+                updatePlayPauseButton();
+            }, 10 * 60 * 1000); // 10 minutes d'inactivité
+        }
+    }
     
     // Fonction pour réinitialiser le timer d'inactivité
     function resetInactivityTimer() {
@@ -243,8 +409,58 @@ function initCarousel(carouselId) {
 
 // Initialiser tous les carrousels au chargement de la page
 document.addEventListener('DOMContentLoaded', function() {
-    const carousels = document.querySelectorAll('.carousel');
+    // Vérifier si l'utilisateur a désactivé les animations
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Initialiser chaque carrousel
+    const carousels = document.querySelectorAll('.carousel-slider');
     carousels.forEach(carousel => {
-        initCarousel(carousel.id);
+        if (carousel.id) {
+            // Ajouter des attributs d'accessibilité
+            carousel.setAttribute('role', 'region');
+            carousel.setAttribute('aria-roledescription', 'carousel');
+            carousel.setAttribute('aria-live', 'off');
+            
+            // Initialiser le carrousel
+            initCarousel(carousel.id);
+            
+            // Si l'utilisateur a désactivé les animations, arrêter l'autoplay
+            if (prefersReducedMotion) {
+                const container = carousel.closest('.carousel-container');
+                if (container) {
+                    const playPauseBtn = container.querySelector('.carousel-play');
+                    if (playPauseBtn) {
+                        playPauseBtn.style.display = 'none';
+                    }
+                }
+            }
+        }
+    });
+    
+    // Gestion du bouton de lecture/pause global
+    document.addEventListener('click', (e) => {
+        if (e.target.closest('.carousel-play')) {
+            const container = e.target.closest('.carousel-container');
+            if (container) {
+                const carouselId = container.querySelector('.carousel-slider')?.id;
+                if (carouselId) {
+                    // Trouver l'instance du carrousel et basculer l'état de lecture
+                    const carousel = document.getElementById(carouselId);
+                    if (carousel) {
+                        const playPauseBtn = container.querySelector('.carousel-play');
+                        const isPaused = playPauseBtn.innerHTML.includes('play');
+                        
+                        if (isPaused) {
+                            sessionStorage.setItem('carouselAutoplay', 'enabled');
+                        } else {
+                            sessionStorage.setItem('carouselAutoplay', 'disabled');
+                        }
+                        
+                        // Recharger le carrousel pour appliquer les changements
+                        initCarousel(carouselId);
+                    }
+                }
+            }
+        }
     });
 });
