@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 4.3"
-gem "jekyll-assets", "~> 3.0"
-gem "html-proofer", "~> 5.0"
-gem "mini_racer", "~> 0.6.2"
+gem 'jekyll', '~> 3.9'
+gem 'jekyll-assets', '~> 3.0'
+gem 'html-proofer', '~> 5.0'
+gem 'mini_racer', '~> 0.6.2'
 gem 'webrick'
