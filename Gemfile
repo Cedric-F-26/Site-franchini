@@ -19,6 +19,4 @@ platforms :mingw, :x64_mingw, :mswin do
 end
 
 # Configuration pour Vercel
-if ENV['VERCEL']
-  gem 'jekyll-vercel', '~> 0.2.0'
-end
+# La configuration Vercel est gérée par vercel.json et les scripts NPM
