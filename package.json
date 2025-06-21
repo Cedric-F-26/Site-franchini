@@ -4,11 +4,11 @@
   "description": "Site web de Franchini - Concessionnaire Deutz-Fahr",
   "private": true,
   "scripts": {
-    "dev": "echo \"Ouvrez directement le fichier public/index.html dans votre navigateur\"",
-    "build": "echo \"Le site est prêt dans le dossier public/\"",
-    "start": "echo \"Ouvrez directement le fichier public/index.html dans votre navigateur\"",
+    "dev": "bundle exec jekyll serve --watch --port $PORT --host 0.0.0.0",
+    "build": "bundle exec jekyll build --config _config.yml,_config_vercel.yml",
+    "start": "bundle exec jekyll serve --port $PORT --host 0.0.0.0",
     "test": "echo \"Tests non configurés\" && exit 0",
-    "vercel-build": "echo \"Build Vercel - Copie des fichiers statiques\" && mkdir -p public && cp -r public/* public/ 2>/dev/null || :"
+    "vercel-build": "npm install && npm run build"
   },
   "engines": {
     "node": "20.x"
