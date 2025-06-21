@@ -7,7 +7,8 @@
     "dev": "echo \"Ouvrez directement le fichier public/index.html dans votre navigateur\"",
     "build": "echo \"Le site est prêt dans le dossier public/\"",
     "start": "echo \"Ouvrez directement le fichier public/index.html dans votre navigateur\"",
-    "test": "echo \"Tests non configurés\" && exit 0"
+    "test": "echo \"Tests non configurés\" && exit 0",
+    "vercel-build": "echo \"Build Vercel - Copie des fichiers statiques\" && mkdir -p public && cp -r public/* public/ 2>/dev/null || :"
   },
   "engines": {
     "node": "20.x"
