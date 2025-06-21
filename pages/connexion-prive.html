@@ -63,7 +63,7 @@
             padding: 0.8rem 1rem;
             border-radius: 4px;
             margin-bottom: 1.5rem;
-            display: none; /* CachÃ© par dÃ©faut, affichÃ© par JS */
+            display: none; /* Caché par défaut, affiché par JS */
             align-items: center;
             font-size: 0.85rem;
             border-left: 3px solid #c62828;
@@ -192,9 +192,9 @@
     <main>
         <div class="login-box">
             <div class="login-header">
-                <!-- Remplacer l'icÃ´ne de cadenas par le logo Franchini -->
-                <img src="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}" alt="Logo Franchini" class="franchini-logo" data-fallback="{{ '/assets/images/logo/Logo Franchini 2.jpg' | relative_url }}">
-                <h1>AccÃ¨s PrivÃ©</h1>
+                <!-- Remplacer l'icône de cadenas par le logo Franchini -->
+                <img src="../assets/images/logo/Logo Franchini 2.jpg" alt="Logo Franchini" class="franchini-logo">
+                <h1>Accès Privé</h1>
             </div>
             <div id="error-message" class="error">
                 <i class="fas fa-exclamation-circle"></i>
@@ -229,16 +229,16 @@
                             Se souvenir de moi
                         </label>
                     </div>
-                    <a href="#" id="forgot-password-link" style="color: #333; font-size: 0.85em; text-decoration: none; cursor: pointer;">Mot de passe oubliÃ©</a>
+                    <a href="#" id="forgot-password-link" style="color: #333; font-size: 0.85em; text-decoration: none; cursor: pointer;">Mot de passe oublié</a>
                 </div>
                 <div id="reset-password-form" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
-                    <h3 style="font-size: 1.1rem; margin: 0 0 1rem 0; color: #333; text-align: center;">RÃ©initialiser le mot de passe</h3>
+                    <h3 style="font-size: 1.1rem; margin: 0 0 1rem 0; color: #333; text-align: center;">Réinitialiser le mot de passe</h3>
                     <div style="margin-bottom: 1rem;">
                         <label for="reset-email" style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #495057;">Votre adresse email</label>
                         <input type="email" id="reset-email" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px; font-size: 1rem;" placeholder="email@exemple.com">
                     </div>
                     <button type="button" id="reset-password-btn" style="width: 100%; padding: 0.75rem; background-color: #4CAF50; color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: background-color 0.2s;">
-                        Envoyer le lien de rÃ©initialisation
+                        Envoyer le lien de réinitialisation
                     </button>
                     <div id="reset-message" style="margin-top: 1rem; padding: 0.75rem; border-radius: 4px; display: none;"></div>
                 </div>
@@ -249,11 +249,11 @@
         </div>
     </main>
 
-    <!-- IntÃ©gration de la configuration Supabase -->
+    <!-- Intégration de la configuration Supabase -->
     <script src="../assets/js/auth/supabase-config.js" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Ã‰lÃ©ments du formulaire
+            // Éléments du formulaire
             const loginForm = document.getElementById('login-form');
             const emailInput = document.getElementById('username');
             const passwordInput = document.getElementById('password');
@@ -265,7 +265,7 @@
             const resetPasswordBtn = document.getElementById('reset-password-btn');
             const resetMessage = document.getElementById('reset-message');
             
-            // Charger les identifiants enregistrÃ©s
+            // Charger les identifiants enregistrés
             function loadSavedCredentials() {
                 const savedEmail = localStorage.getItem('savedEmail');
                 const saveCredentials = localStorage.getItem('saveCredentials') === 'true';
@@ -279,7 +279,7 @@
             // Initialisation
             // La vérification d'authentification est maintenant gérée par la fonction globale checkAuth
             
-            // Basculer la visibilitÃ© du mot de passe
+            // Basculer la visibilité du mot de passe
             if (togglePassword) {
                 togglePassword.addEventListener('click', function() {
                     const type = passwordInput.type === 'password' ? 'text' : 'password';
@@ -312,7 +312,7 @@
                         
                         if (error) throw error;
                         
-                        // Sauvegarder les identifiants si la case est cochÃ©e
+                        // Sauvegarder les identifiants si la case est cochée
                         const rememberMe = document.getElementById('remember-me').checked;
                         if (rememberMe) {
                             localStorage.setItem('savedEmail', email);
@@ -322,7 +322,7 @@
                             localStorage.setItem('saveCredentials', 'false');
                         }
                         
-                        console.log('Connexion rÃ©ussie:', data);
+                        console.log('Connexion réussie:', data);
                         window.location.href = 'administrateur.html';
                         
                     } catch (error) {
@@ -339,7 +339,7 @@
                 errorMessageDiv.querySelector('span').textContent = message;
                 errorMessageDiv.style.display = 'block';
                 
-                // Masquer le message aprÃ¨s 5 secondes
+                // Masquer le message après 5 secondes
                 setTimeout(() => {
                     errorMessageDiv.style.display = 'none';
                 }, 5000);
@@ -354,7 +354,7 @@
                 });
             }
             
-            // Gestion de la rÃ©initialisation du mot de passe
+            // Gestion de la réinitialisation du mot de passe
             if (resetPasswordBtn) {
                 resetPasswordBtn.addEventListener('click', async function() {
                     const email = resetEmailInput.value.trim();
@@ -367,10 +367,10 @@
                     try {
                         // URL de redirection pour GitHub Pages
                         const redirectUrl = 'https://cedric-f-26.github.io/mon-site-web/pages/update-password.html';
-                        console.log('Envoi du lien de rÃ©initialisation Ã :', email);
+                        console.log('Envoi du lien de réinitialisation à:', email);
                         console.log('URL de redirection:', redirectUrl);
                         
-                        // Envoyer l'email de rÃ©initialisation
+                        // Envoyer l'email de réinitialisation
                         const { error } = await window.supabase.auth.resetPasswordForEmail(email, {
                             redirectTo: redirectUrl
                         });
@@ -380,11 +380,11 @@
                             throw error;
                         }
                         
-                        showResetMessage('Un lien de rÃ©initialisation a Ã©tÃ© envoyÃ© Ã  votre adresse email.', 'success');
+                        showResetMessage('Un lien de réinitialisation a été envoyé à votre adresse email.', 'success');
                         
                     } catch (error) {
-                        console.error('Erreur lors de l\'envoi du lien de rÃ©initialisation:', error);
-                        showResetMessage('Une erreur est survenue. Veuillez rÃ©essayer.', 'error');
+                        console.error('Erreur lors de l\'envoi du lien de réinitialisation:', error);
+                        showResetMessage('Une erreur est survenue. Veuillez réessayer.', 'error');
                     }
                 });
             }
@@ -397,7 +397,7 @@
                 resetMessage.className = type;
                 resetMessage.style.display = 'block';
                 
-                // Masquer le message aprÃ¨s 5 secondes
+                // Masquer le message après 5 secondes
                 setTimeout(() => {
                     resetMessage.style.display = 'none';
                 }, 5000);
@@ -423,24 +423,24 @@
         // Définir checkAuth dans la portée globale
         window.checkAuth = async function() {
             try {
-                console.log('VÃ©rification de la session...');
+                console.log('Vérification de la session...');
                 const { data: { session }, error } = await window.supabase.auth.getSession();
                 
                 if (error) throw error;
                 
                 if (session) {
-                    console.log('Session trouvÃ©e, redirection vers administrateur.html');
+                    console.log('Session trouvée, redirection vers administrateur.html');
                     window.location.href = 'administrateur.html';
                 } else {
-                    console.log('Aucune session active, chargement des identifiants enregistrÃ©s');
-                    // Charger les identifiants enregistrÃ©s uniquement si pas de session active
+                    console.log('Aucune session active, chargement des identifiants enregistrés');
+                    // Charger les identifiants enregistrés uniquement si pas de session active
                     if (typeof loadSavedCredentials === 'function') {
                         loadSavedCredentials();
                     }
                 }
             } catch (error) {
-                console.error('Erreur de vÃ©rification de session:', error);
-                // Charger les identifiants mÃªme en cas d'erreur
+                console.error('Erreur de vérification de session:', error);
+                // Charger les identifiants même en cas d'erreur
                 if (typeof loadSavedCredentials === 'function') {
                     loadSavedCredentials();
                 }
@@ -450,7 +450,7 @@
         // S'assurer que la fonction checkAuth est définie avant de l'appeler
         function waitForSupabase() {
             if (typeof window.supabase !== 'undefined' && window.supabase.auth) {
-                console.log('Supabase est prÃªt, vÃ©rification de l\'authentification...');
+                console.log('Supabase est prêt, vérification de l\'authentification...');
                 window.checkAuth();
             } else {
                 console.log('En attente de l\'initialisation de Supabase...');
@@ -467,7 +467,7 @@
     </script>
     
     <!-- Chargement du pied de page -->
-
+    <script src="../assets/js/load-footer.js"></script>
     <!-- Pied de page -->
     <!--#include virtual="/includes/footer.html" -->
 <footer style="background-color: #1a1a1a; color: white; text-align: center; padding: 30px 0; margin-top: 40px;">
@@ -483,12 +483,11 @@
             </a>
         </div>
         <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
-            Â© 2024 Franchini SARL. Tous droits rÃ©servÃ©s.
-            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privÃ©e</a>
+            © 2024 Franchini SARL. Tous droits réservés.
+            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
         </div>
     </div>
 </footer>
 
 </body>
 </html>
-

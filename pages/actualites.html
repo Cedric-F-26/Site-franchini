@@ -1,21 +1,492 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Franchini - Actualites</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <title>Actualités - Franchini</title>
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/footer-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Styles pour le carrousel d'actualités */
+        .news-carousel {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .carousel-container {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 500px;
+        }
+        
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+        
+        .carousel-slide img, 
+        .carousel-slide iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .carousel-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white;
+            padding: 2rem;
+        }
+        
+        .carousel-content h2 {
+            margin: 0 0 1rem;
+            font-size: 1.8rem;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        
+        .carousel-prev, 
+        .carousel-next {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 0 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .carousel-dots {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+        }
+        
+        .carousel-dot.active {
+            background: white;
+        }
+        
+        /* Styles pour la grille d'actualités */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .news-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .news-content {
+            padding: 1.5rem;
+        }
+        
+        .news-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .no-news {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-    <!--#include file="../_includes/header.html" -->
-    
-    <!-- Contenu principal -->
-    <main class="main-content">
-        
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="../index.html" class="logo-link">
+                    <div class="logo-text">FRANCHINI</div>
+                </a>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="concession.html">La concession</a></li>
+                    <li class="dropdown">
+                        <a href="#">Matériel neuf</a>
+                        <div class="dropdown-content">
+                            <a href="materiel.html">Matériel neuf</a>
+                            <a href="materiel-disponible.html">Matériel neuf disponible</a>
+                        </div>
+                    </li>
+                    <li><a href="location.html">Location</a></li>
+                    <li><a href="occasion.html">Occasion</a></li>
+                    <li><a href="magasin.html">Magasin</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="tel:0475474037" class="phone-number"><i class="fas fa-phone"></i> 04 75 47 40 37</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="container" style="padding-top: 20px; padding-bottom: 20px;">
+            <h1>Nos Actualités</h1>
+            <p>Cette page affichera bientôt les dernières actualités.</p>
+            <!-- Le contenu des actualités sera chargé ici dynamiquement ou manuellement -->
+            <div id="actualites-list">
+                <p>Chargement des actualités...</p>
+            </div>
+        </section>
     </main>
+
     
-    <!--#include file="../_includes/footer.html" -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const actualitesContainer = document.getElementById('actualites-list');
+            if (!actualitesContainer) return;
+
+            // Récupérer les actualités depuis le localStorage
+            const actualites = JSON.parse(localStorage.getItem('franchiniActualites')) || [];
+            
+            // Trier les actualités par date (du plus récent au plus ancien)
+            actualites.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            if (actualites.length === 0) {
+                actualitesContainer.innerHTML = '<p>Aucune actualité disponible pour le moment.</p>';
+                return;
+            }
+
+            // Créer le carrousel pour les actualités avec média
+            const actualitesAvecMedia = actualites.filter(a => a.mediaUrl || a.videoUrl);
+            
+            let carouselHTML = '';
+            
+            if (actualitesAvecMedia.length > 0) {
+                carouselHTML = `
+                    <div class="carousel-container">
+                        <div class="carousel-track">
+                            ${actualitesAvecMedia.map((actualite, index) => `
+                                <div class="carousel-slide ${index === 0 ? 'active' : ''}" data-id="${actualite.id}">
+                                    ${actualite.videoUrl ? `
+                                        <div class="video-container">
+                                            <iframe src="https://www.youtube.com/embed/${extractYoutubeId(actualite.videoUrl)}" 
+                                                    frameborder="0" 
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                                    allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                    ` : `
+                                        <img src="${actualite.mediaUrl}" alt="${actualite.titre}" class="carousel-image">
+                                    `}
+                                    <div class="carousel-caption">
+                                        <h3>${actualite.titre}</h3>
+                                        <p>${formatDate(actualite.date)}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        ${actualitesAvecMedia.length > 1 ? `
+                            <button class="carousel-control prev" aria-label="Précédent">
+                                <span class="carousel-control-icon">&#10094;</span>
+                            </button>
+                            <button class="carousel-control next" aria-label="Suivant">
+                                <span class="carousel-control-icon">&#10095;</span>
+                            </button>
+                            <div class="carousel-indicators">
+                                ${actualitesAvecMedia.map((_, i) => `
+                                    <button class="carousel-indicator ${i === 0 ? 'active' : ''}" data-slide-to="${i}" aria-label="Aller au slide ${i + 1}"></button>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+
+            // Créer la grille des actualités
+            const gridHTML = `
+                <div class="actualites-grid">
+                    ${actualites.map(actualite => `
+                        <div class="actualite-card" data-id="${actualite.id}">
+                            <div class="actualite-media">
+                                ${actualite.videoUrl ? `
+                                    <div class="video-thumbnail" onclick="openVideoModal('${actualite.videoUrl}')">
+                                        <img src="https://img.youtube.com/vi/${extractYoutubeId(actualite.videoUrl)}/hqdefault.jpg" 
+                                             alt="${actualite.titre}">
+                                        <div class="play-icon">▶</div>
+                                    </div>
+                                ` : actualite.mediaUrl ? `
+                                    <img src="${actualite.mediaUrl}" alt="${actualite.titre}" 
+                                         onclick="openImageModal('${actualite.mediaUrl}')">
+                                ` : ''}
+                            </div>
+                            <div class="actualite-content">
+                                <h3>${actualite.titre}</h3>
+                                <div class="actualite-date">${formatDate(actualite.date)}</div>
+                                <div class="actualite-text">${actualite.contenu}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            // Combiner le carrousel et la grille
+            actualitesContainer.innerHTML = `
+                ${actualitesAvecMedia.length > 0 ? `
+                    <section class="carousel-section">
+                        <h2>Dernières actualités en images</h2>
+                        ${carouselHTML}
+                    </section>
+                ` : ''}
+                <section class="actualites-section">
+                    <h2>${actualitesAvecMedia.length > 0 ? 'Toutes les actualités' : 'Nos actualités'}</h2>
+                    ${gridHTML}
+                </section>
+            `;
+
+            // Initialiser le carrousel s'il y a des éléments
+            if (actualitesAvecMedia.length > 1) {
+                initCarousel();
+            }
+        });
+
+        // Fonction pour extraire l'ID d'une vidéo YouTube
+        function extractYoutubeId(url) {
+            if (!url) return '';
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : '';
+        }
+
+        // Fonction pour formater la date
+        function formatDate(dateString) {
+            if (!dateString) return '';
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('fr-FR', options);
+        }
+
+        // Fonction pour ouvrir une modale vidéo
+        function openVideoModal(videoUrl) {
+            const videoId = extractYoutubeId(videoUrl);
+            if (!videoId) return;
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+            
+            // Fermer la modale quand on clique sur la croix ou en dehors
+            modal.querySelector('.close-modal').onclick = () => modal.remove();
+            modal.onclick = (e) => {
+                if (e.target === modal) modal.remove();
+            };
+            
+            // Empêcher la propagation du clic sur le contenu de la modale
+            modal.querySelector('.modal-content').onclick = (e) => e.stopPropagation();
+        }
+
+        // Fonction pour ouvrir une modale d'image
+        function openImageModal(imageUrl) {
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <span class="close-modal">&times;</span>
+                    <img src="${imageUrl}" alt="Agrandissement">
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            modal.style.display = 'flex';
+            
+            // Fermer la modale quand on clique sur la croix ou en dehors
+            modal.querySelector('.close-modal').onclick = () => modal.remove();
+            modal.onclick = (e) => {
+                if (e.target === modal) modal.remove();
+            };
+            
+            // Empêcher la propagation du clic sur l'image
+            modal.querySelector('img').onclick = (e) => e.stopPropagation();
+        }
+
+        // Initialisation du carrousel
+        function initCarousel() {
+            const track = document.querySelector('.carousel-track');
+            const slides = Array.from(document.querySelectorAll('.carousel-slide'));
+            const nextButton = document.querySelector('.carousel-control.next');
+            const prevButton = document.querySelector('.carousel-control.prev');
+            const indicators = document.querySelectorAll('.carousel-indicator');
+            
+            if (!track || slides.length <= 1) return;
+            
+            let currentSlide = 0;
+            const slideCount = slides.length;
+            const slideWidth = slides[0].getBoundingClientRect().width;
+            
+            // Positionner les slides côte à côte
+            slides.forEach((slide, index) => {
+                slide.style.left = `${index * 100}%`;
+            });
+            
+            // Fonction pour déplacer le carrousel
+            function moveToSlide(index) {
+                if (index < 0) index = slideCount - 1;
+                if (index >= slideCount) index = 0;
+                
+                track.style.transform = `translateX(-${index * 100}%)`;
+                
+                // Mettre à jour les classes actives
+                document.querySelector('.carousel-slide.active').classList.remove('active');
+                slides[index].classList.add('active');
+                
+                document.querySelector('.carousel-indicator.active').classList.remove('active');
+                indicators[index].classList.add('active');
+                
+                currentSlide = index;
+            }
+            
+            // Événements des boutons de navigation
+            nextButton.addEventListener('click', () => moveToSlide(currentSlide + 1));
+            prevButton.addEventListener('click', () => moveToSlide(currentSlide - 1));
+            
+            // Événements des indicateurs
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => moveToSlide(index));
+            });
+            
+            // Navigation au clavier
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight') {
+                    moveToSlide(currentSlide + 1);
+                } else if (e.key === 'ArrowLeft') {
+                    moveToSlide(currentSlide - 1);
+                }
+            });
+            
+            // Gestion du tactile
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            track.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+            }, { passive: true });
+            
+            track.addEventListener('touchend', (e) => {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            }, { passive: true });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50; // Seuil de sensibilité du swipe
+                const diff = touchStartX - touchEndX;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0) {
+                        // Swipe vers la gauche
+                        moveToSlide(currentSlide + 1);
+                    } else {
+                        // Swipe vers la droite
+                        moveToSlide(currentSlide - 1);
+                    }
+                }
+            }
+            
+            // Défilement automatique
+            let slideInterval = setInterval(() => moveToSlide(currentSlide + 1), 5000);
+            
+            // Arrêter le défilement automatique au survol
+            const carousel = document.querySelector('.carousel-container');
+            carousel.addEventListener('mouseenter', () => clearInterval(slideInterval));
+            carousel.addEventListener('mouseleave', () => {
+                slideInterval = setInterval(() => moveToSlide(currentSlide + 1), 5000);
+            });
+            
+            // Reprendre le défilement automatique quand la fenêtre reprend le focus
+            window.addEventListener('focus', () => {
+                slideInterval = setInterval(() => moveToSlide(currentSlide + 1), 5000);
+            });
+            
+            // Mettre en pause quand la fenêtre perd le focus
+            window.addEventListener('blur', () => clearInterval(slideInterval));
+        }
+    </script>
+    
+    
+    <!-- Chargement du pied de page -->
+    <script src="../assets/js/load-footer.js"></script>
+    <!-- Pied de page -->
+    <!--#include virtual="/includes/footer.html" -->
+<footer style="background-color: #1a1a1a; color: white; text-align: center; padding: 30px 0; margin-top: 40px;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+        <div style="margin-bottom: 10px;">
+            <span style="color: #4CAF50; font-weight: bold; font-size: 24px; letter-spacing: 1px;">FRANCHINI</span>
+        </div>
+        <div style="margin-bottom: 8px; color: #ddd;">111 av des monts du matin</div>
+        <div style="margin-bottom: 15px; color: #ddd;">26300 Marches</div>
+        <div style="margin-bottom: 20px;">
+            <a href="tel:0475474037" style="color: white; text-decoration: none; font-size: 18px; font-weight: 500;">
+                <i class="fas fa-phone" style="margin-right: 8px;"></i>04 75 47 40 37
+            </a>
+        </div>
+        <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+            © 2024 Franchini SARL. Tous droits réservés.
+            <a href="../pages/connexion-prive.html" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>
