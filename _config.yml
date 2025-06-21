@@ -1,6 +1,10 @@
-# Configuration pour GitHub Pages
-baseurl: "/mon-site-web"  # Nom du dépôt GitHub
-url: "https://cedric-f-26.github.io"  # URL de votre site GitHub Pages
+# Configuration pour le développement local
+baseurl: ""  # Vide pour le développement local
+url: ""  # Vide pour le développement local
+
+# Pour la production sur GitHub Pages :
+# baseurl: "/mon-site-web"  # Nom du dépôt GitHub
+# url: "https://cedric-f-26.github.io"  # URL de votre site GitHub Pages
 
 # Configuration pour GitHub Pages
 plugins:
