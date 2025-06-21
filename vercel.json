@@ -1,11 +1,8 @@
 {
-  "version": 2,
-  "build": {
-    "env": {
-      "JEKYLL_ENV": "production"
-    },
-    "buildCommand": "bundle install && bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace",
-    "outputDirectory": "_site",
-    "installCommand": "gem install bundler"
-  }
+  "builds": [
+    {
+      "src": "Gemfile",
+      "use": "@vercel/ruby"
+    }
+  ]
 }
