@@ -2,32 +2,48 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-// Fonction pour exécuter une commande et afficher la sortie
-function runCommand(command, cwd = process.cwd()) {
-  console.log(`🚀 Exécution: ${command}`);
+console.log('=== Démarrage du build Vercel ===');
+console.log('Répertoire de travail:', process.cwd());
+
+// Fonction pour exécuter une commande simplement
+function run(command) {
+  console.log(`$ ${command}`);
   try {
-    console.log(`📂 Répertoire: ${cwd}`);
-    const output = execSync(command, { 
-      stdio: 'inherit',
-      cwd,
-      env: { 
-        ...process.env, 
-        NODE_ENV: 'production',
-        LANG: 'en_US.UTF-8',
-        LC_ALL: 'en_US.UTF-8'
-      },
-      shell: '/bin/bash'
-    });
-    console.log(`✅ Commande exécutée avec succès: ${command}`);
+    const output = execSync(command, { stdio: 'inherit' });
     return true;
   } catch (error) {
-    console.error(`❌ Erreur lors de l'exécution de la commande: ${command}`);
-    console.error(`💥 Erreur: ${error.message}`);
-    console.error(`📌 Code de sortie: ${error.status}`);
-    console.error(`📋 Sortie d'erreur: ${error.stderr ? error.stderr.toString() : 'Aucune sortie d\'erreur'}`);
-    return false;
+    console.error(`Erreur: ${error.message}`);
+    process.exit(1);
   }
 }
+
+// Installation de Ruby et des dépendances
+console.log('\n=== Installation de Ruby et des dépendances ===');
+run('curl -sSL https://rvm.io/mpapis.asc | gpg --import -');
+run('curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -');
+run('curl -sSL https://get.rvm.io | bash -s stable --ruby');
+run('source ~/.rvm/scripts/rvm');
+run('rvm install 3.1.2');
+run('rvm use 3.1.2 --default');
+run('gem install bundler');
+run('bundle config set path vendor/bundle');
+run('bundle install --jobs=3 --retry=3');
+
+// Construction du site
+console.log('\n=== Construction du site Jekyll ===');
+run('bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace');
+
+// Vérification du répertoire de sortie
+if (!fs.existsSync('_site')) {
+  console.error('Erreur: Le répertoire _site n\'a pas été généré');
+  console.log('Contenu du répertoire:');
+  console.log(fs.readdirSync('.').join('\n'));
+  process.exit(1);
+}
+
+console.log('\n✅ Construction terminée avec succès !');
+console.log('Contenu du répertoire _site:');
+console.log(fs.readdirSync('_site').join('\n'));
 
 // Fonction pour afficher des informations sur l'environnement
 function logEnvironmentInfo() {
