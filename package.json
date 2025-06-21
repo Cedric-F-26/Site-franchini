@@ -7,14 +7,9 @@
     "build": "bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace"
   },
   "engines": {
-    "ruby": ">= 2.7.0"
+    "node": ">= 16.0.0"
   },
   "dependencies": {},
-  "devDependencies": {
-    "eslint": "^9.0.0",
-    "eslint-config-prettier": "^10.0.0",
-    "prettier": "^3.4.0"
-  },
   "browserslist": [
     "defaults"
   ],

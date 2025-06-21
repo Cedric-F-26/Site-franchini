@@ -2,23 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "Gemfile",
-      "use": "@vercel/ruby",
-      "config": {
-        "distDir": "_site"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "src": "package.json",
+      "use": "@vercel/static-build"
     }
   ],
   "build": {
     "env": {
-      "JEKYLL_ENV": "production",
-      "BUNDLE_WITHOUT": "development:test"
-    }
+      "JEKYLL_ENV": "production"
+    },
+    "buildCommand": "bundle install && bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace",
+    "outputDirectory": "_site",
+    "installCommand": "gem install bundler"
   }
 }
