@@ -4,16 +4,12 @@
   "description": "Site web de Franchini - Concessionnaire Deutz-Fahr",
   "private": true,
   "scripts": {
-    "build": "bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace",
-    "vercel-build": "npm run build",
-    "build:vercel": "jekyll build --config _config.yml,_config_vercel.yml --trace"
+    "build": "bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace"
   },
   "engines": {
-    "node": "20.x"
+    "ruby": ">= 2.7.0"
   },
-  "dependencies": {
-    "@supabase/supabase-js": "^2.39.8"
-  },
+  "dependencies": {},
   "devDependencies": {
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^10.0.0",
