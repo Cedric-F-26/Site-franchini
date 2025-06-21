@@ -8,7 +8,7 @@
     "build": "bundle exec jekyll build --config _config.yml,_config_vercel.yml",
     "start": "bundle exec jekyll serve --port $PORT --host 0.0.0.0",
     "test": "echo \"Tests non configurés\" && exit 0",
-    "vercel-build": "npm install && npm run build"
+    "vercel-build": "chmod +x vercel-build.sh && ./vercel-build.sh"
   },
   "engines": {
     "node": "20.x"
