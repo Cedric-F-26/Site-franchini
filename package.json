@@ -20,5 +20,8 @@
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "vercel": {
+    "outputDirectory": "_site"
+  }
 }
