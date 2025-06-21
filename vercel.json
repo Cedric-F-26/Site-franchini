@@ -6,58 +6,33 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "_site",
-        "installCommand": "npm install --ignore-scripts=false && gem install bundler && bundle install"
+        "installCommand": "npm install && gem install bundler jekyll && bundle install && bundle exec jekyll build"
       }
     }
   ],
   "build": {
     "env": {
-      "NODE_ENV": "production"
+      "NODE_ENV": "production",
+      "JEKYLL_ENV": "production"
     }
   },
   "routes": [
     {
-      "src": "^/assets/(.*\\.(?:css|js))$",
+      "src": "^/assets/(.*\\.(css|js))$",
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
       },
       "continue": true
     },
     {
-      "src": "^/assets/(.*\\.(?:jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot))$",
+      "src": "^/assets/(.*\\.(jpg|jpeg|png|gif|ico|svg|webp|woff|woff2|ttf|eot))$",
       "headers": {
         "cache-control": "public, max-age=31536000, immutable"
-      },
-      "continue": true
-    },
-    {
-      "src": "^/images/(.*\\.(?:jpg|jpeg|png|gif|svg|webp))$",
-      "headers": {
-        "cache-control": "public, max-age=604800, stale-while-revalidate=86400"
       },
       "continue": true
     },
     {
       "src": "^/((?!assets/|images/|_next/).*)$",
-      "dest": "/index.html",
-      "headers": {
-        "cache-control": "public, max-age=0, must-revalidate"
-      }
-    },
-    {
-      "src": "^/(.*\\.(?:json|xml|txt))$",
-      "dest": "/$1"
-    },
-    {
-      "src": "^/(.*)/$",
-      "dest": "/$1/index.html"
-    },
-    {
-      "src": "^/(.*)",
-      "dest": "/$1.html"
-    },
-    {
-      "src": "^/$",
       "dest": "/index.html"
     }
   ],

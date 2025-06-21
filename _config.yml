@@ -1,13 +1,26 @@
-# Configuration pour la production sur Vercel
-baseurl: ""  # Vide car le site est à la racine du domaine
-url: "https://site-franchini.vercel.app"  # Remplacez par votre URL Vercel
+# Configuration pour Vercel
+baseurl: ""  # Vide pour la racine du domaine
+url: "https://site-franchini.vercel.app"  # URL de votre site Vercel
 
-# Configuration pour GitHub Pages (commentée) :
-# baseurl: "/mon-site-web"  # Nom du dépôt GitHub
-# url: "https://cedric-f-26.github.io"  # URL de votre site GitHub Pages
-
-# Environnement de production
+# Configuration de l'environnement
 environment: production
+
+# Configuration des plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-minifier
+
+# Configuration des exclusions
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - package.json
+  - package-lock.json
+  - README.md
+  - vercel.json
 
 # Configuration pour GitHub Pages
 plugins:
