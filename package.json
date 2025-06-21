@@ -11,7 +11,8 @@
     "lint": "eslint '**/*.js' --quiet",
     "format": "prettier --write '**/*.{js,json,md,yml}'",
     "analyze": "bundle-audit check --update",
-    "vercel-build": "node vercel-build.js"
+    "vercel-build": "node vercel-build.js",
+    "vercel-dev": "bundle install && npm run vercel-build"
   },
   "engines": {
     "node": "20.x",
