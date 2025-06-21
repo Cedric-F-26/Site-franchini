@@ -4,8 +4,9 @@
   "description": "Site web de Franchini - Concessionnaire Deutz-Fahr",
   "private": true,
   "scripts": {
-    "build": "./vercel-build.sh",
-    "vercel-build": "./vercel-build.sh"
+    "build": "bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace",
+    "vercel-build": "npm run build",
+    "build:vercel": "jekyll build --config _config.yml,_config_vercel.yml --trace"
   },
   "engines": {
     "node": "20.x"

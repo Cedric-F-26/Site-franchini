@@ -2,23 +2,15 @@
   "version": 2,
   "builds": [
     {
-      "src": "vercel-build.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "_site"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "src": "package.json",
+      "use": "@vercel/static-build"
     }
   ],
   "build": {
     "env": {
       "JEKYLL_ENV": "production"
-    }
+    },
+    "outputDirectory": "_site"
   },
-  "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh"
+  "installCommand": "gem install bundler jekyll && bundle install"
 }
