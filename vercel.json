@@ -10,6 +10,11 @@
       }
     }
   ],
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  },
   "routes": [
     {
       "src": "^/assets/(.*\\.(?:css|js))$",
