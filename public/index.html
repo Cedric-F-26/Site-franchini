@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Franchini - Accueil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset et styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #e74c3c;
+        }
+        
+        /* Carrousel principal */
+        .main-carousel {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        .main-carousel .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .main-carousel .slide.active {
+            opacity: 1;
+        }
+        
+        .main-carousel .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 20px;
+        }
+        
+        /* Grille des carrousels secondaires */
+        .carousels-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .carousel-container {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .carousel-title {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e74c3c;
+        }
+        
+        .secondary-carousel {
+            height: 350px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .secondary-carousel .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+        
+        .secondary-carousel .slide.active {
+            opacity: 1;
+        }
+        
+        .carousel-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .carousel-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px;
+        }
+        
+        /* Navigation des carrousels */
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            z-index: 10;
+        }
+        
+        .carousel-prev, .carousel-next {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 10px;
+            transition: background 0.3s;
+        }
+        
+        .carousel-prev:hover, .carousel-next:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        /* Points de navigation */
+        .carousel-dots {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .carousel-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .carousel-dot.active {
+            background: #e74c3c;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-section h3 {
+            color: #e74c3c;
+            margin-bottom: 15px;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: #ecf0f1;
+            margin-bottom: 10px;
+            display: block;
+            text-decoration: none;
+        }
+        
+        .footer-section a:hover {
+            color: #e74c3c;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: #e74c3c;
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #34495e;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-carousel {
+                height: 350px;
+            }
+            
+            .carousels-grid {
+                flex-direction: column;
+            }
+            
+            .carousel-container {
+                width: 100%;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">Franchini</div>
+            <nav>
+                <ul>
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Actualités</a></li>
+                    <li><a href="#">Occasions</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Carrousel principal -->
+    <div class="main-carousel" id="mainCarousel">
+        <!-- Les slides seront ajoutés dynamiquement par JavaScript -->
+    </div>
+
+    <!-- Grille des carrousels secondaires -->
+    <div class="container">
+        <div class="carousels-grid">
+            <!-- Carrousel d'actualités -->
+            <div class="carousel-container">
+                <h2 class="carousel-title">Actualités</h2>
+                <div class="secondary-carousel" id="newsCarousel">
+                    <!-- Les slides seront ajoutés dynamiquement par JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Carrousel d'occasions -->
+            <div class="carousel-container">
+                <h2 class="carousel-title">Occasions</h2>
+                <div class="secondary-carousel" id="occasionsCarousel">
+                    <!-- Les slides seront ajoutés dynamiquement par JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>À propos</h3>
+                    <p>Franchini, votre partenaire de confiance pour le matériel agricole depuis plus de 20 ans.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p><i class="fas fa-phone"></i> 01 23 45 67 89</p>
+                    <p><i class="fas fa-envelope"></i> contact@franchini.fr</p>
+                    <p><i class="fas fa-map-marker-alt"></i> 123 Rue de l'Agriculture, 75000 Paris</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Liens rapides</h3>
+                    <a href="#">Accueil</a>
+                    <a href="#">Actualités</a>
+                    <a href="#">Occasions</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Franchini. Tous droits réservés.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Données pour les carrousels
+        const carouselsData = {
+            main: [
+                {
+                    image: 'https://via.placeholder.com/1200x500/2c3e50/ffffff?text=Promotion+Spéciale',
+                    title: 'Nouveaux modèles 2025',
+                    description: 'Découvrez notre nouvelle gamme de matériel agricole'
+                },
+                {
+                    image: 'https://via.placeholder.com/1200x500/3498db/ffffff?text=Événement+à+venir',
+                    title: 'Portes ouvertes',
+                    description: 'Venez nous rencontrer lors de notre journée portes ouvertes'
+                },
+                {
+                    image: 'https://via.placeholder.com/1200x500/e74c3c/ffffff?text=Offre+Spéciale',
+                    title: 'Remise exceptionnelle',
+                    description: 'Jusqu\'à -30% sur une sélection de machines'
+                }
+            ],
+            news: [
+                {
+                    image: 'https://via.placeholder.com/600x400/2ecc71/ffffff?text=Actualité+1',
+                    title: 'Nouvelle gamme de tracteurs',
+                    date: '15 juin 2025'
+                },
+                {
+                    image: 'https://via.placeholder.com/600x400/9b59b6/ffffff?text=Actualité+2',
+                    title: 'Salon agricole 2025',
+                    date: '1er juin 2025'
+                },
+                {
+                    image: 'https://via.placeholder.com/600x400/e67e22/ffffff?text=Actualité+3',
+                    title: 'Formation sécurité',
+                    date: '20 mai 2025'
+                }
+            ],
+            occasions: [
+                {
+                    image: 'https://via.placeholder.com/600x400/34495e/ffffff?text=Occasion+1',
+                    title: 'Tracteur 2020',
+                    price: '25 000 €'
+                },
+                {
+                    image: 'https://via.placeholder.com/600x400/16a085/ffffff?text=Occasion+2',
+                    title: 'Moissonneuse 2019',
+                    price: '45 000 €'
+                },
+                {
+                    image: 'https://via.placeholder.com/600x400/c0392b/ffffff?text=Occasion+3',
+                    title: 'Remorque agricole',
+                    price: '8 500 €'
+                }
+            ]
+        };
+
+        // Fonction pour initialiser un carrousel
+        function initCarousel(containerId, slides, isMain = false) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+
+            // Créer les slides
+            let slidesHtml = '';
+            let dotsHtml = '';
+            
+            slides.forEach((slide, index) => {
+                const activeClass = index === 0 ? 'active' : '';
+                
+                if (isMain) {
+                    slidesHtml += `
+                        <div class="slide ${activeClass}" style="background-image: url('${slide.image}')">
+                            <div class="slide-content">
+                                <h2>${slide.title}</h2>
+                                <p>${slide.description}</p>
+                            </div>
+                        </div>`;
+                } else {
+                    slidesHtml += `
+                        <div class="slide ${activeClass}">
+                            <img src="${slide.image}" alt="${slide.title}" class="carousel-img">
+                            <div class="carousel-caption">
+                                <h3>${slide.title}</h3>
+                                <p>${slide.date || slide.price || ''}</p>
+                            </div>
+                        </div>`;
+                }
+                
+                dotsHtml += `<button class="carousel-dot ${activeClass}" data-index="${index}"></button>`;
+            });
+            
+            // Ajouter la navigation
+            const navHtml = `
+                <div class="carousel-nav">
+                    <button class="carousel-prev">❮</button>
+                    <button class="carousel-next">❯</button>
+                </div>
+                <div class="carousel-dots">${dotsHtml}</div>`;
+            
+            container.innerHTML = slidesHtml + navHtml;
+            
+            // Gestion des événements
+            const slidesEls = container.querySelectorAll('.slide');
+            const dots = container.querySelectorAll('.carousel-dot');
+            const prevBtn = container.querySelector('.carousel-prev');
+            const nextBtn = container.querySelector('.carousel-next');
+            
+            let currentIndex = 0;
+            
+            function showSlide(index) {
+                // Masquer toutes les slides
+                slidesEls.forEach(slide => slide.classList.remove('active'));
+                dots.forEach(dot => dot.classList.remove('active'));
+                
+                // Gestion du défilement circulaire
+                if (index >= slidesEls.length) {
+                    currentIndex = 0;
+                } else if (index < 0) {
+                    currentIndex = slidesEls.length - 1;
+                } else {
+                    currentIndex = index;
+                }
+                
+                // Afficher la slide courante
+                slidesEls[currentIndex].classList.add('active');
+                dots[currentIndex].classList.add('active');
+            }
+            
+            // Événements
+            prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
+            nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => showSlide(index));
+            });
+            
+            // Défilement automatique (uniquement pour le carrousel principal)
+            if (isMain) {
+                setInterval(() => {
+                    showSlide(currentIndex + 1);
+                }, 5000);
+            }
+            
+            // Afficher la première slide
+            showSlide(0);
+        }
+        
+        // Initialiser les carrousels au chargement de la page
+        document.addEventListener('DOMContentLoaded', () => {
+            initCarousel('mainCarousel', carouselsData.main, true);
+            initCarousel('newsCarousel', carouselsData.news);
+            initCarousel('occasionsCarousel', carouselsData.occasions);
+        });
+    </script>
+</body>
+</html>
