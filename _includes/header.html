@@ -1,10 +1,53 @@
 <!-- En-tête du site -->
 <header class="main-header">
     <div class="container">
-        <div class="logo">
-            <a href="{{ '/' | relative_url }}" class="logo-link">
-                <div class="logo-text">FRANCHINI</div>
-            </a>
+        <div class="header-wrapper">
+            <!-- Logo et icônes sociales -->
+            <div class="logo">
+                <a href="{{ '/' | relative_url }}" class="logo-link">
+                    <div class="logo-text">FRANCHINI</div>
+                </a>
+            </div>
+
+            <!-- Bouton de menu mobile -->
+            <button class="mobile-menu-toggle" aria-label="Menu" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <!-- Navigation principale -->
+            <nav class="main-nav">
+                <ul class="main-nav-list">
+                    <li class="main-nav-item">
+                        <a href="{{ '/concession.html' | relative_url }}" class="main-nav-link {% if page.url == '/concession.html' %}active{% endif %}">
+                            Concession
+                        </a>
+                    </li>
+                    <li class="main-nav-item">
+                        <a href="{{ '/occasion.html' | relative_url }}" class="main-nav-link {% if page.url == '/occasion.html' %}active{% endif %}">
+                            Nos occasions
+                        </a>
+                    </li>
+                    <li class="main-nav-item">
+                        <a href="{{ '/actualites.html' | relative_url }}" class="main-nav-link {% if page.url == '/actualites.html' %}active{% endif %}">
+                            Actualités
+                        </a>
+                    </li>
+                    <li class="main-nav-item">
+                        <a href="{{ '/contact.html' | relative_url }}" class="main-nav-link {% if page.url == '/contact.html' %}active{% endif %}">
+                            Contact
+                        </a>
+                    </li>
+                    <li class="main-nav-item phone-item">
+                        <a href="tel:0475474037" class="phone-number">
+                            <i class="fas fa-phone"></i> 04 75 47 40 37
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Icônes sociales -->
             <div class="header-social">
                 <a href="#" class="social-icon" aria-label="Facebook">
                     <i class="fab fa-facebook-f"></i>
@@ -14,14 +57,5 @@
                 </a>
             </div>
         </div>
-        <nav class="main-nav">
-            <ul>
-                <li><a href="{{ '/concession.html' | relative_url }}" class="{% if page.url == '/concession.html' %}active{% endif %}">Concession</a></li>
-                <li><a href="{{ '/occasion.html' | relative_url }}" class="{% if page.url == '/occasion.html' %}active{% endif %}">Nos occasions</a></li>
-                <li><a href="{{ '/actualites.html' | relative_url }}" class="{% if page.url == '/actualites.html' %}active{% endif %}">Actualités</a></li>
-                <li><a href="{{ '/contact.html' | relative_url }}" class="{% if page.url == '/contact.html' %}active{% endif %}">Contact</a></li>
-                <li><a href="tel:0475474037" class="phone-number"><i class="fas fa-phone"></i> 04 75 47 40 37</a></li>
-            </ul>
-        </nav>
     </div>
 </header>
