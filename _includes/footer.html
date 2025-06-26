@@ -1,98 +1,18 @@
-<footer class="main-footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="footer-info">
-                <h4>FRANCHINI</h4>
-                <p>111 av des monts du matin<br>26300 Marches</p>
-                <p><a href="tel:0475474037" class="footer-phone">04 75 47 40 37</a></p>
-            </div>
+<footer style="background-color: #1a1a1a; color: white; text-align: center; padding: 30px 0; margin-top: 40px;">
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
+        <div style="margin-bottom: 10px;">
+            <span style="color: #4CAF50; font-weight: bold; font-size: 24px; letter-spacing: 1px;">FRANCHINI</span>
         </div>
-        <div class="footer-bottom">
-            <p>© 2024 Franchini SARL. Tous droits réservés. <a href="{{ '/connexion-prive.html' | relative_url }}" class="footer-login">Connexion privée</a></p>
+        <div style="margin-bottom: 8px; color: #ddd;">111 av des monts du matin</div>
+        <div style="margin-bottom: 15px; color: #ddd;">26300 Marches</div>
+        <div style="margin-bottom: 20px;">
+            <a href="tel:0475474037" style="color: white; text-decoration: none; font-size: 18px; font-weight: 500;">
+                <i class="fas fa-phone" style="margin-right: 8px;"></i>04 75 47 40 37
+            </a>
+        </div>
+        <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
+            2024 Franchini SARL. Tous droits réservés.
+            <a href="{{ '/connexion-prive.html' | relative_url }}" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
         </div>
     </div>
 </footer>
-
-<style>
-.main-footer {
-    background-color: #1a1a1a;
-    color: white;
-    padding: 30px 0 20px;
-    margin-top: 40px;
-    font-family: Arial, sans-serif;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.footer-content {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 0 15px;
-    text-align: center;
-}
-
-.footer-info {
-    margin-bottom: 15px;
-}
-
-.footer-info h4 {
-    color: #4CAF50;
-    font-weight: bold;
-    font-size: 18px;
-    margin: 0 0 10px 0;
-    padding: 0;
-}
-
-.footer-info p {
-    color: white;
-    margin: 0 0 5px 0;
-    padding: 0;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.footer-bottom {
-    margin: 25px auto 0;
-    padding-top: 15px;
-    border-top: 1px solid #333;
-    font-size: 12px;
-    color: #aaa;
-    text-align: center;
-    max-width: 600px;
-}
-
-.footer-bottom p {
-    margin: 0;
-    padding: 0;
-    color: #aaa;
-}
-
-.footer-login {
-    color: #4CAF50;
-    text-decoration: none;
-    margin-left: 5px;
-}
-
-.footer-phone {
-    color: white;
-    text-decoration: none;
-    font-size: 14px;
-}
-
-@media (min-width: 768px) {
-    .footer-content {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .footer-info {
-        margin: 0 auto;
-        max-width: 100%;
-    }
-}
-</style>
