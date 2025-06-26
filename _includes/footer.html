@@ -4,15 +4,11 @@
             <div class="footer-info">
                 <h4>FRANCHINI</h4>
                 <p>111 av des monts du matin<br>26300 Marches</p>
-                <p><a href="tel:0475474037">04 75 47 40 37</a></p>
+                <p><a href="tel:0475474037" class="footer-phone">04 75 47 40 37</a></p>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2024 Franchini SARL. Tous droits réservés. 
-                <a href="{{ '/connexion-prive.html' | relative_url }}" class="footer-login">
-                    Connexion privée
-                </a>
-            </p>
+            <p>© 2024 Franchini SARL. Tous droits réservés. <a href="{{ '/connexion-prive.html' | relative_url }}" class="footer-login">Connexion privée</a></p>
         </div>
     </div>
 </footer>
@@ -21,14 +17,15 @@
 .main-footer {
     background-color: #1a1a1a;
     color: white;
-    padding: 30px 0;
+    padding: 30px 0 20px;
     margin-top: 40px;
+    font-family: Arial, sans-serif;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 20px;
 }
 
 .footer-content {
@@ -39,55 +36,51 @@
 }
 
 .footer-info {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .footer-info h4 {
     color: #4CAF50;
     font-weight: bold;
-    font-size: 24px;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
+    font-size: 18px;
+    margin: 0 0 10px 0;
+    padding: 0;
 }
 
 .footer-info p {
-    color: #ddd;
-    margin-bottom: 8px;
-}
-
-.phone-link {
     color: white;
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.phone-link i {
-    margin-right: 8px;
+    margin: 0 0 5px 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 .footer-bottom {
-    margin-top: 25px;
+    margin: 25px auto 0;
     padding-top: 15px;
     border-top: 1px solid #333;
     font-size: 12px;
     color: #aaa;
     text-align: center;
-    width: 100%;
+    max-width: 600px;
 }
 
 .footer-bottom p {
     margin: 0;
     padding: 0;
+    color: #aaa;
 }
 
 .footer-login {
     color: #4CAF50;
     text-decoration: none;
-    margin-left: 10px;
+    margin-left: 5px;
+}
+
+.footer-phone {
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
