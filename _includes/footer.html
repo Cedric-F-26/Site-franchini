@@ -1,144 +1,109 @@
 <footer class="main-footer">
-    <div class="footer-container">
+    <div class="container">
         <div class="footer-content">
             <div class="footer-info">
                 <h4>FRANCHINI</h4>
                 <p>111 av des monts du matin<br>26300 Marches</p>
-                <p class="phone-container">
+                <p>
                     <a href="tel:0475474037" class="phone-link">
-                        04 75 47 40 37
+                        <i class="fas fa-phone"></i> 04 75 47 40 37
                     </a>
                 </p>
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="copyright">
-                <span>© 2024 Franchini SARL. Tous droits réservés.</span>
-                <a href="{{ site.baseurl }}/pages/connexion-prive.html" class="footer-login">
+            <p>© 2024 Franchini SARL. Tous droits réservés. 
+                <a href="{{ '/connexion-prive.html' | relative_url }}" class="footer-login">
                     Connexion privée
                 </a>
-            </div>
+            </p>
         </div>
     </div>
 </footer>
 
 <style>
-/* Reset des styles existants */
 .main-footer {
-    background-color: #1a1a1a !important;
-    color: white !important;
-    padding: 30px 0 !important;
-    margin-top: 40px !important;
+    background-color: #1a1a1a;
+    color: white;
+    padding: 30px 0;
+    margin-top: 40px;
 }
 
-.footer-container {
-    max-width: 1200px !important;
-    margin: 0 auto !important;
-    padding: 0 15px !important;
-    width: 100% !important;
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
 .footer-content {
-    display: block !important;
-    grid-template-columns: none !important;
-    gap: 0 !important;
-    margin-bottom: 0 !important;
-    text-align: center !important;
-    max-width: 100% !important;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 15px;
+    text-align: center;
 }
 
 .footer-info {
-    margin: 0 auto 20px !important;
-    text-align: center !important;
-    max-width: 100% !important;
+    margin-bottom: 20px;
 }
 
 .footer-info h4 {
-    color: #4CAF50 !important;
-    font-weight: bold !important;
-    font-size: 24px !important;
-    letter-spacing: 1px !important;
-    margin: 0 0 15px 0 !important;
-    text-align: center !important;
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 24px;
+    letter-spacing: 1px;
+    margin-bottom: 15px;
 }
 
 .footer-info p {
-    color: #ddd !important;
-    margin: 0 0 8px 0 !important;
-    text-align: center !important;
-}
-
-.phone-container {
-    margin-top: 15px !important;
+    color: #ddd;
+    margin-bottom: 8px;
 }
 
 .phone-link {
-    color: white !important;
-    text-decoration: none !important;
-    font-size: 18px !important;
-    font-weight: 500 !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .phone-link i {
-    margin-right: 8px !important;
+    margin-right: 8px;
 }
 
 .footer-bottom {
-    margin-top: 25px !important;
-    padding-top: 15px !important;
-    border-top: 1px solid #333 !important;
-    font-size: 12px !important;
-    color: #aaa !important;
-    text-align: center !important;
-    width: 100% !important;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+    font-size: 12px;
+    color: #aaa;
+    text-align: center;
+    width: 100%;
 }
 
-.copyright {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 8px !important;
-    margin: 0 !important;
-    padding: 0 !important;
+.footer-bottom p {
+    margin: 0;
+    padding: 0;
 }
 
 .footer-login {
-    color: #4CAF50 !important;
-    text-decoration: none !important;
-    display: inline-block !important;
-    margin-left: 0 !important;
+    color: #4CAF50;
+    text-decoration: none;
+    margin-left: 10px;
 }
 
-/* Styles pour les écrans plus larges */
 @media (min-width: 768px) {
-    .copyright {
-        flex-direction: row !important;
-        gap: 15px !important;
-    }
-    
     .footer-content {
-        padding: 0 !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
     
     .footer-info {
-        max-width: 100% !important;
+        margin: 0 auto;
+        max-width: 100%;
     }
-}
-
-/* Annulation des styles de grid problématiques */
-.main-footer .container {
-    display: block !important;
-    max-width: 100% !important;
-    padding: 0 !important;
-}
-
-/* Assurer que le texte du copyright est bien centré */
-.copyright span,
-.copyright a {
-    display: inline-block !important;
 }
 </style>
