@@ -1,52 +1,73 @@
 // Gestion du menu mobile et interactions
 document.addEventListener('DOMContentLoaded', function() {
     // Éléments du DOM
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
-    const header = document.querySelector('header');
+    const menuToggle = document.querySelector('.mobile-menu-toggle');
+    const mainNav = document.querySelector('.main-nav');
+    const header = document.querySelector('.main-header');
     
-    // Menu mobile
-    if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            navLinks.classList.toggle('active');
-            this.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-        });
+    // Créer le bouton du menu mobile s'il n'existe pas
+    if (window.innerWidth <= 768 && !menuToggle) {
+        const toggleButton = document.createElement('button');
+        toggleButton.className = 'mobile-menu-toggle';
+        toggleButton.innerHTML = `
+            <span></span>
+            <span></span>
+            <span></span>
+        `;
         
-        // Fermer le menu en cliquant à l'extérieur
-        document.addEventListener('click', (e) => {
-            if (!menuToggle.contains(e.target) && !navLinks.contains(e.target)) {
-                navLinks.classList.remove('active');
-                menuToggle.classList.remove('active');
-                document.body.classList.remove('menu-open');
+        // Insérer le bouton avant la navigation
+        if (mainNav) {
+            mainNav.parentNode.insertBefore(toggleButton, mainNav);
+        }
+        
+        // Gestion du clic sur le bouton du menu
+        toggleButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.classList.toggle('active');
+            if (mainNav) {
+                mainNav.classList.toggle('active');
             }
+            document.body.classList.toggle('menu-open');
         });
     }
     
     // Gestion du header fixe avec effet de défilement
     if (header) {
         let lastScroll = 0;
+        const headerHeight = header.offsetHeight;
+        
+        // Ajouter un padding au body pour compenser le header fixe
+        document.body.style.paddingTop = headerHeight + 'px';
+        
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
             
-            // Masquer/afficher le header au défilement
-            if (currentScroll <= 0) {
-                header.classList.remove('scroll-up');
-                return;
+            // Ajouter/supprimer la classe scrolled pour le style du header
+            if (currentScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
             
-            if (currentScroll > lastScroll && !header.classList.contains('scroll-down')) {
-                // Défilement vers le bas
-                header.classList.remove('scroll-up');
-                header.classList.add('scroll-down');
-            } else if (currentScroll < lastScroll && header.classList.contains('scroll-down')) {
-                // Défilement vers le haut
-                header.classList.remove('scroll-down');
-                header.classList.add('scroll-up');
+            // Masquer/afficher le header au défilement (sur mobile uniquement)
+            if (window.innerWidth <= 768) {
+                if (currentScroll <= 0) {
+                    header.classList.remove('scroll-up');
+                    return;
+                }
+                
+                if (currentScroll > lastScroll && !header.classList.contains('scroll-down')) {
+                    // Défilement vers le bas
+                    header.classList.remove('scroll-up');
+                    header.classList.add('scroll-down');
+                } else if (currentScroll < lastScroll && header.classList.contains('scroll-down')) {
+                    // Défilement vers le haut
+                    header.classList.remove('scroll-down');
+                    header.classList.add('scroll-up');
+                }
+                
+                lastScroll = currentScroll;
             }
-            
-            lastScroll = currentScroll;
         });
     }
     
@@ -64,16 +85,33 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     };
     
-    // Détecter la largeur de l'écran et ajuster le menu en conséquence
+    // Fermer le menu en cliquant sur un lien
+    const navLinks = document.querySelectorAll('.main-nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                const menuToggle = document.querySelector('.mobile-menu-toggle');
+                const mainNav = document.querySelector('.main-nav');
+                if (menuToggle) menuToggle.classList.remove('active');
+                if (mainNav) mainNav.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+        });
+    });
+    
+    // Gestion du redimensionnement de la fenêtre
     const handleResize = () => {
-        if (window.innerWidth > 992) {
-            if (navLinks) navLinks.style.display = '';
+        const menuToggle = document.querySelector('.mobile-menu-toggle');
+        
+        // Afficher/masquer le bouton du menu en fonction de la largeur de l'écran
+        if (window.innerWidth > 768) {
+            if (menuToggle) menuToggle.style.display = 'none';
+            if (mainNav) mainNav.style.display = '';
             document.body.classList.remove('menu-open');
-        } else if (navLinks) {
-            if (!navLinks.classList.contains('active')) {
-                navLinks.style.display = 'none';
-            } else {
-                navLinks.style.display = 'block';
+        } else {
+            if (menuToggle) menuToggle.style.display = 'flex';
+            if (mainNav && !mainNav.classList.contains('active')) {
+                mainNav.style.display = 'none';
             }
         }
     };
