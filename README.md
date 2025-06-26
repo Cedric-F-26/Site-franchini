@@ -1,8 +1,16 @@
 # Site Franchini - Concessionnaire Deutz-Fahr
 
-[![Déploiement Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvotre-utilisateur%2Fmon-site-web)
+[![Déploiement Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FCedric-F-26%2FSite-franchini)
 
 Site vitrine officiel de Franchini, concessionnaire agréé Deutz-Fahr. Site statique moderne avec des fonctionnalités avancées et une interface utilisateur réactive.
+
+## 🎯 Améliorations récentes
+
+- **Optimisation des performances** : Minification des fichiers CSS et JavaScript
+- **Sécurité renforcée** : Gestion sécurisée des fichiers sensibles
+- **Meilleur référencement** : Sitemap mis à jour avec toutes les pages importantes
+- **Code plus propre** : Suppression des fichiers redondants et standardisation des chemins
+- **Maintenance facilitée** : Scripts de build automatisés avec Gulp
 
 ## 🚀 Fonctionnalités
 

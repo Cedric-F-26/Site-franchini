@@ -20,23 +20,60 @@
     <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://franchini.fr/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://franchini.fr/en/" />
   </url>
 
   <!-- Main pages -->
   <url>
-    <loc>https://franchini.fr/a-propos/</loc>
+    <loc>https://franchini.fr/actualites.html</loc>
     <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://franchini.fr/a-propos/" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://franchini.fr/en/about/" />
+    <priority>0.8</priority>
   </url>
 
-  <!-- Product catalog -->
   <url>
-    <loc>https://franchini.fr/nos-produits/</loc>
+    <loc>https://franchini.fr/concession.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://franchini.fr/contact.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://franchini.fr/location.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://franchini.fr/magasin.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://franchini.fr/materiel.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://franchini.fr/materiel-disponible.html</loc>
+    <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://franchini.fr/occasion.html</loc>
     <lastmod>{{ site.time | date_to_xmlschema }}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>

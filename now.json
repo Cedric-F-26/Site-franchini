@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "vercel-build.sh",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "_site"
@@ -14,5 +14,10 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ]
+  ],
+  "build": {
+    "env": {
+      "JEKYLL_ENV": "production"
+    }
+  }
 }
