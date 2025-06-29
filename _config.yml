@@ -1,6 +1,6 @@
 # Configuration pour Vercel
 baseurl: ""  # Vide pour la racine du domaine
-url: "https://site-franchini.vercel.app"  # URL de votre site Vercel
+url: "https://mon-site-web-xi.vercel.app"  # URL de votre site Vercel
 
 # Configuration de l'environnement
 environment: production

@@ -1,8 +1,17 @@
 {
+  "version": 2,
   "builds": [
     {
-      "src": "Gemfile",
-      "use": "@vercel/ruby"
+      "src": "build.sh",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "_site",
+        "installCommand": "chmod +x build.sh && ./build.sh"
+      }
     }
+  ],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
   ]
 }
