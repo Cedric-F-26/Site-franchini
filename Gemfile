@@ -14,8 +14,8 @@ gem 'jekyll-include-cache'
 gem 'jekyll-compose'
 
 # Utilisation de sassc au lieu de sass (plus moderne et maintenu)
-gem 'sassc', '~> 2.4.0'
-gem 'sassc-jekyll', '~> 2.2.0'
+gem 'sassc', '~> 2.4'
+# sassc-jekyll n'est plus nécessaire avec les versions récentes de Jekyll
 
 # Désactivation de sass obsolète
 group :jekyll_plugins do

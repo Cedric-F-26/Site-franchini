@@ -68,6 +68,8 @@ assets:
 sass:
   style: compressed
   sass_dir: _sass
+  # Utilisation de sassc comme processeur SASS
+  implementation: sassc
   compress:
     css: true
     js: true
