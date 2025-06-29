@@ -6,8 +6,8 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "_site",
-        "installCommand": "npm install",
-        "buildCommand": "npm run build"
+        "installCommand": "gem install bundler && bundle install --jobs=3 --retry=3 --deployment && npm install",
+        "buildCommand": "bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace"
       }
     }
   ],
@@ -21,10 +21,8 @@
       "NODE_ENV": "production",
       "JEKYLL_ENV": "production",
       "LANG": "en_US.UTF-8",
-      "RUBY_VERSION": "3.0.0",
+      "RUBY_VERSION": "3.1.4",
       "BUNDLE_WITHOUT": "development:test"
     }
-  },
-  "buildCommand": "bundle install && bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace",
-  "installCommand": "gem install bundler && bundle install --jobs=3 --retry=3 --deployment"
+  }
 }
