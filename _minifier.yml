@@ -1,8 +1,0 @@
-compress_js: true
-compress_css: true
-uglifier_args:
-  harmony: true
-  compress:
-    drop_console: false
-  output:
-    comments: :none

@@ -15,7 +15,7 @@ plugins:
   - jekyll-sitemap
   - jekyll-minifier
   - jekyll-include-cache
-  - jekyll-paginate
+  #- jekyll-paginate  # Désactivé car non utilisé
   - jekyll-compose
 
 # Configuration de la pagination
@@ -39,6 +39,20 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
 
+# Configuration pour jekyll-minifier
+jekyll-minifier:
+  uglifier_args:
+    harmony: true  # Active la compatibilité avec JavaScript ES6+
+  compress_js: true
+  compress_css: true
+  compress_html:
+    clippings: all
+    comments: all
+    endings: all
+    startings: []
+    blanklines: false
+    profile: false
+
 # Configuration pour jekyll-assets
 assets:
   sources:
@@ -46,6 +60,11 @@ assets:
     - _assets/fonts
     - _assets/js
     - _assets/css
+
+# Configuration pour sass
+sass:
+  style: compressed
+  sass_dir: _sass
   compress:
     css: true
     js: true
