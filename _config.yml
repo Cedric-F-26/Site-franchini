@@ -2,6 +2,9 @@
 baseurl: ""  # Vide pour la racine du domaine
 url: "https://mon-site-web-xi.vercel.app"  # URL de votre site Vercel
 
+# Version de Jekyll
+version: "~> 3.9.0"
+
 # Configuration de l'environnement
 environment: production
 

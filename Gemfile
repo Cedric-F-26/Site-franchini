@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
-gem 'jekyll', '~> 4.3.3'  # Mise à jour vers la dernière version 4.x
-gem 'jekyll-assets', '~> 3.4'
+gem 'jekyll', '~> 3.9.0'  # Retour à la version 3.9.0 pour une meilleure compatibilité
+gem 'jekyll-assets', '~> 3.0.12'  # Version corrigée
 gem 'webrick'
 gem 'jekyll-theme-minimal'
 gem 'jekyll-feed'
