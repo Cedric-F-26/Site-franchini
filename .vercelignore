@@ -1,6 +1,7 @@
 # Fichiers système
 .DS_Store
 Thumbs.db
+README.md
 
 # Fichiers de développement
 node_modules/

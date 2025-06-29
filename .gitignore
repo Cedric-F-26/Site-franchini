@@ -18,6 +18,9 @@ vendor/
 # Jekyll
 _site/
 .sass-cache/
+
+# Fichiers à ignorer pour le build
+README.md
 .jekyll-cache/
 .jekyll-metadata
 .jekyll-version

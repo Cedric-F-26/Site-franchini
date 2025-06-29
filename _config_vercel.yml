@@ -33,6 +33,7 @@ minify:
 # Exclure les fichiers inutiles
 exclude:
   - README.md
+  - **/README.md
   - .gitignore
   - .vercelignore
   - .git
@@ -41,6 +42,10 @@ exclude:
   - .jekyll-cache
   - .sass-cache
   - .bundle
+  - package-lock.json
+  - Gemfile.lock
+  - .DS_Store
+  - Thumbs.db
   - Gemfile.lock
   - package-lock.json
   - yarn.lock

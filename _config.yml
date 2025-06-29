@@ -21,9 +21,9 @@ plugins:
   #- jekyll-paginate  # Désactivé car non utilisé
   - jekyll-compose
 
-# Configuration de la pagination
-paginate: 5
-paginate_path: "/blog/page:num/"
+# Désactivation de la pagination (commentée car non utilisée)
+# paginate: 5
+# paginate_path: "/blog/page:num/"
 
 # Configuration des exclusions
 exclude:
@@ -31,10 +31,26 @@ exclude:
   - Gemfile.lock
   - node_modules/
   - package.json
-  - README.md
   - package-lock.json
   - README.md
   - vercel.json
+  - .vercel
+  - .git
+  - .gitignore
+  - .babelrc
+  - .eslintrc.json
+  - .prettierrc
+  - .travis.yml
+  - netlify.toml
+  - netlify
+  - .netlify
+  - .netlify/*
+  - .netlify/**/*
+  - .idea
+  - .vscode
+  - .DS_Store
+  - Thumbs.db
+  - **/README.md
 
 # Configuration Markdown
 markdown: kramdown
