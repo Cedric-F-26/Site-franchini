@@ -2,27 +2,51 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "vercel-build.sh",
       "use": "@vercel/static-build",
       "config": {
         "distDir": "_site",
-        "installCommand": "gem install bundler && bundle install --jobs=3 --retry=3 --deployment && npm install",
-        "buildCommand": "bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace"
+        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
+        "buildCommand": "echo 'La construction est gérée par vercel-build.sh'"
       }
     }
   ],
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/assets/(.*)", "dest": "/assets/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    { 
+      "src": "/assets/(.*)",
+      "dest": "/assets/$1",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      }
+    },
+    { 
+      "src": "/(.*\\.(?:js|css|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot))",
+      "headers": {
+        "cache-control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    { 
+      "src": "/(.*)",
+      "dest": "/index.html",
+      "headers": {
+        "cache-control": "public, max-age=0, must-revalidate"
+      }
+    }
   ],
   "build": {
     "env": {
       "NODE_ENV": "production",
       "JEKYLL_ENV": "production",
       "LANG": "en_US.UTF-8",
-      "RUBY_VERSION": "3.1.4",
-      "BUNDLE_WITHOUT": "development:test"
+      "LC_ALL": "en_US.UTF-8",
+      "RUBY_VERSION": "2.7.7",
+      "BUNDLE_WITHOUT": "development:test",
+      "BUNDLE_PATH": "/tmp/vendor/bundle",
+      "BUNDLE_GEMFILE": "Gemfile",
+      "BUNDLE_JOBS": "4",
+      "BUNDLE_RETRY": "3",
+      "BUNDLE_VERBOSE": "1"
     }
   }
 }

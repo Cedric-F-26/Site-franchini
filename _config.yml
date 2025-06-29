@@ -1,15 +1,17 @@
-# Configuration pour Vercel
+# Configuration de base
+title: "Site Franchini"
+description: "Concessionnaire Deutz-Fahr - Vente et entretien de matériel agricole"
 baseurl: ""  # Vide pour la racine du domaine
-url: "https://mon-site-web-xi.vercel.app"  # URL de votre site Vercel
+url: "https://mon-site-web-xi.vercel.app"  # URL de production
 
 # Version de Jekyll
-version: "~> 3.9.0"
+version: "~> 3.9.5"
 
 # Configuration de l'environnement
 environment: production
 
-# Configuration du favicon
-favicon: /favicon.ico
+# Configuration du thème
+theme: jekyll-theme-minimal
 
 # Configuration des plugins
 plugins:
@@ -18,51 +20,78 @@ plugins:
   - jekyll-sitemap
   - jekyll-minifier
   - jekyll-include-cache
-  #- jekyll-paginate  # Désactivé car non utilisé
   - jekyll-compose
-
-# Désactivation de la pagination (commentée car non utilisée)
-# paginate: 5
-# paginate_path: "/blog/page:num/"
-
-# Configuration des exclusions
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules/
-  - package.json
-  - package-lock.json
-  - README.md
-  - vercel.json
-  - .vercel
-  - .git
-  - .gitignore
-  - .babelrc
-  - .eslintrc.json
-  - .prettierrc
-  - .travis.yml
-  - netlify.toml
-  - netlify
-  - .netlify
-  - .netlify/*
-  - .netlify/**/*
-  - .idea
-  - .vscode
-  - .DS_Store
-  - Thumbs.db
-  - **/README.md
 
 # Configuration Markdown
 markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
+  auto_ids: true
+  toc_levels: 1..6
 
 # Configuration pour jekyll-minifier
 jekyll-minifier:
   uglifier_args:
-    harmony: true  # Active la compatibilité avec JavaScript ES6+
+    harmony: true  # Compatibilité ES6+
+    compress:
+      drop_console: false
   compress_js: true
+  compress_css: true
+  remove_comments: true
+  remove_style_attr: false
+  remove_link_attr: false
+  remove_form_attr: false
+  remove_input_attr: false
+  remove_javascript_protocol: false
+  remove_http_protocol: false
+  remove_https_protocol: false
+  remove_svg_attrs: false
+
+# Configuration des exclusions
+exclude:
+  # Fichiers système
+  - .git
+  - .gitignore
+  - .gitattributes
+  - .editorconfig
+  - .DS_Store
+  - Thumbs.db
+  - .sass-cache
+  - .jekyll-cache
+  - .jekyll-metadata
+  - .bundle
+  - vendor
+  
+  # Fichiers de configuration
+  - Gemfile
+  - Gemfile.lock
+  - package.json
+  - package-lock.json
+  - yarn.lock
+  - .babelrc
+  - .eslintrc.json
+  - .prettierrc
+  - .travis.yml
+  - netlify.toml
+  - vercel.json
+  - vercel-build.sh
+  - gulpfile.js
+  
+  # Dossiers
+  - node_modules
+  - .vercel
+  - .netlify
+  - .vscode
+  - .idea
+  - _site
+  
+  # Documentation
+  - README.md
+  - LICENSE
+  - CHANGELOG.md
+  - CONTRIBUTING.md
+  - CODE_OF_CONDUCT.md
   compress_css: true
   compress_html:
     clippings: all
