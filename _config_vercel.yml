@@ -18,3 +18,36 @@ compress_html:
   profile: false
   ignore:
     envs: []
+
+# Configuration de la minification
+minify:
+  compress_js: true
+  compress_css: true
+  uglifier_args:
+    harmony: true
+    compress:
+      drop_console: false
+    output:
+      comments: :none
+
+# Exclure les fichiers inutiles
+exclude:
+  - README.md
+  - .gitignore
+  - .vercelignore
+  - .git
+  - node_modules
+  - vendor
+  - .jekyll-cache
+  - .sass-cache
+  - .bundle
+  - Gemfile.lock
+  - package-lock.json
+  - yarn.lock
+
+# Configuration pour les assets
+assets:
+  compress: true
+  gzip: true
+  cache: true
+  cache_path: "/tmp/.jekyll-assets-cache"

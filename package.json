@@ -22,7 +22,23 @@
     "gulp-clean-css": "^4.3.0",
     "gulp-concat": "^2.6.1",
     "gulp-rename": "^2.0.0",
-    "gulp-uglify": "^3.0.2"
+    "gulp-uglify": "^3.0.2",
+    "uglify-js": "^3.17.4"
+  },
+  "uglify-js": {
+    "mangle": true,
+    "compress": {
+      "drop_console": false
+    },
+    "output": {
+      "comments": "/^!/"
+    },
+    "warnings": true,
+    "ie8": false,
+    "keep_fnames": false,
+    "toplevel": false,
+    "safari10": false,
+    "ecma": 2017
   },
   "browserslist": [
     "defaults"

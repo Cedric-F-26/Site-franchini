@@ -28,6 +28,7 @@ exclude:
   - Gemfile.lock
   - node_modules/
   - package.json
+  - README.md
   - package-lock.json
   - README.md
   - vercel.json
