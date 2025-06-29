@@ -6,9 +6,11 @@
   "scripts": {
     "build": "bundle install && bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace",
     "vercel-build": "npm install && npm run build",
+    "start": "bundle exec jekyll serve --config _config.yml,_config_vercel.yml --watch --incremental",
     "minify": "gulp",
-    "clean": "gulp clean",
-    "dev": "gulp watch"
+    "clean": "gulp clean && rm -rf _site .jekyll-cache .sass-cache",
+    "dev": "gulp watch",
+    "test": "bundle exec htmlproofer ./_site --only-4xx --check-html --allow-hash-href"
   },
   "engines": {
     "node": ">= 16.0.0"

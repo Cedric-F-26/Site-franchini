@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "_site"
+
+[build.environment]
+  NODE_VERSION = "16"
+  RUBY_VERSION = "3.0"
+  JEKYLL_ENV = "production"
+
+[context.production.environment]
+  NODE_ENV = "production"
