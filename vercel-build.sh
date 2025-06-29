@@ -17,18 +17,20 @@ error() {
   exit 1
 }
 
+# Configurer la locale (solution de repli si en_US.UTF-8 n'est pas disponible)
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+
 # Vérifier si nous sommes sur Vercel
 if [ -n "$VERCEL" ]; then
   info "Exécution sur Vercel"
   export JEKYLL_ENV="production"
   export NODE_ENV="production"
-  export LANG="en_US.UTF-8"
-  export LC_ALL="en_US.UTF-8"
   export BUNDLE_WITHOUT="development:test"
   export BUNDLE_PATH="/tmp/vendor/bundle"
   export BUNDLE_GEMFILE="Gemfile"
   
-  # Configurer Ruby
+  # Configurer Ruby pour éviter les avertissements
   echo "gem: --no-document" > ~/.gemrc
   
   # Nettoyer le cache
@@ -60,7 +62,7 @@ if [ -n "$VERCEL" ]; then
   # Installer Bundler 2.2.0 si nécessaire
   if ! gem list -i bundler -v 2.2.0; then
     info "Installation de Bundler 2.2.0..."
-    gem install bundler:2.2.0 || error "Échec de l'installation de Bundler"
+    gem install bundler:2.2.0 --user-install || error "Échec de l'installation de Bundler"
   fi
   
   # Installer les dépendances Ruby
@@ -68,7 +70,15 @@ if [ -n "$VERCEL" ]; then
   bundle config set --local path $BUNDLE_PATH
   bundle config set --local deployment true
   bundle config set --local without "development test"
-  bundle install || error "Échec de l'installation des dépendances Ruby"
+  
+  # Vérifier si le Gemfile.lock existe, sinon le générer
+  if [ ! -f "Gemfile.lock" ]; then
+    info "Génération du fichier Gemfile.lock..."
+    bundle lock --add-platform x86_64-linux || error "Échec de la génération de Gemfile.lock"
+  fi
+  
+  # Installer les gems avec le fichier de verrouillage
+  bundle install --jobs=4 --retry=3 || error "Échec de l'installation des dépendances Ruby"
   
   # Installer les dépendances Node.js
   info "=== Installation des dépendances Node.js ==="
@@ -105,7 +115,8 @@ else
   
   # Installer les dépendances Ruby
   info "=== Installation des dépendances Ruby ==="
-  bundle install || error "Échec de l'installation des dépendances Ruby"
+  bundle config set --local path 'vendor/bundle'
+  bundle install --jobs=4 --retry=3 || error "Échec de l'installation des dépendances Ruby"
   
   # Installer les dépendances Node.js
   info "=== Installation des dépendances Node.js ==="
@@ -113,7 +124,7 @@ else
   
   # Construire le site
   info "=== Construction du site ==="
-  bundle exec jekyll build --trace --verbose || error "Échec de la construction du site"
+  bundle exec jekyll serve --livereload --trace || error "Échec de la construction du site"
   
   success "=== Construction terminée avec succès ==="
 fi

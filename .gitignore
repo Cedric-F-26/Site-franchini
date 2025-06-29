@@ -14,13 +14,11 @@ node_modules/
 vendor/
 .bundle/
 .ruby-gemset
+.ruby-version.lock
 
 # Jekyll
 _site/
 .sass-cache/
-
-# Fichiers à ignorer pour le build
-README.md
 .jekyll-cache/
 .jekyll-metadata
 .jekyll-version
@@ -28,6 +26,12 @@ README.md
 .jekyll-clean
 .jekyll-vercel
 .jekyll-vercel-cache
+
+# Fichiers de build
+build/
+dist/
+assets/built/
+assets/dist/
 
 # Fichiers de sauvegarde
 *.bak
@@ -48,6 +52,37 @@ yarn-error.log*
 .parcel-cache/
 .vercel/
 .next/
+
+# Fichiers d'éditeurs
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Fichiers Ruby
+*.gem
+*.rbc
+/.config
+/coverage/
+/lib/bundler/man/
+/pkg/
+/spec/tmp/
+/spec/reports/
+/tmp/
+
+# Fichiers de dépendances Ruby
+*.gem
+*.rbc
+.bundle
+.ruby-version
+
+# Fichiers de test
+/spec/tmp/
+spec/reports/
+spec/examples.txt
+/test/tmp/
+/test/version_tests/
+/tmp/
 
 # Fichiers d'IDE et éditeurs
 .idea/
