@@ -30,8 +30,8 @@
     "env": {
       "NODE_ENV": "production",
       "JEKYLL_ENV": "production",
-      "LANG": "en_US.UTF-8",
-      "LC_ALL": "en_US.UTF-8",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
       "RUBY_VERSION": "3.3.0",
       "BUNDLE_WITHOUT": "development:test",
       "BUNDLE_PATH": "/tmp/vendor/bundle",

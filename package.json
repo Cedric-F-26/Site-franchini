@@ -9,7 +9,7 @@
     "start": "bundle exec jekyll serve --livereload --trace"
   },
   "engines": {
-    "node": ">= 16.20.0",
+    "node": "18.x",
     "npm": ">= 8.19.0"
   }
 }
