@@ -14,12 +14,12 @@ gem 'jekyll-redirect-from', '~> 0.16.0'
 
 # --- Gestion des assets ---
 # gem 'jekyll-assets'  # Temporairement désactivé car pas encore compatible avec Ruby 3.3.0
-gem 'jekyll-minifier', '~> 0.1.12'
+gem 'jekyll-minifier', '~> 0.1.10'
 gem 'jekyll-include-cache', '~> 0.2.1'
 
 # --- Outils de build ---
-gem 'kramdown', '~> 2.4.0'
-gem 'sass-embedded', '~> 1.69.5'
+gem 'kramdown', '~> 2.4'
+gem 'sass-embedded', '~> 1.69'
 
 # Dépendances pour les plugins ci-dessus
 group :jekyll_plugins do
