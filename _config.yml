@@ -11,6 +11,11 @@ language: fr
 version: "~> 4.3.3" # Doit correspondre à la version dans Gemfile
 
 # ==============================================================================
+# CONFIGURATION DU THÈME
+# ==============================================================================
+theme: jekyll-theme-minimal
+
+# ==============================================================================
 # CONFIGURATION DE LA CONSTRUCTION (BUILD)
 # ==============================================================================
 # Dossiers à inclure dans la construction finale
