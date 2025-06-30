@@ -59,31 +59,36 @@ if [ -n "$VERCEL" ]; then
   node -v
   npm -v
   
-  # Installer Bundler 2.2.0 si nécessaire
-  if ! gem list -i bundler -v 2.2.0; then
-    info "Installation de Bundler 2.2.0..."
-    gem install bundler:2.2.0 --user-install || error "Échec de l'installation de Bundler"
-  fi
-  
   # Installer les dépendances Ruby
   info "=== Installation des dépendances Ruby ==="
   
-  # Mettre à jour RubyGems et Bundler
-  gem update --system --no-document
-  gem install bundler:2.4.22 --no-document
+  # Mettre à jour RubyGems et installer la dernière version stable de Bundler
+  gem update --system --no-document || error "Échec de la mise à jour de RubyGems"
+  gem install bundler --no-document || error "Échec de l'installation de Bundler"
   
-  # Générer le Gemfile.lock s'il n'existe pas
-  if [ ! -f "Gemfile.lock" ]; then
-    info "Génération du fichier Gemfile.lock..."
-    bundle lock --add-platform x86_64-linux
-  fi
-  
-  # Installer les gems
+  # Configurer Bundler pour utiliser le bon chemin et les bonnes options
   bundle config set --local path $BUNDLE_PATH
   bundle config set --local deployment 'true'
   bundle config set --local without 'development:test'
   bundle config set --local force_ruby_platform true
-  bundle install --jobs=4 --retry=3 || error "Échec de l'installation des dépendances Ruby"
+  
+  # Forcer la création/mise à jour du Gemfile.lock avec les bonnes plateformes
+  info "Mise à jour du Gemfile.lock avec les plateformes requises..."
+  bundle lock --add-platform ruby
+  bundle lock --add-platform x86_64-linux
+  
+  # Afficher les plateformes configurées pour le débogage
+  info "Plateformes configurées :"
+  bundle platform
+  
+  # Installer les gems avec des options optimisées
+  info "Installation des gems avec Bundler..."
+  bundle config set force_ruby_platform true
+  bundle install --jobs=4 --retry=3 --verbose || error "Échec de l'installation des dépendances Ruby"
+  
+  # Vérifier que les gems sont bien installés
+  info "Liste des gems installés :"
+  bundle list
   
   # Construire le site
   info "=== Construction du site ==="
@@ -112,12 +117,17 @@ else
   info "Exécution en mode développement local"
   
   echo -e "\n[INFO] === Installation des dépendances Ruby ==="
-  # Ajout de la plateforme ruby
+  
+  # Forcer l'ajout de la plateforme ruby et mettre à jour le Gemfile.lock
+  bundle lock --add-platform x86_64-linux
   bundle lock --add-platform ruby
-
-  # Installation des dépendances Ruby
+  
+  # Configuration de Bundler pour utiliser la plateforce Ruby
   bundle config set --local force_ruby_platform true
-  bundle install --jobs 20 --retry 5 || error "Échec de l'installation des dépendances Ruby"
+  bundle config set --local path 'vendor/bundle'
+  
+  # Installation des dépendances avec nettoyage du cache
+  bundle install --jobs 4 --retry 3 --verbose || error "Échec de l'installation des dépendances Ruby"
   
   # Installer les dépendances Node.js
   info "=== Installation des dépendances Node.js ==="
