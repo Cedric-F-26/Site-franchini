@@ -19,26 +19,37 @@
     },
     {
       "src": "/(.*)",
-      "headers": { "cache-control": "public, max-age=0, must-revalidate" },
+      "headers": { 
+        "cache-control": "public, max-age=0, must-revalidate"
+      },
+      "dest": "/$1",
       "continue": true
     },
     {
       "handle": "filesystem"
     }
   ],
+  "env": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "RUBY_VERSION": "3.3.0",
+    "BUNDLE_WITHOUT": "development:test",
+    "BUNDLE_PATH": "/tmp/vendor/bundle",
+    "BUNDLE_APP_CONFIG": "/tmp/vendor/bundle",
+    "BUNDLE_CLEAN": "true",
+    "BUNDLE_DEPLOYMENT": "true",
+    "BUNDLE_JOBS": "4",
+    "BUNDLE_RETRY": "3",
+    "JEKYLL_ENV": "production",
+    "NODE_ENV": "production",
+    "VERCEL_DEBUG": "true"
+  },
   "build": {
     "env": {
-      "NODE_ENV": "production",
-      "JEKYLL_ENV": "production",
-      "LANG": "C.UTF-8",
-      "LC_ALL": "C.UTF-8",
-      "RUBY_VERSION": "3.3.0",
-      "BUNDLE_WITHOUT": "development:test",
-      "BUNDLE_PATH": "/tmp/vendor/bundle",
-      "BUNDLE_GEMFILE": "Gemfile",
-      "BUNDLE_JOBS": "4",
-      "BUNDLE_RETRY": "3",
-      "BUNDLE_VERBOSE": "1"
+      "NODE_VERSION": "18.x"
     }
-  }
+  },
+  "buildCommand": "./vercel-build.sh",
+  "outputDirectory": "_site",
+  "framework": "jekyll"
 }

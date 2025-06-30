@@ -110,7 +110,7 @@ if [ -n "$VERCEL" ]; then
   # Vérifier le contenu du dossier de sortie
   info "=== Vérification du dossier _site ==="
   if [ -d "_site" ]; then
-    succees "Le site a été construit avec succès"
+    success "Le site a été construit avec succès"
     du -sh _site
     ls -la _site/
   else

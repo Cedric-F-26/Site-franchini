@@ -1,12 +1,16 @@
-source "https://rubygems.org"
+source "https://rubygems.org" do
+  # This will help ensure the proper Jekyll version is running.
+  # Happy Jekylling!
+  gem "jekyll", "~> 4.3.3"
+  gem "jekyll-theme-minimal", "~> 0.2.0"
+  gem "webrick", "~> 1.8"
+  gem "kramdown-parser-gfm", "~> 1.1"
+end
 
-ruby '3.3.0'
+# Explicitly specify the platforms
+ruby ">= 2.6.0"
 
-gem 'jekyll', '~> 4.3.3'
-gem 'webrick', '~> 1.8.1'
-
-# --- Thème ---
-gem "jekyll-theme-minimal"
+# Add additional gems here if needed
 
 # --- Plugins de contenu ---
 gem 'jekyll-feed', '~> 0.17.0'
