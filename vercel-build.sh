@@ -83,16 +83,29 @@ if [ -n "$VERCEL" ]; then
   
   # Installer les gems avec des options optimisées
   info "Installation des gems avec Bundler..."
-  bundle config set force_ruby_platform true
+  bundle config --local force_ruby_platform true
+  bundle config --local path vendor/bundle
+  bundle config --local deployment true
+  bundle config --local without 'development:test'
   bundle install --jobs=4 --retry=3 --verbose || error "Échec de l'installation des dépendances Ruby"
+  
+  # Vérifier la configuration de Bundler
+  info "Configuration de Bundler :"
+  bundle env | grep -E 'BUNDLE_PATH|BUNDLE_WITHOUT|BUNDLE_DEPLOYMENT|BUNDLE_APP_CONFIG'
   
   # Vérifier que les gems sont bien installés
   info "Liste des gems installés :"
   bundle list
   
-  # Construire le site
+  # Construire le site avec des variables d'environnement explicites
   info "=== Construction du site ==="
-  bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace --verbose || error "Échec de la construction du site"
+  JEKYLL_ENV=production \
+  LANG=C.UTF-8 \
+  LC_ALL=C.UTF-8 \
+  bundle exec jekyll build \
+    --config _config.yml,_config_vercel.yml \
+    --trace \
+    --verbose || error "Échec de la construction du site"
   
   # Vérifier le contenu du dossier de sortie
   info "=== Vérification du dossier _site ==="
