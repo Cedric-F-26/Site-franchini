@@ -7,7 +7,7 @@ info() {
 }
 
 # Fonction pour afficher des messages de succès
-success() {
+succees() {
   echo -e "\033[1;32m[SUCCÈS] $1\033[0m"
 }
 
@@ -80,13 +80,6 @@ if [ -n "$VERCEL" ]; then
   # Installer les gems avec le fichier de verrouillage
   bundle install --jobs=4 --retry=3 || error "Échec de l'installation des dépendances Ruby"
   
-  # Installer les dépendances Node.js
-  info "=== Installation des dépendances Node.js ==="
-  npm ci --prefer-offline --no-audit --progress=false || error "Échec de l'installation des dépendances Node.js"
-  
-  # Nettoyer le cache npm
-  npm cache clean --force
-  
   # Construire le site
   info "=== Construction du site ==="
   bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace --verbose || error "Échec de la construction du site"
@@ -94,7 +87,7 @@ if [ -n "$VERCEL" ]; then
   # Vérifier le contenu du dossier de sortie
   info "=== Vérification du dossier _site ==="
   if [ -d "_site" ]; then
-    success "Le site a été construit avec succès"
+    succees "Le site a été construit avec succès"
     du -sh _site
     ls -la _site/
   else
@@ -108,7 +101,7 @@ if [ -n "$VERCEL" ]; then
   rm -rf ~/.bundle/cache
   rm -rf ~/.gem/ruby/*/cache
   
-  success "=== Script de build terminé avec succès ==="
+  succees "=== Script de build terminé avec succès ==="
 else
   # Mode développement local
   info "Exécution en mode développement local"
@@ -126,5 +119,5 @@ else
   info "=== Construction du site ==="
   bundle exec jekyll serve --livereload --trace || error "Échec de la construction du site"
   
-  success "=== Construction terminée avec succès ==="
+  succees "=== Construction terminée avec succès ==="
 fi
