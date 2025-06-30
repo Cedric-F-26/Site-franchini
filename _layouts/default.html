@@ -5,55 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} | {% endif %}{{ site.title }}</title>
     
-    <!-- SEO -->
     {% seo %}
     
-    <!-- Inclusions des assets -->
     {% include head.html %}
     
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <!-- Carousel CSS -->
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/style.css">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/header.css">
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/carousel.css">
 </head>
 <body>
-    <!-- Header -->
     {% include header.html %}
     
-    <!-- Contenu principal -->
-    {{ content }}
+    <main>
+        {{ content }}
+    </main>
     
-    <!-- Scripts JS -->
-    <script src="{{ site.baseurl }}/assets/js/carousel.js"></script>
+    {% include footer.html %}
+    
     <script src="{{ site.baseurl }}/assets/js/main.js"></script>
+    <script src="{{ site.baseurl }}/assets/js/carousel.js"></script>
     
-    <!-- Script pour gÃ©rer les carrousels vides -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const carousels = document.querySelectorAll('.carousel');
-            carousels.forEach(carousel => {
-                if (carousel.querySelectorAll('.carousel-slide').length === 0) {
-                    carousel.innerHTML = '<div class="no-content">En attente de document</div>';
-                    carousel.style.padding = '20px';
-                    carousel.style.textAlign = 'center';
-                    carousel.style.color = '#666';
-                }
-            });
-        });
-    </script>
-    
-    <!-- Scripts spécifiques à la page -->
     {% if page.scripts %}
         {% for script in page.scripts %}
             <script src="{{ script | relative_url }}"></script>
         {% endfor %}
     {% endif %}
-    
-    <!-- Footer -->
-    {% include footer.html %}
 </body>
 </html>
