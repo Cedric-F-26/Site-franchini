@@ -18,7 +18,7 @@ gem 'jekyll-minifier', '~> 0.1.10'
 gem 'jekyll-include-cache', '~> 0.2.1'
 
 # --- Outils de build ---
-gem 'kramdown', '~> 2.4.0'
+gem 'kramdown', '~> 1.17.0'
 gem 'kramdown-parser-gfm', '~> 1.1.0'
 gem 'sass-embedded', '~> 1.69.5'
 
