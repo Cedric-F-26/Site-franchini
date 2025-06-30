@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 ruby '2.7.7'
 
-gem 'jekyll', '~> 4.3.3'
+gem 'jekyll', '~> 3.8.7'
 gem 'webrick', '~> 1.8.1'
 
 # --- Plugins de contenu ---
@@ -13,7 +13,7 @@ gem 'jekyll-paginate-v2', '~> 3.0.0'
 gem 'jekyll-redirect-from', '~> 0.16.0'
 
 # --- Gestion des assets ---
-gem 'jekyll-assets', '~> 3.0'
+gem 'jekyll-assets', '~> 3.0.12'
 gem 'jekyll-minifier', '~> 0.1.10'
 gem 'jekyll-include-cache', '~> 0.2.1'
 
