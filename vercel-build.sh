@@ -111,10 +111,13 @@ else
   # Mode développement local
   info "Exécution en mode développement local"
   
-  # Installer les dépendances Ruby
-  info "=== Installation des dépendances Ruby ==="
-  bundle config set --local path 'vendor/bundle'
-  bundle install --jobs=4 --retry=3 || error "Échec de l'installation des dépendances Ruby"
+  echo -e "\n[INFO] === Installation des dépendances Ruby ==="
+  # Ajout de la plateforme ruby
+  bundle lock --add-platform ruby
+
+  # Installation des dépendances Ruby
+  bundle config set --local force_ruby_platform true
+  bundle install --jobs 20 --retry 5 || error "Échec de l'installation des dépendances Ruby"
   
   # Installer les dépendances Node.js
   info "=== Installation des dépendances Node.js ==="
