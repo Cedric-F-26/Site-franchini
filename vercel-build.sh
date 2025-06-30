@@ -42,7 +42,7 @@ if [ -n "$VERCEL" ]; then
   mkdir -p $BUNDLE_PATH
   
   # Ajouter les binaires au PATH
-  export PATH="$BUNDLE_PATH/ruby/2.7.0/bin:$PATH"
+  export PATH="$BUNDLE_PATH/ruby/3.3.0/bin:$PATH"
   export PATH="$BUNDLE_PATH/bin:$PATH"
   
   # Activer les sorties détaillées
@@ -67,17 +67,22 @@ if [ -n "$VERCEL" ]; then
   
   # Installer les dépendances Ruby
   info "=== Installation des dépendances Ruby ==="
-  bundle config set --local path $BUNDLE_PATH
-  bundle config set --local deployment true
-  bundle config set --local without "development test"
   
-  # Vérifier si le Gemfile.lock existe, sinon le générer
+  # Mettre à jour RubyGems et Bundler
+  gem update --system --no-document
+  gem install bundler:2.4.22 --no-document
+  
+  # Générer le Gemfile.lock s'il n'existe pas
   if [ ! -f "Gemfile.lock" ]; then
     info "Génération du fichier Gemfile.lock..."
-    bundle lock --add-platform x86_64-linux || error "Échec de la génération de Gemfile.lock"
+    bundle lock --add-platform x86_64-linux
   fi
   
-  # Installer les gems avec le fichier de verrouillage
+  # Installer les gems
+  bundle config set --local path $BUNDLE_PATH
+  bundle config set --local deployment 'true'
+  bundle config set --local without 'development:test'
+  bundle config set --local force_ruby_platform true
   bundle install --jobs=4 --retry=3 || error "Échec de l'installation des dépendances Ruby"
   
   # Construire le site
