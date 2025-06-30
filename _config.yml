@@ -1,166 +1,19 @@
-# Configuration de base
-title: "Site Franchini"
-description: "Concessionnaire Deutz-Fahr - Vente et entretien de matériel agricole"
-baseurl: ""  # Vide pour la racine du domaine
-url: "https://mon-site-web-xi.vercel.app"  # URL de production
-
-# Version de Jekyll
-version: "~> 3.9.5"
-
-# Configuration de l'environnement
-environment: production
-
-# Configuration du thème
-theme: jekyll-theme-minimal
-
-# Configuration des plugins
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
-  - jekyll-minifier
-  - jekyll-include-cache
-  - jekyll-compose
-
-# Configuration Markdown
-markdown: kramdown
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-  auto_ids: true
-  toc_levels: 1..6
-
-# Configuration pour jekyll-minifier
-jekyll-minifier:
-  uglifier_args:
-    harmony: true  # Compatibilité ES6+
-    compress:
-      drop_console: false
-  compress_js: true
-  compress_css: true
-  remove_comments: true
-  remove_style_attr: false
-  remove_link_attr: false
-  remove_form_attr: false
-  remove_input_attr: false
-  remove_javascript_protocol: false
-  remove_http_protocol: false
-  remove_https_protocol: false
-  remove_svg_attrs: false
-
-# Configuration des exclusions
-exclude:
-  # Fichiers système
-  - .git
-  - .gitignore
-  - .gitattributes
-  - .editorconfig
-  - .DS_Store
-  - Thumbs.db
-  - .sass-cache
-  - .jekyll-cache
-  - .jekyll-metadata
-  - .bundle
-  - vendor
-  
-  # Fichiers de configuration
-  - Gemfile
-  - Gemfile.lock
-  - package.json
-  - package-lock.json
-  - yarn.lock
-  - .babelrc
-  - .eslintrc.json
-  - .prettierrc
-  - .travis.yml
-  - netlify.toml
-  - vercel.json
-  - vercel-build.sh
-  - gulpfile.js
-  
-  # Dossiers
-  - node_modules
-  - .vercel
-  - .netlify
-  - .vscode
-  - .idea
-  - _site
-  
-  # Documentation
-  - README.md
-  - LICENSE
-  - CHANGELOG.md
-  - CONTRIBUTING.md
-  - CODE_OF_CONDUCT.md
-  compress_css: true
-  compress_html:
-    clippings: all
-    comments: all
-    endings: all
-    startings: []
-    blanklines: false
-    profile: false
-
-# Configuration pour jekyll-assets
-assets:
-  sources:
-    - _assets/images
-    - _assets/fonts
-    - _assets/js
-    - _assets/css
-
-# Configuration pour sass
-sass:
-  style: compressed
-  sass_dir: _sass
-  # Utilisation de sassc comme processeur SASS
-  implementation: sassc
-  compress:
-    css: true
-    js: true
-  cache: false
-  gzip: [.css, .js, .svg, .eot, .ttf, .woff, .woff2]
-  cache_path: "_cache"
-  skip_baseurl_with_cdn: false
-  skip_prefix_with_cdn: false
-  prefix: "/assets"
-  digest: true
-  assets: []
-  features:
-    automatic_img_size: true
-    automatic_img_alt: true
-    automatic_img_loading: true
-    automatic_img_srcset: true
-    automatic_img_sizes: true
-    automatic_img_loading: true
-    automatic_img_alt: true
-    automatic_img_title: true
-    automatic_img_class: true
-    automatic_img_id: true
-    automatic_img_loading: true
-    automatic_img_decoding: true
-    automatic_img_importance: true
-    automatic_img_ismap: true
-    automatic_img_loading: true
-    automatic_img_referrerpolicy: true
-    automatic_img_sizes: true
-    automatic_img_srcset: true
-    automatic_img_style: true
-    automatic_img_usemap: true
-    automatic_img_width: true
-    automatic_img_height: true
-
-# Paramètres du site
-title: Franchini - Concessionnaire Deutz-Fahr
-description: Concessionnaire officiel Deutz-Fahr - Matériel agricole neuf et d'occasion
+# ==============================================================================
+# CONFIGURATION DE BASE
+# ==============================================================================
+title: "Franchini - Concessionnaire Deutz-Fahr"
+description: "Concessionnaire officiel Deutz-Fahr. Vente et entretien de matériel agricole neuf et d'occasion à Marches, Drôme."
 email: contact@franchini.fr
+url: "https://mon-site-web-xi.vercel.app" # URL de production
+baseurl: "" # Laisser vide pour la racine du domaine
+timezone: Europe/Paris
 language: fr
+version: "~> 4.3.3" # Doit correspondre à la version dans Gemfile
 
-# Paramètres de construction
-markdown: kramdown
-theme: minima
-
-# Activer le support pour les fichiers HTML
+# ==============================================================================
+# CONFIGURATION DE LA CONSTRUCTION (BUILD)
+# ==============================================================================
+# Dossiers à inclure dans la construction finale
 include:
   - _pages
   - _includes
@@ -171,36 +24,140 @@ include:
   - CNAME
   - robots.txt
   - sitemap.xml
+  - .nojekyll
 
-# Exclure les fichiers et dossiers inutiles
+# Fichiers et dossiers à exclure de la construction
 exclude:
-  - node_modules/
+  # Fichiers système et de cache
+  - .git
+  - .sass-cache/
+  - .jekyll-cache/
+  - .jekyll-metadata
+  - .bundle
+  - vendor/
+  - Thumbs.db
+  - .DS_Store
+
+  # Fichiers de configuration et de développement
   - Gemfile
   - Gemfile.lock
   - package.json
   - package-lock.json
-  - README.md
-  - .gitignore
+  - yarn.lock
+  - gulpfile.js
+  - node_modules/
+  - .babelrc
+  - .eslintrc.json
+  - .prettierrc
+  - .editorconfig
+  - .gitattributes
   - .github/
   - .vscode/
-  - .git/
+  
+  # Fichiers de déploiement et documentation
+  - netlify.toml
+  - vercel.json
+  - vercel-build.sh
+  - README.md
+  - LICENSE
+  - CHANGELOG.md
+  - Serveur.txt
 
-# Configuration des chemins
-destination: ./public
+# Répertoires du site
+destination: ./_site
 plugins_dir: _plugins
 layouts_dir: _layouts
 data_dir: _data
 collections_dir: _collections
 
-# Configuration pour les fichiers statiques
-static_files:
-  - assets/css/:/css/
-  - assets/js/:/js/
-  - assets/images/:/images/
-  - assets/fonts/:/fonts/
-  - assets/downloads/:/downloads/
+# Paramètres de build
+future: true
+incremental: false
+permalink: pretty
 
-# Configuration pour les marques et modèles
+# ==============================================================================
+# PLUGINS ET EXTENSIONS
+# ==============================================================================
+# Thème
+theme: jekyll-theme-minimal
+
+# Plugins Jekyll
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-minifier
+  - jekyll-include-cache
+  - jekyll-compose
+  - jekyll-assets
+  - sass-embedded
+  - jekyll-paginate-v2
+  - jekyll-redirect-from
+
+# Configuration Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  auto_ids: true
+  toc_levels: 1..6
+
+# ==============================================================================
+# GESTION DES ASSETS
+# ==============================================================================
+# Configuration pour jekyll-assets
+assets:
+  sources:
+    - _assets/images
+    - _assets/fonts
+    - _assets/js
+    - _assets/css
+  compress: true
+  gzip: true
+  cache: true
+  cache_path: "_cache"
+  prefix: "/assets"
+  digest: true
+
+# Configuration pour SASS
+sass:
+  style: compressed
+  sass_dir: _sass
+  implementation: sass-embedded
+
+# Configuration pour jekyll-minifier
+jekyll-minifier:
+  uglifier_args:
+    harmony: true
+  compress_js: true
+  compress_css: true
+  remove_comments: true
+
+# ==============================================================================
+# COLLECTIONS
+# ==============================================================================
+collections:
+  pages:
+    output: true
+    permalink: /:path/
+
+# ==============================================================================
+# CONFIGURATION DU CONTENU
+# ==============================================================================
+# Liens de navigation principaux
+navigation:
+  - title: Accueil
+    url: /
+  - title: Neuf
+    url: /pages/neuf/
+  - title: Occasions
+    url: /pages/occasion/
+  - title: Services
+    url: /pages/services/
+  - title: Contact
+    url: /pages/contact/
+
+# Marques de matériel
 brands:
   - name: Deutz-Fahr
     logo: /assets/images/brands/deutz-fahr.png
@@ -215,171 +172,70 @@ brands:
     logo: /assets/images/brands/kverneland.png
     url: /marques/kverneland
 
-# Configuration pour les réseaux sociaux
+# Liens vers les réseaux sociaux
 social_links:
   - name: Facebook
     url: https://www.facebook.com/Franchini26300
-    icon: facebook
+    icon: fab fa-facebook-f
   - name: Instagram
     url: https://www.instagram.com/franchini_agricole
-    icon: instagram
+    icon: fab fa-instagram
   - name: YouTube
     url: https://www.youtube.com/user/FranchiniAgricole
-    icon: youtube
+    icon: fab fa-youtube
   - name: LinkedIn
     url: https://www.linkedin.com/company/franchini-agricole
-    icon: linkedin
+    icon: fab fa-linkedin-in
 
-# Paramètres de permaliens (pour des URLs propres)
-permalink: pretty
+# Informations du pied de page
+footer:
+  contact:
+    address: "111 av des monts du matin, 26300 Marches"
+    phone: "04 75 47 40 37"
+    email: "contact@franchini.fr"
 
-# Paramètres de build
-future: true
-incremental: false
+# ==============================================================================
+# CONFIGURATION SEO
+# ==============================================================================
+# Utilisé par le plugin jekyll-seo-tag
+social:
+  name: Franchini Agricole
+  links:
+    - https://www.facebook.com/Franchini26300
+    - https://www.instagram.com/franchini_agricole
+    - https://www.youtube.com/user/FranchiniAgricole
+    - https://www.linkedin.com/company/franchini-agricole
 
-# Paramètres de temps
-timezone: Europe/Paris
-
-# Configuration des collections
-collections:
-  pages:
-    output: true
-    permalink: /:path/
-
-# Exclure des fichiers de la construction
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - node_modules/
-  - vendor/
-  - .sass-cache/
-  - .jekyll-cache/
-  - .git
-  - README.md
-  - Serveur.txt
-  - vercel.json
-  - netlify.toml
-  - update-*.js
-  - insert-*.js
-
-# Inclure les fichiers et dossiers qui commencent par un point
-include:
-  - .htaccess
-  - .nojekyll
-  - robots.txt
-  - sitemap.xml
-
-# Configuration pour sitemap
+# Configuration pour le sitemap
 sitemap:
   exclude:
     - "/assets/"
     - "/js/"
     - "/css/"
     - "/images/"
+    - "/admin/"
+    - "/includes/"
 
-# Configuration SEO par défaut
+# ==============================================================================
+# VALEURS PAR DÉFAUT
+# ==============================================================================
 defaults:
   - scope:
-      path: ""
+      path: "" # S'applique à tous les fichiers
     values:
       layout: "default"
       sitemap: true
+  - scope:
+      path: "assets" # Ne pas appliquer de layout aux assets
+    values:
+      layout: null
+      sitemap: false
 
-# Configuration pour les liens de navigation
-navigation:
-  - title: Accueil
-    url: /
-  - title: Neuf
-    url: /pages/neuf/
-  - title: Occasions
-    url: /pages/occasion/
-  - title: Services
-    url: /pages/services/
-  - title: Contact
-    url: /pages/contact/
-
-# Configuration du pied de page
-footer:
-  contact:
-    address: "111 av des monts du matin, 26300 Marches"
-    phone: "04 75 47 40 37"
-    email: "contact@franchini.fr"
-  social_links:
-    - name: Facebook
-      url: "#"
-      icon: "fab fa-facebook-f"
-    - name: Twitter
-      url: "#"
-      icon: "fab fa-twitter"
-    - name: Instagram
-      url: "#"
-      icon: "fab fa-instagram"
-    - name: LinkedIn
-      url: "#"
-      icon: "fab fa-linkedin-in"
-
-# Configuration des métadonnées pour les réseaux sociaux
-social:
-  name: Franchini
-  links:
-    - "https://www.facebook.com/franchini"
-    - "https://twitter.com/franchini"
-    - "https://www.instagram.com/franchini"
-
-# Configuration du thème (couleurs, polices, etc.)
-theme:
-  primary_color: "#4CAF50"
-  secondary_color: "#2E7D32"
-  accent_color: "#8BC34A"
-  text_color: "#333333"
-  light_text: "#757575"
-  background: "#FFFFFF"
-  font_family: "'Roboto', sans-serif"
-  font_size: "16px"
-  line_height: "1.6"
-
-# Configuration des paramètres de développement
+# ==============================================================================
+# PARAMÈTRES DE DÉVELOPPEMENT LOCAL
+# ==============================================================================
+# Ces paramètres peuvent être surchargés par un fichier _config_development.yml
 dev:
   minify: false
   cache: false
   verbose: true
-    - "/admin/"
-    - "/includes/"
-
-# Configuration pour SEO
-seo:
-  name: Franchini
-  social:
-    name: Franchini
-    links:
-      - https://www.facebook.com/
-      - https://twitter.com/
-      - https://www.instagram.com/
-
-# Configuration personnalisée
-social_links:
-  - platform: facebook
-    url: https://www.facebook.com/
-  - platform: twitter
-    url: https://twitter.com/
-  - platform: instagram
-    url: https://www.instagram.com/
-
-# Paramètres de navigation par défaut
-defaults:
-  - scope:
-      path: ""
-    values:
-      layout: default
-  - scope:
-      path: "assets"
-    values:
-      layout: null
-  - README.md
-
-# Configuration du thème (si vous en utilisez un)
-theme: jekyll-theme-minimal
-
-# Paramètres personnalisés
-github:
-  is_project_page: true
