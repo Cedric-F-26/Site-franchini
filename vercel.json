@@ -5,7 +5,9 @@
       "src": "vercel-build.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_site"
+        "distDir": "_site",
+        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh install",
+        "buildCommand": "./vercel-build.sh build"
       }
     }
   ],
