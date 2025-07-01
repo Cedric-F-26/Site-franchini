@@ -4,7 +4,7 @@ source "https://rubygems.org"
 # When you want to use a different version, change it below, save the
 # file and run `bundle install`.
 #
-ruby "~> 2.7.8"
+ruby ">= 2.7.0", "< 3.3.0"
 
 # Gems principaux
 gem "jekyll", "~> 4.3.3"
@@ -22,7 +22,7 @@ group :jekyll_plugins do
   
   # Outils de build
   gem "jekyll-sass-converter", "~> 2.2.0"
-  gem "sassc", "~> 2.4.0"
+  gem "sass-embedded", "~> 1.69.5"
   gem "kramdown", "~> 2.4.0"
   gem "kramdown-parser-gfm", "~> 1.1.0"
   

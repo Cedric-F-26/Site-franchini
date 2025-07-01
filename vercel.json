@@ -10,7 +10,7 @@
     }
   ],
   "env": {
-    "RUBY_VERSION": "2.7.8",
+    "RUBY_VERSION": "3.2.0",
     "NODE_VERSION": "18.x",
     "BUNDLE_PATH": "vendor/bundle",
     "BUNDLE_APP_CONFIG": ".bundle",

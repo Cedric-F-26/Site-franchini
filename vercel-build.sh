@@ -20,32 +20,34 @@ export BUNDLE_PATH="$PWD/vendor/bundle"
 echo "=== Nettoyage des installations précédentes ==="
 rm -rf vendor/bundle
 
+# Mettre à jour RubyGems
+echo "=== Mise à jour de RubyGems ==="
+gem update --system --no-document
+
+# Installer Bundler
+echo "=== Installation de Bundler ==="
+gem install bundler --no-document
+
 # Configurer Bundler
 echo "=== Configuration de Bundler ==="
-gem install bundler -v "~> 2.1.4"
-
 bundle config set --local path "$BUNDLE_PATH"
 bundle config set --local without "development:test"
-
-# Installer les gems de base d'abord
-echo "=== Installation des gems de base ==="
-gem install ffi -v '1.15.5' -- --disable-system-libffi
-gem install sassc -v '2.4.0' -- --disable-system-libffi
+bundle config set --local deployment "true"
 
 # Installer les gems du projet
 echo "=== Installation des gems du projet ==="
-bundle _2.1.4_ install --jobs=4 --retry=3 --verbose
+bundle install --jobs=4 --retry=3 --verbose
 
 # Vérifier que Jekyll est installé
 echo "=== Vérification de Jekyll ==="
-if ! bundle _2.1.4_ exec jekyll --version; then
+if ! bundle exec jekyll --version; then
   echo "Erreur: Jekyll n'est pas correctement installé"
   exit 1
 fi
 
 # Construire le site
 echo "=== Construction du site ==="
-bundle _2.1.4_ exec jekyll build --trace --verbose
+bundle exec jekyll build --trace --verbose
 
 # Vérifier que le site a été construit
 if [ ! -d "_site" ]; then
