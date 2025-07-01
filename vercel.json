@@ -2,12 +2,10 @@
   "version": 2,
   "builds": [
     {
-      "src": "vercel-build.sh",
+      "src": "package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_site",
-        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh install",
-        "buildCommand": "./vercel-build.sh build"
+        "distDir": "_site"
       }
     }
   ],
@@ -25,8 +23,7 @@
       "BUNDLE_JOBS": "4",
       "BUNDLE_RETRY": "3",
       "JEKYLL_ENV": "production",
-      "NODE_ENV": "production",
-      "VERCEL_DEBUG": "true"
+      "NODE_ENV": "production"
     }
   },
   "routes": [
