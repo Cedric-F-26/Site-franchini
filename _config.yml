@@ -94,9 +94,6 @@ permalink: pretty
 # ==============================================================================
 # PLUGINS ET EXTENSIONS
 # ==============================================================================
-# Thème
-theme: jekyll-theme-minimal
-
 # Plugins Jekyll
 plugins:
   - jekyll-feed
@@ -105,9 +102,7 @@ plugins:
   - jekyll-minifier
   - jekyll-include-cache
   - jekyll-compose
-  - jekyll-assets
   - sass-embedded
-  - jekyll-paginate-v2
   - jekyll-redirect-from
 
 # Configuration Markdown
