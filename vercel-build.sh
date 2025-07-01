@@ -48,7 +48,7 @@ install_dependencies() {
   
   # Mettre à jour RubyGems et Bundler
   gem update --system --no-document || error "Échec de la mise à jour de RubyGems"
-  gem install bundler --no-document || error "Échec de l'installation de Bundler"
+  gem install bundler -v 2.4.22 --no-document || error "Échec de l'installation de Bundler"
   
   # Configurer Bundler
   bundle config set --local path 'vendor/bundle'
