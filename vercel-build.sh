@@ -8,7 +8,7 @@ echo "=== Versions installées ==="
 ruby --version
 bundle --version
 node --version
-npm --version
+pm --version
 
 # Configurer l'environnement
 export JEKYLL_ENV=production
@@ -33,6 +33,21 @@ echo "=== Configuration de Bundler ==="
 bundle config set --local path "$BUNDLE_PATH"
 bundle config set --local without "development:test"
 bundle config set --local deployment "true"
+
+# Installer les dépendances système nécessaires pour sassc
+echo "=== Installation des dépendances système ==="
+if command -v apt-get >/dev/null; then
+    sudo apt-get update
+    sudo apt-get install -y build-essential patch ruby-dev zlib1g-dev liblzma-dev
+elif command -v yum >/dev/null; then
+    sudo yum groupinstall -y 'Development Tools'
+    sudo yum install -y ruby-devel zlib-devel xz-devel
+fi
+
+# Installer les gems de base d'abord
+echo "=== Installation des gems de base ==="
+gem install ffi -v '1.15.5' -- --disable-system-libffi
+gem install sassc -v '2.4.0' -- --disable-system-libffi
 
 # Installer les gems du projet
 echo "=== Installation des gems du projet ==="

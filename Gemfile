@@ -22,7 +22,7 @@ group :jekyll_plugins do
   
   # Outils de build
   gem "jekyll-sass-converter", "~> 2.2.0"
-  gem "sass-embedded", "~> 1.69.5"
+  gem "sassc", "~> 2.4.0"
   gem "kramdown", "~> 2.4.0"
   gem "kramdown-parser-gfm", "~> 1.1.0"
   
