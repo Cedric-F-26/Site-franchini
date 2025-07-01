@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "build": "bundle exec jekyll build",
-    "vercel-build": "bash vercel-build.sh",
+    "vercel-build": "bash vercel-build.sh build",
     "start": "bundle exec jekyll serve --livereload --trace"
   },
   "engines": {
