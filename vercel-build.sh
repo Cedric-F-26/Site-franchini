@@ -2,6 +2,7 @@
 set -ex # Arrêter en cas d'erreur et afficher les commandes exécutées
 
 info "Démarrage du script vercel-build.sh"
+info "Argument reçu: $1"
 pwd
 ls -la
 
