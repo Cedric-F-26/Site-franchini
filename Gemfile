@@ -8,7 +8,7 @@ source "https://rubygems.org" do
 end
 
 # Explicitly specify the platforms
-ruby ">= 2.6.0"
+ruby "~> 3.3.0"
 
 # Add additional gems here if needed
 
