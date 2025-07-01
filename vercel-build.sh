@@ -49,33 +49,46 @@ else
     echo "Avertissement: gestionnaire de paquets non reconnu, poursuite sans installation de dépendances système"
 fi
 
-# Mise à jour de RubyGems et Bundler
-echo "=== Mise à jour de RubyGems et Bundler ==="
-# Force la mise à jour même en cas d'avertissements
-echo "[DEBUG] Avant gem update"
-gem update --system --no-document --force 2>&1 | tee gem_update.log || \
-  echo "[WARN] Échec partiel de la mise à jour de RubyGems, continuation..."
-echo "[DEBUG] Après gem update"
+# Mise à jour de RubyGems
+echo "=== Mise à jour de RubyGems ==="
+echo "[DEBUG] Version actuelle de RubyGems: $(gem --version 2>&1 || echo 'Non disponible')"
 
-# Vérification de l'installation de RubyGems
-echo "[DEBUG] Vérification de RubyGems"
-if ! gem --version; then
-  echo "[ERROR] RubyGems n'est pas accessible"
-  exit 1
+echo "[DEBUG] Début de la mise à jour de RubyGems..."
+if ! gem update --system --no-document --force 2>&1; then
+  echo "[WARN] Échec de la mise à jour de RubyGems, tentative de continuation..."
+  # Essayer de continuer même en cas d'échec
+  if ! gem --version >/dev/null 2>&1; then
+    echo "[ERROR] RubyGems n'est pas accessible après la tentative de mise à jour"
+    exit 1
+  fi
 fi
+echo "[DEBUG] Fin de la mise à jour de RubyGems"
 
-echo "=== Installation de Bundler ==="
-echo "[DEBUG] Avant installation de Bundler"
-gem install bundler --no-document --force 2>&1 | tee bundler_install.log || \
-  echo "[WARN] Échec partiel de l'installation de Bundler, continuation..."
-echo "[DEBUG] Après installation de Bundler"
+echo "[DEBUG] Version de RubyGems après mise à jour: $(gem --version 2>&1 || echo 'Non disponible')"
+
+# Installation de Bundler
+echo -e "\n=== Installation de Bundler ==="
+echo "[DEBUG] Version actuelle de Bundler: $(bundle --version 2>&1 || echo 'Non installé')"
+
+echo "[DEBUG] Installation de Bundler..."
+if ! gem install bundler --no-document --force 2>&1; then
+  echo "[WARN] Échec de l'installation de Bundler, tentative de continuation..."
+  if ! bundle --version >/dev/null 2>&1; then
+    echo "[ERROR] Bundler n'est pas accessible après la tentative d'installation"
+    exit 1
+  fi
+fi
+echo "[DEBUG] Fin de l'installation de Bundler"
 
 # Vérification des versions installées
-echo "=== Vérification des versions installées ==="
-echo "[DEBUG] Vérification des versions"
-echo "Ruby version: $(ruby --version 2>&1 || echo 'Non disponible')"
-echo "Gem version: $(gem --version 2>&1 || echo 'Non disponible')"
-echo "Bundler version: $(bundle --version 2>&1 || echo 'Non disponible')"
+echo -e "\n=== Vérification des versions installées ==="
+{
+  echo "[DEBUG] Ruby: $(ruby --version 2>&1 || echo 'Non disponible')"
+  echo "[DEBUG] RubyGems: $(gem --version 2>&1 || echo 'Non disponible')"
+  echo "[DEBUG] Bundler: $(bundle --version 2>&1 || echo 'Non disponible')"
+  echo "[DEBUG] Node.js: $(node --version 2>&1 || echo 'Non disponible')"
+  echo "[DEBUG] npm: $(npm --version 2>&1 || echo 'Non disponible')"
+} | tee versions_installed.log
 
 # Configuration de Bundler
 echo "=== Configuration de Bundler ==="
