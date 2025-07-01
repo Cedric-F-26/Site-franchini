@@ -2,16 +2,13 @@
   "version": 2,
   "builds": [
     {
-      "src": "Gemfile.lock",
-      "use": "@vercel/ruby"
-    },
-    {
-      "src": "package.json",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "_site",
-      "use": "@vercel/static"
+      "use": "@vercel/static-build",
+      "src": "Gemfile",
+      "config": {
+        "distDir": "_site",
+        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh install",
+        "buildCommand": "./vercel-build.sh build"
+      }
     }
   ],
   "routes": [
@@ -32,26 +29,22 @@
       "handle": "filesystem"
     }
   ],
-  "env": {
-    "LANG": "C.UTF-8",
-    "LC_ALL": "C.UTF-8",
-    "RUBY_VERSION": "3.3.0",
-    "BUNDLE_WITHOUT": "development:test",
-    "BUNDLE_PATH": "vendor/bundle",
-    "BUNDLE_APP_CONFIG": ".bundle",
-    "BUNDLE_CLEAN": "true",
-    "BUNDLE_DEPLOYMENT": "true",
-    "BUNDLE_JOBS": "4",
-    "BUNDLE_RETRY": "3",
-    "JEKYLL_ENV": "production",
-    "NODE_ENV": "production",
-    "VERCEL_DEBUG": "true"
-  },
   "build": {
     "env": {
-      "NODE_VERSION": "18.x"
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8",
+      "RUBY_VERSION": "3.3.0",
+      "NODE_VERSION": "18.x",
+      "BUNDLE_WITHOUT": "development:test",
+      "BUNDLE_PATH": "vendor/bundle",
+      "BUNDLE_APP_CONFIG": ".bundle",
+      "BUNDLE_CLEAN": "true",
+      "BUNDLE_DEPLOYMENT": "true",
+      "BUNDLE_JOBS": "4",
+      "BUNDLE_RETRY": "3",
+      "JEKYLL_ENV": "production",
+      "NODE_ENV": "production",
+      "VERCEL_DEBUG": "true"
     }
-  },
-  "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh install",
-  "buildCommand": "./vercel-build.sh build"
+  }
 }
