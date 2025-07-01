@@ -4,7 +4,7 @@
   "description": "Site web pour la concession Franchini - Concessionnaire Deutz-Fahr",
   "private": true,
   "scripts": {
-    "install": "npm install && bundle install",
+    "preinstall": "bundle config set --local path 'vendor/bundle' && bundle config set --local without 'development test'",
     "build": "bash build.sh",
     "start": "bundle exec jekyll serve --livereload --trace"
   },
