@@ -4,7 +4,7 @@
   "description": "Site web personnel",
   "private": true,
   "scripts": {
-    "vercel-build": "bundle install && bundle exec jekyll build --trace"
+    "vercel-build": "bundle update em-websocket && bundle install && bundle exec jekyll build --trace"
   },
   "engines": {
     "node": "18.x",

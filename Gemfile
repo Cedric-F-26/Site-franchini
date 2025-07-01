@@ -6,6 +6,7 @@ ruby ">= 3.0.0"
 # Gems principaux
 gem "jekyll", "~> 4.3.3"
 gem "webrick"
+gem "em-websocket", "~> 0.5.3"
 
 group :jekyll_plugins do
   # Thème
