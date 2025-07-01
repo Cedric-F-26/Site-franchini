@@ -1,5 +1,10 @@
 #!/bin/bash
-set -e # Arrêter en cas d'erreur
+set -ex # Arrêter en cas d'erreur et afficher les commandes exécutées
+
+info "Démarrage du script vercel-build.sh"
+pwd
+ls -la
+
 
 # Fonctions utilitaires pour les logs
 info() {
@@ -53,11 +58,17 @@ install_dependencies() {
   bundle lock --add-platform ruby
   bundle lock --add-platform x86_64-linux
   
+  info "Mise à jour de la gem ffi pour assurer la compatibilité"
+  bundle update ffi || error "Échec de la mise à jour de la gem ffi"
+
   info "--- Plateformes Bundler ---"
   bundle platform
   
   # Installer les gems
   bundle install --jobs=4 --retry=3 || error "Échec de l'installation des dépendances Ruby"
+  
+  info "Nettoyage des gems inutilisées..."
+  bundle clean --force || error "Échec du nettoyage des gems"
   
   success "Dépendances installées avec succès."
 }
@@ -65,6 +76,10 @@ install_dependencies() {
 # Fonction pour construire le site
 build_site() {
   info "=== Construction du site Jekyll ==="
+  
+  # Nettoyer le dossier _site existant
+  info "Nettoyage du dossier _site..."
+  rm -rf _site
   
   # Exporter les variables d'environnement nécessaires pour la construction
   export JEKYLL_ENV="production"
