@@ -5,28 +5,15 @@
       "src": "vercel-build.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_site",
-        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh"
+        "distDir": "_site"
       }
     }
   ],
   "env": {
     "RUBY_VERSION": "3.2.0",
     "NODE_VERSION": "18.x",
-    "BUNDLE_PATH": "vendor/bundle",
-    "BUNDLE_APP_CONFIG": ".bundle",
     "BUNDLE_WITHOUT": "development:test",
-    "JEKYLL_ENV": "production",
-    "NODE_ENV": "production",
-    "BUNDLE_RETRY": "3",
-    "BUNDLE_JOBS": "4",
-    "BUNDLE_DEPLOYMENT": "true",
-    "BUNDLE_FORCE_RUBY_PLATFORM": "1"
-  },
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    }
+    "JEKYLL_ENV": "production"
   },
   "routes": [
     {

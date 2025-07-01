@@ -1,74 +1,61 @@
 #!/bin/bash
 
 # Activer le mode verbeux pour le débogage
-set -x
+set -xe
 
 # Afficher les informations de version
 echo "=== Versions installées ==="
 ruby --version
 bundle --version
 node --version
-pm --version
+npm --version
 
 # Configurer l'environnement
 export JEKYLL_ENV=production
 export NODE_ENV=production
 
-# Configurer le chemin du bundle
-export BUNDLE_PATH="$PWD/vendor/bundle"
-
-echo "=== Nettoyage des installations précédentes ==="
+# Nettoyage
+echo "=== Nettoyage ==="
 rm -rf vendor/bundle
+rm -f Gemfile.lock
 
-# Mettre à jour RubyGems
-echo "=== Mise à jour de RubyGems ==="
-gem update --system --no-document
-
-# Installer Bundler
-echo "=== Installation de Bundler ==="
-gem install bundler --no-document
-
-# Configurer Bundler
-echo "=== Configuration de Bundler ==="
-bundle config set --local path "$BUNDLE_PATH"
-bundle config set --local without "development:test"
-bundle config set --local deployment "true"
-
-# Installer les dépendances système nécessaires pour sassc
+# Installation des dépendances système
 echo "=== Installation des dépendances système ==="
 if command -v apt-get >/dev/null; then
-    sudo apt-get update
-    sudo apt-get install -y build-essential patch ruby-dev zlib1g-dev liblzma-dev
+    apt-get update -y
+    apt-get install -y build-essential
 elif command -v yum >/dev/null; then
-    sudo yum groupinstall -y 'Development Tools'
-    sudo yum install -y ruby-devel zlib-devel xz-devel
+    yum groupinstall -y 'Development Tools'
+    yum install -y ruby-devel
 fi
 
-# Installer les gems de base d'abord
-echo "=== Installation des gems de base ==="
-gem install ffi -v '1.15.5' -- --disable-system-libffi
-gem install sassc -v '2.4.0' -- --disable-system-libffi
+# Mise à jour de RubyGems et Bundler
+echo "=== Mise à jour de RubyGems et Bundler ==="
+gem update --system --no-document
+gem install bundler --no-document
 
-# Installer les gems du projet
-echo "=== Installation des gems du projet ==="
-bundle install --jobs=4 --retry=3 --verbose
+# Configuration de Bundler
+echo "=== Configuration de Bundler ==="
+bundle config set --local path 'vendor/bundle'
+bundle config set --local without 'development:test'
 
-# Vérifier que Jekyll est installé
+# Installation des gems
+echo "=== Installation des gems ==="
+bundle install --jobs=4 --retry=3
+
+# Vérification de Jekyll
 echo "=== Vérification de Jekyll ==="
-if ! bundle exec jekyll --version; then
-  echo "Erreur: Jekyll n'est pas correctement installé"
-  exit 1
-fi
+bundle exec jekyll --version || { echo "Erreur: Jekyll n'est pas correctement installé"; exit 1; }
 
-# Construire le site
+# Construction du site
 echo "=== Construction du site ==="
-bundle exec jekyll build --trace --verbose
+bundle exec jekyll build --trace
 
-# Vérifier que le site a été construit
+# Vérification du résultat
 if [ ! -d "_site" ]; then
-  echo "Erreur: Le dossier _site n'a pas été généré"
-  ls -la
-  exit 1
+    echo "Erreur: Le dossier _site n'a pas été généré"
+    ls -la
+    exit 1
 fi
 
 echo "=== Build réussi ! ==="
