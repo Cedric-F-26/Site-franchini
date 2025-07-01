@@ -2,13 +2,16 @@
   "version": 2,
   "builds": [
     {
-      "src": "vercel-build.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "_site",
-        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
-        "buildCommand": "echo 'La construction est gérée par vercel-build.sh'"
-      }
+      "src": "Gemfile.lock",
+      "use": "@vercel/ruby"
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "_site",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -34,8 +37,8 @@
     "LC_ALL": "C.UTF-8",
     "RUBY_VERSION": "3.3.0",
     "BUNDLE_WITHOUT": "development:test",
-    "BUNDLE_PATH": "/tmp/vendor/bundle",
-    "BUNDLE_APP_CONFIG": "/tmp/vendor/bundle",
+    "BUNDLE_PATH": "vendor/bundle",
+    "BUNDLE_APP_CONFIG": ".bundle",
     "BUNDLE_CLEAN": "true",
     "BUNDLE_DEPLOYMENT": "true",
     "BUNDLE_JOBS": "4",
@@ -49,7 +52,6 @@
       "NODE_VERSION": "18.x"
     }
   },
-  "buildCommand": "./vercel-build.sh",
-  "outputDirectory": "_site",
-  "framework": "jekyll"
+  "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh install",
+  "buildCommand": "./vercel-build.sh build"
 }

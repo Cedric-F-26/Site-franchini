@@ -36,7 +36,7 @@ end
 
 # Dépendances spécifiques à certaines plateformes
 platforms :ruby do
-  gem 'ffi', '~> 1.15.5'
+  gem 'ffi', '~> 1.16.3'
 end
 
 # Dépendances uniquement pour le développement local
