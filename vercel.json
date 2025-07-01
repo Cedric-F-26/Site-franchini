@@ -16,8 +16,12 @@
       "BUNDLE_PATH": "vendor/bundle",
       "BUNDLE_APP_CONFIG": ".bundle",
       "BUNDLE_WITHOUT": "development:test",
-      "JEKYLL_ENV": "production"
-    }
+      "JEKYLL_ENV": "production",
+      "NODE_ENV": "production",
+      "BUNDLE_RETRY": "3",
+      "BUNDLE_JOBS": "4"
+    },
+    "commands": ["chmod +x vercel-build.sh && ./vercel-build.sh"]
   },
   "routes": [
     {
