@@ -1,7 +1,10 @@
 source "https://rubygems.org"
 
-# Spécification de la version de Ruby
-ruby ">= 2.7.0", "< 3.3.0"
+# Hello! This is where you manage which Jekyll version is used to run.
+# When you want to use a different version, change it below, save the
+# file and run `bundle install`.
+#
+ruby "~> 2.7.8"
 
 # Gems principaux
 gem "jekyll", "~> 4.3.3"
