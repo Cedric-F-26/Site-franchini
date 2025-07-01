@@ -17,7 +17,7 @@
       "NODE_VERSION": "18.x",
       "BUNDLE_PATH": "vendor/bundle",
       "BUNDLE_APP_CONFIG": ".bundle",
-      "BUNDLE_DEPLOYMENT": "true",
+      "BUNDLE_DEPLOYMENT": "false",
       "BUNDLE_WITHOUT": "development:test",
       "BUNDLE_JOBS": "4",
       "BUNDLE_RETRY": "3",
@@ -28,20 +28,8 @@
   },
   "routes": [
     {
-      "src": "/assets/(.*)",
-      "headers": { 
-        "cache-control": "public, max-age=31536000, immutable" 
-      }
-    },
-    {
       "src": "/(.*)",
-      "headers": { 
-        "cache-control": "public, max-age=0, must-revalidate"
-      }
-    },
-    { 
-      "src": "/(.*)", 
-      "dest": "/$1" 
+      "dest": "/$1"
     }
   ]
 }

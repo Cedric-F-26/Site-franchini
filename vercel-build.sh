@@ -1,11 +1,5 @@
 #!/bin/bash
-set -ex # Arrêter en cas d'erreur et afficher les commandes exécutées
-
-info "Démarrage du script vercel-build.sh"
-info "Argument reçu: $1"
-pwd
-ls -la
-
+set -e  # Arrêter en cas d'erreur
 
 # Fonctions utilitaires pour les logs
 info() {
@@ -17,59 +11,51 @@ success() {
 }
 
 error() {
-  echo -e "\033[1;31m[ERREUR] $1\033[0m"
+  echo -e "\033[1;31m[ERREUR] $1\033[0m" >&2
   exit 1
 }
+
+# Configuration de l'environnement
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
+export JEKYLL_ENV="production"
+export NODE_ENV="production"
+export BUNDLE_WITHOUT="development:test"
+export BUNDLE_PATH="vendor/bundle"
+export BUNDLE_APP_CONFIG=".bundle"
 
 # Fonction pour installer les dépendances
 install_dependencies() {
   info "=== Installation des dépendances ==="
   
-  # Configurer l'environnement
-  export LC_ALL=C.UTF-8
-  export LANG=C.UTF-8
-  export JEKYLL_ENV="production"
-  export NODE_ENV="production"
-  export BUNDLE_WITHOUT="development:test"
-  export BUNDLE_PATH="vendor/bundle"
-  export BUNDLE_GEMFILE="Gemfile"
-  
-  # Configurer Ruby pour éviter les avertissements
-  echo "gem: --no-document" > ~/.gemrc
-  
-  # Nettoyer les anciens caches
-  rm -rf vendor/bundle
-  
-  # Afficher les informations système pour le débogage
+  # Afficher les informations système
   info "--- Informations système ---"
   uname -a
   ruby -v
   gem -v
   bundle -v
   
-  # Mettre à jour RubyGems et Bundler
-  gem update --system --no-document || error "Échec de la mise à jour de RubyGems"
+  # Configurer RubyGems pour éviter les avertissements
+  echo "gem: --no-document" > ~/.gemrc
+  
+  # Mettre à jour RubyGems et installer Bundler
+  gem update --system --no-document || info "Mise à jour de RubyGems non critique"
   gem install bundler -v 2.4.22 --no-document || error "Échec de l'installation de Bundler"
   
   # Configurer Bundler
   bundle config set --local path 'vendor/bundle'
   bundle config set --local without 'development:test'
-  
-  # Assurer que le Gemfile.lock est compatible avec l'environnement Vercel
-  bundle lock --add-platform ruby
-  bundle lock --add-platform x86_64-linux
-  
-  info "Mise à jour de la gem ffi pour assurer la compatibilité"
-  bundle update ffi || error "Échec de la mise à jour de la gem ffi"
-
-  info "--- Plateformes Bundler ---"
-  bundle platform
+  bundle config set --local deployment 'false'
+  bundle config set --local frozen 'false'
   
   # Installer les gems
-  bundle install --jobs=4 --retry=3 || error "Échec de l'installation des dépendances Ruby"
+  info "Installation des gems..."
+  bundle _2.4.22_ install --jobs=4 --retry=3 || error "Échec de l'installation des gems"
   
-  info "Nettoyage des gems inutilisées..."
-  bundle clean --force || error "Échec du nettoyage des gems"
+  # Vérifier l'installation
+  if ! bundle check; then
+    error "Erreur de vérification des gems. Vérifiez le Gemfile et Gemfile.lock"
+  fi
   
   success "Dépendances installées avec succès."
 }
@@ -78,39 +64,55 @@ install_dependencies() {
 build_site() {
   info "=== Construction du site Jekyll ==="
   
-  # Nettoyer le dossier _site existant
-  info "Nettoyage du dossier _site..."
-  rm -rf _site
-  
-  # Exporter les variables d'environnement nécessaires pour la construction
-  export JEKYLL_ENV="production"
-  export LC_ALL=C.UTF-8
-  export LANG=C.UTF-8
+  # Nettoyer le dossier de sortie
+  [ -d "_site" ] && rm -rf _site
   
   # Construire le site
-  bundle exec jekyll build --config _config.yml,_config_vercel.yml --trace --verbose || error "Échec de la construction du site"
+  info "Construction en cours..."
+  bundle exec jekyll build --trace --verbose || error "Échec de la construction du site"
   
   # Vérifier que le site a été construit
-  if [ -d "_site" ]; then
-    success "Le site a été construit avec succès dans le dossier _site."
-    ls -la _site/
-  else
-    error "Le dossier _site n'a pas été créé."
+  if [ ! -d "_site" ]; then
+    error "Le dossier _site n'a pas été généré"
+  fi
+  
+  # Afficher des informations sur les fichiers générés
+  SITE_SIZE=$(du -sh _site 2>/dev/null | cut -f1) || SITE_SIZE="inconnue"
+  FILE_COUNT=$(find _site -type f 2>/dev/null | wc -l || echo 0)
+  
+  if [ $FILE_COUNT -eq 0 ]; then
+    error "Aucun fichier généré dans le répertoire _site/"
+  fi
+  
+  success "Construction réussie !"
+  info "Taille du site: $SITE_SIZE"
+  info "Nombre de fichiers: $FILE_COUNT"
+  
+  # Pour le débogage
+  if [ "$VERCEL_DEBUG" = "true" ]; then
+    info "Fichiers générés dans _site/ :"
+    find _site -type f | sort | head -n 20
   fi
 }
 
-# Logique principale du script
-# Vérifie l'argument passé au script
+# Point d'entrée principal
+main() {
+  local cmd="$1"
+  
+  case "$cmd" in
+    install)
+      install_dependencies
+      ;;
+    build)
+      build_site
+      ;;
+    *)
+      # Si aucun argument n'est fourni, exécuter les deux étapes
+      install_dependencies
+      build_site
+      ;;
+  esac
+}
 
-case "$1" in
-  install)
-    install_dependencies
-    ;;
-  build)
-    build_site
-    ;;
-  *)
-    error "Argument non valide. Utilisez 'install' ou 'build'."
-    exit 1
-    ;;
-esac
+# Exécuter le script
+main "$@"

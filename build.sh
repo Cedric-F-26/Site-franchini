@@ -26,15 +26,32 @@ if ! command -v bundle &> /dev/null; then
     gem install bundler || error "Échec de l'installation de Bundler"
 fi
 
-info "=== Installation des dépendances ==="
+info "=== Préparation de l'environnement ==="
+
+# Désactiver le mode gelé de Bundler
+bundle config unset frozen || true
 
 # Configuration de Bundler
 bundle config set --local path 'vendor/bundle' || error "Échec de la configuration du chemin des gems"
 bundle config set --local without 'development test' || error "Échec de la configuration des groupes de gems"
 
+# Mise à jour de Bundler si nécessaire
+BUNDLER_VERSION=$(bundle -v | awk '{print $3}')
+if [[ "$BUNDLER_VERSION" < "2.4.0" ]]; then
+    info "Mise à jour de Bundler vers la version 2.4.0..."
+    gem install bundler:2.4.0 || error "Échec de la mise à jour de Bundler"
+fi
+
+info "=== Installation des dépendances ==="
+
 # Installation des gems
 info "Installation des gems..."
-bundle install --jobs=4 --retry=3 || error "Échec de l'installation des gems"
+bundle _2.4.22_ install --jobs=4 --retry=3 || error "Échec de l'installation des gems"
+
+# Vérification de l'installation des gems
+if ! bundle check; then
+    error "Erreur de vérification des gems. Vérifiez le Gemfile et Gemfile.lock"
+fi
 
 info "=== Construction du site ==="
 
@@ -52,7 +69,11 @@ fi
 
 # Affichage des informations de construction
 SITE_SIZE=$(du -sh _site 2>/dev/null | cut -f1) || SITE_SIZE="inconnue"
-FILE_COUNT=$(find _site -type f | wc -l)
+FILE_COUNT=$(find _site -type f 2>/dev/null | wc -l || echo 0)
+
+if [ $FILE_COUNT -eq 0 ]; then
+    error "Aucun fichier généré dans le répertoire _site/"
+fi
 
 success "Construction réussie !"
 info "Taille du site: $SITE_SIZE"

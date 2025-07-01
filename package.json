@@ -1,19 +1,22 @@
 {
   "name": "site-franchini",
   "version": "1.0.0",
-  "description": "Site web pour la concession Franchini - Concessionnaire Deutz-Fahr",
+  "description": "Site web personnel",
   "private": true,
+  "main": "index.js",
   "scripts": {
-    "vercel-build": "bash build.sh"
+    "vercel-build": "chmod +x vercel-build.sh && ./vercel-build.sh"
   },
   "engines": {
     "node": "18.x",
-    "ruby": ">= 2.6.0"
+    "ruby": ">=2.6.0"
   },
   "dependencies": {
-    "@vercel/static-build": "^1.3.0"
+    "@vercel/static-build": "^1.3.35"
   },
   "devDependencies": {},
+  "author": "",
+  "license": "ISC",
   "browserslist": [
     "defaults"
   ]
