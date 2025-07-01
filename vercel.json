@@ -11,19 +11,12 @@
   ],
   "build": {
     "env": {
-      "LANG": "C.UTF-8",
-      "LC_ALL": "C.UTF-8",
       "RUBY_VERSION": "3.2.0",
       "NODE_VERSION": "18.x",
       "BUNDLE_PATH": "vendor/bundle",
       "BUNDLE_APP_CONFIG": ".bundle",
-      "BUNDLE_DEPLOYMENT": "false",
       "BUNDLE_WITHOUT": "development:test",
-      "BUNDLE_JOBS": "4",
-      "BUNDLE_RETRY": "3",
-      "JEKYLL_ENV": "production",
-      "NODE_ENV": "production",
-      "VERCEL_DEBUG": "true"
+      "JEKYLL_ENV": "production"
     }
   },
   "routes": [

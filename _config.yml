@@ -13,7 +13,18 @@ version: "~> 4.3.3" # Doit correspondre à la version dans Gemfile
 # ==============================================================================
 # CONFIGURATION DU THÈME
 # ==============================================================================
-theme: jekyll-theme-minimal
+theme: minima
+
+# Configuration du thème Minima
+minima:
+  skin: auto
+  skin_mode:
+    # Vous pouvez définir des couleurs personnalisées ici
+    # Voir https://github.com/jekyll/minima#customization
+  social_links:
+    email: contact@franchini.fr
+    phone: 04 75 47 40 37
+    address: "111 av des monts du matin, 26300 Marches"
 
 # ==============================================================================
 # CONFIGURATION DE LA CONSTRUCTION (BUILD)

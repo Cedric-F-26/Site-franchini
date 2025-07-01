@@ -1,22 +1,20 @@
 source "https://rubygems.org"
 
 # Spécification de la version de Ruby
-ruby ">= 2.6.0"
+ruby ">= 3.0.0"
 
 # Gems principaux
 gem "jekyll", "~> 4.3.3"
-gem "webrick", "~> 1.8"
+gem "webrick"
 
 group :jekyll_plugins do
   # Thème
-  gem "jekyll-theme-minimal", "~> 0.2.0"
+  gem "minima", "~> 2.5"
   
-  # Plugins de contenu
-  gem 'jekyll-feed', '~> 0.17.0'
-  gem 'jekyll-seo-tag', '~> 2.8.0'
-  gem 'jekyll-sitemap', '~> 1.4.0'
-  gem 'jekyll-paginate-v2', '~> 3.0.0'
-  gem 'jekyll-redirect-from', '~> 0.16.0'
+  # Plugins recommandés
+  gem "jekyll-feed"
+  gem "jekyll-seo-tag"
+  gem "jekyll-sitemap"
   
   # Markdown
   gem 'kramdown-parser-gfm', '~> 1.1'
