@@ -49,9 +49,35 @@ else
     echo "Avertissement: gestionnaire de paquets non reconnu, poursuite sans installation de dépendances système"
 fi
 
+# Fonction utilitaire pour le logging
+log() {
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1"
+}
+
+# Vérification de l'environnement
+log "=== Vérification de l'environnement ==="
+log "Système: $(uname -a)"
+log "Répertoire courant: $(pwd)"
+log "Utilisateur: $(whoami)"
+log "Variables d'environnement:"
+env | sort
+
+# Vérification des dépendances système
+log "=== Vérification des dépendances système ==="
+log "Recherche des gestionnaires de paquets..."
+for cmd in gem bundle ruby node npm; do
+  if command -v $cmd >/dev/null; then
+    log "✓ $cmd trouvé: $(which $cmd)"
+  else
+    log "⚠ $cmd non trouvé"
+  fi
+done
+
 # Mise à jour de RubyGems
-echo "=== Mise à jour de RubyGems ==="
-echo "[DEBUG] Version actuelle de RubyGems: $(gem --version 2>&1 || echo 'Non disponible')"
+log "=== Mise à jour de RubyGems ==="
+RUBYGEMS_VERSION_BEFORE=$(gem --version 2>&1 || echo 'Non disponible')
+log "Version actuelle de RubyGems: $RUBYGEMS_VERSION_BEFORE"
+log "Chemin de gem: $(which gem 2>/dev/null || echo 'Non trouvé')"
 
 echo "[DEBUG] Début de la mise à jour de RubyGems..."
 if ! gem update --system --no-document --force 2>&1; then
@@ -67,8 +93,20 @@ echo "[DEBUG] Fin de la mise à jour de RubyGems"
 echo "[DEBUG] Version de RubyGems après mise à jour: $(gem --version 2>&1 || echo 'Non disponible')"
 
 # Installation de Bundler
-echo -e "\n=== Installation de Bundler ==="
-echo "[DEBUG] Version actuelle de Bundler: $(bundle --version 2>&1 || echo 'Non installé')"
+log "\n=== Installation de Bundler ==="
+BUNDLER_VERSION_BEFORE=$(bundle --version 2>&1 || echo 'Non installé')
+log "Version actuelle de Bundler: $BUNDLER_VERSION_BEFORE"
+log "Chemin de bundle: $(which bundle 2>/dev/null || echo 'Non trouvé')"
+
+# Vérification de l'accès au réseau
+log "\n=== Vérification de la connectivité réseau ==="
+for url in "https://rubygems.org" "https://github.com"; do
+  if curl -s --head --request GET "$url" >/dev/null; then
+    log "✓ Connexion réussie à $url"
+  else
+    log "⚠ Impossible de se connecter à $url"
+  fi
+done
 
 echo "[DEBUG] Installation de Bundler..."
 if ! gem install bundler --no-document --force 2>&1; then
@@ -81,14 +119,28 @@ fi
 echo "[DEBUG] Fin de l'installation de Bundler"
 
 # Vérification des versions installées
-echo -e "\n=== Vérification des versions installées ==="
+log "\n=== Vérification des versions installées ==="
 {
-  echo "[DEBUG] Ruby: $(ruby --version 2>&1 || echo 'Non disponible')"
-  echo "[DEBUG] RubyGems: $(gem --version 2>&1 || echo 'Non disponible')"
-  echo "[DEBUG] Bundler: $(bundle --version 2>&1 || echo 'Non disponible')"
-  echo "[DEBUG] Node.js: $(node --version 2>&1 || echo 'Non disponible')"
-  echo "[DEBUG] npm: $(npm --version 2>&1 || echo 'Non disponible')"
-} | tee versions_installed.log
+  echo "=== Environnement ==="
+  echo "Système: $(uname -a)"
+  echo "Répertoire: $(pwd)"
+  echo "Utilisateur: $(whoami)"
+  echo "Date: $(date)"
+  echo "\n=== Versions des outils ==="
+  echo "Ruby: $(ruby --version 2>&1 || echo 'Non disponible')"
+  echo "RubyGems: $(gem --version 2>&1 || echo 'Non disponible')"
+  echo "Bundler: $(bundle --version 2>&1 || echo 'Non disponible')"
+  echo "Node.js: $(node --version 2>&1 || echo 'Non disponible')"
+  echo "npm: $(npm --version 2>&1 || echo 'Non disponible')"
+  echo "\n=== Chemins d'exécution ==="
+  for cmd in ruby gem bundle node npm; do
+    echo "$cmd: $(which $cmd 2>/dev/null || echo 'Non trouvé')"
+  done
+  echo "\n=== Variables d'environnement ==="
+  env | sort
+  echo "\n=== Contenu du répertoire ==="
+  ls -la
+} | tee debug_environment.log
 
 # Configuration de Bundler
 echo "=== Configuration de Bundler ==="
