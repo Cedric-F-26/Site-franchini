@@ -6,6 +6,11 @@ set -xe
 # Fonction pour quitter en cas d'erreur
 function fail {
   echo "ERREUR: $1" >&2
+  # Afficher les logs d'erreur si disponibles
+  if [ -f "build.log" ]; then
+    echo "=== Dernières lignes du journal de build ==="
+    tail -n 50 build.log
+  fi
   exit 1
 }
 
@@ -41,13 +46,10 @@ if command -v apt-get >/dev/null; then
     apt-get update -y || echo "Avertissement: échec de la mise à jour des paquets"
     apt-get install -y build-essential libffi-dev zlib1g-dev || \
       echo "Avertissement: échec de l'installation des dépendances système"
-elif command -v yum >/dev/null; then
-    echo "Utilisation de yum"
-    yum install -y gcc make ruby-devel zlib-devel libffi-devel || \
-      echo "Avertissement: échec de l'installation des dépendances système"
 else
-    echo "Avertissement: gestionnaire de paquets non reconnu, poursuite sans installation de dépendances système"
+    echo "Avertissement: gestionnaire de paquets non reconnu ou non fonctionnel (yum), poursuite sans installation de dépendances système"
 fi
+
 
 # Fonction utilitaire pour le logging
 log() {
@@ -73,24 +75,24 @@ for cmd in gem bundle ruby node npm; do
   fi
 done
 
-# Mise à jour de RubyGems
-log "=== Mise à jour de RubyGems ==="
-RUBYGEMS_VERSION_BEFORE=$(gem --version 2>&1 || echo 'Non disponible')
-log "Version actuelle de RubyGems: $RUBYGEMS_VERSION_BEFORE"
-log "Chemin de gem: $(which gem 2>/dev/null || echo 'Non trouvé')"
+# Mise à jour de RubyGems (désactivée pour éviter les problèmes de build)
+log "=== Mise à jour de RubyGems (désactivée) ==="
+# RUBYGEMS_VERSION_BEFORE=$(gem --version 2>&1 || echo 'Non disponible')
+# log "Version actuelle de RubyGems: $RUBYGEMS_VERSION_BEFORE"
+# log "Chemin de gem: $(which gem 2>/dev/null || echo 'Non trouvé')"
 
-echo "[DEBUG] Début de la mise à jour de RubyGems..."
-if ! gem update --system --no-document --force 2>&1; then
-  echo "[WARN] Échec de la mise à jour de RubyGems, tentative de continuation..."
-  # Essayer de continuer même en cas d'échec
-  if ! gem --version >/dev/null 2>&1; then
-    echo "[ERROR] RubyGems n'est pas accessible après la tentative de mise à jour"
-    exit 1
-  fi
-fi
-echo "[DEBUG] Fin de la mise à jour de RubyGems"
+# echo "[DEBUG] Début de la mise à jour de RubyGems..."
+# if ! gem update --system --no-document --force 2>&1; then
+#   echo "[WARN] Échec de la mise à jour de RubyGems, tentative de continuation..."
+#   # Essayer de continuer même en cas d'échec
+#   if ! gem --version >/dev/null 2>&1; then
+#     echo "[ERROR] RubyGems n'est pas accessible après la tentative de mise à jour"
+#     exit 1
+#   fi
+# fi
+# echo "[DEBUG] Fin de la mise à jour de RubyGems"
 
-echo "[DEBUG] Version de RubyGems après mise à jour: $(gem --version 2>&1 || echo 'Non disponible')"
+# echo "[DEBUG] Version de RubyGems après mise à jour: $(gem --version 2>&1 || echo 'Non disponible')"
 
 # Installation de Bundler
 log "\n=== Installation de Bundler ==="
@@ -166,10 +168,41 @@ echo -e "\n=== Installation des gems ==="
 echo "Contenu du Gemfile :"
 cat Gemfile || echo "Impossible de lire le Gemfile"
 
+# Nettoyage du cache de Bundler
+echo -e "\nNettoyage du cache de Bundler..."
+bundle config unset frozen 2>/dev/null || true
+rm -f Gemfile.lock
+rm -rf vendor/bundle
+
+# Afficher les informations sur Ruby et Bundler
+echo -e "\n=== Informations sur l'environnement ==="
+ruby -v || echo "Ruby non disponible"
+gem -v || echo "RubyGems non disponible"
+node -v || echo "Node.js non disponible"
+npm -v || echo "npm non disponible"
+
+# Configuration de Bundler
+echo -e "\n=== Configuration de Bundler ==="
+bundle config set path 'vendor/bundle' || echo "Avertissement: échec de la configuration du chemin"
+bundle config set without 'development:test' || echo "Avertissement: échec de la configuration des groupes"
+
+# Installation des dépendances avec plus de verbosité
 echo -e "\nInstallation des dépendances..."
-if ! bundle install --jobs=4 --retry=3; then
+if ! bundle config set force_ruby_platform true; then
+  echo "Avertissement: impossible de forcer la plateforme Ruby"
+fi
+
+# Installation avec des options plus permissives
+if ! bundle install --jobs=4 --retry=3 --full-index 2>&1 | tee build.log; then
   echo "Échec de l'installation des gems. Tentative avec --verbose..."
-  bundle install --verbose || fail "Échec de l'installation des gems après nouvelle tentative"
+  if ! bundle install --verbose 2>&1 | tee -a build.log; then
+    echo "Échec avec --verbose. Tentative avec --no-cache..."
+    if ! bundle install --no-cache 2>&1 | tee -a build.log; then
+      echo "Échec avec --no-cache. Affichage des logs..."
+      cat build.log
+      fail "Échec de l'installation des gems après plusieurs tentatives"
+    fi
+  fi
 fi
 
 echo -e "\nListe des gems installés :"
