@@ -13,33 +13,35 @@
     "env": {
       "LANG": "C.UTF-8",
       "LC_ALL": "C.UTF-8",
-      "RUBY_VERSION": "3.3.0",
+      "RUBY_VERSION": "3.2.0",
       "NODE_VERSION": "18.x",
       "BUNDLE_PATH": "vendor/bundle",
       "BUNDLE_APP_CONFIG": ".bundle",
       "BUNDLE_DEPLOYMENT": "true",
       "BUNDLE_WITHOUT": "development:test",
       "BUNDLE_JOBS": "4",
+      "BUNDLE_RETRY": "3",
       "JEKYLL_ENV": "production",
-      "NODE_ENV": "production"
+      "NODE_ENV": "production",
+      "VERCEL_DEBUG": "true"
     }
   },
   "routes": [
     {
       "src": "/assets/(.*)",
-      "headers": { "cache-control": "public, max-age=31536000, immutable" },
-      "continue": true
+      "headers": { 
+        "cache-control": "public, max-age=31536000, immutable" 
+      }
     },
     {
       "src": "/(.*)",
       "headers": { 
         "cache-control": "public, max-age=0, must-revalidate"
-      },
-      "dest": "/$1"
+      }
     },
-    {
-      "src": "/(.*)",
-      "dest": "/index.html"
+    { 
+      "src": "/(.*)", 
+      "dest": "/$1" 
     }
   ]
 }

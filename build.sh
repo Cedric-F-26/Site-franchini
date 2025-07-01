@@ -1,69 +1,67 @@
 #!/bin/bash
 set -e
 
-# Fonction pour afficher les messages d'information
-info() {
-  echo "[INFO] $1"
-}
+# Fonctions d'affichage
+info() { echo -e "\033[1;34m[INFO]\033[0m $1"; }
+success() { echo -e "\033[1;32m[SUCCÈS]\033[0m $1"; }
+error() { echo -e "\033[1;31m[ERREUR]\033[0m $1" >&2; exit 1; }
 
-# Fonction pour afficher les messages d'erreur et quitter
-error() {
-  echo "[ERREUR] $1" >&2
-  exit 1
-}
+# Configuration de l'environnement
+export LANG=C.UTF-8
+export LC_ALL=C.UTF-8
 
 info "=== Vérification des prérequis ==="
 
-# Vérifier que Ruby est installé
-if ! command -v ruby &> /dev/null; then
-  error "Ruby n'est pas installé. Version requise: 3.3.0"
-fi
-
-# Vérifier que Bundler est installé
-if ! command -v bundle &> /dev/null; then
-  error "Bundler n'est pas installé. Veuillez exécuter 'gem install bundler'"
-fi
-
-info "=== Installation des dépendances Ruby ==="
-
-# Installation des dépendances Ruby
-if [ -f "Gemfile" ]; then
-  info "Installation des dépendances Ruby..."
-  bundle config set --local path 'vendor/bundle' || error "Échec de la configuration du chemin des gems"
-  bundle config set --local without 'development test' || error "Échec de la configuration des groupes de gems"
-  bundle install --jobs=4 --retry=3 || error "Échec de l'installation des gems"
+# Vérification de Ruby
+RUBY_VERSION=$(ruby -v 2>/dev/null | awk '{print $2}' | cut -d'p' -f1)
+if [ -z "$RUBY_VERSION" ]; then
+    error "Ruby n'est pas installé"
 else
-  error "Fichier Gemfile introuvable"
+    info "Ruby version: $RUBY_VERSION"
 fi
 
-info "=== Construction du site Jekyll ==="
-
-# Vérifier que le fichier de configuration Jekyll existe
-if [ ! -f "_config.yml" ]; then
-  error "Fichier _config.yml introuvable"
+# Vérification de Bundler
+if ! command -v bundle &> /dev/null; then
+    info "Installation de Bundler..."
+    gem install bundler || error "Échec de l'installation de Bundler"
 fi
 
-# Nettoyer le répertoire de sortie
-if [ -d "_site" ]; then
-  info "Nettoyage du répertoire _site..."
-  rm -rf _site
-fi
+info "=== Installation des dépendances ==="
 
-# Construire le site Jekyll
+# Configuration de Bundler
+bundle config set --local path 'vendor/bundle' || error "Échec de la configuration du chemin des gems"
+bundle config set --local without 'development test' || error "Échec de la configuration des groupes de gems"
+
+# Installation des gems
+info "Installation des gems..."
+bundle install --jobs=4 --retry=3 || error "Échec de l'installation des gems"
+
+info "=== Construction du site ==="
+
+# Nettoyage du répertoire de sortie
+[ -d "_site" ] && rm -rf _site
+
+# Construction du site
 info "Construction du site avec Jekyll..."
-bundle exec jekyll build --trace || error "Échec de la construction du site"
+bundle exec jekyll build --trace --verbose || error "Échec de la construction du site"
 
-# Vérifier que le site a été construit
+# Vérification de la construction
 if [ ! -d "_site" ]; then
-  error "Le répertoire _site n'a pas été généré"
+    error "Le répertoire _site n'a pas été généré"
 fi
 
-info "=== Construction terminée avec succès ==="
-info "Le site a été construit dans le répertoire _site/"
+# Affichage des informations de construction
+SITE_SIZE=$(du -sh _site 2>/dev/null | cut -f1) || SITE_SIZE="inconnue"
+FILE_COUNT=$(find _site -type f | wc -l)
 
-# Afficher la taille du répertoire de sortie
-if command -v du &> /dev/null; then
-  info "Taille du répertoire _site: $(du -sh _site | cut -f1)"
+success "Construction réussie !"
+info "Taille du site: $SITE_SIZE"
+info "Nombre de fichiers: $FILE_COUNT"
+
+# Liste les fichiers générés (pour le débogage)
+if [ "$VERCEL_DEBUG" = "true" ]; then
+    info "Fichiers générés dans _site/ :"
+    find _site -type f | sort
 fi
 
 exit 0

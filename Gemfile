@@ -1,23 +1,26 @@
-source "https://rubygems.org" do
-  # This will help ensure the proper Jekyll version is running.
-  # Happy Jekylling!
-  gem "jekyll", "~> 4.3.3"
+source "https://rubygems.org"
+
+# Spécification de la version de Ruby
+ruby ">= 2.6.0"
+
+# Gems principaux
+gem "jekyll", "~> 4.3.3"
+gem "webrick", "~> 1.8"
+
+group :jekyll_plugins do
+  # Thème
   gem "jekyll-theme-minimal", "~> 0.2.0"
-  gem "webrick", "~> 1.8"
-  gem "kramdown-parser-gfm", "~> 1.1"
+  
+  # Plugins de contenu
+  gem 'jekyll-feed', '~> 0.17.0'
+  gem 'jekyll-seo-tag', '~> 2.8.0'
+  gem 'jekyll-sitemap', '~> 1.4.0'
+  gem 'jekyll-paginate-v2', '~> 3.0.0'
+  gem 'jekyll-redirect-from', '~> 0.16.0'
+  
+  # Markdown
+  gem 'kramdown-parser-gfm', '~> 1.1'
 end
-
-# Explicitly specify the platforms
-ruby "~> 3.3.0"
-
-# Add additional gems here if needed
-
-# --- Plugins de contenu ---
-gem 'jekyll-feed', '~> 0.17.0'
-gem 'jekyll-seo-tag', '~> 2.8.0'
-gem 'jekyll-sitemap', '~> 1.4.0'
-gem 'jekyll-paginate-v2', '~> 3.0.0'
-gem 'jekyll-redirect-from', '~> 0.16.0'
 
 # --- Gestion des assets ---
 # gem 'jekyll-assets'  # Temporairement désactivé car pas encore compatible avec Ruby 3.3.0
