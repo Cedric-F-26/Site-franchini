@@ -1,176 +1,27 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Connexion Privée - Franchini</title>
-    <link rel="stylesheet" href="../assets/css/style.css"> <!-- Assurez-vous que ce chemin est correct -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .login-container {
-            background-color: #fff;
-            padding: 40px 30px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        .login-header img {
-            max-width: 200px;
-            margin-bottom: 20px;
-        }
-        .login-header h2 {
-            margin-bottom: 25px;
-            color: #333;
-        }
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            color: #555;
-        }
-        .input-wrapper {
-            position: relative;
-        }
-        .input-wrapper i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #aaa;
-        }
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px 12px 40px; /* Espace pour l'icône */
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-            transition: border-color 0.3s;
-        }
-        .form-group input:focus {
-            outline: none;
-            border-color: #4CAF50;
-        }
-        .btn-login {
-            width: 100%;
-            padding: 12px;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn-login:hover {
-            background-color: #45a049;
-        }
-        .error-message {
-            color: #d93025;
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            padding: 10px;
-            margin-top: 20px;
-            display: none; /* Caché par défaut */
-        }
-    </style>
-</head>
-<body>
-    <div class="login-container">
-        <div class="login-header">
-            <!-- Assurez-vous que le chemin vers le logo est correct -->
-            <img src="../assets/images/logo-franchini-noir.png" alt="Logo Franchini">
-            <h2>Espace Privé</h2>
-        </div>
+---
+layout: default
+title: Connexion Privée
+styles:
+  - /assets/css/login.css
+scripts:
+  - /assets/js/auth/supabase-config.js
+  - /assets/js/auth/login.js
+---
 
-        <form id="login-form">
-            <div class="form-group">
-                <label for="email">Identifiant</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-user"></i>
-                    <input type="email" id="email" name="email" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <div class="input-wrapper">
-                    <i class="fas fa-lock"></i>
-                    <input type="password" id="password" name="password" required>
-                </div>
-            </div>
-
-            <button type="submit" class="btn-login">Se connecter</button>
-
-            <div id="error-message" class="error-message"></div>
-        </form>
+<div class="login-container">
+    <div class="login-header">
+        <img src="{{ site.baseurl }}/assets/images/logo-franchini-noir.png" alt="Logo Franchini">
+        <h2>Espace Privé</h2>
     </div>
 
-    <!-- Le SDK Supabase est inclus via le fichier de config, qui initialise aussi le client -->
-    <script src="../assets/js/auth/supabase-config.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Le script attend que la page soit chargée pour s'assurer que window.supabase est disponible.
-            const checkSupabase = setInterval(() => {
-                if (window.supabase) {
-                    clearInterval(checkSupabase);
-                    initializeForm();
-                }
-            }, 100);
+    <div id="error-message" class="error-message"></div>
 
-            function initializeForm() {
-                const loginForm = document.getElementById('login-form');
-                const errorMessageContainer = document.getElementById('error-message');
-
-                loginForm.addEventListener('submit', async (event) => {
-                    event.preventDefault();
-                    errorMessageContainer.style.display = 'none';
-                    errorMessageContainer.textContent = '';
-
-                    const email = loginForm.email.value;
-                    const password = loginForm.password.value;
-
-                    // Utilise l'instance globale de Supabase initialisée par supabase-config.js
-                    const { data, error } = await window.supabase.auth.signInWithPassword({
-                        email: email,
-                        password: password,
-                    });
-
-                    if (error) {
-                        console.error('Erreur de connexion:', error.message);
-                        errorMessageContainer.textContent = 'Identifiant ou mot de passe incorrect.';
-                        errorMessageContainer.style.display = 'block';
-                    } else {
-                        // Redirection vers la page administrateur en cas de succès
-                        window.location.href = 'administrateur.html';
-                    }
-                });
-            }
-        });
-    </script>
-</body>
-</html>
-        }
-
-        .login-header h1 {
-            color: #333;
-            font-size: 1.5rem;
+    <form id="login-form">
+        <div class="form-group">
+            <label for="email">Identifiant</label>
+            <div class="input-wrapper">
+                <i class="fas fa-user"></i>
+                <input type="email" id="email" name="email" required>
             margin: 0;
             font-weight: 500;
         }

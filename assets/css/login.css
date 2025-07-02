@@ -1,0 +1,104 @@
+body.login-page {
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin-top: 0; /* Override any margin from main styles */
+}
+
+/* The main container needs to be flexible to center the login box */
+.login-page + main {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.login-container {
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    margin: 20px;
+}
+.login-header img {
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+.login-header h2 {
+    margin-bottom: 25px;
+    color: #333;
+}
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #555;
+}
+.input-wrapper {
+    position: relative;
+}
+.input-wrapper i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #aaa;
+}
+.form-control {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+    box-sizing: border-box;
+}
+.form-control:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.btn-submit:hover {
+    background-color: #45a049;
+}
+.error-message {
+    color: #D8000C;
+    background-color: #FFD2D2;
+    border: 1px solid #D8000C;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    display: none; /* Caché par défaut */
+}
+.extra-links {
+    margin-top: 20px;
+    font-size: 14px;
+}
+.extra-links a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+.extra-links a:hover {
+    text-decoration: underline;
+}
