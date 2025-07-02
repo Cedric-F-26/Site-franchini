@@ -98,6 +98,11 @@ permalink: pretty
 # Plugins Jekyll
 plugins:
   - jekyll-feed
+
+# Configuration de jekyll-minifier
+# Désactive la compression JS pour éviter les erreurs d'encodage UTF-8.
+jekyll-minifier:
+  uglify_js: false
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-minifier
