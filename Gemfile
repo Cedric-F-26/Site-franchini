@@ -15,6 +15,7 @@ gem "webrick"
 group :jekyll_plugins do
   # Thème
   gem "minima", "~> 2.5"
+  gem "jekyll-compose"
   
   # Plugins recommandés
   gem "jekyll-feed", "~> 0.17.0"
