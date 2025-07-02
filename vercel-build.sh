@@ -187,12 +187,14 @@ bundle config set path 'vendor/bundle' || echo "Avertissement: échec de la conf
 bundle config set without 'development:test' || echo "Avertissement: échec de la configuration des groupes"
 
 # Installation des dépendances avec plus de verbosité
-echo -e "\nInstallation des dépendances..."
 if ! bundle config set force_ruby_platform true; then
   echo "Avertissement: impossible de forcer la plateforme Ruby"
 fi
 
-# Installation avec des options plus permissives
+echo "Mise à jour de em-websocket pour corriger les dépendances..."
+bundle update em-websocket
+
+echo "Installation des gems..."
 if ! bundle install --jobs=4 --retry=3 --full-index 2>&1 | tee build.log; then
   echo "Échec de l'installation des gems. Tentative avec --verbose..."
   if ! bundle install --verbose 2>&1 | tee -a build.log; then
