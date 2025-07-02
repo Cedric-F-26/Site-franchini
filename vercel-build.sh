@@ -222,11 +222,14 @@ echo "=== Construction du site ==="
 bundle exec jekyll build --trace || \
   fail "Échec de la construction du site"
 
-# Vérification du résultat
-if [ ! -d "_site" ]; then
-  echo "ERREUR: Le dossier _site n'a pas été généré"
-  echo "Contenu du répertoire courant :"
-  ls -la
+# Vérification finale du dossier généré
+if [ -d "_site" ]; then
+  echo "Le dossier _site a été généré avec succès."
+  echo '--- Contenu du dossier _site ---'
+  ls -lR _site
+  echo '--- Fin du contenu du dossier _site ---'
+else
+  echo "Erreur : le dossier _site n'a pas été généré."
   exit 1
 fi
 
