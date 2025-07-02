@@ -8,6 +8,7 @@ ruby ">= 2.7.0", "< 3.4.0"
 
 # Gems principaux
 gem "jekyll", "~> 4.3.3"
+gem "http_parser.rb", "~> 0.6.0" # Ajout pour corriger le build Vercel
 gem "webrick"
 
 # Plugins Jekyll
