@@ -161,7 +161,7 @@ fi
 
 # Afficher la configuration finale
 echo "Configuration Bundler finale :"
-bundle env | grep -E 'BUNDLE|RUBY|GEM'
+bundle env
 
 # Installation des gems
 echo -e "\n=== Installation des gems ==="
