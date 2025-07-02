@@ -98,11 +98,6 @@ permalink: pretty
 # Plugins Jekyll
 plugins:
   - jekyll-feed
-
-# Configuration de jekyll-minifier
-# Désactive la compression JS pour éviter les erreurs d'encodage UTF-8.
-jekyll-minifier:
-  uglify_js: false
   - jekyll-seo-tag
   - jekyll-sitemap
   - jekyll-minifier
@@ -123,6 +118,8 @@ kramdown:
 # GESTION DES ASSETS
 # ==============================================================================
 # Configuration pour jekyll-assets
+# La gem 'jekyll-assets' n'est pas listée dans le Gemfile.
+# Cette section est probablement inactive.
 assets:
   sources:
     - _assets/images
@@ -146,7 +143,7 @@ sass:
 jekyll-minifier:
   uglifier_args:
     harmony: true
-  compress_js: true
+  compress_js: false # Désactivé pour corriger le bug d'encodage UTF-8
   compress_css: true
   remove_comments: true
 
