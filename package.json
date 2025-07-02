@@ -7,7 +7,7 @@
     "vercel-build": "chmod +x vercel-build.sh && ./vercel-build.sh"
   },
   "engines": {
-    "node": "18.x",
+    "node": "20.x",
     "ruby": ">= 2.7.0 < 3.3.0"
   },
   "dependencies": {

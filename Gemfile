@@ -21,8 +21,7 @@ group :jekyll_plugins do
   gem "jekyll-sitemap", "~> 1.4.0"
   
   # Outils de build
-  gem "jekyll-sass-converter", "~> 2.2.0"
-  gem "sassc", "~> 2.4.0"
+  gem "jekyll-sass-converter", "~> 3.0"
   gem "kramdown", "~> 2.4.0"
   gem "kramdown-parser-gfm", "~> 1.1.0"
   
