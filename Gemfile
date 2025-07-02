@@ -4,7 +4,7 @@ source "https://rubygems.org"
 # When you want to use a different version, change it below, save the
 # file and run `bundle install`.
 #
-ruby ">= 2.7.0", "< 3.3.0"
+ruby ">= 2.7.0", "< 3.4.0"
 
 # Gems principaux
 gem "jekyll", "~> 4.3.3"
