@@ -232,6 +232,11 @@ sitemap:
 # ==============================================================================
 defaults:
   - scope:
+      path: "pages"
+      type: "pages"
+    values:
+      permalink: "/"
+  - scope:
       path: "" # S'applique à tous les fichiers
     values:
       layout: "default"
