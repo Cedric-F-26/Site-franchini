@@ -100,7 +100,6 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-sitemap
-  - jekyll-minifier
   - jekyll-include-cache
   - jekyll-compose
   - sass-embedded
@@ -139,13 +138,6 @@ sass:
   sass_dir: _sass
   implementation: sass-embedded
 
-# Configuration pour jekyll-minifier
-jekyll-minifier:
-  uglifier_args:
-    harmony: true
-  compress_js: false # Désactivé pour corriger le bug d'encodage UTF-8
-  compress_css: true
-  remove_comments: true
 
 # ==============================================================================
 # COLLECTIONS

@@ -28,7 +28,6 @@ group :jekyll_plugins do
   gem "kramdown-parser-gfm", "~> 1.1.0"
   
   # Minification
-  gem "jekyll-minifier", "~> 0.1.10"
   gem "uglifier", "~> 4.2.0"
   gem "htmlcompressor", "~> 0.4.0"
   
