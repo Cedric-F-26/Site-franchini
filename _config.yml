@@ -152,12 +152,17 @@ collections:
 # ==============================================================================
 # Liens de navigation principaux
 navigation:
-  - title: Accueil
-    url: /
-  - title: Neuf
+  - title: Matériel Neuf
     url: /pages/neuf/
+    sublinks:
+      - title: Matériel Neuf
+        url: /pages/neuf/
+      - title: Matériel Neuf Disponible
+        url: /pages/neuf-disponible/
   - title: Occasions
     url: /pages/occasion/
+  - title: Magasin
+    url: /pages/magasin/
   - title: Services
     url: /pages/services/
   - title: Contact
