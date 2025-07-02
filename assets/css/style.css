@@ -1604,6 +1604,76 @@ body.menu-open {
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* Footer Styles */
+.site-footer {
+    background-color: #1a1a1a;
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 40px;
+}
+
+.site-footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.footer-brand {
+    color: #4CAF50;
+    font-weight: bold;
+    font-size: 24px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.footer-address p {
+    margin: 0;
+    color: #ddd;
+}
+.footer-address p:first-child {
+    margin-bottom: 8px;
+}
+
+.footer-contact {
+    margin-top: 15px;
+    margin-bottom: 20px;
+}
+
+.footer-phone {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.footer-phone i {
+    margin-right: 8px;
+}
+
+.footer-legal {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid #333;
+}
+
+.footer-legal p {
+    display: inline;
+    margin: 0;
+}
+
+.footer-private-link {
+    color: #4CAF50;
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.footer-private-link:hover {
+    text-decoration: underline;
+}
+
 .actualite-image {
     width: 100%;
     height: 200px;

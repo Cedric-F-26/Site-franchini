@@ -15,12 +15,9 @@
         </div>
         <nav class="main-nav">
             <ul>
-                <li><a href="#">La concession</a></li>
-                <li><a href="#">Matériel neuf</a></li>
-                <li><a href="#">Location</a></li>
-                <li><a href="#">Occasion</a></li>
-                <li><a href="#">Magasin</a></li>
-                <li><a href="#">Contact</a></li>
+                {%- for link in site.navigation -%}
+                <li><a href="{{ link.url | relative_url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
                 <li><a href="tel:0475474037" class="phone-number"><i class="fas fa-phone"></i> 04 75 47 40 37</a></li>
             </ul>
         </nav>

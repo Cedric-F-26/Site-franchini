@@ -1,0 +1,34 @@
+[
+  {
+    "id": 1,
+    "title": "Nouveau tracteur Deutz-Fahr Série 6",
+    "date": "2024-06-28",
+    "image_url": "/assets/images/news/deutz-serie-6.jpg",
+    "content": "Découvrez la nouvelle gamme de tracteurs Série 6 de Deutz-Fahr, alliant puissance, confort et technologie de pointe pour une productivité maximale.",
+    "link": "/materiel-neuf/deutz-fahr/serie-6"
+  },
+  {
+    "id": 2,
+    "title": "Journées portes ouvertes les 15 et 16 septembre",
+    "date": "2024-06-25",
+    "image_url": "/assets/images/news/portes-ouvertes.jpg",
+    "content": "Ne manquez pas nos journées portes ouvertes ! Venez découvrir nos dernières machines, profiter d'offres exclusives et rencontrer nos experts.",
+    "link": "/actualites/portes-ouvertes-2024"
+  },
+  {
+    "id": 3,
+    "title": "Promotion sur les pièces d'usure",
+    "date": "2024-06-20",
+    "image_url": "/assets/images/news/pieces-usure.jpg",
+    "content": "Profitez de remises exceptionnelles sur une large sélection de pièces d'usure pour préparer sereinement la prochaine saison.",
+    "link": "/magasin/promotions"
+  },
+  {
+    "id": 4,
+    "title": "Arrivage de nouvelles moissonneuses-batteuses",
+    "date": "2024-06-15",
+    "image_url": "/assets/images/news/moissonneuse.jpg",
+    "content": "Les nouvelles moissonneuses-batteuses sont arrivées en concession. Plus performantes, plus fiables, pour une récolte optimale.",
+    "link": "/materiel-neuf/moissonneuses"
+  }
+]
