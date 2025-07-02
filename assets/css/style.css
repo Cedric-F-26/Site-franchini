@@ -1601,21 +1601,50 @@ body.menu-open {
 
 .actualite-item:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Footer Styles */
 .site-footer {
-    background-color: #1a1a1a;
-    color: white;
-    text-align: center;
-    padding: 30px 0;
-    margin-top: 40px;
+background-color: #222;
+color: #ccc;
+padding: 2rem 0;
+font-size: 0.9rem;
+}
+
+.footer-content-centered {
+display: flex;
+flex-direction: column;
+align-items: center;
+text-align: center;
+}
+
+.footer-content-centered > * {
+margin-bottom: 0.5rem;
+}
+
+.footer-content-centered .footer-brand {
+font-size: 1.5rem;
+font-weight: bold;
+color: #4CAF50; /* Vert Franchini */
+margin-bottom: 1rem;
+}
+
+.footer-content-centered .footer-phone,
+.footer-content-centered .footer-private-link {
+color: #ccc;
+text-decoration: none;
+}
+
+.footer-content-centered .footer-phone:hover,
+.footer-content-centered .footer-private-link:hover {
+color: #fff;
+text-decoration: underline;
 }
 
 .site-footer .container {
-    max-width: 1200px;
-    margin: 0 auto;
+max-width: 1200px;
+margin: 0 auto;
+padding: 0 15px;
     padding: 0 15px;
 }
 

@@ -1,53 +1,123 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <!-- Vérification de l'authentification -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="../assets/js/auth/supabase-config.js"></script>
-    <script>
-        // Vérifier l'authentification avant de charger la page
-        document.addEventListener('DOMContentLoaded', async function() {
-            // Vérifier la session
-            const { data: { session }, error } = await supabase.auth.getSession();
-            
-            if (error || !session) {
-                // Rediriger vers la page de connexion si non authentifié
-                window.location.href = 'connexion-prive.html';
-                return;
-            }
-            
-            // Si l'utilisateur est authentifié, le reste de la page se charge normalement
-        });
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Espace d'administration du site Franchini">
     <title>Administration - Franchini</title>
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/footer-style.css">
     <style>
-        /* Style du logo */
-        .logo-link {
-            text-decoration: none;
-            position: relative;
-            display: block;
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            display: none; /* Cacher par défaut jusqu'à vérification de l'auth */
         }
-
-        .logo-text {
-            font-family: Arial, sans-serif;
-            font-size: 32px;
-            font-weight: bold;
-            color: #333;
-            letter-spacing: 1px;
-            position: relative;
+        .admin-header {
+            background-color: #fff;
+            padding: 15px 30px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-
-        .logo {
+        .admin-header .logo img {
+            max-height: 40px;
+        }
+        .admin-user-info {
             display: flex;
             align-items: center;
-            justify-content: flex-start;
+        }
+        .admin-user-info span {
+            margin-right: 20px;
+            font-weight: bold;
+        }
+        .btn-logout {
+            background-color: #d9534f;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-logout:hover {
+            background-color: #c9302c;
+        }
+        .admin-container {
+            padding: 40px;
+            max-width: 960px;
+            margin: auto;
+        }
+        .admin-container h1 {
+            color: #333;
+        }
+    </style>
+
+    <!-- Scripts d'authentification -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../assets/js/auth/supabase-config.js"></script>
+    <script>
+        // Protéger la page : vérifier l'authentification avant de charger le contenu
+        document.addEventListener('DOMContentLoaded', () => {
+            const checkSupabase = setInterval(async () => {
+                if (window.supabase) {
+                    clearInterval(checkSupabase);
+                    const { data: { session }, error } = await window.supabase.auth.getSession();
+                    if (error || !session) {
+                        window.location.href = 'connexion-prive.html';
+                    } else {
+                        const userEmailElement = document.getElementById('user-email');
+                        if (userEmailElement) {
+                            userEmailElement.textContent = session.user.email;
+                        }
+                        document.body.style.display = 'block';
+                    }
+                }
+            }, 100);
+        });
+    </script>
+</head>
+<body>
+
+    <header class="admin-header">
+        <div class="logo">
+            <img src="../assets/images/logo-franchini-noir.png" alt="Logo Franchini">
+        </div>
+        <div class="admin-user-info">
+            <span>Connecté : <strong id="user-email"></strong></span>
+            <button id="logout-button" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </button>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <h1>Tableau de bord</h1>
+        <p>Bienvenue dans votre espace d'administration.</p>
+        <!-- Le contenu de l'administration (gestion des actualités, etc.) ira ici -->
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const logoutButton = document.getElementById('logout-button');
+            if (logoutButton) {
+                logoutButton.addEventListener('click', async () => {
+                    if (window.supabase) {
+                        const { error } = await window.supabase.auth.signOut();
+                        if (error) {
+                            console.error('Erreur lors de la déconnexion:', error.message);
+                        } else {
+                            window.location.href = 'connexion-prive.html';
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
             gap: 20px;
         }
 

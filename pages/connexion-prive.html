@@ -4,50 +4,168 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Connexion Privée - Franchini</title>
-    <link rel="stylesheet" href="../assets/css/style.css"> <!-- Style global, peut contenir des reset/normalize utiles -->
+    <link rel="stylesheet" href="../assets/css/style.css"> <!-- Assurez-vous que ce chemin est correct -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
-            font-family: 'Roboto', 'Arial', sans-serif;
-            background-color: #f4f7f6;
-            display: flex;
-            flex-direction: column; 
-            min-height: 100vh;
-            margin: 0;
-            box-sizing: border-box;
-            color: #333;
-        }
-
-        main {
-            flex-grow: 1;
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f2f5;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
+            min-height: 100vh;
+            margin: 0;
         }
-        
-        .login-box {
-            background-color: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            padding: 2.5rem;
+        .login-container {
+            background-color: #fff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 380px;
-            border-top: 4px solid #4CAF50;
-        }
-        
-        .login-header {
+            max-width: 400px;
             text-align: center;
-            margin-bottom: 2rem;
         }
-        
-        .login-header .franchini-logo {
-            width: 200px; /* Largeur fixe pour le logo */
-            height: auto; /* Maintient les proportions */
-            margin: 0 auto 1.5rem; /* Centre le logo horizontalement et ajoute une marge en dessous */
-            display: block; /* Important pour que la marge auto fonctionne */
-            max-width: 100%; /* S'assure que le logo ne dépasse pas de son conteneur */
+        .login-header img {
+            max-width: 200px;
+            margin-bottom: 20px;
+        }
+        .login-header h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        .input-wrapper {
+            position: relative;
+        }
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px 12px 40px; /* Espace pour l'icône */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn-login:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: #d93025;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+            display: none; /* Caché par défaut */
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <!-- Assurez-vous que le chemin vers le logo est correct -->
+            <img src="../assets/images/logo-franchini-noir.png" alt="Logo Franchini">
+            <h2>Espace Privé</h2>
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="email">Identifiant</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user"></i>
+                    <input type="email" id="email" name="email" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">Se connecter</button>
+
+            <div id="error-message" class="error-message"></div>
+        </form>
+    </div>
+
+    <!-- Le SDK Supabase est inclus via le fichier de config, qui initialise aussi le client -->
+    <script src="../assets/js/auth/supabase-config.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Le script attend que la page soit chargée pour s'assurer que window.supabase est disponible.
+            const checkSupabase = setInterval(() => {
+                if (window.supabase) {
+                    clearInterval(checkSupabase);
+                    initializeForm();
+                }
+            }, 100);
+
+            function initializeForm() {
+                const loginForm = document.getElementById('login-form');
+                const errorMessageContainer = document.getElementById('error-message');
+
+                loginForm.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    errorMessageContainer.style.display = 'none';
+                    errorMessageContainer.textContent = '';
+
+                    const email = loginForm.email.value;
+                    const password = loginForm.password.value;
+
+                    // Utilise l'instance globale de Supabase initialisée par supabase-config.js
+                    const { data, error } = await window.supabase.auth.signInWithPassword({
+                        email: email,
+                        password: password,
+                    });
+
+                    if (error) {
+                        console.error('Erreur de connexion:', error.message);
+                        errorMessageContainer.textContent = 'Identifiant ou mot de passe incorrect.';
+                        errorMessageContainer.style.display = 'block';
+                    } else {
+                        // Redirection vers la page administrateur en cas de succès
+                        window.location.href = 'administrateur.html';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
         }
 
         .login-header h1 {
@@ -190,53 +308,6 @@
 </head>
 <body>
     <main>
-        <div class="login-box">
-            <div class="login-header">
-                <!-- Remplacer l'icône de cadenas par le logo Franchini -->
-                <img src="../assets/images/logo/Logo Franchini 2.jpg" alt="Logo Franchini" class="franchini-logo">
-                <h1>Accès Privé</h1>
-            </div>
-            <div id="error-message" class="error">
-                <i class="fas fa-exclamation-circle"></i>
-                <span></span>
-            </div>
-            <form id="login-form" class="login-form" novalidate>
-                <div class="form-group">
-                    <label for="username">
-                        <i class="fas fa-user"></i>
-                        Nom d'utilisateur ou Email
-                    </label>
-                    <input type="text" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">
-                        <i class="fas fa-key"></i>
-                        Mot de passe
-                    </label>
-                    <div class="password-container">
-                        <input type="password" id="password" name="password" required>
-                        <i class="fas fa-eye" id="togglePassword"></i>
-                    </div>
-                </div>
-                <button type="submit" class="btn-submit">
-                    <i class="fas fa-sign-in-alt"></i>
-                    Se connecter
-                </button>
-                <div style="display: flex; justify-content: space-between; align-items: center; margin: 15px 0;">
-                    <div class="remember-me">
-                        <input type="checkbox" id="remember-me" name="remember-me">
-                        <label for="remember-me" style="font-size: 0.85em; color: #555; cursor: pointer;">
-                            Se souvenir de moi
-                        </label>
-                    </div>
-                    <a href="#" id="forgot-password-link" style="color: #333; font-size: 0.85em; text-decoration: none; cursor: pointer;">Mot de passe oublié</a>
-                </div>
-                <div id="reset-password-form" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
-                    <h3 style="font-size: 1.1rem; margin: 0 0 1rem 0; color: #333; text-align: center;">Réinitialiser le mot de passe</h3>
-                    <div style="margin-bottom: 1rem;">
-                        <label for="reset-email" style="display: block; margin-bottom: 0.5rem; font-weight: 500; color: #495057;">Votre adresse email</label>
-                        <input type="email" id="reset-email" style="width: 100%; padding: 0.5rem; border: 1px solid #ced4da; border-radius: 4px; font-size: 1rem;" placeholder="email@exemple.com">
-                    </div>
                     <button type="button" id="reset-password-btn" style="width: 100%; padding: 0.75rem; background-color: #4CAF50; color: white; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; transition: background-color 0.2s;">
                         Envoyer le lien de réinitialisation
                     </button>
