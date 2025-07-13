@@ -13,7 +13,7 @@ echo "--- Versions ---"
 ruby -v
 bundle -v
 node -v
-----------------"
+echo "----------------"
 
 # Install Ruby gems
 echo "--- Installing Gems ---"
