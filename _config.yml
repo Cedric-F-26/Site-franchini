@@ -235,7 +235,7 @@ defaults:
       path: "pages"
       type: "pages"
     values:
-      permalink: "/"
+      permalink: "/:name/"
   - scope:
       path: "" # S'applique à tous les fichiers
     values:
