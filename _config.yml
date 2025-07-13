@@ -230,11 +230,7 @@ sitemap:
 # VALEURS PAR DÉFAUT
 # ==============================================================================
 defaults:
-  - scope:
-      path: "pages"
-      type: "pages"
-    values:
-      permalink: "/:name/"
+  
   - scope:
       path: "" # S'applique à tous les fichiers
     values:
