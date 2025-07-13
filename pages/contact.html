@@ -85,50 +85,7 @@ scripts:
 
 <div id="map" style="height: 400px; width: 100%;"></div>
 
-<script>
-document.addEventListener('DOMContentLoaded', (event) => {
-    // Coordonnées de la concession
-    const destinationCoords = [44.988699190507205, 5.1035036237241105];
-
-    // Initialisation de la carte
-    const map = L.map('map').setView(destinationCoords, 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-
-    // Marqueur de la concession
-    const marker = L.marker(destinationCoords).addTo(map);
-    marker.bindPopup(`
-        <b>Franchini SARL</b><br>
-        111 av des monts du matin<br>
-        26300 Marches<br>
-        <a href="https://maps.app.goo.gl/FtHrDhjkSmq5tMdg6" target="_blank">Voir sur Google Maps</a>
-    `).openPopup();
-    
-    // Afficher/masquer les champs de candidature en fonction du service sélectionné
-    document.getElementById('service').addEventListener('change', function() {
-        const fichiersDiv = document.getElementById('fichiers-candidature');
-        if (this.value === 'candidature') {
-            fichiersDiv.style.display = 'block';
-        } else {
-            fichiersDiv.style.display = 'none';
-        }
-    });
-    
-    // Limiter la taille des fichiers à 10Mo
-    document.getElementById('candidature-fichiers').addEventListener('change', function() {
-        const maxSize = 10 * 1024 * 1024; // 10 Mo en octets
-        let totalSize = 0;
-        
-        for (let i = 0; i < this.files.length; i++) {
-            totalSize += this.files[i].size;
-        }
-        
-        if (totalSize > maxSize) {
-            alert('La taille totale des fichiers ne doit pas dépasser 10 Mo.');
-            this.value = ''; // Réinitialiser le champ de fichier
-        }
-    });
-});
-</script>
-
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"></script>
+<link rel="stylesheet" href="../assets/css/style.css">
+</body>
+</html>
