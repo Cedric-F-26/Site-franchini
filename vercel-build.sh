@@ -13,16 +13,16 @@ echo "--- Versions ---"
 ruby -v
 bundle -v
 node -v
-echo "----------------"
-
-echo "--- Gem List ---"
-bundle list
-echo "----------------"
+----------------"
 
 # Install Ruby gems
 echo "--- Installing Gems ---"
 bundle install
 echo "-------------------"
+
+echo "--- Gem List ---"
+bundle list
+echo "----------------"
 
 # Build the Jekyll site
 echo "--- Building Site ---"
