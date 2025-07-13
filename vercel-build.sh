@@ -19,6 +19,11 @@ echo "--- Gem List ---"
 bundle list
 echo "----------------"
 
+# Install Ruby gems
+echo "--- Installing Gems ---"
+bundle install
+echo "-------------------"
+
 # Build the Jekyll site
 echo "--- Building Site ---"
 bundle exec jekyll build --trace
