@@ -20,6 +20,11 @@ echo "--- Installing Gems ---"
 bundle install
 echo "-------------------"
 
+# Attempt to resolve specific gem dependency issue
+echo "--- Attempting to resolve em-websocket dependency ---"
+bundle update em-websocket
+echo "---------------------------------------------------"
+
 echo "--- Gem List ---"
 bundle list
 echo "----------------"
