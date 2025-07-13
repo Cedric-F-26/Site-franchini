@@ -17,13 +17,9 @@ echo "----------------"
 
 # Install Ruby gems
 echo "--- Installing Gems ---"
+rm -f Gemfile.lock # Force regeneration of Gemfile.lock
 bundle install
 echo "-------------------"
-
-# Attempt to resolve specific gem dependency issue
-echo "--- Attempting to resolve em-websocket dependency ---"
-bundle update em-websocket
-echo "---------------------------------------------------"
 
 echo "--- Gem List ---"
 bundle list
