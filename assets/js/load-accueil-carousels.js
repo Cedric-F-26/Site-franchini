@@ -5,23 +5,18 @@ document.addEventListener('DOMContentLoaded', function() {
     };
 
     /**
-     * Charge les éléments du carrousel depuis le stockage local
+     * Charge les éléments du carrousel depuis le backend
      * @returns {Array} Tableau des éléments du carrousel chargés
      */
-    function loadCarouselItems() {
+    async function loadCarouselItems() {
         try {
-            const storageKey = CONFIG.storageKeys.accueil || 'franchiniCarousel';
-            const savedItems = localStorage.getItem(storageKey);
-
-            if (!savedItems) {
-                console.warn('Aucun élément trouvé dans le stockage local pour le carrousel. Utilisation des valeurs par défaut.');
-                return setDefaultCarouselItems();
+            const response = await fetch('http://localhost:3000/api/accueil-carousels'); // URL de votre API backend
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            let parsedItems = JSON.parse(savedItems);
-
-            // Corriger les chemins des médias pour qu'ils fonctionnent
-            const itemsWithCorrectedPaths = parsedItems.map(item => {
+            const data = await response.json();
+            // Assurez-vous que les chemins des médias sont corrects si nécessaire
+            const itemsWithCorrectedPaths = data.map(item => {
                 if (item.url && !item.url.startsWith('http') && !item.url.startsWith('data:')) {
                     if (item.url.startsWith('/assets')) {
                         return { ...item, url: CONFIG.baseUrl + item.url };
@@ -30,41 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 return item;
             });
-
             return itemsWithCorrectedPaths.sort((a, b) => a.order - b.order);
         } catch (error) {
-            console.error('Erreur lors du chargement des éléments du carrousel depuis le stockage local:', error);
-            return setDefaultCarouselItems();
+            console.error('Erreur lors du chargement des éléments du carrousel depuis le backend:', error);
+            return []; // Retourne un tableau vide en cas d'erreur
         }
-    }
-
-    /**
-     * Définit les valeurs par défaut pour le carrousel si rien n'est trouvé
-     * @returns {Array} Tableau des éléments par défaut
-     */
-    function setDefaultCarouselItems() {
-        const defaultItems = [
-            {
-                id: `default-${Date.now()}`,
-                type: 'image',
-                title: 'Bienvenue chez Franchini',
-                description: 'Votre concessionnaire Deutz-Fahr en Drôme.',
-                imageUrl: `${CONFIG.baseUrl}/assets/images/hero-bg.jpg`, // Utiliser une image par défaut
-                buttonText: 'Découvrir',
-                buttonUrl: '#',
-                isActive: true,
-                order: 0,
-                createdAt: new Date().toISOString()
-            }
-        ];
-        // Sauvegarder les valeurs par défaut pour les prochaines visites
-        try {
-            const storageKey = CONFIG.storageKeys.accueil || 'franchiniCarousel';
-            localStorage.setItem(storageKey, JSON.stringify(defaultItems));
-        } catch (e) {
-            console.error('Erreur lors de la sauvegarde des éléments par défaut:', e);
-        }
-        return defaultItems;
     }
 
     /**
@@ -114,13 +79,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initialisation des carrousels sur la page d'accueil
-    const homeCarouselItems = loadCarouselItems();
-    renderCarouselSlides('home-carousel', homeCarouselItems);
+    async function initHomeCarousel() {
+        const homeCarouselItems = await loadCarouselItems();
+        renderCarouselSlides('home-carousel', homeCarouselItems);
 
-    // Assurez-vous que initCarousel est disponible (il vient de assets/js/carousel.js)
-    if (typeof initCarousel === 'function') {
-        initCarousel('home-carousel');
-    } else {
-        console.error('La fonction initCarousel n'est pas disponible. Assurez-vous que assets/js/carousel.js est chargé avant.');
+        // Assurez-vous que initCarousel est disponible (il vient de assets/js/carousel.js)
+        if (typeof initCarousel === 'function') {
+            initCarousel('home-carousel');
+        } else {
+            console.error('La fonction initCarousel n'est pas disponible. Assurez-vous que assets/js/carousel.js est chargé avant.');
+        }
     }
-});
+
+    initHomeCarousel();

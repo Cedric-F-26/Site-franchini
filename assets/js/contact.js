@@ -44,25 +44,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
-            // Afficher un message de succès (à remplacer par un envoi réel)
-            console.log('Formulaire soumis avec succès :', formValues);
-            
-            // Préparer le message de confirmation
-            let confirmationMessage = 'Votre message a été envoyé avec succès. ';
-            if (formValues.service === 'candidature') {
-                confirmationMessage += 'Nous examinerons votre candidature et vous recontacterons rapidement.';
-            } else {
-                confirmationMessage += 'Nous vous contacterons bientôt !';
-            }
-            
-            alert(confirmationMessage);
-            
-            // Réinitialiser le formulaire
-            contactForm.reset();
-            
-            // Cacher à nouveau le champ de fichiers si visible
-            if (fichiersCandidature) {
-                fichiersCandidature.style.display = 'none';
+            // Envoyer les données au backend
+            try {
+                const response = await fetch('http://localhost:3000/send-email', { // Assurez-vous que l'URL correspond à votre serveur Node.js
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formValues),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    let confirmationMessage = 'Votre message a été envoyé avec succès. ';
+                    if (formValues.service === 'candidature') {
+                        confirmationMessage += 'Nous examinerons votre candidature et vous recontacterons rapidement.';
+                    } else {
+                        confirmationMessage += 'Nous vous contacterons bientôt !';
+                    }
+                    alert(confirmationMessage);
+                    contactForm.reset();
+                    if (fichiersCandidature) {
+                        fichiersCandidature.style.display = 'none';
+                    }
+                } else {
+                    alert(`Erreur lors de l'envoi: ${result.error || 'Une erreur inconnue est survenue.'}`);
+                }
+            } catch (error) {
+                console.error('Erreur réseau ou serveur:', error);
+                alert('Impossible de contacter le serveur. Veuillez réessayer plus tard.');
             }
         });
     }

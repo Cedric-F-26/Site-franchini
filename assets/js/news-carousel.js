@@ -7,9 +7,22 @@ document.addEventListener('DOMContentLoaded', function() {
         return; // No container, do nothing.
     }
 
-    // This is where Jekyll injects the JSON data.
-    // The linter will complain about this line, but it's correct for Jekyll.
-    const actualites = {{ site.data.news | jsonify }};
+    // Les actualités seront chargées depuis le backend
+
+    // Fonction pour charger les actualités depuis le backend
+    async function loadNewsItems() {
+        try {
+            const response = await fetch('http://localhost:3000/api/news-carousels'); // URL de votre API backend
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Erreur lors du chargement des actualités depuis le backend:', error);
+            return []; // Retourne un tableau vide en cas d'erreur
+        }
+    }
 
     // Function to display a message when no news is available
     function showNoNewsMessage(container, message = 'Aucune actualité à afficher pour le moment.') {
@@ -130,10 +143,14 @@ document.addEventListener('DOMContentLoaded', function() {
         startAutoPlay();
     }
 
-    // Check if there are news items and initialize the carousel
-    if (actualites && Array.isArray(actualites) && actualites.length > 0) {
-        initNewsCarousel(actualites);
-    } else {
-        showNoNewsMessage(actualitesContainer);
+    // Initialisation du carrousel d'actualités
+    async function initializeNewsCarousel() {
+        const actualites = await loadNewsItems();
+        if (actualites && Array.isArray(actualites) && actualites.length > 0) {
+            initNewsCarousel(actualites);
+        } else {
+            showNoNewsMessage(actualitesContainer);
+        }
     }
-});
+
+    initializeNewsCarousel();
