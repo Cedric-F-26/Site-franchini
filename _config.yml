@@ -145,7 +145,6 @@ sass:
 collections:
   pages:
     output: true
-    permalink: /:path/
 
 # ==============================================================================
 # CONFIGURATION DU CONTENU
@@ -153,20 +152,20 @@ collections:
 # Liens de navigation principaux
 navigation:
   - title: Matériel Neuf
-    url: /pages/neuf/
+    url: /neuf/
     sublinks:
       - title: Matériel Neuf
-        url: /pages/neuf/
+        url: /neuf/
       - title: Matériel Neuf Disponible
-        url: /pages/neuf-disponible/
+        url: /neuf-disponible/
   - title: Occasions
-    url: /pages/occasion/
+    url: /occasion/
   - title: Magasin
-    url: /pages/magasin/
+    url: /magasin/
   - title: Services
-    url: /pages/services/
+    url: /services/
   - title: Contact
-    url: /pages/contact/
+    url: /contact/
 
 # Marques de matériel
 brands:
