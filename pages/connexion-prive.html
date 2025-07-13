@@ -1,6 +1,6 @@
 ---
 permalink: /connexion-prive/
-layout: default
+layout: null
 title: Connexion Privée
 styles:
   - /assets/css/login.css
@@ -9,11 +9,14 @@ scripts:
   - /assets/js/auth/login.js
 ---
 
-<div class="login-container">
-    <div class="login-header">
-        <img src="{{ site.baseurl }}/assets/images/logo-franchini-noir.png" alt="Logo Franchini">
-        <h2>Espace Privé</h2>
-    </div>
+<div class="login-container" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; box-sizing: border-box;">
+    <div class="login-box" style="background-color: white; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); padding: 2.5rem; width: 100%; max-width: 380px; border-top: 4px solid #4CAF50;">
+        <div class="login-header">
+            <a href="/" class="logo-link">
+                <img src="/assets/images/logo-franchini-noir.png" alt="Logo Franchini" style="width: 200px; height: auto; margin: 0 auto 1.5rem; display: block; max-width: 100%;">
+            </a>
+            <h2>Espace Privé</h2>
+        </div>
 
     <div id="error-message" class="error-message"></div>
 
