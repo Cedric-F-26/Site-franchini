@@ -24,21 +24,6 @@
     {%- endif -%}
 </head>
 <body class="page-{{ page.title | slugify | default: 'default' }}">
-    <script>
-        console.log('--- DÉBUT DU DÉBOGAGE ---');
-        window.onerror = function(message, source, lineno, colno, error) {
-            console.error('ERREUR GLOBALE CAPTURÉE:', {
-                message: message,
-                source: source,
-                lineno: lineno,
-                colno: colno,
-                error: error
-            });
-        };
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('Événement DOMContentLoaded déclenché.');
-        });
-    </script>
     {% include header.html %}
     
     <main>
@@ -48,10 +33,7 @@
     {% include footer.html %}
     
     <!-- Firebase -->
-    <script type="module">
-        import * as firebase from "{{ '/assets/js/auth/firebase-config.js' | relative_url }}";
-        window.firebase = firebase; // Expose les fonctions pour les scripts non-modulaires
-    </script>
+    <script src="{{ '/assets/js/init-firebase.js' | relative_url }}" type="module"></script>
 
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
 

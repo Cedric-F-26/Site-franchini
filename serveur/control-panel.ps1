@@ -1,4 +1,4 @@
-# Pour un affichage correct des accents, ce fichier DOIT être encodé en 'UTF-8 with BOM'.
+﻿# Pour un affichage correct des accents, ce fichier DOIT être encodé en 'UTF-8 with BOM'.
 
 # Ajout des assemblies nécessaires pour l'interface graphique
 Add-Type -AssemblyName System.Windows.Forms
@@ -70,8 +70,13 @@ $startButton.add_Click({
         $statusLabel.ForeColor = [System.Drawing.Color]::Green
         Start-Process "http://127.0.0.1:4000/"
     } else {
-        $statusLabel.Text = "Le serveur n'a pas démarré."
+        $statusLabel.Text = "Erreur au démarrage du serveur."
         $statusLabel.ForeColor = [System.Drawing.Color]::Red
+
+        # Récupérer et afficher la sortie d'erreur du job pour le débogage
+        $errorOutput = Receive-Job -Job $script:jekyllJob -Keep
+        [System.Windows.Forms.MessageBox]::Show("Le serveur Jekyll n'a pas pu démarrer. L'erreur est la suivante :`n`n$errorOutput", "Erreur de Construction Jekyll", "OK", "Error")
+
         Stop-Job -Job $script:jekyllJob | Out-Null
         Remove-Job -Job $script:jekyllJob -Force | Out-Null
         $script:jekyllJob = $null
