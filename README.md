@@ -1,5 +1,39 @@
 # Site Franchini - Concessionnaire Deutz-Fahr
 
+## Développement Local
+
+Ce projet utilise Jekyll, un générateur de site statique. Pour lancer le site en local, suivez ces étapes :
+
+### Prérequis
+
+1.  **Ruby** : Assurez-vous que Ruby est installé sur votre machine. Vous pouvez vérifier avec la commande `ruby -v`.
+2.  **Bundler** : Installez Bundler, qui gère les dépendances du projet (les "gems").
+    ```bash
+    gem install bundler
+    ```
+
+### Installation
+
+1.  Clonez le dépôt sur votre machine.
+2.  Naviguez jusqu'au dossier du projet (`Site-franchini`).
+3.  Installez les dépendances du projet avec Bundler :
+    ```bash
+    bundle install
+    ```
+
+### Lancer le serveur
+
+Une fois les dépendances installées, vous pouvez lancer le serveur de développement Jekyll :
+
+```bash
+bundle exec jekyll serve
+```
+
+Le site sera alors accessible à l'adresse [http://127.0.0.1:4000/](http://127.0.0.1:4000/). Le serveur se rechargera automatiquement à chaque modification des fichiers.
+
+**Note pour Windows :** Si vous rencontrez des problèmes avec certaines gems (comme `nokogiri`) lors du `bundle install`, consultez le `Gemfile` pour voir les dépendances spécifiques à Windows qui ont été ajoutées pour assurer la compatibilité.
+
+
 [![Déploiement Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FCedric-F-26%2FSite-franchini)
 
 Site vitrine officiel de Franchini, concessionnaire agréé Deutz-Fahr. Site statique moderne avec des fonctionnalités avancées et une interface utilisateur réactive.

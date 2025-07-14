@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{{ '/assets/css/header.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/carousel.css' | relative_url }}">
 
+
     {%- if page.styles -%}
         {%- for style in page.styles -%}
             <link rel="stylesheet" href="{{ style | relative_url }}">
@@ -23,6 +24,21 @@
     {%- endif -%}
 </head>
 <body class="page-{{ page.title | slugify | default: 'default' }}">
+    <script>
+        console.log('--- DÉBUT DU DÉBOGAGE ---');
+        window.onerror = function(message, source, lineno, colno, error) {
+            console.error('ERREUR GLOBALE CAPTURÉE:', {
+                message: message,
+                source: source,
+                lineno: lineno,
+                colno: colno,
+                error: error
+            });
+        };
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Événement DOMContentLoaded déclenché.');
+        });
+    </script>
     {% include header.html %}
     
     <main>
@@ -31,9 +47,15 @@
     
     {% include footer.html %}
     
+    <!-- Firebase -->
+    <script type="module">
+        import * as firebase from "{{ '/assets/js/auth/firebase-config.js' | relative_url }}";
+        window.firebase = firebase; // Expose les fonctions pour les scripts non-modulaires
+    </script>
+
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
-    <script src="{{ '/assets/js/carousel.js' | relative_url }}"></script>
-    <script src="{{ '/assets/js/load-home-carousels.js' | relative_url }}"></script>
+
+    <script src="{{ '/assets/js/load-accueil-carousels.js' | relative_url }}"></script>
 
     {%- if page.scripts -%}
         {% for script in page.scripts %}

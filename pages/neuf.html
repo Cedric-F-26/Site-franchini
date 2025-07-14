@@ -4,27 +4,28 @@ layout: default
 title: Matériel Neuf
 ---
 
-<main>
+<main class="page-content">
     <section class="page-header">
         <div class="container">
-            <h1>Matériel Neuf</h1>
+            <h1>{{ page.title }}</h1>
         </div>
     </section>
 
     <section class="materiel-section">
         <div class="container">
+
             <div class="category-section">
                 <h2>Agricole</h2>
                 <div class="brand-grid">
-                    <a href="https://www.deutz-fahr.com/fr-fr" target="_blank" class="brand-card">
-                        <img src="https://www.deutz-fahr.com/favicon.ico" alt="Deutz-Fahr" class="brand-logo">
+                    <a href="https://www.deutz-fahr.com/fr-fr/" target="_blank" class="brand-card">
+                        <img src="{{ '/assets/images/logo/DEUTZ-FAHR_logo_positive_rgb.png' | relative_url }}" alt="Deutz-Fahr" class="brand-logo">
                         <span>Deutz-Fahr</span>
                     </a>
                     <a href="https://www.vaderstad.com/fr/" target="_blank" class="brand-card">
                         <img src="https://www.vaderstad.com/favicon.ico" alt="Väderstad" class="brand-logo">
                         <span>Väderstad</span>
                     </a>
-                    <a href="https://www.agrimaster.com/" target="_blank" class="brand-card">
+                    <a href="https://demetraagri.com/en/" target="_blank" class="brand-card">
                         <img src="{{ '/assets/images/logo/agrimaster-logo2-2.jpg' | relative_url }}" alt="Agrimaster" class="brand-logo">
                         <span>Agrimaster</span>
                     </a>
@@ -32,8 +33,8 @@ title: Matériel Neuf
                         <img src="{{ '/assets/images/logo/Corbins-logo.png' | relative_url }}" alt="Corbins" class="brand-logo">
                         <span>Corbins</span>
                     </a>
-                    <a href="https://www.berthoud.com/fr/" target="_blank" class="brand-card">
-                        <img src="https://www.berthoud.com/favicon.ico" alt="Berthoud" class="brand-logo">
+                    <a href="https://www.berthoud.com/" target="_blank" class="brand-card">
+                        <img src="https://www.berthoud.com/wp-content/uploads/2021/11/favicon.png" alt="Berthoud" class="brand-logo">
                         <span>Berthoud</span>
                     </a>
                 </div>
@@ -42,8 +43,8 @@ title: Matériel Neuf
             <div class="category-section">
                 <h2>Agriculture de précision</h2>
                 <div class="brand-grid">
-                    <a href="https://www.topconpositioning.com/fr/fr/solutions/technology/agriculture-products/guidance-and-auto-steering" target="_blank" class="brand-card">
-                        <img src="https://www.topconpositioning.com/favicon.ico" alt="Topcon" class="brand-logo">
+                    <a href="https://www.topconpositioning.com/fr" target="_blank" class="brand-card">
+                        <img src="https://www.topcon.com/favicon.ico" alt="Topcon" class="brand-logo">
                         <span>Topcon</span>
                     </a>
                 </div>
@@ -52,7 +53,7 @@ title: Matériel Neuf
             <div class="category-section">
                 <h2>TP-Manutention</h2>
                 <div class="brand-grid">
-                    <a href="https://www.bobcat.com/eu/fr/equipment/telehandlers" target="_blank" class="brand-card">
+                     <a href="https://www.bobcat.com/eu/fr/" target="_blank" class="brand-card">
                         <img src="https://www.bobcat.com/favicon.ico" alt="Bobcat" class="brand-logo">
                         <span>Bobcat</span>
                     </a>
@@ -76,6 +77,7 @@ title: Matériel Neuf
                     </a>
                 </div>
             </div>
+
         </div>
     </section>
-</main> 
+</main>

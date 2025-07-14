@@ -42,27 +42,13 @@ main:
     url: "/location/"
     weight: 4
     icon: "calendar"
-  - title: "Services"
-    url: "#"
-    weight: 5
-    icon: "tools"
-    dropdown: true
-    dropdown_links:
-      - title: "SAV & Réparation"
-        url: "/sav/"
-      - title: "Pièces détachées"
-        url: "/pieces-detachees/"
-      - title: "Financement"
-        url: "/financement/"
-      - title: "Reprise"
-        url: "/reprise/"
   - title: "Actualités"
     url: "/actualites/"
-    weight: 6
+    weight: 5
     icon: "newspaper"
   - title: "Contact"
     url: "/contact/"
-    weight: 7
+    weight: 6
     icon: "envelope"
     class: "highlight"
 

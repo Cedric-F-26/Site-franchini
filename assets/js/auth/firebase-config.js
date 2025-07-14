@@ -1,8 +1,12 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js"; // Si vous utilisez Firestore
-import { getStorage } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js"; // Si vous utilisez Storage
+import {
+    getFirestore, collection, getDocs, orderBy, query, addDoc, deleteDoc, doc, writeBatch, updateDoc
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
+import {
+    getStorage, ref, uploadBytes, getDownloadURL, deleteObject
+} from "https://www.gstatic.com/firebasejs/10.4.0/firebase-storage.js";
 
 // Your web app's Firebase configuration
 // Pour des raisons de sécurité, ces informations sont généralement stockées dans des variables d'environnement
@@ -24,4 +28,13 @@ const auth = getAuth(app);
 const db = getFirestore(app); // Initialiser Firestore si utilisé
 const storage = getStorage(app); // Initialiser Storage si utilisé
 
-export { auth, db, storage, onAuthStateChanged, signOut };
+export {
+    // Services
+    auth, db, storage,
+    // Auth
+    onAuthStateChanged, signOut,
+    // Firestore
+    collection, getDocs, orderBy, query, addDoc, deleteDoc, doc, writeBatch, updateDoc,
+    // Storage
+    ref, uploadBytes, getDownloadURL, deleteObject
+};

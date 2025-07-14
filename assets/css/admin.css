@@ -80,6 +80,81 @@ body {
     transform: translateY(-2px);
 }
 
+/* === SPINNER & ALERTS === */
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none; /* Caché par défaut */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    flex-direction: column;
+}
+
+.spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid var(--primary-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+.spinner-overlay p {
+    color: white;
+    margin-top: 15px;
+    font-size: 1.1em;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Alert Container */
+.alert-container {
+    position: fixed;
+    top: 80px; /* Sous le header */
+    right: 20px;
+    z-index: 2001;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 350px;
+}
+
+.alert {
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    color: var(--white);
+    box-shadow: var(--box-shadow);
+    transform: translateX(120%);
+    opacity: 0;
+    transition: transform 0.4s ease-in-out, opacity 0.4s ease;
+}
+
+.alert.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.alert-success {
+    background-color: var(--success-color);
+}
+
+.alert-error {
+    background-color: var(--danger-color);
+}
+
+.alert-info {
+    background-color: var(--secondary-color);
+}
+
+
 /* === TABS NAVIGATION === */
 .tabs {
     display: flex;
@@ -378,24 +453,7 @@ textarea.form-control {
     border-radius: 4px;
 }
 
-/* Messages d'erreur/succès */
-.alert {
-    padding: 10px 15px;
-    border-radius: 4px;
-    margin-bottom: 15px;
-}
 
-.alert-success {
-    background-color: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-}
-
-.alert-error {
-    background-color: #f8d7da;
-    color: #721c24;
-    border: 1px solid #f5c6cb;
-}
 
 /* Responsive */
 @media (max-width: 768px) {

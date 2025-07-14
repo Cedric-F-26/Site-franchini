@@ -162,8 +162,8 @@ navigation:
     url: /occasion/
   - title: Magasin
     url: /magasin/
-  - title: Services
-    url: /services/
+  - title: Actualités
+    url: /actualites/
   - title: Contact
     url: /contact/
 
@@ -231,13 +231,23 @@ sitemap:
 # ==============================================================================
 defaults:
   
+  # Appliquer le layout par défaut uniquement aux fichiers du dossier 'pages'
   - scope:
-      path: "" # S'applique à tous les fichiers
+      path: "pages"
     values:
       layout: "default"
       sitemap: true
+
+  # Créer une exception pour la page de connexion pour qu'elle n'ait pas de layout
   - scope:
-      path: "assets" # Ne pas appliquer de layout aux assets
+      path: "pages/connexion-prive.html"
+    values:
+      layout: null
+      sitemap: false
+
+  # S'assurer que les assets n'ont pas de layout
+  - scope:
+      path: "assets"
     values:
       layout: null
       sitemap: false

@@ -1,66 +1,53 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const CONFIG = window.AppConfig?.config || {
-        storageKeys: { accueil: 'franchiniCarousel' },
-        baseUrl: ''
-    };
+    const carouselContainer = document.getElementById('home-carousel');
+    if (!carouselContainer) return; // Ne rien faire si le carrousel n'est pas sur la page
 
-    /**
-     * Charge les éléments du carrousel depuis le backend
-     * @returns {Array} Tableau des éléments du carrousel chargés
-     */
-    async function loadCarouselItems() {
-        try {
-            const response = await fetch('http://localhost:3000/api/accueil-carousels'); // URL de votre API backend
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            // Assurez-vous que les chemins des médias sont corrects si nécessaire
-            const itemsWithCorrectedPaths = data.map(item => {
-                if (item.url && !item.url.startsWith('http') && !item.url.startsWith('data:')) {
-                    if (item.url.startsWith('/assets')) {
-                        return { ...item, url: CONFIG.baseUrl + item.url };
-                    }
-                    return { ...item, url: `${CONFIG.baseUrl}/assets/images/carousel${item.url.startsWith('/') ? '' : '/'}${item.url}` };
+    // Attend que Firebase soit chargé par le script module
+    const waitForFirebase = setInterval(async () => {
+        if (window.firebase && window.firebase.db) {
+            clearInterval(waitForFirebase);
+            const { db, collection, query, orderBy, getDocs } = window.firebase;
+
+            try {
+                const q = query(collection(db, 'carousel'), orderBy('order'));
+                const snapshot = await getDocs(q);
+                const items = snapshot.docs.map(doc => doc.data());
+                
+                if (items.length > 0) {
+                    renderCarouselSlides(items);
+                    initCarouselLogic();
+                } else {
+                    carouselContainer.innerHTML = '<p>Aucun élément à afficher dans le carrousel.</p>';
                 }
-                return item;
-            });
-            return itemsWithCorrectedPaths.sort((a, b) => a.order - b.order);
-        } catch (error) {
-            console.error('Erreur lors du chargement des éléments du carrousel depuis le backend:', error);
-            return []; // Retourne un tableau vide en cas d'erreur
+            } catch (error) {
+                console.error("Erreur de chargement du carrousel depuis Firebase: ", error);
+                carouselContainer.innerHTML = '<p>Erreur de chargement du carrousel.</p>';
+            }
         }
+    }, 100); // Vérifie toutes les 100ms
+
+    function getYouTubeEmbedUrl(url) {
+        const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+        const videoId = (url.match(regex) || [])[1] || null;
+        if (!videoId) return null;
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&autohide=1&modestbranding=1&iv_load_policy=3`;
     }
 
-    /**
-     * Rend les slides du carrousel dans le DOM
-     * @param {string} containerId - L'ID du conteneur du carrousel (ex: 'home-carousel')
-     * @param {Array} items - Les données des slides
-     */
-    function renderCarouselSlides(containerId, items) {
-        const container = document.getElementById(containerId);
-        if (!container) {
-            console.warn(`Conteneur de carrousel avec l'ID "${containerId}" non trouvé.`);
-            return;
-        }
-
-        container.innerHTML = ''; // Vider le conteneur existant
+    function renderCarouselSlides(items) {
+        carouselContainer.innerHTML = ''; // Vider le conteneur
         const fragment = document.createDocumentFragment();
 
-        items.filter(item => item.isActive).forEach(item => {
+        items.forEach(item => {
             const slide = document.createElement('div');
-            slide.className = 'carousel-slide'; // Classe attendue par carousel.js
+            slide.className = 'carousel-slide';
 
             let mediaHtml = '';
-            if (item.type === 'image' && item.imageUrl) {
-                mediaHtml = `<img src="${item.imageUrl}" alt="${item.title || ''}">`;
-            } else if (item.type === 'video' && item.videoUrl) {
-                // Pour les vidéos, on peut intégrer un iframe YouTube ou une balise video
-                if (item.videoUrl.includes('youtube.com') || item.videoUrl.includes('youtu.be')) {
-                    const videoId = item.videoUrl.split('v=')[1] || item.videoUrl.split('/').pop();
-                    mediaHtml = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
-                } else {
-                    mediaHtml = `<video src="${item.videoUrl}" autoplay muted loop playsinline></video>`;
+            if (item.type === 'image' && item.mediaUrl) {
+                mediaHtml = `<img src="${item.mediaUrl}" alt="${item.title || ''}" class="carousel-media">`;
+            } else if (item.type === 'youtube' && item.mediaUrl) {
+                const embedUrl = getYouTubeEmbedUrl(item.mediaUrl);
+                if (embedUrl) {
+                    mediaHtml = `<iframe src="${embedUrl}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen class="carousel-media"></iframe>`;
                 }
             }
 
@@ -68,27 +55,58 @@ document.addEventListener('DOMContentLoaded', function() {
                 ${mediaHtml}
                 <div class="hero-content">
                     <h1>${item.title || ''}</h1>
-                    <p>${item.description || ''}</p>
-                    ${item.buttonText && item.buttonUrl ? `<a href="${item.buttonUrl}" class="btn">${item.buttonText}</a>` : ''}
                 </div>
             `;
             fragment.appendChild(slide);
         });
 
-        container.appendChild(fragment);
+        carouselContainer.appendChild(fragment);
     }
 
-    // Initialisation des carrousels sur la page d'accueil
-    async function initHomeCarousel() {
-        const homeCarouselItems = await loadCarouselItems();
-        renderCarouselSlides('home-carousel', homeCarouselItems);
+    function initCarouselLogic() {
+        const slides = carouselContainer.querySelectorAll('.carousel-slide');
+        if (slides.length <= 1) return;
 
-        // Assurez-vous que initCarousel est disponible (il vient de assets/js/carousel.js)
-        if (typeof initCarousel === 'function') {
-            initCarousel('home-carousel');
-        } else {
-            console.error('La fonction initCarousel n'est pas disponible. Assurez-vous que assets/js/carousel.js est chargé avant.');
+        const prevBtn = document.querySelector('.carousel-control.prev');
+        const nextBtn = document.querySelector('.carousel-control.next');
+        let currentIndex = 0;
+        let slideInterval;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+            currentIndex = index;
+        }
+
+        function nextSlide() {
+            const newIndex = (currentIndex + 1) % slides.length;
+            showSlide(newIndex);
+        }
+
+        function prevSlide() {
+            const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(newIndex);
+        }
+
+        function startAutoplay() {
+            stopAutoplay();
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
+        function stopAutoplay() {
+            clearInterval(slideInterval);
+        }
+
+        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); stopAutoplay(); });
+        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); stopAutoplay(); });
+
+        carouselContainer.addEventListener('mouseenter', stopAutoplay);
+        carouselContainer.addEventListener('mouseleave', startAutoplay);
+
+        if (slides.length > 0) {
+            showSlide(0);
+            startAutoplay();
         }
     }
-
-    initHomeCarousel();
+});
