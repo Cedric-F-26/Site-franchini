@@ -179,10 +179,7 @@ Votre site sera déployé et accessible immédiatement !
 Créez un fichier `.env` à la racine du projet avec les variables suivantes :
 
 ```
-# Configuration Supabase
-NEXT_PUBLIC_SUPABASE_URL=votre-url-supabase
-NEXT_PUBLIC_SUPABASE_ANON_KEY=votre-cle-anon-supabase
-SUPABASE_SERVICE_ROLE_KEY=votre-service-role-key
+
 
 # Configuration du site
 SITE_TITLE="Franchini - Concessionnaire Deutz-Fahr"
@@ -199,7 +196,7 @@ NEXT_PUBLIC_GA_TRACKING_ID="UA-XXXXXXXXX-X"
 ```
 Site-franchini/
 ├── _data/               # Données du site (YAML/JSON)
-│   └── supabase.yml     # Configuration Supabase
+
 ├── _includes/           # Partiels HTML réutilisables
 │   ├── footer.html      # Pied de page
 │   └── header.html      # En-tête du site
@@ -234,7 +231,7 @@ Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de
 
 - [Jekyll](https://jekyllrb.com/)
 - [Vercel](https://vercel.com/)
-- [Supabase](https://supabase.com/)
+
 - [Deutz-Fahr](https://www.deutz-fahr.com/)
 
 ## 🔍 Référencement (SEO)

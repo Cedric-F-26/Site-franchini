@@ -53,13 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const type = urlParams.get('type');
 
                 if (type === 'recovery' && accessToken) {
-                    // Met à jour le mot de passe avec Supabase
-                    // Vous devrez remplacer cette logique par Firebase si vous migrez
-                    const { data, error } = await supabase.auth.updateUser({
-                        password: password
-                    });
-
-                    if (error) throw error;
+                    // Met à jour le mot de passe avec Firebase
+                    const user = firebase.auth().currentUser;
+                    const newPassword = password;
+                    await user.updatePassword(newPassword);
 
                     // Affiche le message de succès
                     successMessage.style.display = 'flex';

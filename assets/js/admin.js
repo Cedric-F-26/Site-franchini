@@ -1,5 +1,8 @@
 // Fonction d'initialisation de l'interface d'administration
 document.addEventListener('DOMContentLoaded', function() {
+    // Firebase est supposé être initialisé par firebase-config.js
+    // Assurez-vous que ce script est chargé AVANT admin.js dans votre HTML.
+
     // Initialisation des onglets
     const tabButtons = document.querySelectorAll('.tab-btn');
     const tabContents = document.querySelectorAll('.tab-content');
@@ -60,8 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutBtn.addEventListener('click', async function(e) {
             e.preventDefault();
             try {
-                const { error } = await supabase.auth.signOut();
-                if (error) throw error;
+                await firebase.auth().signOut();
                 window.location.href = 'connexion-prive.html';
             } catch (error) {
                 console.error('Erreur lors de la déconnexion:', error.message);
