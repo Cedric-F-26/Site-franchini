@@ -1,414 +1,97 @@
 ---
+layout: admin
+title: Tableau de bord
 permalink: /administrateur/
+scripts:
+  - /assets/js/admin.js
 ---
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administration - Franchini</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f2f5;
-            margin: 0;
-            display: none; /* Cacher par défaut jusqu'à vérification de l'auth */
-        }
-        .admin-header {
-            background-color: #fff;
-            padding: 15px 30px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .admin-header .logo img {
-            max-height: 40px;
-        }
-        .admin-user-info {
-            display: flex;
-            align-items: center;
-        }
-        .admin-user-info span {
-            margin-right: 20px;
-            font-weight: bold;
-        }
-        .btn-logout {
-            background-color: #d9534f;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .btn-logout:hover {
-            background-color: #c9302c;
-        }
-        .admin-container {
-            padding: 40px;
-            max-width: 960px;
-            margin: auto;
-        }
-        .admin-container h1 {
-            color: #333;
-        }
-    </style>
 
-    
-</head>
-<body>
+<nav class="tabs">
+    <button class="tab-link active" data-tab="tab-actualites"><i class="fas fa-newspaper"></i> Actualités</button>
+    <button class="tab-link" data-tab="tab-carousel"><i class="fas fa-images"></i> Carrousel</button>
+    <button class="tab-link" data-tab="tab-occasions"><i class="fas fa-car"></i> Occasions</button>
+    <button class="tab-link" data-tab="tab-locations"><i class="fas fa-tractor"></i> Locations</button>
+    <a href="https://console.firebase.google.com/u/0/project/mon-site-web-38a05/authentication/users" target="_blank" class="tab-link"><i class="fas fa-users-cog"></i> Utilisateurs</a>
+</nav>
 
-    <header class="admin-header">
-        <div class="logo">
-            <img src="../assets/images/logo-franchini-noir.png" alt="Logo Franchini">
+<div class="tab-content-wrapper">
+    <!-- Onglet Actualités -->
+    <section id="tab-actualites" class="tab-content active">
+        <h2><i class="fas fa-newspaper"></i> Gestion des actualités</h2>
+        <div class="admin-card">
+            <h3>Ajouter/Modifier une actualité</h3>
+            <form id="actualites-form">
+                <input type="hidden" id="actualite-id">
+                <div class="form-group">
+                    <label for="actualite-titre">Titre</label>
+                    <input type="text" id="actualite-titre" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="actualite-contenu">Contenu</label>
+                    <textarea id="actualite-contenu" class="form-control" rows="5"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Média (Image ou URL YouTube)</label>
+                    <div id="actualite-media-dropzone" class="dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Glissez-déposez un fichier ou cliquez pour sélectionner</p>
+                    </div>
+                    <input type="file" id="actualite-media-input" hidden>
+                    <div id="actualite-media-preview" class="preview-container"></div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+            </form>
         </div>
-        <div class="admin-user-info">
-            <span>Connecté : <strong id="user-email"></strong></span>
-            <button id="logout-button" class="btn-logout">
-                <i class="fas fa-sign-out-alt"></i> Déconnexion
-            </button>
+        <div class="admin-card">
+            <h3>Actualités existantes</h3>
+            <div id="actualites-list" class="items-list"></div>
         </div>
-    </header>
+    </section>
 
-    <main class="admin-container">
-        <h1>Tableau de bord</h1>
-        <p>Bienvenue dans votre espace d'administration.</p>
-        <!-- Le contenu de l'administration (gestion des actualités, etc.) ira ici -->
-    </main>
+    <!-- Onglet Carrousel -->
+    <section id="tab-carousel" class="tab-content">
+        <h2><i class="fas fa-images"></i> Gestion du carrousel d'accueil</h2>
+        <div class="admin-card">
+            <h3>Ajouter un élément au carrousel</h3>
+            <form id="carousel-form">
+                <div class="form-group">
+                    <label for="carousel-title">Titre</p>
+                    <input type="text" id="carousel-title" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>Média (Image ou vidéo)</label>
+                    <div id="carousel-media-dropzone" class="dropzone">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Glissez-déposez un fichier (image/vidéo) ou collez une URL YouTube</p>
+                    </div>
+                    <input type="file" id="carousel-media-input" hidden>
+                    <div id="carousel-media-preview" class="preview-container"></div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Ajouter au carrousel</button>
+            </form>
+        </div>
+        <div class="admin-card">
+            <h3>Éléments du carrousel</h3>
+            <div id="carousel-items-list" class="items-list"></div>
+        </div>
+    </section>
 
-    
+    <!-- Onglet Occasions -->
+    <section id="tab-occasions" class="tab-content">
+        <h2><i class="fas fa-car"></i> Gestion des occasions</h2>
+        <div class="admin-card">
+            <p>Cette section est en cours de construction.</p>
+        </div>
+    </section>
 
-</body>
-</html>
-            gap: 20px;
-        }
-
-        .header-social {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .header-social .social-icon {
-            color: #888;
-            font-size: 20px;
-            transition: color 0.3s, transform 0.3s;
-            opacity: 0.7;
-        }
-
-        .header-social .social-icon:hover {
-            color: #3D6AA2;
-            transform: translateY(-2px);
-            opacity: 1;
-        }
-
-        @media (max-width: 768px) {
-            .logo-text {
-                font-size: 24px;
-            }
-        }
-
-        /* Styles pour les zones de dépôt */
-        .dropzone {
-            border: 2px dashed #aaa;
-            border-radius: 5px;
-            padding: 25px;
-            text-align: center;
-            background: #f8f9fa;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin: 10px 0;
-            position: relative;
-            min-height: 100px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .dropzone.highlight {
-            border-color: #007bff;
-            background-color: #e7f1ff;
-        }
-        
-        .dropzone p, .dropzone span {
-            color: #666;
-            margin: 0;
-        }
-        
-        .dropzone i {
-            font-size: 24px;
-            margin-bottom: 10px;
-            display: block;
-            color: #007bff;
-        }
-        
-        .preview-container {
-            margin-top: 15px;
-        }
-        
-        .preview-container img {
-            max-width: 100%;
-            max-height: 200px;
-            border-radius: 4px;
-            border: 1px solid #eee;
-        }
-        
-        /* Styles pour le carrousel */
-        .carousel-items-container {
-            margin-top: 20px;
-        }
-        
-        .carousel-item {
-            display: flex;
-            margin-bottom: 15px;
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 4px;
-            background-color: #fff;
-        }
-        
-        .carousel-item-preview {
-            width: 200px;
-            margin-right: 20px;
-        }
-        
-        .carousel-item-preview img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-        
-        .carousel-item-details {
-            flex: 1;
-        }
-        
-        .carousel-item h4 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        .carousel-item p {
-            margin-bottom: 10px;
-            color: #666;
-        }
-        
-        .carousel-item-link {
-            display: inline-block;
-            margin-top: 10px;
-            color: #007bff;
-            text-decoration: none;
-        }
-        
-        .carousel-item-link:hover {
-            text-decoration: underline;
-        }
-        
-        .carousel-item-actions {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px solid #eee;
-        }
-        
-        .carousel-item-buttons button {
-            background: none;
-            border: none;
-            color: #6c757d;
-            cursor: pointer;
-            margin-right: 10px;
-            font-size: 16px;
-        }
-        
-        .carousel-item-buttons button:hover {
-            color: #0056b3;
-        }
-        
-        .drag-handle {
-            cursor: move;
-            color: #6c757d;
-            font-size: 16px;
-        }
-        
-        .drag-handle:hover {
-            color: #0056b3;
-        }
-        
-        .dragging {
-            opacity: 0.5;
-        }
-        
-        .drag-over {
-            border: 2px dashed #007bff !important;
-        }
-        
-        .remove-media-btn {
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 5px 10px;
-            cursor: pointer;
-            margin-top: 10px;
-            display: inline-flex;
-            align-items: center;
-            font-size: 13px;
-        }
-        
-        .remove-media-btn i {
-            margin-right: 5px;
-            font-size: 12px;
-        }
-        
-        /* Styles généraux */
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f5f5;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-
-        /* Header Admin */
-        .admin-header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 1rem 0;
-            margin-bottom: 2rem;
-        }
-
-        .admin-header h1 {
-            margin: 0;
-            font-size: 1.8rem;
-        }
-
-        .admin-header .user-info {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .admin-header .user-name {
-            font-weight: 500;
-        }
-
-        .header-social .logout-btn {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 0.5rem 1rem;
-            margin-left: 10px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.9rem;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
-        }
-
-        .admin-header .logout-btn i {
-            margin-right: 0.5rem;
-        }
-
-        .admin-header .logout-btn:hover {
-            background-color: rgba(255,255,255,0.3);
-        }
-
-        /* Styles pour le logo et la navigation */
-        .main-header {
-            background-color: #fff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .main-header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 80px;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-
-        .logo-text {
-            font-family: Arial, sans-serif;
-            font-size: 32px;
-            font-weight: bold;
-            color: #333;
-            letter-spacing: 1px;
-            position: relative;
-            text-decoration: none;
-        }
-
-        .logo-text::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%) scaleX(0.7);
-            width: 100%;
-            height: 3px;
-            background-color: #4CAF50;
-        }
-
-        .header-social {
-            display: flex;
-            gap: 15px;
-            margin-left: 20px;
-        }
-
-        .header-social .social-icon {
-            color: #888;
-            font-size: 20px;
-            transition: color 0.3s;
-            opacity: 0.7;
-        }
-
-        .header-social .social-icon:hover {
-            color: #3D6AA2;
-            opacity: 1;
-        }
-
-        .main-nav ul {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-            margin: 0;
-            padding: 0;
-        }
-
-        .main-nav a {
-            color: #333;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            padding: 5px 0;
-            position: relative;
-        }
+    <!-- Onglet Locations -->
+    <section id="tab-locations" class="tab-content">
+        <h2><i class="fas fa-tractor"></i> Gestion des locations</h2>
+        <div class="admin-card">
+            <p>Cette section est en cours de construction.</p>
+        </div>
+    </section>
+</div>
 
         .main-nav a:hover {
             color: #4CAF50;

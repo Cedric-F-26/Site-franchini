@@ -15,9 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('password').value;
 
         try {
-            await signInWithEmailAndPassword(auth, email, password);
-            // Connexion réussie
-            window.location.href = '/pages/administrateur.html'; // Redirection vers la page administrateur
+            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            console.log('Connexion réussie pour :', userCredential.user.email);
+            // Redirection vers la page administrateur
+            window.location.href = '/administrateur/';
         } catch (error) {
             console.error('Erreur de connexion:', error.code, error.message);
             let displayMessage = 'Erreur de connexion. Veuillez vérifier vos identifiants.';
@@ -26,8 +27,13 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (error.code === 'auth/invalid-email') {
                 displayMessage = 'Adresse email invalide.';
             }
-            errorMessage.textContent = 'Erreur : ' + displayMessage;
-            errorMessage.style.display = 'block';
+            if (errorMessage) {
+                errorMessage.textContent = displayMessage;
+                errorMessage.style.display = 'block';
+            } else {
+                // Fallback si l'élément n'est pas trouvé
+                alert(displayMessage);
+            }
         }
     });
 });

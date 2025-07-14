@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title | default: "Administration" }} - Franchini</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ '/assets/css/admin.css' | relative_url }}">
+</head>
+<body>
+    <header class="admin-header">
+        <div class="logo">
+            <a href="{{ '/' | relative_url }}"><img src="{{ '/assets/images/logo/Logo-Franchini-2.jpg' | relative_url }}" alt="Logo Franchini"></a>
+        </div>
+        <div class="admin-user-info">
+            <span>Connecté : <strong id="user-email"></strong></span>
+            <a href="#" id="logout-button" class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Déconnexion
+            </a>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        {{ content }}
+    </main>
+
+    <script type="module" src="{{ '/assets/js/admin.js' | relative_url }}"></script>
+</body>
+</html>

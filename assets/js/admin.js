@@ -1,4 +1,83 @@
-// Fonction d'initialisation de l'interface d'administration
+---
+---
+import {
+    auth,
+    onAuthStateChanged,
+    signOut
+} from './auth/firebase-config.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    const userEmailElement = document.getElementById('user-email');
+    const logoutButton = document.getElementById('logout-button');
+    const adminBody = document.querySelector('body');
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // L'utilisateur est connecté
+            console.log("Utilisateur connecté:", user.email);
+            if (userEmailElement) {
+                userEmailElement.textContent = user.email;
+            }
+            // Affiche le contenu de la page maintenant que l'auth est vérifiée
+            adminBody.style.display = 'block';
+        } else {
+            // L'utilisateur n'est pas connecté, redirection vers la page de connexion
+            console.log("Aucun utilisateur connecté, redirection...");
+            window.location.href = '{{ "/pages/connexion-prive.html" | relative_url }}';
+        }
+    });
+
+    // Gestion de la déconnexion
+    if (logoutButton) {
+        logoutButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => {
+                console.log('Déconnexion réussie.');
+                window.location.href = '{{ "/" | relative_url }}';
+            }).catch((error) => {
+                console.error('Erreur lors de la déconnexion:', error);
+            });
+        });
+    }
+
+    // Gestion des onglets
+    const tabs = document.querySelectorAll('.tab-link');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Ne fait rien si c'est un lien externe
+            if (tab.tagName === 'A') return;
+
+            const target = document.getElementById(tab.dataset.tab);
+
+            tabs.forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+            target.classList.add('active');
+        });
+    });
+
+    // Logique pour les formulaires (à développer)
+    const actualitesForm = document.getElementById('actualites-form');
+    if (actualitesForm) {
+        actualitesForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Logique de sauvegarde des actualités à implémenter.');
+        });
+    }
+
+    const carouselForm = document.getElementById('carousel-form');
+    if (carouselForm) {
+        carouselForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Logique de sauvegarde du carrousel à implémenter.');
+        });
+    }
+});
 document.addEventListener('DOMContentLoaded', function() {
     // Firebase est supposé être initialisé par firebase-config.js
     // Assurez-vous que ce script est chargé AVANT admin.js dans votre HTML.

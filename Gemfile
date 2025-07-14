@@ -10,6 +10,11 @@ ruby '>= 2.7.0', '< 3.5.0'
 gem "jekyll", "~> 4.3.3"
 gem "http_parser.rb", "~> 0.6.0" # Ajout pour corriger le build Vercel
 gem "webrick"
+gem "csv"
+gem "logger"
+gem "base64"
+gem "tzinfo"
+gem "tzinfo-data"
 
 # Plugins Jekyll
 group :jekyll_plugins do
@@ -37,6 +42,7 @@ group :jekyll_plugins do
   
   # Pour le développement local
   gem "jekyll-watch", "~> 2.2.1"
-  gem "html-proofer", "~> 3.19.0", group: :development
+  # gem "html-proofer", "~> 3.19.0", group: :development
   gem "rb-inotify", "~> 0.10.1", group: :development, require: false
+  gem "wdm", ">= 0.1.0" if Gem.win_platform?
 end
