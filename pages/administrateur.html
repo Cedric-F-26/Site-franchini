@@ -5,16 +5,18 @@ permalink: /administrateur/
 ---
 
 <nav class="tabs">
-    <button class="tab-link active" data-tab="tab-actualites"><i class="fas fa-newspaper"></i> Actualités</button>
-    <button class="tab-link" data-tab="tab-carousel"><i class="fas fa-images"></i> Carrousel</button>
+    <button class="tab-link active" data-tab="tab-carousel"><i class="fas fa-images"></i> Carrousel d'accueil</button>
+    <button class="tab-link" data-tab="tab-actualites"><i class="fas fa-newspaper"></i> Actualités</button>
     <button class="tab-link" data-tab="tab-occasions"><i class="fas fa-car"></i> Occasions</button>
-    <button class="tab-link" data-tab="tab-locations"><i class="fas fa-tractor"></i> Locations</button>
+    <button class="tab-link" data-tab="tab-neuf"><i class="fas fa-plus-square"></i> Matériel neuf</button>
+    <button class="tab-link" data-tab="tab-magasin"><i class="fas fa-store"></i> Magasin</button>
+    <button class="tab-link" data-tab="tab-contact"><i class="fas fa-envelope"></i> Contact</button>
     <a href="https://console.firebase.google.com/u/1/project/mon-site-web-38a05/authentication/users" target="_blank" class="tab-link"><i class="fas fa-users-cog"></i> Utilisateurs</a>
 </nav>
 
 <div class="tab-content-wrapper">
     <!-- Onglet Actualités -->
-    <section id="tab-actualites" class="tab-content active">
+    <section id="tab-actualites" class="tab-content">
         <h2><i class="fas fa-newspaper"></i> Gestion des actualités</h2>
         <div class="admin-card">
             <h3>Ajouter/Modifier une actualité</h3>
@@ -47,27 +49,29 @@ permalink: /administrateur/
     </section>
 
     <!-- Onglet Carrousel -->
-    <section id="tab-carousel" class="tab-content">
+    <section id="tab-carousel" class="tab-content active">
         <h2><i class="fas fa-images"></i> Personnalisation du bandeau d'accueil</h2>
         <div class="admin-card">
-            <h3>Gestion du carrousel</h3>
-            <div class="form-group">
-                <label for="media-type">Type de média :</label>
-                <select id="media-type-select" class="form-control">
-                    <option value="image">Image</option>
-                    <option value="youtube">Vidéo YouTube</option>
-                </select>
-            </div>
-            
-            <div id="image-upload-section">
+            <h4>Ajouter un nouvel élément</h4>
+            <form id="add-media-form">
                 <div class="form-group">
-                    <label for="media-upload">Téléverser une image :</label>
-                    <div class="dropzone" id="media-dropzone">
-                        <p>Glissez-déposez une image ici ou cliquez pour sélectionner</p>
-                        <input type="file" id="media-upload" accept="image/*" style="display: none;">
-                    </div>
-                    <div id="media-preview" class="preview-container"></div>
+                    <label for="media-type-select">Type de média</label>
+                    <select id="media-type-select">
+                        <option value="image" selected>Image</option>
+                        <option value="youtube">Vidéo YouTube</option>
+                    </select>
                 </div>
+
+                <!-- Section pour l'upload d'image -->
+                <div id="image-section">
+                    <div class="form-group">
+                        <label>Fichier image</label>
+                        <div id="image-dropzone" class="dropzone">
+                            <p>Glissez-déposez une image ici ou cliquez pour sélectionner un fichier</p>
+                            <input type="file" id="media-upload" accept="image/*" style="display: none;">
+                        </div>
+                        <div id="image-preview" class="preview-container"></div>
+                    </div>
             </div>
             
             <div id="youtube-section" style="display: none;">
@@ -83,8 +87,6 @@ permalink: /administrateur/
             </div>
             
             <button type="button" id="add-media-btn" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Ajouter au carrousel
-            </button>
         </div>
         
         <div class="admin-card">
@@ -104,11 +106,27 @@ permalink: /administrateur/
         </div>
     </section>
 
-    <!-- Onglet Locations -->
-    <section id="tab-locations" class="tab-content">
-        <h2><i class="fas fa-tractor"></i> Gestion des locations</h2>
+    <!-- Onglet Matériel Neuf -->
+    <section id="tab-neuf" class="tab-content">
+        <h2><i class="fas fa-plus-square"></i> Gestion du matériel neuf</h2>
         <div class="admin-card">
-            <p>Cette section est en cours de construction. Le code de gestion a été conservé pour une intégration future.</p>
+            <p>Cette section est en cours de construction.</p>
+        </div>
+    </section>
+
+    <!-- Onglet Magasin -->
+    <section id="tab-magasin" class="tab-content">
+        <h2><i class="fas fa-store"></i> Gestion du magasin</h2>
+        <div class="admin-card">
+            <p>Cette section est en cours de construction.</p>
+        </div>
+    </section>
+
+    <!-- Onglet Contact -->
+    <section id="tab-contact" class="tab-content">
+        <h2><i class="fas fa-envelope"></i> Gestion des contacts</h2>
+        <div class="admin-card">
+            <p>Cette section est en cours de construction.</p>
         </div>
     </section>
 </div>

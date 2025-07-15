@@ -57,6 +57,32 @@ Site vitrine officiel de Franchini, concessionnaire agréé Deutz-Fahr. Site sta
 - Compatible avec tous les appareils (mobile, tablette, ordinateur)
 - Chargement rapide grâce à l'optimisation des ressources
 
+## 🔌 Intégration Firebase & Cloudinary
+Le carrousel d'accueil, la section « Actualités » ainsi que l'ensemble de l'interface d'administration reposent sur **Firebase** (Firestore, Authentication, Storage) et **Cloudinary** pour l'hébergement des images.  
+Pour un fonctionnement optimal :
+
+1. Créez un projet Firebase puis remplacez les clés présentes dans `assets/js/auth/firebase-config.js` par les vôtres **ou** renseignez-les via des variables d'environnement et chargez-les dynamiquement lors du build.
+2. Activez les services **Authentication** (email / mot de passe) et **Firestore** en mode production.
+3. Créez les règles Firestore suivantes :
+```js
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null;
+    }
+  }
+}
+```
+4. Dans Cloudinary, créez un *upload preset* nommé `Site Web` (non-signé) et notez votre `cloud_name`.  
+   Ces valeurs sont utilisées dans `assets/js/admin/carousel.js` pour l'upload d'images.
+5. Déployez le site sur un domaine HTTPS – Firebase impose HTTPS pour ses SDK.
+
+Une fois ces étapes terminées :
+- L’interface `/pages/administrateur.html` permet d’ajouter, réordonner ou supprimer les éléments du carrousel.
+- Les changements sont visibles immédiatement sur la page d’accueil grâce au chargement dynamique depuis Firestore.
+
 ## 🛠 Configuration requise
 
 - Node.js (version 14 ou supérieure)
@@ -340,6 +366,34 @@ Pour toute question ou suggestion, n'hésitez pas à nous contacter :
 
 - Email : [contact@franchini.fr](mailto:contact@franchini.fr)
 - Site web : [https://franchini.fr](https://franchini.fr)
+
+## Administration et Gestion de Contenu
+
+L'administration du site se fait via une interface privée accessible à l'adresse `/pages/administrateur.html`.
+
+### Accès et Authentification
+
+L'accès à cette section est protégé par une authentification Firebase. Seuls les utilisateurs enregistrés peuvent se connecter et modifier le contenu.
+
+### Gestion du Carrousel d'Accueil
+
+Le carrousel de la page d'accueil est entièrement dynamique et géré depuis l'onglet "Carrousel d'accueil" de l'interface d'administration.
+
+#### Fonctionnalités
+
+1.  **Liste des médias** : Un aperçu de tous les éléments (images et vidéos YouTube) actuellement dans le carrousel est affiché, avec une miniature visuelle pour une identification facile.
+
+2.  **Ajout d'un média** :
+    *   **Image** : Sélectionnez "Image" dans le menu déroulant. Choisissez un titre (optionnel) et sélectionnez un fichier image. Le système va **automatiquement compresser et optimiser l'image** avant de l'envoyer sur le serveur pour garantir des temps de chargement rapides. Les images trop grandes (plus de 1920px de large ou de haut) seront redimensionnées tout en conservant leurs proportions.
+    *   **Vidéo YouTube** : Sélectionnez "Vidéo YouTube", donnez un titre (optionnel) et collez simplement l'URL de la vidéo YouTube.
+
+3.  **Suppression d'un média** : Cliquez sur le bouton "Supprimer" à côté d'un élément pour le retirer définitivement du carrousel. L'opération supprime à la fois la référence dans la base de données et le fichier image du stockage si applicable.
+
+#### Technologies utilisées
+
+*   **Firebase Firestore** : Pour stocker les informations des médias (type, URL, titre, ordre).
+*   **Firebase Storage** : Pour héberger les fichiers images.
+*   **Browser-Image-Compression** : Bibliothèque JavaScript utilisée pour optimiser les images côté client avant l'envoi.
 
 ---
 

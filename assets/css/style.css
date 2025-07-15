@@ -1,4 +1,13 @@
 /* Correctif pour la taille des titres de page */
+
+/* Assure que les médias du carrousel (images et vidéos) couvrent leur conteneur sans se déformer */
+.carousel-media {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* C'est la ligne la plus importante. Elle empêche la déformation. */
+    display: block;
+}
+
 .page-header h1 {
     font-size: 2.5rem !important; /* Ajustez cette valeur si nécessaire */
 }
