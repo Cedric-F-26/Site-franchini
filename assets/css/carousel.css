@@ -1,14 +1,5 @@
 /* Styles pour les carrousels */
 
-/* Styles pour les images du carrousel d'actualités */
-#news-carousel .carousel-item-image {
-  width: 100%; /* L'image prend toute la largeur du conteneur */
-  height: 250px; /* Hauteur fixe pour toutes les images */
-  object-fit: cover; /* Recadre l'image pour remplir l'espace sans la déformer */
-  object-position: center; /* Centre l'image lors du recadrage */
-  display: block; /* Assure un bon comportement de bloc */
-}
-
 #home-carousel-section {
     width: 100vw;
     position: relative;
