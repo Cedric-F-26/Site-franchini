@@ -7,12 +7,18 @@
   X-Content-Type-Options: nosniff
   X-XSS-Protection: 1; mode=block
   Referrer-Policy: strict-origin-when-cross-origin
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; img-src 'self' data: https:; font-src 'self' https://cdnjs.cloudflare.com; connect-src 'self' https://www.google-analytics.com;
+  Content-Security-Policy: default-src 'self'; 
+    script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://www.google-analytics.com https://www.gstatic.com https://connect.facebook.net https://www.youtube.com; 
+    style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; 
+    img-src 'self' data: https: https://img.youtube.com https://res.cloudinary.com https://scontent.xx.fbcdn.net https://*.fbcdn.net; 
+    font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; 
+    frame-src https://www.youtube.com https://www.facebook.com; 
+    connect-src 'self' https://www.google-analytics.com https://firestore.googleapis.com https://www.googleapis.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firebasestorage.googleapis.com https://www.facebook.com https://connect.facebook.net;
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   Permissions-Policy: geolocation=(), microphone=(), camera=()
   Cross-Origin-Opener-Policy: same-origin
   Cross-Origin-Resource-Policy: same-site
-  Cross-Origin-Embedder-Policy: require-corp
+  Cross-Origin-Embedder-Policy: unsafe-none
 
 # Configuration du cache pour les fichiers CSS
 /*.css

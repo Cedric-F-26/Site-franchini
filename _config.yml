@@ -32,13 +32,12 @@ minima:
 # ==============================================================================
 # Dossiers à inclure dans la construction finale
 include:
-  - _pages
+  - pages
   - _includes
   - _layouts
   - _sass
   - assets
   - .htaccess
-  - CNAME
   - robots.txt
   - sitemap.xml
   - .nojekyll
@@ -79,6 +78,9 @@ exclude:
   - LICENSE
   - CHANGELOG.md
   - Serveur.txt
+  - _redirects
+  - CNAME
+  - index.html.tmp
 
 # Répertoires du site
 destination: ./_site
@@ -102,7 +104,6 @@ plugins:
   - jekyll-sitemap
   - jekyll-include-cache
   - jekyll-compose
-  - sass-embedded
   - jekyll-redirect-from
 
 # Configuration Markdown
@@ -136,8 +137,6 @@ assets:
 sass:
   style: compressed
   sass_dir: _sass
-  implementation: sass-embedded
-
 
 # ==============================================================================
 # COLLECTIONS
