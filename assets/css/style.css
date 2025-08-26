@@ -1402,11 +1402,12 @@ body.menu-open {
 }
 
 .brand-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     margin-top: 30px;
-    justify-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 .brand-card {
@@ -1417,13 +1418,14 @@ body.menu-open {
     text-decoration: none;
     color: var(--deutz-dark);
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%;
-    max-width: 220px;
-    min-height: 140px;
-    justify-content: center;
+    flex: 0 0 auto;
+    min-width: 200px;
+    height: 80px;
+    margin-right: 15px;
+    margin-bottom: 15px;
 }
 
 .brand-card:hover {
@@ -1432,16 +1434,18 @@ body.menu-open {
 }
 
 .brand-card img {
-    height: 50px;
+    height: 40px;
     width: auto;
-    max-width: 120px;
-    margin-bottom: 15px;
+    max-width: 80px;
+    margin-right: 15px;
+    margin-bottom: 0;
     object-fit: contain;
 }
 
 .brand-card span {
     font-weight: 500;
-    text-align: center;
+    text-align: left;
+    white-space: nowrap;
 }
 
 /* Page Header */
@@ -1459,19 +1463,20 @@ body.menu-open {
 
 @media (max-width: 768px) {
     .brand-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-        gap: 20px;
+        flex-direction: column;
+        gap: 15px;
     }
 
     .brand-card {
-        max-width: 160px;
-        min-height: 120px;
-        padding: 15px;
+        width: 100%;
+        min-width: auto;
+        height: 70px;
     }
 
     .brand-card img {
-        height: 40px;
-        max-width: 100px;
+        height: 35px;
+        max-width: 70px;
+        margin-right: 12px;
     }
 }
 
