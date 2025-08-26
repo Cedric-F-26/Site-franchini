@@ -4,7 +4,7 @@
     padding: 15px 0;
 }
 
-/* Pleine largeur uniquement pour le header */
+/* Header en pleine largeur uniquement */
 .main-header .container {
     max-width: 100%;
     width: 100%;

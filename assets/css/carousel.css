@@ -43,6 +43,8 @@
 
 .secondary-carousel .carousel-container {
     height: 400px; /* Hauteur pour les carrousels secondaires */
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .carousel-wrapper {

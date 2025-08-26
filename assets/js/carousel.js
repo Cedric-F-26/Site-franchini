@@ -273,6 +273,28 @@ function initCarousel(carouselId) {
     initDots();
     updateCarousel();
     
+    // Intégration YouTube pour le carrousel d'accueil
+    if (carouselId === 'home-carousel') {
+        const youtubeIframes = carousel.querySelectorAll('iframe[src*="youtube.com/embed/"]');
+        if (youtubeIframes.length) {
+            youtubeIframes.forEach((iframe) => {
+                enableJsApiOnIframe(iframe);
+                setupYouTubePlayer(iframe, {
+                    onEnded: () => {
+                        // Avance au slide suivant à la fin de la vidéo
+                        moveSlide(1);
+                    },
+                    onPlaying: () => {
+                        // Met en pause l'autoplay du carrousel pendant la lecture
+                        isPaused = true;
+                        stopAutoPlay();
+                        updatePlayPauseButton();
+                    }
+                });
+            });
+        }
+    }
+    
     // Gestion des événements
     if (prevBtn) {
         prevBtn.addEventListener('click', () => moveSlide(-1));
@@ -405,6 +427,75 @@ function initCarousel(carouselId) {
         stopAutoPlay,
         togglePlayPause
     };
+}
+
+// ==============================
+// YouTube Iframe API integration
+// ==============================
+let YT_API_REQUESTED = false;
+let YT_API_READY = false;
+const YT_PENDING_SETUPS = [];
+
+function ensureYouTubeIframeAPI() {
+    if (YT_API_REQUESTED) return;
+    YT_API_REQUESTED = true;
+    const tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    tag.async = true;
+    document.head.appendChild(tag);
+}
+
+// Appelé par l'API YouTube lorsqu'elle est prête
+window.onYouTubeIframeAPIReady = function() {
+    YT_API_READY = true;
+    while (YT_PENDING_SETUPS.length) {
+        const fn = YT_PENDING_SETUPS.shift();
+        try { fn(); } catch (e) { console.error('YT setup error:', e); }
+    }
+}
+
+function enableJsApiOnIframe(iframe) {
+    if (!(iframe && iframe.src)) return;
+    const url = new URL(iframe.src, window.location.origin);
+    if (!/youtube\.com\/embed\//.test(url.href)) return;
+    if (url.searchParams.get('enablejsapi') !== '1') {
+        url.searchParams.set('enablejsapi', '1');
+        try { url.searchParams.set('origin', window.location.origin); } catch {}
+        iframe.src = url.toString();
+    }
+    if (!iframe.id) {
+        iframe.id = 'ytplayer_' + Math.random().toString(36).slice(2, 9);
+    }
+}
+
+function setupYouTubePlayer(iframe, { onEnded, onPlaying } = {}) {
+    const create = () => {
+        if (!window.YT || !YT.Player) return;
+        try {
+            const player = new YT.Player(iframe.id, {
+                events: {
+                    'onStateChange': (event) => {
+                        const state = event.data;
+                        if (state === YT.PlayerState.ENDED && typeof onEnded === 'function') {
+                            onEnded();
+                        } else if (state === YT.PlayerState.PLAYING && typeof onPlaying === 'function') {
+                            onPlaying();
+                        }
+                    }
+                }
+            });
+            return player;
+        } catch (e) {
+            console.error('YT.Player creation failed:', e);
+        }
+    };
+
+    if (YT_API_READY) {
+        create();
+    } else {
+        YT_PENDING_SETUPS.push(create);
+        ensureYouTubeIframeAPI();
+    }
 }
 
 // Initialiser tous les carrousels au chargement de la page
