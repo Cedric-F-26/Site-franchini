@@ -63,6 +63,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            // Ignorer les liens externes (comme Utilisateurs)
+            if (tab.tagName === 'A' && tab.hasAttribute('href')) {
+                return; // Laisser le comportement par défaut
+            }
+
             const target = document.getElementById(tab.dataset.tab);
 
             tabs.forEach(t => t.classList.remove('active'));

@@ -4,50 +4,7 @@ title: Tableau de bord
 permalink: /administrateur/
 ---
 
-<nav class="tabs">
-    <button class="tab-link active" data-tab="tab-carousel"><i class="fas fa-images"></i> Carrousel d'accueil</button>
-    <button class="tab-link" data-tab="tab-actualites"><i class="fas fa-newspaper"></i> Actualités</button>
-    <button class="tab-link" data-tab="tab-occasions"><i class="fas fa-car"></i> Occasions</button>
-    <button class="tab-link" data-tab="tab-neuf"><i class="fas fa-plus-square"></i> Matériel neuf</button>
-    <button class="tab-link" data-tab="tab-magasin"><i class="fas fa-store"></i> Magasin</button>
-    <button class="tab-link" data-tab="tab-contact"><i class="fas fa-envelope"></i> Contact</button>
-    <a href="https://console.firebase.google.com/u/1/project/mon-site-web-38a05/authentication/users" target="_blank" class="tab-link"><i class="fas fa-users-cog"></i> Utilisateurs</a>
-</nav>
-
 <div class="tab-content-wrapper">
-    <!-- Onglet Actualités -->
-    <section id="tab-actualites" class="tab-content">
-        <h2><i class="fas fa-newspaper"></i> Gestion des actualités</h2>
-        <div class="admin-card">
-            <h3>Ajouter/Modifier une actualité</h3>
-            <form id="actualites-form">
-                <input type="hidden" id="actualite-id">
-                <div class="form-group">
-                    <label for="actualite-titre">Titre</label>
-                    <input type="text" id="actualite-titre" class="form-control" required>
-                </div>
-                <div class="form-group">
-                    <label for="actualite-contenu">Contenu</label>
-                    <textarea id="actualite-contenu" class="form-control" rows="5"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Média (Image ou URL YouTube)</label>
-                    <div id="actualite-media-dropzone" class="dropzone">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <p>Glissez-déposez un fichier ou cliquez pour sélectionner</p>
-                    </div>
-                    <input type="file" id="actualite-media-input" hidden accept="image/*,video/*">
-                    <div id="actualite-media-preview" class="preview-container"></div>
-                </div>
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
-            </form>
-        </div>
-        <div class="admin-card">
-            <h3>Actualités existantes</h3>
-            <div id="actualites-list" class="items-list"></div>
-        </div>
-    </section>
-
     <!-- Onglet Carrousel -->
     <section id="tab-carousel" class="tab-content active">
         <h2><i class="fas fa-images"></i> Personnalisation du bandeau d'accueil</h2>
