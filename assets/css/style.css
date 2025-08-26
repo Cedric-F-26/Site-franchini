@@ -1403,9 +1403,10 @@ body.menu-open {
 
 .brand-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
     margin-top: 30px;
+    justify-items: center;
 }
 
 .brand-card {
@@ -1419,6 +1420,10 @@ body.menu-open {
     flex-direction: column;
     align-items: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    max-width: 220px;
+    min-height: 140px;
+    justify-content: center;
 }
 
 .brand-card:hover {
@@ -1427,8 +1432,9 @@ body.menu-open {
 }
 
 .brand-card img {
-    height: 60px;
+    height: 50px;
     width: auto;
+    max-width: 120px;
     margin-bottom: 15px;
     object-fit: contain;
 }
@@ -1453,16 +1459,19 @@ body.menu-open {
 
 @media (max-width: 768px) {
     .brand-grid {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
         gap: 20px;
     }
 
     .brand-card {
+        max-width: 160px;
+        min-height: 120px;
         padding: 15px;
     }
 
     .brand-card img {
         height: 40px;
+        max-width: 100px;
     }
 }
 
