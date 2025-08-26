@@ -13,9 +13,18 @@
         <div class="logo">
             <a href="{{ '/' | relative_url }}"><img src="{{ '/assets/images/logo/Logo-Franchini-2.jpg' | relative_url }}" alt="Logo Franchini"></a>
         </div>
+        <nav class="tabs header-tabs">
+            <button class="tab-link" data-tab="tab-carousel"><i class="fas fa-images"></i> Carrousel d'accueil</button>
+            <button class="tab-link" data-tab="tab-actualites"><i class="fas fa-newspaper"></i> Actualités</button>
+            <button class="tab-link" data-tab="tab-occasions"><i class="fas fa-car"></i> Occasions</button>
+            <button class="tab-link" data-tab="tab-neuf"><i class="fas fa-plus-square"></i> Matériel neuf</button>
+            <button class="tab-link" data-tab="tab-magasin"><i class="fas fa-store"></i> Magasin</button>
+            <button class="tab-link" data-tab="tab-contact"><i class="fas fa-envelope"></i> Contact</button>
+            <a href="https://console.firebase.google.com/u/1/project/mon-site-web-38a05/authentication/users" target="_blank" class="tab-link"><i class="fas fa-users-cog"></i> Utilisateurs</a>
+        </nav>
         <div class="admin-user-info">
             <span>Connecté : <strong id="user-email"></strong></span>
-            <a href="#" id="logout-button" class="btn-logout">
+            <a href="#" id="logout-btn" class="btn-logout">
                 <i class="fas fa-sign-out-alt"></i> Déconnexion
             </a>
         </div>
@@ -46,6 +55,7 @@
 
     <script src="{{ '/assets/js/admin/occasions.js' | relative_url }}"></script>
     <script src="{{ '/assets/js/admin/promotions.js' | relative_url }}"></script>
+    <script type="module" src="{{ '/assets/js/admin/actualites-firebase.js' | relative_url }}"></script>
     <script src="{{ '/assets/js/admin/contacts.js' | relative_url }}"></script>
 </body>
 </html>

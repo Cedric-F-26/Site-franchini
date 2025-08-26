@@ -19,15 +19,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- Éléments du DOM ---
     const mediaTypeSelect = document.getElementById('media-type-select');
-    const imageUploadSection = document.getElementById('image-upload-section');
+    const imageUploadSection = document.getElementById('image-section');
     const youtubeSection = document.getElementById('youtube-section');
     const addMediaBtn = document.getElementById('add-media-btn');
     const carouselItemsList = document.getElementById('carousel-items-list');
     const mediaTitleInput = document.getElementById('media-title');
     const youtubeUrlInput = document.getElementById('youtube-url');
-    const mediaDropzone = document.getElementById('media-dropzone');
+    const mediaDropzone = document.getElementById('image-dropzone');
     const mediaUploadInput = document.getElementById('media-upload');
-    const mediaPreview = document.getElementById('media-preview');
+    const mediaPreview = document.getElementById('image-preview');
 
     let uploadedFile = null;
     let carouselItems = [];
@@ -36,9 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     async function loadCarouselItems() {
         try {
-            const q = query(collection(db, 'carousel'), orderBy('order'));
+            const q = query(collection(db, 'carousel'));
             const snapshot = await getDocs(q);
-            carouselItems = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            carouselItems = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })).sort((a,b)=>(a.order ?? 0) - (b.order ?? 0));
             renderCarouselItems();
         } catch (error) {
             console.error("Erreur de chargement du carrousel: ", error);

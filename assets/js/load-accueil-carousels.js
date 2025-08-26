@@ -1,139 +1,72 @@
-document.addEventListener('DOMContentLoaded', function() {
+// assets/js/load-accueil-carousels.js
+import { db } from './auth/firebase-config.js';
+import { collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 
-    const renderCarouselSlides = (sliderContainer, items) => {
-        sliderContainer.innerHTML = items.map((item, index) => {
-            const isActive = index === 0 ? 'active' : '';
+/**
+ * Charge les données depuis Firestore et peuple le carrousel des actualités.
+ */
+async function loadNewsCarousel() {
+    // Cible le conteneur spécifique où les slides doivent être injectées
+    const newsSlider = document.querySelector('#news-carousel .carousel-slider');
+
+    // S'assure que le conteneur existe avant de continuer
+    if (!newsSlider) {
+        console.error('Le conteneur du carrousel d\'actualités (#news-carousel .carousel-slider) est introuvable.');
+        return;
+    }
+
+    try {
+        // Crée une requête pour récupérer les 5 dernières actualités, triées par date
+        const q = query(collection(db, 'Actualités'), orderBy('date', 'desc'), limit(5));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            newsSlider.innerHTML = '<p>Aucune actualité à afficher pour le moment.</p>';
+            return;
+        }
+
+        // Construit le HTML pour chaque actualité
+        const slidesHtml = querySnapshot.docs.map(doc => {
+            const item = doc.data();
             let mediaHtml = '';
 
-            if (item.type === 'youtube' && item.mediaUrl) {
-                const videoIdMatch = item.mediaUrl.match(/(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
-                const videoId = videoIdMatch ? videoIdMatch[1] : null;
-                if (videoId) {
-                    const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&loop=1&playlist=${videoId}&controls=0&showinfo=0&autohide=1`;
-                    mediaHtml = `<iframe class="carousel-media" src="${embedUrl}" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+            // Gère l'affichage de l'image ou de la vidéo YouTube
+            if (item.type === 'image' && item.mediaUrl) {
+                mediaHtml = `<img src="${item.mediaUrl}" alt="${item.titre}" class="carousel-item-image">`;
+            } else if (item.type === 'video' && item.mediaUrl) {
+                const videoIdMatch = item.mediaUrl.match(/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/);
+                if (videoIdMatch && videoIdMatch[1]) {
+                    mediaHtml = `<div class="embed-responsive embed-responsive-16by9"><iframe class="embed-responsive-item" src="https://www.youtube.com/embed/${videoIdMatch[1]}" allowfullscreen></iframe></div>`;
                 }
-            } else if (item.imageUrl) {
-                mediaHtml = `<img src="${item.imageUrl}" class="carousel-media" alt="${item.title || 'Image du carrousel'}">`;
             }
 
-            // Si aucun média n'est disponible, le contenu textuel sera quand même affiché.
+            // Retourne la structure HTML complète pour un slide
             return `
-                <div class="carousel-slide ${isActive}">
+                <div class="carousel-item">
                     ${mediaHtml}
-                    <div class="hero-content">
-                        ${item.title ? `<h2>${item.title}</h2>` : ''}
-                        ${item.contenu ? `<p>${item.contenu}</p>` : ''}
+                    <div class="carousel-caption">
+                        <h3>${item.titre}</h3>
+                        <p>${item.contenu.substring(0, 100)}...</p>
                     </div>
                 </div>
             `;
         }).join('');
-    };
 
-    const initCarouselLogic = (carouselElement) => {
-        const slides = carouselElement.querySelectorAll('.carousel-slide');
-        const prevBtn = carouselElement.querySelector('.carousel-control.prev');
-        const nextBtn = carouselElement.querySelector('.carousel-control.next');
-        const dotsContainer = carouselElement.querySelector('.carousel-dots');
+        // Injecte les slides dans le carrousel
+        newsSlider.innerHTML = slidesHtml;
 
-        if (slides.length <= 1) {
-            if(prevBtn) prevBtn.style.display = 'none';
-            if(nextBtn) nextBtn.style.display = 'none';
-            if(dotsContainer) dotsContainer.style.display = 'none';
-            return;
+        // Appelle la fonction d'initialisation globale du carrousel (présente dans vos autres scripts)
+        if (typeof initCarousel === 'function') {
+            initCarousel('news-carousel');
+        } else {
+            console.error('La fonction initCarousel() n\'est pas disponible.');
         }
 
-        let currentIndex = 0;
-        let slideInterval;
+    } catch (error) {
+        console.error("Erreur lors du chargement des actualités pour le carrousel :", error);
+        newsSlider.innerHTML = '<p>Impossible de charger les actualités. Veuillez vérifier la console pour les erreurs.</p>';
+    }
+}
 
-        // Créer les points de navigation
-        if (dotsContainer) {
-            dotsContainer.innerHTML = '';
-            slides.forEach((_, i) => {
-                const dot = document.createElement('button');
-                dot.classList.add('carousel-dot');
-                dot.setAttribute('aria-label', `Aller à la diapositive ${i + 1}`);
-                if (i === 0) dot.classList.add('active');
-                dot.addEventListener('click', () => {
-                    showSlide(i);
-                    stopAutoplay();
-                });
-                dotsContainer.appendChild(dot);
-            });
-        }
-        const dots = dotsContainer ? dotsContainer.querySelectorAll('.carousel-dot') : [];
-
-        const showSlide = (index) => {
-            slides.forEach((slide, i) => {
-                slide.classList.toggle('active', i === index);
-            });
-            if (dots.length > 0) {
-                dots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === index);
-                });
-            }
-            currentIndex = index;
-        };
-
-        const nextSlide = () => showSlide((currentIndex + 1) % slides.length);
-        const prevSlide = () => showSlide((currentIndex - 1 + slides.length) % slides.length);
-
-        const startAutoplay = () => {
-            stopAutoplay();
-            slideInterval = setInterval(nextSlide, 5000);
-        };
-
-        const stopAutoplay = () => clearInterval(slideInterval);
-
-        if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); stopAutoplay(); });
-        if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); stopAutoplay(); });
-
-        carouselElement.addEventListener('mouseenter', stopAutoplay);
-        carouselElement.addEventListener('mouseleave', startAutoplay);
-
-        showSlide(0);
-        startAutoplay();
-    };
-
-    const loadCarouselData = async (collectionName, carouselId) => {
-        const carouselElement = document.getElementById(carouselId);
-        if (!carouselElement) {
-            console.error(`Carousel element with ID #${carouselId} not found.`);
-            return;
-        }
-
-        const sliderContainer = carouselElement.querySelector('.carousel-slider');
-        if (!sliderContainer) {
-            console.error(`Container .carousel-slider not found for #${carouselId}`);
-            carouselElement.innerHTML = `<p style="color: red; padding: 2rem; text-align: center;">Erreur: Structure HTML incorrecte.</p>`;
-            return;
-        }
-
-        const { collection, query, orderBy, getDocs } = window.firebase;
-        const db = window.firebase.db;
-
-        try {
-            const q = query(collection(db, collectionName), orderBy('order'));
-            const snapshot = await getDocs(q);
-            const items = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-            if (items.length > 0) {
-                renderCarouselSlides(sliderContainer, items);
-                initCarouselLogic(carouselElement);
-            } else {
-                carouselElement.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%; color: black;">Aucun élément à afficher.</div>`;
-            }
-        } catch (error) {
-            console.error(`Erreur de chargement pour ${collectionName}: `, error);
-            carouselElement.innerHTML = `<div style="display: flex; justify-content: center; align-items: center; height: 100%; color: red;">Erreur de chargement.</div>`;
-        }
-    };
-
-    const waitForFirebase = setInterval(() => {
-        if (window.firebase && window.firebase.db) {
-            clearInterval(waitForFirebase);
-            loadCarouselData('carousel', 'home-carousel');
-            loadCarouselData('Actualités', 'news-carousel');
-            loadCarouselData('occasions', 'occasions-carousel');
-        }
-    }, 100);
-});
+// Lance le chargement une fois que le DOM est prêt
+document.addEventListener('DOMContentLoaded', loadNewsCarousel);

@@ -1,4 +1,12 @@
 /* === VARIABLES & GLOBAL === */
+
+/* Uniformisation des aperçus dans la liste des actualités */
+.items-list .item-card .item-preview img {
+  width: 100%;
+  height: 120px; /* Hauteur fixe pour l'aperçu */
+  object-fit: cover; /* Recadre sans déformer */
+  object-position: center;
+}
 :root {
     --primary-color: #2c5e3f; /* Vert Franchini */
     --secondary-color: #4a90e2; /* Bleu secondaire */

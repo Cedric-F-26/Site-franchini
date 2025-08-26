@@ -8,10 +8,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', () => {
-            firebase.auth().signOut().then(() => {
+            const { auth, signOut } = window.firebase;
+            signOut(auth).then(() => {
                 console.log('User signed out.');
                 window.location.href = '/connexion.html'; 
-            }).catch((error) => {
+                        }).catch((error) => {
                 console.error('Sign out error', error);
             });
         });
@@ -220,7 +221,11 @@ function hideSpinner() {
 }
 
 function initializeAllDropzones() {
-    setupDropzone('actualite-media-dropzone', 'actualite-media-input', 'actualite-media-preview');
-    setupDropzone('carousel-media-dropzone', 'carousel-media-input', 'carousel-media-preview');
+    if (document.getElementById('actualite-media-dropzone')) {
+        setupDropzone('actualite-media-dropzone', 'actualite-media-input', 'actualite-media-preview');
+    }
+    if (document.getElementById('carousel-media-dropzone')) {
+        setupDropzone('carousel-media-dropzone', 'carousel-media-input', 'carousel-media-preview');
+    }
     // Ajoutez ici d'autres initialisations de dropzone si nécessaire
 }

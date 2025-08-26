@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Gérer la soumission du formulaire
-        contactForm.addEventListener('submit', function(e) {
+        contactForm.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             // Récupérer les valeurs du formulaire
@@ -35,10 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             // Valider l'email
-            const emailRegex = /^[^
-\s@]+@[^
-\s@]+\.[^
-\s@]+$/;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(formValues.email)) {
                 alert('Veuillez entrer une adresse email valide.');
                 return;

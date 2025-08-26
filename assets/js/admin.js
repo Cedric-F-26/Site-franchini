@@ -1,16 +1,7 @@
-document.addEventListener('DOMContentLoaded', async () => {
-    // Attendre que la configuration Firebase soit chargée
-    if (!window.firebase || !window.imageCompression) {
-        console.error("Firebase ou la bibliothèque de compression d'image n'est pas initialisé.");
-        return;
-    }
+import { auth } from './auth/firebase-config.js';
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 
-    const { 
-        auth, onAuthStateChanged, 
-        db, collection, addDoc, getDocs, query, orderBy, doc, deleteDoc, 
-        storage, ref, uploadBytes, getDownloadURL, deleteObject 
-    } = window.firebase;
-
+document.addEventListener('DOMContentLoaded', () => {
     // --- AUTHENTIFICATION ---
     const adminContent = document.getElementById('admin-content');
     const loginContainer = document.getElementById('login-container');
@@ -82,11 +73,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     });
 
-    // --- GESTION DU CARROUSEL D'ACCUEIL ---
+    // --- GESTION DU CARROUSEL D'ACCUEIL (désactivé, remplacé par admin/carousel.js) ---
     const addMediaBtn = document.getElementById('add-media-btn');
     const mediaTypeSelect = document.getElementById('media-type-select');
-    const imageUploadSection = document.getElementById('image-upload-section');
-    const youtubeSection = document.getElementById('youtube-section');
+    const imageUploadSection = document.getElementById('image-section');
+    const youtubeSection = document.getElementById('youtube-section'); 
     const mediaUploadInput = document.getElementById('media-upload');
     const youtubeUrlInput = document.getElementById('youtube-url');
     const mediaTitleInput = document.getElementById('media-title');
@@ -102,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadCarouselItems() {
         if (!carouselItemsList) return;
-        const q = query(collection(db, 'carousel'), orderBy('order', 'desc'));
+        const q = query(collection(db, 'carousel'));
         const querySnapshot = await getDocs(q);
         carouselItemsList.innerHTML = '';
         querySnapshot.forEach((docSnap) => {
@@ -131,7 +122,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    if (addMediaBtn) {
+    /* Legacy carousel logic disabled - handled in assets/js/admin/carousel.js
+if (false && addMediaBtn) {
         addMediaBtn.addEventListener('click', async () => {
             const originalBtnText = addMediaBtn.textContent;
             addMediaBtn.disabled = true;
@@ -193,9 +185,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    // Initialisation des composants
-    initDropzones();
-    if (carouselItemsList) {
+    */
+// Initialisation des autres composants
+    // initDropzones(); // désactivé
+    /* disabled legacy carousel list
+if (false && carouselItemsList) {
         loadCarouselItems();
 
         carouselItemsList.addEventListener('click', async (e) => {
@@ -224,4 +218,5 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
+*/
 });

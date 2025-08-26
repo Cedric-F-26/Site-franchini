@@ -7,7 +7,7 @@ const ASSETS_TO_CACHE = [
   '/index.html',
   '/assets/css/style.css',
   '/assets/css/header.css',
-  '/assets/css/footer-style.css',
+
   '/assets/css/carousel.css',
   '/assets/js/main.js',
   '/assets/js/carousel.js',

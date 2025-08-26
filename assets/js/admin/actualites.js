@@ -2,9 +2,27 @@ document.addEventListener('DOMContentLoaded', function() {
     const actualitesForm = document.getElementById('actualites-form');
     const actualitesList = document.getElementById('actualites-list');
     const mediaPreview = document.getElementById('actualite-media-preview');
-    let actualites = JSON.parse(localStorage.getItem('franchiniActualites')) || [];
+    // Initialisation Firebase depuis l'objet global
+if (!window.firebase) {
+    console.error('Firebase non initialisé');
+    return;
+}
+const { db, collection, addDoc, getDocs, deleteDoc, doc, orderBy, query, storage, ref, uploadBytes, getDownloadURL } = window.firebase;
+let actualites = [];
 
-    // Gérer la soumission du formulaire d'actualités
+    // Chargement initial des actualités depuis Firestore
+async function fetchActualites() {
+    try {
+        const q = query(collection(db, 'Actualités'), orderBy('date', 'desc'));
+        const snap = await getDocs(q);
+        actualites = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        updateActualitesList();
+    } catch (e) {
+        console.error('Erreur chargement actualités', e);
+    }
+}
+
+// Gérer la soumission du formulaire d'actualités
     if (actualitesForm) {
         actualitesForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -84,5 +102,5 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Affichage initial
-    updateActualitesList();
+    fetchActualites();
 });
