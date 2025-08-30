@@ -175,10 +175,16 @@ async function initHomeCarousel() {
 
         // Mettre à jour le DOM
         if (slider) {
+            console.log('--- Début Debug Carrousel ---');
+            console.log('HTML généré pour les slides:', slidesHTML);
             slider.innerHTML = slidesHTML;
+            console.log('Contenu du slider APRES innerHTML:', slider.innerHTML);
             
             // Attendre le prochain "frame" pour que le DOM soit bien à jour
             requestAnimationFrame(async () => {
+                const foundSlides = carouselElement.querySelectorAll('.carousel-slide');
+                console.log('Slides trouvés dans requestAnimationFrame:', foundSlides.length);
+
                 // Initialiser le carrousel
                 const carousel = initCarousel({
                     selector: '#home-carousel',
@@ -197,6 +203,7 @@ async function initHomeCarousel() {
                         }
                     }
                 }
+                console.log('--- Fin Debug Carrousel ---');
             });
         }
         
