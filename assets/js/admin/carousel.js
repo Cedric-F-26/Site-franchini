@@ -191,6 +191,89 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // --- Logique de Glisser-Déposer ---
+    let draggedItem = null;
+    
+    function addDragAndDropListeners() {
+        const items = document.querySelectorAll('#carousel-items-list .carousel-item');
+        
+        items.forEach(item => {
+            // Supprimer d'abord les anciens écouteurs pour éviter les doublons
+            item.removeEventListener('dragstart', handleDragStart);
+            item.removeEventListener('dragend', handleDragEnd);
+            item.removeEventListener('dragover', handleDragOver);
+            
+            // Ajouter les nouveaux écouteurs
+            item.addEventListener('dragstart', handleDragStart);
+            item.addEventListener('dragend', handleDragEnd);
+            item.addEventListener('dragover', handleDragOver);
+        });
+        
+        // Ajouter l'écouteur de drop sur le conteneur parent
+        const container = document.getElementById('carousel-items-list');
+        container.removeEventListener('dragover', handleContainerDragOver);
+        container.addEventListener('dragover', handleContainerDragOver);
+    }
+    
+    function handleDragStart(e) {
+        draggedItem = this;
+        this.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/html', this.innerHTML);
+    }
+    
+    function handleDragEnd() {
+        this.classList.remove('dragging');
+        saveNewOrder();
+    }
+    
+    function handleDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        
+        const afterElement = getDragAfterElement(carouselItemsList, e.clientY);
+        if (afterElement) {
+            carouselItemsList.insertBefore(draggedItem, afterElement);
+        } else {
+            carouselItemsList.appendChild(draggedItem);
+        }
+    }
+    
+    function handleContainerDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    }
+    
+    async function saveNewOrder() {
+        const newOrderIds = [...document.querySelectorAll('#carousel-items-list .carousel-item')].map(item => item.dataset.id);
+        carouselItems.sort((a, b) => newOrderIds.indexOf(a.id) - newOrderIds.indexOf(b.id));
+        
+        showSpinner('Mise à jour de l\'ordre...');
+        try {
+            await updateOrder();
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de l'ordre :", error);
+            showAlert(`Erreur de mise à jour: ${error.message}`, 'error');
+        } finally {
+            hideSpinner();
+        }
+    }
+    
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.carousel-item:not(.dragging)')];
+        
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            
+            if (offset < 0 && offset > (closest.offset || Number.NEGATIVE_INFINITY)) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
+    }
+
     // --- Fonctions Utilitaires ---
     function handleFile(file) {
         uploadedFile = file;
@@ -208,54 +291,6 @@ document.addEventListener('DOMContentLoaded', function() {
     function getYouTubeID(url) {
         const regex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
         return (url.match(regex) || [])[1] || null;
-    }
-
-    // --- Logique de Glisser-Déposer ---
-    let draggedItem = null;
-    function addDragAndDropListeners() {
-        document.querySelectorAll('#carousel-items-list .carousel-item').forEach(item => {
-            item.addEventListener('dragstart', e => {
-                draggedItem = e.currentTarget;
-                setTimeout(() => draggedItem.classList.add('dragging'), 0);
-            });
-            item.addEventListener('dragend', async () => {
-                if (!draggedItem) return;
-                draggedItem.classList.remove('dragging');
-                draggedItem = null;
-                const newOrderIds = [...carouselItemsList.querySelectorAll('.carousel-item')].map(item => item.dataset.id);
-                carouselItems.sort((a, b) => newOrderIds.indexOf(a.id) - newOrderIds.indexOf(b.id));
-                showSpinner('Mise à jour de l\'ordre...');
-                try {
-                    await updateOrder();
-                } catch (error) {
-                    showAlert(`Erreur de mise à jour: ${error.message}`, 'error');
-                } finally {
-                    hideSpinner();
-                }
-            });
-            item.addEventListener('dragover', e => {
-                e.preventDefault();
-                const afterElement = getDragAfterElement(carouselItemsList, e.clientY);
-                if (afterElement == null) {
-                    carouselItemsList.appendChild(draggedItem);
-                } else {
-                    carouselItemsList.insertBefore(draggedItem, afterElement);
-                }
-            });
-        });
-    }
-
-    function getDragAfterElement(container, y) {
-        const draggableElements = [...container.querySelectorAll('.carousel-item:not(.dragging)')];
-        return draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect();
-            const offset = y - box.top - box.height / 2;
-            if (offset < 0 && offset > closest.offset) {
-                return { offset: offset, element: child };
-            } else {
-                return closest;
-            }
-        }, { offset: Number.NEGATIVE_INFINITY }).element;
     }
 
     // --- Initialisation ---
