@@ -30,11 +30,20 @@
 .secondary-carousel {
     flex: 1 1 0px;
     min-width: 0;
+    width: 100%;
+}
+
+.secondary-carousel .fb-page,
+.secondary-carousel .fb-page span,
+.secondary-carousel .fb-page iframe {
+    width: 100% !important;
+    max-width: 100% !important;
 }
 
 .secondary-carousel .carousel-container {
     height: 400px; /* Hauteur pour les carrousels secondaires */
-    max-width: 600px;
+    width: 100%;
+    max-width: 100%;
     margin: 0 auto;
 }
 
