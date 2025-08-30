@@ -83,27 +83,37 @@ title: Matériel Neuf
 
 <style>
 .unified-brand-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
-    justify-content: center;
+    padding: 1rem;
+    text-align: center;
+}
+
+.brand-card {
+    display: inline-block;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 0.75rem;
+    text-align: center;
+    border: 1px solid #ddd;
+    height: 180px;
+    width: 180px;
+    vertical-align: top;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
 .grid-header {
-    grid-column: 1 / -1;
+    flex: 0 0 100%;
+    text-align: center;
     color: var(--deutz-green);
-    margin: 2rem 0 1rem;
+    margin: 1rem 0;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--deutz-green);
-    text-align: center;
-    width: 100%;
-}
-
-.grid-header:first-of-type {
-    margin-top: 0;
 }
 
 .grid-header i, .grid-header img {
@@ -116,27 +126,6 @@ title: Matériel Neuf
     vertical-align: middle;
     background-color: var(--deutz-green);
     mix-blend-mode: multiply;
-}
-
-.brand-card {
-    background-color: #fff;
-    border-radius: 8px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #ddd;
-    height: 180px;
-    width: 180px;
-    margin: 0 auto;
-}
-
-.brand-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
 }
 
 .brand-logo {
