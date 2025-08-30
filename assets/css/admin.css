@@ -38,54 +38,102 @@ body {
 
 /* === HEADER === */
 .admin-header {
-    background-color: var(--white);
-    padding: 1rem 2rem;
-    box-shadow: var(--box-shadow);
+    background: #2c3e50;
+    color: white;
+    padding: 0 20px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.admin-header .logo {
+    padding: 10px 0;
 }
 
 .admin-header .logo img {
-    max-height: 50px;
-    vertical-align: middle;
+    height: 50px;
+    width: auto;
+}
+
+.tabs.header-tabs {
+    display: flex;
+    gap: 5px;
+    flex: 1;
+    justify-content: center;
+    margin: 0 20px;
+    flex-wrap: wrap;
+}
+
+.tab-link {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    transition: all 0.2s;
+}
+
+.tab-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.tab-link i {
+    font-size: 16px;
 }
 
 .admin-user-info {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 15px;
+    padding: 10px 0;
 }
 
-.admin-user-info span {
-    font-weight: 500;
+.admin-menu-link {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background 0.2s;
 }
 
-#user-email {
-    color: var(--primary-color);
-    font-weight: 700;
+.admin-menu-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+}
+
+.user-email {
+    font-size: 14px;
+    opacity: 0.9;
+    padding: 0 10px;
 }
 
 .btn-logout {
-    background-color: var(--danger-color);
-    color: var(--white);
+    background: rgba(255, 255, 255, 0.1);
     border: none;
-    padding: 0.6rem 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-    text-decoration: none;
-    display: inline-flex;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .btn-logout:hover {
-    background-color: #c82333;
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 /* === SPINNER & ALERTS === */
@@ -461,9 +509,49 @@ textarea.form-control {
     border-radius: 4px;
 }
 
-
-
 /* Responsive */
+@media (max-width: 1024px) {
+    .tabs.header-tabs {
+        order: 3;
+        flex: 0 0 100%;
+        margin: 10px 0;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+    
+    .admin-header {
+        padding: 10px;
+    }
+    
+    .admin-user-info {
+        margin-left: auto;
+    }
+    
+    .menu-text {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-header .logo img {
+        height: 40px;
+    }
+    
+    .tab-link {
+        padding: 8px 10px;
+        font-size: 13px;
+    }
+    
+    .tab-link i {
+        font-size: 14px;
+    }
+    
+    .user-email {
+        display: none;
+    }
+}
+
 @media (max-width: 768px) {
     .admin-container {
         padding: 10px;
