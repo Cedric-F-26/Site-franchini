@@ -441,30 +441,38 @@ export function initCarousel(carouselId, options = {}) {
     };
 }
 
-// ==============================
 // YouTube Iframe API integration
-// ==============================
 let YT_API_REQUESTED = false;
-let YT_API_READY = false;
-const YT_PENDING_SETUPS = [];
+let YT_READY = false;
+const YT_API_CALLBACKS = [];
 
+// Export the YouTube API functions
+export const YouTubeAPI = {
+    ensureYouTubeIframeAPI,
+    onYouTubeIframeAPIReady,
+    setupYouTubePlayer
+};
+
+// Remove the DOMContentLoaded event listener since we're using modules
+// and the carousel will be initialized by home-carousel.js
+
+// Keep all the existing YouTube API functions as they are
 function ensureYouTubeIframeAPI() {
-    if (YT_API_REQUESTED) return;
-    YT_API_REQUESTED = true;
-    const tag = document.createElement('script');
-    tag.src = 'https://www.youtube.com/iframe_api';
-    tag.async = true;
-    document.head.appendChild(tag);
-}
-
-// Appelé par l'API YouTube lorsqu'elle est prête
-window.onYouTubeIframeAPIReady = function() {
-    YT_API_READY = true;
-    while (YT_PENDING_SETUPS.length) {
-        const fn = YT_PENDING_SETUPS.shift();
-        try { fn(); } catch (e) { console.error('YT setup error:', e); }
+    if (!YT_API_REQUESTED) {
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        YT_API_REQUESTED = true;
     }
 }
+
+// This will be called by YouTube's iframe API when it's ready
+window.onYouTubeIframeAPIReady = function() {
+    YT_READY = true;
+    YT_API_CALLBACKS.forEach(callback => callback());
+    YT_API_CALLBACKS.length = 0;
+};
 
 function enableJsApiOnIframe(iframe) {
     if (!(iframe && iframe.src)) return;
@@ -502,68 +510,10 @@ function setupYouTubePlayer(iframe, { onEnded, onPlaying } = {}) {
         }
     };
 
-    if (YT_API_READY) {
+    if (YT_READY) {
         create();
     } else {
-        YT_PENDING_SETUPS.push(create);
+        YT_API_CALLBACKS.push(create);
         ensureYouTubeIframeAPI();
     }
 }
-
-// Initialiser tous les carrousels au chargement de la page
-document.addEventListener('DOMContentLoaded', function() {
-    // Vérifier si l'utilisateur a désactivé les animations
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    
-    // Initialiser chaque carrousel
-    const carousels = document.querySelectorAll('.carousel-slider');
-    carousels.forEach(carousel => {
-        if (carousel.id) {
-            // Ajouter des attributs d'accessibilité
-            carousel.setAttribute('role', 'region');
-            carousel.setAttribute('aria-roledescription', 'carousel');
-            carousel.setAttribute('aria-live', 'off');
-            
-            // Initialiser le carrousel
-            initCarousel(carousel.id);
-            
-            // Si l'utilisateur a désactivé les animations, arrêter l'autoplay
-            if (prefersReducedMotion) {
-                const container = carousel.closest('.carousel-container');
-                if (container) {
-                    const playPauseBtn = container.querySelector('.carousel-play');
-                    if (playPauseBtn) {
-                        playPauseBtn.style.display = 'none';
-                    }
-                }
-            }
-        }
-    });
-    
-    // Gestion du bouton de lecture/pause global
-    document.addEventListener('click', (e) => {
-        if (e.target.closest('.carousel-play')) {
-            const container = e.target.closest('.carousel-container');
-            if (container) {
-                const carouselId = container.querySelector('.carousel-slider')?.id;
-                if (carouselId) {
-                    // Trouver l'instance du carrousel et basculer l'état de lecture
-                    const carousel = document.getElementById(carouselId);
-                    if (carousel) {
-                        const playPauseBtn = container.querySelector('.carousel-play');
-                        const isPaused = playPauseBtn.innerHTML.includes('play');
-                        
-                        if (isPaused) {
-                            sessionStorage.setItem('carouselAutoplay', 'enabled');
-                        } else {
-                            sessionStorage.setItem('carouselAutoplay', 'disabled');
-                        }
-                        
-                        // Recharger le carrousel pour appliquer les changements
-                        initCarousel(carouselId);
-                    }
-                }
-            }
-        }
-    });
-});

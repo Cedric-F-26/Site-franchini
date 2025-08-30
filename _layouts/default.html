@@ -32,8 +32,16 @@
     {% include footer.html %}
     
     <!-- Scripts JS -->
-    <script src="{{ '/assets/js/carousel.js' | relative_url }}" type="module"></script>
-    <script src="{{ '/assets/js/home-carousel.js' | relative_url }}" type="module"></script>
+    <script type="module">
+        // Import the carousel module
+        import { initCarousel } from '{{ "/assets/js/carousel.js" | relative_url }}';
+        
+        // Make initCarousel available globally for home-carousel.js
+        window.initCarousel = initCarousel;
+        
+        // Load home-carousel.js as a module
+        import '{{ "/assets/js/home-carousel.js" | relative_url }}';
+    </script>
     
     <!-- Scripts spécifiques à la page -->
     {%- if page.scripts -%}

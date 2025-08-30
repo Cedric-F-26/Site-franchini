@@ -7,8 +7,13 @@ import {
     onAuthStateChanged, 
     signOut 
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
-import {
-    initializeFirestore, 
+import { 
+    getFirestore,
+    collection, 
+    getDocs, 
+    query, 
+    orderBy,
+    enableIndexedDbPersistence,
     CACHE_SIZE_UNLIMITED
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import {
@@ -34,13 +39,29 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Configurer Firestore avec le cache
-const firestoreConfig = {
-  cacheSizeBytes: CACHE_SIZE_UNLIMITED,
-  experimentalForceLongPolling: true // Optionnel : peut améliorer la stabilité
-};
+// Initialiser Firestore
+const db = getFirestore(app);
 
-const db = initializeFirestore(app, firestoreConfig);
+// Activer la persistance hors ligne
+async function enableOfflinePersistence() {
+  try {
+    await enableIndexedDbPersistence(db, { 
+      cacheSizeBytes: CACHE_SIZE_UNLIMITED 
+    });
+    console.log("La persistance hors ligne est activée");
+  } catch (err) {
+    if (err.code === 'failed-precondition') {
+      console.warn("La persistance a échoué car plusieurs onglets sont ouverts");
+    } else if (err.code === 'unimplemented') {
+      console.warn("Le navigateur actuel ne supporte pas la persistance");
+    }
+  }
+}
+
+if (typeof window !== 'undefined') {
+  enableOfflinePersistence();
+}
+
 const storage = getStorage(app);
 
 // Configurer la persistance de l'authentification
@@ -48,11 +69,6 @@ setPersistence(auth, browserSessionPersistence)
   .catch((error) => {
     console.error("Erreur de configuration de la persistance:", error);
   });
-
-// Activer la persistance hors ligne pour Firestore
-if (typeof window !== 'undefined') {
-    // La persistance est déjà configurée dans initializeFirestore
-}
 
 export {
     // Services
@@ -65,15 +81,10 @@ export {
     signOut,
     
     // Firestore
-    // collection, 
-    // getDocs, 
-    // orderBy, 
-    // query, 
-    // addDoc, 
-    // deleteDoc, 
-    // doc, 
-    // writeBatch, 
-    // updateDoc,
+    collection, 
+    getDocs, 
+    query, 
+    orderBy,
     
     // Storage
     ref, 

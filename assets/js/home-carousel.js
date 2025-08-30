@@ -2,7 +2,7 @@
 console.log('Démarrage du chargement du script home-carousel.js');
 
 // Importer initCarousel depuis carousel.js
-import { initCarousel } from './carousel.js';
+import { initCarousel, YouTubeAPI } from './carousel.js';
 
 // Variables globales pour la gestion des vidéos
 let youtubePlayers = {};
@@ -19,15 +19,12 @@ function getYouTubeID(url) {
 // Charger l'API YouTube
 function loadYouTubeAPI() {
     return new Promise((resolve) => {
+        YouTubeAPI.ensureYouTubeIframeAPI();
         if (window.YT && window.YT.Player) {
             resolve();
-            return;
+        } else {
+            window.onYouTubeIframeAPIReady = resolve;
         }
-        const tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        window.onYouTubeIframeAPIReady = resolve;
     });
 }
 
@@ -73,7 +70,7 @@ async function initHomeCarousel() {
     carouselSlider.innerHTML = '<div class="loading">Chargement du carrousel en cours...</div>';
 
     try {
-        // Charger dynamiquement Firebase uniquement si nécessaire
+        // Importer les fonctions Firestore depuis le fichier de configuration
         const { db, collection, getDocs, query, orderBy } = await import('./auth/firebase-config.js');
         
         console.log('Connexion à Firestore...');
@@ -98,67 +95,66 @@ async function initHomeCarousel() {
             const item = doc.data();
             const isActive = slideIndex === 0 ? 'active' : '';
             
-            if (item.type === 'youtube') {
-                const videoId = getYouTubeID(item.mediaUrl);
+            if (item.type === 'youtube' && item.videoUrl) {
+                const videoId = getYouTubeID(item.videoUrl);
                 if (videoId) {
-                    const containerId = `youtube-player-${slideIndex}`;
                     slidesHTML += `
                         <div class="carousel-slide ${isActive}" data-type="youtube" data-video-id="${videoId}">
-                            <div id="${containerId}" class="youtube-player"></div>
+                            <div class="youtube-player" data-video-id="${videoId}"></div>
                         </div>`;
-                        
-                    // Créer le lecteur YouTube
-                    if (window.YT && window.YT.Player) {
-                        youtubePlayers[videoId] = new YT.Player(containerId, {
-                            videoId: videoId,
-                            playerVars: {
-                                'autoplay': isActive ? 1 : 0,
-                                'controls': 1,
-                                'rel': 0,
-                                'enablejsapi': 1,
-                                'modestbranding': 1,
-                                'playsinline': 1,
-                                'mute': 1
-                            }
-                        });
-                    }
+                    slideIndex++;
                 }
-            } else {
+            } else if (item.imageUrl) {
                 slidesHTML += `
                     <div class="carousel-slide ${isActive}" data-type="image">
-                        <img src="${item.mediaUrl}" 
-                             class="carousel-image" 
-                             alt="${item.title || 'Image du carrousel'}" 
-                             loading="lazy"
-                             onerror="this.onerror=null;this.src='/assets/images/logo/Logo-Franchini-2.jpg';">
-                        ${item.title ? `
-                        <div class="carousel-content">
-                            <h2>${item.title}</h2>
-                            ${item.description ? `<p>${item.description}</p>` : ''}
-                        </div>` : ''}
+                        <img src="${item.imageUrl}" class="carousel-image" alt="${item.alt || ''}">
                     </div>`;
+                slideIndex++;
             }
-            slideIndex++;
         });
 
-        // Mettre à jour le DOM
+        // Mettre à jour le HTML du carrousel
         carouselSlider.innerHTML = slidesHTML;
         
+        // Initialiser les lecteurs YouTube
+        const youtubePlayersEls = document.querySelectorAll('.youtube-player');
+        youtubePlayersEls.forEach(playerEl => {
+            const videoId = playerEl.getAttribute('data-video-id');
+            if (videoId && window.YT && window.YT.Player) {
+                const player = new window.YT.Player(playerEl, {
+                    videoId: videoId,
+                    playerVars: {
+                        'autoplay': 0,
+                        'controls': 1,
+                        'rel': 0,
+                        'showinfo': 0,
+                        'modestbranding': 1,
+                        'playsinline': 1
+                    },
+                    events: {
+                        'onReady': (event) => {
+                            youtubePlayers[videoId] = event.target;
+                        }
+                    }
+                });
+            }
+        });
+        
         // Initialiser le carrousel
-        try {
-            initCarousel('home-carousel', {
-                onSlideChange: onSlideChange
-            });
-            console.log('Carrousel initialisé avec succès');
-        } catch (error) {
-            console.error('Erreur lors de l\'initialisation du carrousel:', error);
-        }
+        initCarousel('home-carousel', {
+            autoplay: true,
+            autoplayInterval: 5000,
+            onSlideChange: onSlideChange
+        });
         
     } catch (error) {
         console.error('ERREUR lors du chargement du carrousel:', error);
         carouselSlider.innerHTML = `
-            <div class="error-message">
-                <p>Impossible de charger le carrousel. Veuillez réessayer plus tard.</p>
+            <div class="carousel-slide active" data-type="image">
+                <img src="/assets/images/logo/Logo-Franchini-2.jpg" class="carousel-image" alt="Bienvenue chez Franchini">
+                <div class="error-message">
+                    <p>Erreur de chargement du carrousel. Veuillez rafraîchir la page.</p>
+                </div>
             </div>`;
     }
 }
