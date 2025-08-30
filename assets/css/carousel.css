@@ -1,11 +1,13 @@
 /* Styles pour les carrousels */
 
 #home-carousel-section {
-    width: 100%;
+    width: 100vw;
     position: relative;
-    margin: 0;
-    padding: 0;
-    height: 70vh; /* Hauteur du carrousel principal */
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    height: 70vh;
     margin-bottom: 2rem;
     overflow: hidden;
 }
@@ -45,11 +47,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    margin: 0;
-    padding: 0;
     opacity: 0;
     transition: opacity 0.5s ease-in-out;
     z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .carousel-slide.active {
@@ -60,25 +64,23 @@
 .carousel-image {
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    object-fit: cover;
+    object-position: center;
 }
 
 .video-container {
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
 }
 
 .video-container iframe {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    transform: translate(-50%, -50%);
     border: none;
 }
 
