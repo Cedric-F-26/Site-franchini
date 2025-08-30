@@ -46,7 +46,7 @@ title: Matériel Neuf
                     <span>Quivogne</span>
                 </a>
 
-                <h2 class="grid-header"><i class="fas fa-truck-pickup"></i> TP-Manutention</h2>
+                <h2 class="grid-header"><img src="{{ '/assets/images/logo/telescopique.png' | relative_url }}" alt="TP-Manutention" class="header-icon-img"> TP-Manutention</h2>
                 <a href="https://www.bobcat.com/eu/fr/" target="_blank" class="brand-card">
                     <img src="{{ '/assets/images/logo/bobcat.png' | relative_url }}" alt="Bobcat" class="brand-logo">
                     <span>Bobcat</span>
@@ -86,8 +86,9 @@ title: Matériel Neuf
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
-    max-width: 1000px; /* Largeur maximale pour 4 éléments */
-    margin: 0 auto; /* Centrage de la grille */
+    max-width: 1000px;
+    margin: 0 auto;
+    justify-items: center;
 }
 
 .grid-header {
@@ -108,8 +109,16 @@ title: Matériel Neuf
     margin-right: 10px;
 }
 
+.header-icon-img {
+    height: 24px; /* Ajuster la taille de l'icône */
+    margin-right: 10px;
+    vertical-align: middle;
+    /* Filtre pour approximer la couleur verte du thème */
+    filter: brightness(0) saturate(100%) invert(48%) sepia(34%) saturate(1224%) hue-rotate(85deg) brightness(95%) contrast(86%);
+}
+
 .brand-card {
-    background: white;
+    background-color: #fff;
     border-radius: 8px;
     padding: 1rem;
     display: flex;
