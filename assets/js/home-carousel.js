@@ -177,24 +177,27 @@ async function initHomeCarousel() {
         if (slider) {
             slider.innerHTML = slidesHTML;
             
-            // Initialiser le carrousel
-            const carousel = initCarousel({
-                selector: '#home-carousel',
-                autoplay: true,
-                autoplayInterval: 5000,
-                onSlideChange: onSlideChange
-            });
-            
-            // Initialiser les lecteurs YouTube
-            if (youtubeAPILoaded) {
-                const videoContainers = carouselElement.querySelectorAll('.video-container');
-                for (const container of videoContainers) {
-                    const videoId = container.getAttribute('data-video-id');
-                    if (videoId) {
-                        await initYouTubePlayer(container, videoId);
+            // Attendre que le DOM soit mis à jour avant d'initialiser
+            setTimeout(() => {
+                // Initialiser le carrousel
+                const carousel = initCarousel({
+                    selector: '#home-carousel',
+                    autoplay: true,
+                    autoplayInterval: 5000,
+                    onSlideChange: onSlideChange
+                });
+                
+                // Initialiser les lecteurs YouTube
+                if (youtubeAPILoaded) {
+                    const videoContainers = carouselElement.querySelectorAll('.video-container');
+                    for (const container of videoContainers) {
+                        const videoId = container.getAttribute('data-video-id');
+                        if (videoId) {
+                            initYouTubePlayer(container, videoId);
+                        }
                     }
                 }
-            }
+            }, 0);
         }
         
         console.log('Carrousel initialisé avec succès');
