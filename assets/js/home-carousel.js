@@ -1,46 +1,51 @@
+console.log('Démarrage du chargement du script home-carousel.js');
+
 import { db, collection, getDocs, query, orderBy } from './auth/firebase-config.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('Chargement du carrousel d\'accueil...');
+    console.log('Événement DOMContentLoaded déclenché');
+    
     const carouselSlider = document.querySelector('#home-carousel .carousel-slider');
     
     if (!carouselSlider) {
-        console.error('Élément du carrousel non trouvé');
+        console.error('ERREUR: Élément .carousel-slider non trouvé dans #home-carousel');
         return;
     }
 
-    let currentIndex = 0;
-    let slides = [];
-    let intervalId = null;
-    const IMAGE_DISPLAY_TIME = 3000; // 3 secondes pour les images
-    let currentSlideTimeout = null;
+    try {
+        console.log('Tentative de connexion à Firestore...');
+        
+        // Afficher un indicateur de chargement
+        carouselSlider.innerHTML = '<div class="loading">Chargement du carrousel en cours...</div>';
+        
+        const q = query(collection(db, 'carousel'), orderBy('order'));
+        console.log('Requête Firestore créée:', q);
+        
+        const querySnapshot = await getDocs(q);
+        console.log('Réponse Firestore reçue, nombre de documents:', querySnapshot.size);
+        
+        if (querySnapshot.empty) {
+            console.warn('Aucun document trouvé dans la collection "carousel"');
+            carouselSlider.innerHTML = `
+                <div class="carousel-slide active" data-type="image">
+                    <img src="/assets/images/logo/Logo-Franchini-2.jpg" class="carousel-image" alt="Bienvenue chez Franchini">
+                </div>`;
+            return;
+        }
 
-    async function loadCarouselItems() {
-        try {
-            const q = query(collection(db, 'carousel'), orderBy('order'));
-            const querySnapshot = await getDocs(q);
+        // Créer les slides du carrousel
+        let slidesHTML = '';
+        querySnapshot.forEach((doc, index) => {
+            const item = doc.data();
+            const isActive = index === 0 ? 'active' : '';
+            console.log(`Traitement de l'élément ${index}:`, item);
             
-            if (querySnapshot.empty) {
-                console.log('Aucun élément dans le carrousel');
-                carouselSlider.innerHTML = `
-                    <div class="carousel-slide active" data-type="image">
-                        <img src="/assets/images/logo/Logo-Franchini-2.jpg" class="carousel-image" alt="Bienvenue chez Franchini">
-                    </div>`;
-                return;
-            }
-
-            // Créer les slides du carrousel
-            querySnapshot.forEach((doc, index) => {
-                const item = doc.data();
-                const slide = document.createElement('div');
-                slide.className = `carousel-slide ${index === 0 ? 'active' : ''}`;
-                slide.dataset.id = doc.id;
-                slide.dataset.type = item.type;
-                slide.dataset.duration = item.duration || (item.type === 'image' ? IMAGE_DISPLAY_TIME : 0);
+            if (item.type === 'youtube') {
+                const videoId = getYouTubeID(item.mediaUrl);
+                console.log('ID vidéo YouTube extrait:', videoId);
                 
-                if (item.type === 'youtube') {
-                    const videoId = getYouTubeID(item.mediaUrl);
-                    slide.innerHTML = `
+                slidesHTML += `
+                    <div class="carousel-slide ${isActive}" data-type="youtube">
                         <div class="video-container">
                             <iframe 
                                 src="https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&enablejsapi=1" 
@@ -48,159 +53,57 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                                 allowfullscreen>
                             </iframe>
-                        </div>`;
-                } else {
-                    slide.innerHTML = `
-                        <img src="${item.mediaUrl}" class="carousel-image" alt="${item.title || ''}">
+                        </div>
+                    </div>`;
+            } else {
+                console.log('Image détectée, URL:', item.mediaUrl);
+                slidesHTML += `
+                    <div class="carousel-slide ${isActive}" data-type="image">
+                        <img src="${item.mediaUrl}" class="carousel-image" alt="${item.title || ''}" onerror="this.onerror=null;this.src='/assets/images/logo/Logo-Franchini-2.jpg';">
                         ${item.title ? `
                         <div class="carousel-content">
                             <h2>${item.title}</h2>
                             ${item.description ? `<p>${item.description}</p>` : ''}
-                        </div>` : ''}`;
-                }
-                
-                carouselSlider.appendChild(slide);
-                slides.push(slide);
-            });
-
-            // Initialiser le carrousel
-            initCarousel();
-            
-        } catch (error) {
-            console.error('Erreur lors du chargement du carrousel:', error);
-            carouselSlider.innerHTML = `
-                <div class="carousel-slide active">
-                    <div class="carousel-content">
-                        <h2>Erreur de chargement</h2>
-                        <p>Impossible de charger le carrousel. Veuillez réessayer plus tard.</p>
-                    </div>
-                </div>`;
-        }
-    }
-
-    function initCarousel() {
-        // Démarrer le défilement automatique
-        startAutoPlay();
-        
-        // Gestion du clic sur les boutons de navigation
-        document.querySelectorAll('.carousel-control').forEach(button => {
-            button.addEventListener('click', (e) => {
-                if (e.target.closest('.prev')) {
-                    navigate(-1);
-                } else if (e.target.closest('.next')) {
-                    navigate(1);
-                }
-                resetAutoPlay();
-            });
-        });
-        
-        // Gestion du survol pour arrêter le défilement
-        carouselSlider.addEventListener('mouseenter', pauseAutoPlay);
-        carouselSlider.addEventListener('mouseleave', startAutoPlay);
-        
-        // Gestion du touch pour mobile
-        let touchStartX = 0;
-        carouselSlider.addEventListener('touchstart', (e) => {
-            touchStartX = e.touches[0].clientX;
-            pauseAutoPlay();
-        }, { passive: true });
-        
-        carouselSlider.addEventListener('touchend', (e) => {
-            const touchEndX = e.changedTouches[0].clientX;
-            const diff = touchStartX - touchEndX;
-            
-            if (Math.abs(diff) > 50) { // Seuil de glissement
-                if (diff > 0) {
-                    navigate(1);
-                } else {
-                    navigate(-1);
-                }
-            }
-            
-            startAutoPlay();
-        }, { passive: true });
-    }
-    
-    function navigate(direction) {
-        // Arrêter le timer actuel
-        if (currentSlideTimeout) {
-            clearTimeout(currentSlideTimeout);
-            currentSlideTimeout = null;
-        }
-        
-        // Mettre à jour l'index
-        currentIndex = (currentIndex + direction + slides.length) % slides.length;
-        
-        // Mettre à jour l'affichage
-        updateActiveSlide();
-        
-        // Démarrer le timer pour le slide suivant
-        startSlideTimer();
-    }
-    
-    function updateActiveSlide() {
-        // Mettre à jour les classes actives
-        slides.forEach((slide, index) => {
-            const isActive = index === currentIndex;
-            slide.classList.toggle('active', isActive);
-            slide.setAttribute('aria-hidden', !isActive);
-            
-            // Gérer l'autoplay des vidéos
-            if (isActive && slide.dataset.type === 'youtube') {
-                const iframe = slide.querySelector('iframe');
-                if (iframe) {
-                    const videoId = getYouTubeID(iframe.src);
-                    if (videoId) {
-                        iframe.contentWindow.postMessage(JSON.stringify({
-                            event: 'command',
-                            func: 'playVideo'
-                        }), '*');
-                    }
-                }
+                        </div>` : ''}
+                    </div>`;
             }
         });
-    }
-    
-    function startSlideTimer() {
-        const currentSlide = slides[currentIndex];
-        if (!currentSlide) return;
+
+        // Mettre à jour le DOM
+        console.log('Mise à jour du DOM avec les slides');
+        carouselSlider.innerHTML = slidesHTML;
         
-        // Ne pas démarrer de timer pour les vidéos (elles ont leur propre durée)
-        if (currentSlide.dataset.type === 'youtube') return;
-        
-        // Démarrer le timer pour passer au slide suivant
-        currentSlideTimeout = setTimeout(() => {
-            navigate(1);
-        }, parseInt(currentSlide.dataset.duration) || IMAGE_DISPLAY_TIME);
-    }
-    
-    function startAutoPlay() {
-        // Arrêter tout timer existant
-        pauseAutoPlay();
-        
-        // Démarrer le timer pour le slide actuel
-        startSlideTimer();
-    }
-    
-    function pauseAutoPlay() {
-        if (currentSlideTimeout) {
-            clearTimeout(currentSlideTimeout);
-            currentSlideTimeout = null;
+        // Initialiser le carrousel
+        console.log('Tentative d\'initialisation du carrousel...');
+        if (window.initCarousel) {
+            initCarousel('home-carousel');
+            console.log('Carrousel initialisé avec succès');
+        } else {
+            console.error('ERREUR: La fonction initCarousel n\'est pas disponible');
         }
+        
+    } catch (error) {
+        console.error('ERREUR lors du chargement du carrousel:', error);
+        carouselSlider.innerHTML = `
+            <div class="error-message">
+                <p>Impossible de charger le carrousel. Veuillez réessayer plus tard.</p>
+                <p>${error.message}</p>
+            </div>`;
     }
-    
-    function resetAutoPlay() {
-        pauseAutoPlay();
-        startAutoPlay();
-    }
-    
-    // Fonction utilitaire pour extraire l'ID d'une vidéo YouTube
-    function getYouTubeID(url) {
-        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-        const match = url.match(regExp);
-        return (match && match[2].length === 11) ? match[2] : null;
-    }
-    
-    // Charger les éléments du carrousel
-    await loadCarouselItems();
 });
+
+// Fonction utilitaire pour extraire l'ID d'une vidéo YouTube
+function getYouTubeID(url) {
+    if (!url) {
+        console.warn('URL YouTube non fournie');
+        return null;
+    }
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    const videoId = (match && match[2].length === 11) ? match[2] : null;
+    console.log(`Extraction de l'ID YouTube: ${url} -> ${videoId}`);
+    return videoId;
+}
+
+// Vérifier que le module est bien chargé
+console.log('Script home-carousel.js chargé avec succès');
