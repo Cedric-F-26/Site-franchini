@@ -1,4 +1,6 @@
+console.log("AUDIT: Fichier carousel.js chargé.");
 document.addEventListener('DOMContentLoaded', async function() {
+    console.log('AUDIT: Événement DOMContentLoaded déclenché.');
     console.log('Démarrage du script carousel.js');
     
     // Vérifier si les éléments du DOM existent
@@ -6,9 +8,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     const mediaTypeSelect = document.getElementById('media-type-select');
     
     if (!carouselItemsList || !mediaTypeSelect) {
-        console.error('Éléments du DOM manquants. Vérifiez les IDs dans le HTML.');
+        console.error('AUDIT - ERREUR: Éléments du DOM manquants. carouselItemsList:', carouselItemsList, 'mediaTypeSelect:', mediaTypeSelect);
         return;
     }
+    console.log("AUDIT: Éléments du DOM principaux trouvés.");
 
     // Importer les fonctions Firebase nécessaires
     try {
@@ -17,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             storage, ref, uploadBytes, getDownloadURL
         } = await import('../auth/firebase-config.js');
         
+        console.log('AUDIT: Modules Firebase importés avec succès.');
         console.log('Firebase configuré avec succès');
         
         // --- Configuration Cloudinary ---
@@ -39,6 +43,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         // --- Fonctions Métier ---
         async function loadCarouselItems() {
+            console.log('AUDIT: Début de loadCarouselItems.');
             console.log('Chargement des éléments du carrousel...');
             try {
                 const q = query(collection(db, 'carousel'), orderBy('order'));
@@ -47,6 +52,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                     id: doc.id,
                     ...doc.data()
                 }));
+                console.log(`AUDIT: Firestore a retourné ${snapshot.docs.length} documents.`);
                 console.log(`${carouselItems.length} éléments chargés`);
                 renderCarouselItems();
             } catch (error) {
@@ -56,6 +62,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         function renderCarouselItems() {
+            console.log("AUDIT: Début de renderCarouselItems.");
             if (!carouselItemsList) return;
             
             carouselItemsList.innerHTML = '';
@@ -89,6 +96,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             });
             
             // Initialiser le glisser-déposer
+            console.log(`AUDIT: ${carouselItems.length} éléments rendus dans le DOM.`);
+            
             initializeSortable();
         }
 
@@ -185,6 +194,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
         // --- Logique de Glisser-Déposer ---
         function initializeSortable() {
+            console.log('AUDIT: Début de initializeSortable.');
             console.log('Initialisation de Sortable...');
             const el = document.getElementById('carousel-items-list');
             if (!el) {
@@ -193,6 +203,10 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
 
             try {
+                if (typeof Sortable === 'undefined') {
+                    console.error('AUDIT - ERREUR: La librairie SortableJS n\'est pas chargée.');
+                    return;
+                }
                 new Sortable(el, {
                     animation: 150,
                     ghostClass: 'sortable-ghost',
@@ -222,7 +236,7 @@ document.addEventListener('DOMContentLoaded', async function() {
                         }
                     }
                 });
-                console.log('Sortable initialisé avec succès');
+                console.log('AUDIT: Sortable initialisé avec succès');
             } catch (error) {
                 console.error('Erreur lors de l\'initialisation de Sortable:', error);
             }
