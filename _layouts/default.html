@@ -33,14 +33,46 @@
     
     <!-- Scripts JS -->
     <script type="module">
-        // Import the carousel module
+        // Charger d'abord le module carousel
         import { initCarousel } from '{{ "/assets/js/carousel.js" | relative_url }}';
         
-        // Make initCarousel available globally for home-carousel.js
+        // Exporter initCarousel globalement pour la compatibilité
         window.initCarousel = initCarousel;
         
-        // Load home-carousel.js as a module
-        import '{{ "/assets/js/home-carousel.js" | relative_url }}';
+        // Démarrer l'initialisation du carrousel d'accueil
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                // Importer le module home-carousel de manière dynamique
+                const { default: initHomeCarousel } = await import('{{ "/assets/js/home-carousel.js" | relative_url }}');
+                
+                // Appeler la fonction d'initialisation
+                await initHomeCarousel();
+                
+                // Afficher un message de débogage
+                console.log('Carrousel initialisé avec succès');
+            } catch (error) {
+                console.error('Erreur lors du chargement du carrousel:', error);
+                
+                // Afficher un message d'erreur dans la console
+                const errorMessage = document.createElement('div');
+                errorMessage.style.padding = '1rem';
+                errorMessage.style.background = '#ffebee';
+                errorMessage.style.color = '#c62828';
+                errorMessage.style.border = '1px solid #ef9a9a';
+                errorMessage.style.borderRadius = '4px';
+                errorMessage.style.margin = '1rem';
+                errorMessage.style.fontFamily = 'monospace';
+                errorMessage.style.whiteSpace = 'pre';
+                errorMessage.textContent = `Erreur de chargement du carrousel:\n${error.message}\n${error.stack}`;
+                
+                const carousel = document.getElementById('home-carousel');
+                if (carousel) {
+                    carousel.appendChild(errorMessage);
+                } else {
+                    document.body.prepend(errorMessage);
+                }
+            }
+        });
     </script>
     
     <!-- Scripts spécifiques à la page -->

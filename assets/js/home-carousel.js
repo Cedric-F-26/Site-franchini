@@ -5,7 +5,7 @@ console.log('Démarrage du chargement du script home-carousel.js');
 import { initCarousel, YouTubeAPI } from './carousel.js';
 
 // Variables globales pour la gestion des vidéos
-let youtubePlayers = {};
+const youtubePlayers = new Map();
 let currentVideoId = null;
 
 // Fonction utilitaire pour extraire l'ID d'une vidéo YouTube
@@ -16,37 +16,87 @@ function getYouTubeID(url) {
     return (match && match[2].length === 11) ? match[2] : null;
 }
 
-// Charger l'API YouTube
-function loadYouTubeAPI() {
-    return new Promise((resolve) => {
+// Charger et initialiser l'API YouTube
+async function loadYouTubeAPI() {
+    try {
         YouTubeAPI.ensureYouTubeIframeAPI();
+        // Vérifier si l'API est déjà chargée
         if (window.YT && window.YT.Player) {
-            resolve();
-        } else {
-            window.onYouTubeIframeAPIReady = resolve;
+            return true;
         }
-    });
+        // Attendre que l'API soit chargée
+        await new Promise((resolve) => {
+            const checkYT = setInterval(() => {
+                if (window.YT && window.YT.Player) {
+                    clearInterval(checkYT);
+                    resolve();
+                }
+            }, 100);
+            // Timeout après 5 secondes
+            setTimeout(() => {
+                clearInterval(checkYT);
+                resolve();
+            }, 5000);
+        });
+        return !!window.YT?.Player;
+    } catch (error) {
+        console.error('Erreur lors du chargement de l\'API YouTube:', error);
+        return false;
+    }
 }
 
 // Gérer le changement de slide
-function onSlideChange(slide) {
+async function onSlideChange(slide) {
     const videoSlide = slide.querySelector('.carousel-slide[data-type="youtube"]');
+    const videoContainer = videoSlide?.querySelector('.video-container');
+    const videoId = videoContainer?.getAttribute('data-video-id');
     
     // Arrêter la vidéo en cours
-    if (currentVideoId && youtubePlayers[currentVideoId]) {
-        youtubePlayers[currentVideoId].pauseVideo();
+    if (currentVideoId && youtubePlayers.has(currentVideoId)) {
+        try {
+            const player = youtubePlayers.get(currentVideoId);
+            if (player.pauseVideo) {
+                player.pauseVideo();
+            }
+        } catch (e) {
+            console.error('Erreur lors de l\'arrêt de la vidéo:', e);
+        }
     }
     
     // Lancer la nouvelle vidéo
-    if (videoSlide) {
-        const videoId = videoSlide.getAttribute('data-video-id');
-        if (videoId && youtubePlayers[videoId]) {
-            currentVideoId = videoId;
-            youtubePlayers[videoId].playVideo().catch(console.error);
+    if (videoId && youtubePlayers.has(videoId)) {
+        try {
+            const player = youtubePlayers.get(videoId);
+            if (player.playVideo) {
+                await player.playVideo();
+                currentVideoId = videoId;
+            }
+        } catch (e) {
+            console.error('Erreur lors du démarrage de la vidéo:', e);
         }
     } else {
         currentVideoId = null;
     }
+}
+
+// Initialiser un lecteur YouTube
+async function initYouTubePlayer(container, videoId) {
+    if (!container || !videoId) return null;
+    
+    try {
+        const player = await YouTubeAPI.setupYouTubePlayer(container, {
+            onEnded: () => console.log(`Vidéo ${videoId} terminée`),
+            onPlaying: () => console.log(`Lecture de la vidéo ${videoId} démarrée`)
+        });
+        
+        if (player) {
+            youtubePlayers.set(videoId, player);
+            return player;
+        }
+    } catch (error) {
+        console.error(`Erreur lors de l'initialisation du lecteur YouTube ${videoId}:`, error);
+    }
+    return null;
 }
 
 // Fonction principale asynchrone
@@ -54,10 +104,9 @@ async function initHomeCarousel() {
     console.log('Initialisation du carrousel d\'accueil...');
     
     // Charger l'API YouTube
-    try {
-        await loadYouTubeAPI();
-    } catch (error) {
-        console.error('Erreur API YouTube:', error);
+    const youtubeAPILoaded = await loadYouTubeAPI();
+    if (!youtubeAPILoaded) {
+        console.warn('L\'API YouTube n\'a pas pu être chargée. Les vidéos ne fonctionneront pas.');
     }
     
     const carouselSlider = document.querySelector('#home-carousel .carousel-slider');
@@ -91,6 +140,7 @@ async function initHomeCarousel() {
         let slidesHTML = '';
         let slideIndex = 0;
         
+        // Créer les slides
         querySnapshot.forEach((doc, index) => {
             const item = doc.data();
             const isActive = slideIndex === 0 ? 'active' : '';
@@ -99,61 +149,60 @@ async function initHomeCarousel() {
                 const videoId = getYouTubeID(item.videoUrl);
                 if (videoId) {
                     slidesHTML += `
-                        <div class="carousel-slide ${isActive}" data-type="youtube" data-video-id="${videoId}">
-                            <div class="youtube-player" data-video-id="${videoId}"></div>
+                        <div class="carousel-slide ${isActive}" data-type="youtube">
+                            <div class="video-container" data-video-id="${videoId}" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                                <iframe id="ytplayer-${videoId}" 
+                                    src="https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}&rel=0"
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                                </iframe>
+                            </div>
                         </div>`;
-                    slideIndex++;
                 }
-            } else if (item.imageUrl) {
+            } else if (item.type === 'image' && item.imageUrl) {
                 slidesHTML += `
                     <div class="carousel-slide ${isActive}" data-type="image">
-                        <img src="${item.imageUrl}" class="carousel-image" alt="${item.alt || ''}">
+                        <img src="${item.imageUrl}" class="carousel-image" alt="${item.altText || ''}">
                     </div>`;
-                slideIndex++;
             }
+            
+            slideIndex++;
         });
 
-        // Mettre à jour le HTML du carrousel
+        // Mettre à jour le DOM
         carouselSlider.innerHTML = slidesHTML;
         
-        // Initialiser les lecteurs YouTube
-        const youtubePlayersEls = document.querySelectorAll('.youtube-player');
-        youtubePlayersEls.forEach(playerEl => {
-            const videoId = playerEl.getAttribute('data-video-id');
-            if (videoId && window.YT && window.YT.Player) {
-                const player = new window.YT.Player(playerEl, {
-                    videoId: videoId,
-                    playerVars: {
-                        'autoplay': 0,
-                        'controls': 1,
-                        'rel': 0,
-                        'showinfo': 0,
-                        'modestbranding': 1,
-                        'playsinline': 1
-                    },
-                    events: {
-                        'onReady': (event) => {
-                            youtubePlayers[videoId] = event.target;
-                        }
-                    }
-                });
-            }
-        });
-        
         // Initialiser le carrousel
-        initCarousel('home-carousel', {
+        const carousel = initCarousel({
+            selector: '#home-carousel',
             autoplay: true,
             autoplayInterval: 5000,
             onSlideChange: onSlideChange
         });
         
+        // Initialiser les lecteurs YouTube
+        if (youtubeAPILoaded) {
+            const videoContainers = document.querySelectorAll('.video-container');
+            for (const container of videoContainers) {
+                const videoId = container.getAttribute('data-video-id');
+                if (videoId) {
+                    await initYouTubePlayer(container, videoId);
+                }
+            }
+        }
+        
+        console.log('Carrousel initialisé avec succès');
+        return carousel;
+        
     } catch (error) {
-        console.error('ERREUR lors du chargement du carrousel:', error);
+        console.error('Erreur lors de l\'initialisation du carrousel:', error);
         carouselSlider.innerHTML = `
             <div class="carousel-slide active" data-type="image">
                 <img src="/assets/images/logo/Logo-Franchini-2.jpg" class="carousel-image" alt="Bienvenue chez Franchini">
                 <div class="error-message">
-                    <p>Erreur de chargement du carrousel. Veuillez rafraîchir la page.</p>
+                    Une erreur est survenue lors du chargement du carrousel.
                 </div>
             </div>`;
     }
@@ -163,5 +212,8 @@ async function initHomeCarousel() {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initHomeCarousel);
 } else {
-    initHomeCarousel();
+    initHomeCarousel().catch(console.error);
 }
+
+// Exporter pour le débogage
+window.initHomeCarousel = initHomeCarousel;

@@ -446,33 +446,31 @@ let YT_API_REQUESTED = false;
 let YT_READY = false;
 const YT_API_CALLBACKS = [];
 
-// Export the YouTube API functions
-export const YouTubeAPI = {
-    ensureYouTubeIframeAPI,
-    onYouTubeIframeAPIReady,
-    setupYouTubePlayer
-};
-
-// Remove the DOMContentLoaded event listener since we're using modules
-// and the carousel will be initialized by home-carousel.js
-
-// Keep all the existing YouTube API functions as they are
+// Fonction pour gérer le chargement de l'API YouTube
 function ensureYouTubeIframeAPI() {
     if (!YT_API_REQUESTED) {
         const tag = document.createElement('script');
         tag.src = 'https://www.youtube.com/iframe_api';
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        
+        // Définir la fonction de rappel globale pour YouTube
+        window.onYouTubeIframeAPIReady = function() {
+            YT_READY = true;
+            // Exécuter toutes les callbacks en attente
+            YT_API_CALLBACKS.forEach(callback => {
+                try {
+                    callback();
+                } catch (e) {
+                    console.error('Error in YT API callback:', e);
+                }
+            });
+            YT_API_CALLBACKS.length = 0;
+        };
+        
         YT_API_REQUESTED = true;
     }
 }
-
-// This will be called by YouTube's iframe API when it's ready
-window.onYouTubeIframeAPIReady = function() {
-    YT_READY = true;
-    YT_API_CALLBACKS.forEach(callback => callback());
-    YT_API_CALLBACKS.length = 0;
-};
 
 function enableJsApiOnIframe(iframe) {
     if (!(iframe && iframe.src)) return;
@@ -490,15 +488,20 @@ function enableJsApiOnIframe(iframe) {
 
 function setupYouTubePlayer(iframe, { onEnded, onPlaying } = {}) {
     const create = () => {
-        if (!window.YT || !YT.Player) return;
+        if (!window.YT || !window.YT.Player) {
+            console.warn('YouTube Player API not available');
+            return null;
+        }
+        
         try {
-            const player = new YT.Player(iframe.id, {
+            const player = new window.YT.Player(iframe, {
                 events: {
                     'onStateChange': (event) => {
+                        if (!window.YT) return;
                         const state = event.data;
-                        if (state === YT.PlayerState.ENDED && typeof onEnded === 'function') {
+                        if (state === window.YT.PlayerState.ENDED && typeof onEnded === 'function') {
                             onEnded();
-                        } else if (state === YT.PlayerState.PLAYING && typeof onPlaying === 'function') {
+                        } else if (state === window.YT.PlayerState.PLAYING && typeof onPlaying === 'function') {
                             onPlaying();
                         }
                     }
@@ -506,14 +509,27 @@ function setupYouTubePlayer(iframe, { onEnded, onPlaying } = {}) {
             });
             return player;
         } catch (e) {
-            console.error('YT.Player creation failed:', e);
+            console.error('Failed to create YouTube player:', e);
+            return null;
         }
     };
 
-    if (YT_READY) {
-        create();
+    if (window.YT && window.YT.Player) {
+        return create();
     } else {
-        YT_API_CALLBACKS.push(create);
-        ensureYouTubeIframeAPI();
+        return new Promise((resolve) => {
+            YT_API_CALLBACKS.push(() => {
+                const player = create();
+                resolve(player);
+            });
+            ensureYouTubeIframeAPI();
+        });
     }
 }
+
+// Export the YouTube API functions
+export const YouTubeAPI = {
+    ensureYouTubeIframeAPI,
+    setupYouTubePlayer,
+    enableJsApiOnIframe
+};
