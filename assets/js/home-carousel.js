@@ -178,7 +178,8 @@ async function initHomeCarousel() {
             slider.innerHTML = slidesHTML;
             
             // Initialiser le carrousel
-            const carousel = initCarousel(carouselElement, {
+            const carousel = initCarousel({
+                selector: '#home-carousel',
                 autoplay: true,
                 autoplayInterval: 5000,
                 onSlideChange: onSlideChange
