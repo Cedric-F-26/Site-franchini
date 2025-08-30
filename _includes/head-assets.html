@@ -1,8 +1,27 @@
 <!-- Chargement des polices -->
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 
-<!-- Chargement des scripts non critiques -->
+<!-- SDK Facebook -->
+<div id="fb-root"></div>
 <script>
+  // Initialisation du SDK Facebook
+  window.fbAsyncInit = function() {
+    FB.init({
+      xfbml            : true,
+      version          : 'v17.0',
+      autoLogAppEvents : true
+    });
+  };
+
+  // Chargement asynchrone du SDK
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/fr_FR/sdk/xfbml.customerchat.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
   // Fonction pour charger les scripts de manière asynchrone
   function loadScript(src, callback) {
     var script = document.createElement('script');
@@ -19,3 +38,11 @@
   });
 </script>
 
+<!-- Plugin de messagerie Facebook (optionnel) -->
+<div class="fb-customerchat"
+  attribution="setup_tool"
+  page_id="61573705277749"
+  theme_color="#0084ff"
+  logged_in_greeting="Bonjour ! Comment pouvons-nous vous aider ?"
+  logged_out_greeting="Bonjour ! Comment pouvons-nous vous aider ?">
+</div>
