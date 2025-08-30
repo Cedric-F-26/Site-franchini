@@ -177,8 +177,8 @@ async function initHomeCarousel() {
         if (slider) {
             slider.innerHTML = slidesHTML;
             
-            // Attendre que le DOM soit mis à jour avant d'initialiser
-            setTimeout(() => {
+            // Attendre le prochain "frame" pour que le DOM soit bien à jour
+            requestAnimationFrame(async () => {
                 // Initialiser le carrousel
                 const carousel = initCarousel({
                     selector: '#home-carousel',
@@ -193,11 +193,11 @@ async function initHomeCarousel() {
                     for (const container of videoContainers) {
                         const videoId = container.getAttribute('data-video-id');
                         if (videoId) {
-                            initYouTubePlayer(container, videoId);
+                            await initYouTubePlayer(container, videoId);
                         }
                     }
                 }
-            }, 0);
+            });
         }
         
         console.log('Carrousel initialisé avec succès');
