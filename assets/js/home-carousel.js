@@ -147,8 +147,8 @@ async function initHomeCarousel() {
             const item = doc.data();
             const isActive = slideIndex === 0 ? 'active' : '';
             
-            if (item.type === 'youtube' && item.videoUrl) {
-                const videoId = getYouTubeID(item.videoUrl);
+            if (item.type === 'youtube' && item.mediaUrl) {
+                const videoId = getYouTubeID(item.mediaUrl);
                 if (videoId) {
                     slidesHTML += `
                         <div class="carousel-slide ${isActive}" data-type="youtube">
@@ -164,10 +164,10 @@ async function initHomeCarousel() {
                         </div>`;
                     slideIndex++;
                 }
-            } else if (item.type === 'image' && item.imageUrl) {
+            } else if (item.type === 'image' && item.mediaUrl) {
                 slidesHTML += `
                     <div class="carousel-slide ${isActive}" data-type="image">
-                        <img src="${item.imageUrl}" class="carousel-image" alt="${item.altText || ''}">
+                        <img src="${item.mediaUrl}" class="carousel-image" alt="${item.title || ''}">
                     </div>`;
                 slideIndex++;
             }
@@ -175,16 +175,10 @@ async function initHomeCarousel() {
 
         // Mettre à jour le DOM
         if (slider) {
-            console.log('--- Début Debug Carrousel ---');
-            console.log('HTML généré pour les slides:', slidesHTML);
             slider.innerHTML = slidesHTML;
-            console.log('Contenu du slider APRES innerHTML:', slider.innerHTML);
             
             // Attendre le prochain "frame" pour que le DOM soit bien à jour
             requestAnimationFrame(async () => {
-                const foundSlides = carouselElement.querySelectorAll('.carousel-slide');
-                console.log('Slides trouvés dans requestAnimationFrame:', foundSlides.length);
-
                 // Initialiser le carrousel
                 const carousel = initCarousel({
                     selector: '#home-carousel',
@@ -203,7 +197,6 @@ async function initHomeCarousel() {
                         }
                     }
                 }
-                console.log('--- Fin Debug Carrousel ---');
             });
         }
         
