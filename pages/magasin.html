@@ -20,31 +20,20 @@ permalink: /magasin/
             <div class="container">
                 <h1>Notre Catalogue Magasin</h1>
                 <div class="catalog-container">
-                    <!-- <div class="catalog-preview">
-                        <h2>KONNECT_23 - Printemps 2025</h2>
-                        <div class="pdf-container">
-                            <iframe src="{{ '/magasin/KONNECT_23 - Printemps 2025.pdf' | relative_url }}" width="100%" height="800px" frameborder="0"></iframe>
-                        </div>
-                        <div class="catalog-actions">
-                            <a href="{{ '/magasin/KONNECT_23 - Printemps 2025.pdf' | relative_url }}" download class="download-btn">
-                                <i class="fas fa-download"></i> Télécharger le catalogue
-                            </a>
-                            <a href="{{ '/magasin/KONNECT_23 - Printemps 2025.pdf' | relative_url }}" target="_blank" class="view-btn">
-                                <i class="fas fa-external-link-alt"></i> Ouvrir dans un nouvel onglet
-                            </a>
-                        </div>
-                    </div> -->
+                    <div class="catalog-placeholder">
+                        <i class="fas fa-box-open"></i>
+                        <p>Notre catalogue sera bientôt disponible</p>
+                    </div>
                 </div>
             </div>
         </section>
     </main>
 
-    
-
     <style>
     .catalog-section {
         padding: 4rem 0;
         background-color: #f5f5f5;
+        min-height: 60vh;
     }
 
     .catalog-section h1 {
@@ -60,145 +49,38 @@ permalink: /magasin/
         border-radius: 8px;
         box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         padding: 2rem;
+        text-align: center;
     }
 
-    .catalog-preview {
-        margin-bottom: 2rem;
+    .catalog-placeholder {
+        padding: 3rem 2rem;
+        color: #666;
     }
 
-    .catalog-preview h2 {
+    .catalog-placeholder i {
+        font-size: 4rem;
         color: #3D6AA2;
-        margin-bottom: 1rem;
-    }
-
-    .pdf-container {
         margin-bottom: 1.5rem;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        overflow: hidden;
-    }
-
-    .catalog-actions {
-        display: flex;
-        gap: 1rem;
-        justify-content: center;
-    }
-
-    .download-btn, .view-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.8rem 1.5rem;
-        border-radius: 4px;
-        text-decoration: none;
-        font-weight: 500;
-        transition: transform 0.2s, background-color 0.2s;
-    }
-
-    .download-btn {
-        background-color: #3D6AA2;
-        color: white;
-    }
-
-    .view-btn {
-        background-color: #f0f0f0;
-        color: #333;
-    }
-
-    .download-btn:hover, .view-btn:hover {
-        transform: translateY(-2px);
-    }
-
-    .download-btn:hover {
-        background-color: #2c4f7c;
-    }
-
-    .view-btn:hover {
-        background-color: #e0e0e0;
-    }
-
-    @media (max-width: 768px) {
-        .catalog-actions {
-            flex-direction: column;
-        }
-
-        .pdf-container {
-            height: 500px;
-        }
-    }
-
-    /* Style du logo */
-    .logo-link {
-        text-decoration: none;
-        position: relative;
-        display: block;
-    }
-
-    .logo-text {
-        font-family: Arial, sans-serif;
-        font-size: 32px;
-        font-weight: bold;
-        color: #333;
-        letter-spacing: 1px;
-        position: relative;
-    }
-
-    .logo {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 20px;
-    }
-
-    .header-social {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-    }
-
-    .header-social .social-icon {
-        color: #888;
-        font-size: 20px;
-        transition: color 0.3s, transform 0.3s;
         opacity: 0.7;
     }
 
-    .header-social .social-icon:hover {
-        color: #3D6AA2;
-        transform: translateY(-2px);
-        opacity: 1;
+    .catalog-placeholder p {
+        font-size: 1.2rem;
+        margin: 0;
     }
 
     @media (max-width: 768px) {
-        .logo-text {
-            font-size: 24px;
+        .catalog-section {
+            padding: 2rem 0;
+        }
+        
+        .catalog-container {
+            padding: 1.5rem;
         }
     }
     </style>
     
-    
     <!-- Chargement du pied de page -->
-    
-    <!-- Pied de page -->
-    <!--#include virtual="/includes/footer.html" -->
-<footer style="background-color: #1a1a1a; color: white; text-align: center; padding: 30px 0; margin-top: 40px;">
-    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 15px;">
-        <div style="margin-bottom: 10px;">
-            <span style="color: #4CAF50; font-weight: bold; font-size: 24px; letter-spacing: 1px;">FRANCHINI</span>
-        </div>
-        <div style="margin-bottom: 8px; color: #ddd;">111 av des monts du matin</div>
-        <div style="margin-bottom: 15px; color: #ddd;">26300 Marches</div>
-        <div style="margin-bottom: 20px;">
-            <a href="tel:0475474037" style="color: white; text-decoration: none; font-size: 18px; font-weight: 500;">
-                <i class="fas fa-phone" style="margin-right: 8px;"></i>04 75 47 40 37
-            </a>
-        </div>
-        <div style="font-size: 12px; color: #aaa; margin-top: 25px; padding-top: 15px; border-top: 1px solid #333;">
-            © 2024 Franchini SARL. Tous droits réservés.
-            <a href="{{ '/pages/connexion-prive.html' | relative_url }}" style="color: #4CAF50; text-decoration: none; margin-left: 10px;">Connexion privée</a>
-        </div>
-    </div>
-</footer>
-
+    {% include footer.html %}
 </body>
-</html> 
+</html>
