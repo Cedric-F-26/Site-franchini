@@ -46,16 +46,16 @@ title: Matériel Neuf
                     <span>Quivogne</span>
                 </a>
 
-                <h2 class="grid-header"><img src="{{ '/assets/images/logo/telescopique.png' | relative_url }}" alt="TP-Manutention" class="header-icon-img"> TP-Manutention</h2>
+                <h2 class="grid-header"><i class="fas fa-truck"></i> TP-Manutention</h2>
                 <a href="https://www.bobcat.com/eu/fr/" target="_blank" class="brand-card">
                     <img src="{{ '/assets/images/logo/bobcat.png' | relative_url }}" alt="Bobcat" class="brand-logo">
                     <span>Bobcat</span>
                 </a>
                 <a href="https://www.stoll-germany.com/fr/" target="_blank" class="brand-card">
-                    <img src="{{ '/assets/images/logo/stoll-logo.svg' | relative_url }}" alt="Stoll" class="brand-logo">
+                    <img src="{{ '/assets/images/logo/stoll-logo.png' | relative_url }}" alt="Stoll" class="brand-logo">
                     <span>Stoll</span>
                 </a>
-                <a href="https://www.m-x.eu/fr/" target="_blank" class="brand-card">
+                <a href="https://www.m-x.eu/" target="_blank" class="brand-card">
                     <img src="{{ '/assets/images/logo/mx.png' | relative_url }}" alt="MX" class="brand-logo">
                     <span>MX</span>
                 </a>
@@ -109,14 +109,6 @@ title: Matériel Neuf
     margin-right: 10px;
 }
 
-.header-icon-img {
-    height: 24px; /* Ajuster la taille de l'icône */
-    margin-right: 10px;
-    vertical-align: middle;
-    /* Filtre pour approximer la couleur verte du thème */
-    filter: brightness(0) saturate(100%) invert(48%) sepia(34%) saturate(1224%) hue-rotate(85deg) brightness(95%) contrast(86%);
-}
-
 .brand-card {
     background-color: #fff;
     border-radius: 8px;
@@ -129,6 +121,7 @@ title: Matériel Neuf
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid #ddd;
     height: 170px; /* Hauteur légèrement augmentée */
+    width: 200px; /* Ajout d'une largeur fixe pour la cohérence */
 }
 
 .brand-card:hover {
