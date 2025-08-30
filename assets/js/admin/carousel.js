@@ -48,13 +48,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function renderCarouselItems() {
         if (!carouselItemsList) return;
+        
         carouselItemsList.innerHTML = '';
+        
         carouselItems.forEach(item => {
             const div = document.createElement('div');
-            div.className = 'item-card carousel-item';
-            div.setAttribute('draggable', 'true');
+            div.className = 'carousel-item';
             div.dataset.id = item.id;
-
+            
             const mediaContent = item.type === 'youtube'
                 ? `<img src="https://img.youtube.com/vi/${getYouTubeID(item.mediaUrl)}/0.jpg" class="item-card-img" alt="Miniature YouTube">`
                 : `<img src="${item.mediaUrl}" class="item-card-img" alt="${item.title}">`;
@@ -62,17 +63,24 @@ document.addEventListener('DOMContentLoaded', function() {
             div.innerHTML = `
                 <div class="item-card-content">
                     ${mediaContent}
-                    <h4>${item.title || 'Sans titre'}</h4>
-                    <small>Type: ${item.type}</small>
+                    <div class="item-details">
+                        <h4>${item.title || 'Sans titre'}</h4>
+                        <small>Type: ${item.type}</small>
+                    </div>
                 </div>
                 <div class="action-btns">
                     <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                    <span class="drag-handle"><i class="fas fa-grip-vertical"></i></span>
                 </div>
             `;
+            
+            // Ajouter l'écouteur de suppression
             div.querySelector('.delete').addEventListener('click', () => deleteCarouselItem(item.id, item.type, item.mediaUrl));
             carouselItemsList.appendChild(div);
         });
-        addDragAndDropListeners();
+        
+        // Initialiser le glisser-déposer
+        initializeSortable();
     }
 
     async function uploadToCloudinary(file) {
@@ -166,6 +174,31 @@ document.addEventListener('DOMContentLoaded', function() {
         loadCarouselItems(); // Recharger pour s'assurer de la cohérence
     }
 
+    // --- Logique de Glisser-Déposer ---
+    function initializeSortable() {
+        const el = document.getElementById('carousel-items-list');
+        if (!el) return;
+
+        new Sortable(el, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'sortable-chosen',
+            dragClass: 'sortable-drag',
+            onEnd: async function() {
+                const items = Array.from(el.children);
+                const newOrder = items.map(item => item.dataset.id);
+                
+                // Mettre à jour l'ordre local
+                carouselItems.sort((a, b) => {
+                    return newOrder.indexOf(a.id) - newOrder.indexOf(b.id);
+                });
+                
+                // Mettre à jour l'ordre dans Firestore
+                await updateOrder();
+            }
+        });
+    }
+
     // --- Initialisation des Écouteurs ---
     function initializeEventListeners() {
         mediaTypeSelect.addEventListener('change', () => {
@@ -189,89 +222,6 @@ document.addEventListener('DOMContentLoaded', function() {
         mediaUploadInput.addEventListener('change', e => {
             if (e.target.files.length) handleFile(e.target.files[0]);
         });
-    }
-
-    // --- Logique de Glisser-Déposer ---
-    let draggedItem = null;
-    
-    function addDragAndDropListeners() {
-        const items = document.querySelectorAll('#carousel-items-list .carousel-item');
-        
-        items.forEach(item => {
-            // Supprimer d'abord les anciens écouteurs pour éviter les doublons
-            item.removeEventListener('dragstart', handleDragStart);
-            item.removeEventListener('dragend', handleDragEnd);
-            item.removeEventListener('dragover', handleDragOver);
-            
-            // Ajouter les nouveaux écouteurs
-            item.addEventListener('dragstart', handleDragStart);
-            item.addEventListener('dragend', handleDragEnd);
-            item.addEventListener('dragover', handleDragOver);
-        });
-        
-        // Ajouter l'écouteur de drop sur le conteneur parent
-        const container = document.getElementById('carousel-items-list');
-        container.removeEventListener('dragover', handleContainerDragOver);
-        container.addEventListener('dragover', handleContainerDragOver);
-    }
-    
-    function handleDragStart(e) {
-        draggedItem = this;
-        this.classList.add('dragging');
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', this.innerHTML);
-    }
-    
-    function handleDragEnd() {
-        this.classList.remove('dragging');
-        saveNewOrder();
-    }
-    
-    function handleDragOver(e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-        
-        const afterElement = getDragAfterElement(carouselItemsList, e.clientY);
-        if (afterElement) {
-            carouselItemsList.insertBefore(draggedItem, afterElement);
-        } else {
-            carouselItemsList.appendChild(draggedItem);
-        }
-    }
-    
-    function handleContainerDragOver(e) {
-        e.preventDefault();
-        e.dataTransfer.dropEffect = 'move';
-    }
-    
-    async function saveNewOrder() {
-        const newOrderIds = [...document.querySelectorAll('#carousel-items-list .carousel-item')].map(item => item.dataset.id);
-        carouselItems.sort((a, b) => newOrderIds.indexOf(a.id) - newOrderIds.indexOf(b.id));
-        
-        showSpinner('Mise à jour de l\'ordre...');
-        try {
-            await updateOrder();
-        } catch (error) {
-            console.error("Erreur lors de la mise à jour de l'ordre :", error);
-            showAlert(`Erreur de mise à jour: ${error.message}`, 'error');
-        } finally {
-            hideSpinner();
-        }
-    }
-    
-    function getDragAfterElement(container, y) {
-        const draggableElements = [...container.querySelectorAll('.carousel-item:not(.dragging)')];
-        
-        return draggableElements.reduce((closest, child) => {
-            const box = child.getBoundingClientRect();
-            const offset = y - box.top - box.height / 2;
-            
-            if (offset < 0 && offset > (closest.offset || Number.NEGATIVE_INFINITY)) {
-                return { offset: offset, element: child };
-            } else {
-                return closest;
-            }
-        }, { offset: Number.NEGATIVE_INFINITY, element: null }).element;
     }
 
     // --- Fonctions Utilitaires ---
