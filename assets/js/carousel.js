@@ -312,6 +312,9 @@ function setupYouTubePlayer(iframe, { onEnded, onPlaying } = {}) {
         
         try {
             const player = new window.YT.Player(iframe, {
+                playerVars: {
+                    'origin': window.location.origin
+                },
                 events: {
                     'onStateChange': (event) => {
                         if (!window.YT) return;
