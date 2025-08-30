@@ -216,12 +216,7 @@ async function initHomeCarousel() {
     }
 }
 
-// Démarrer l'initialisation lorsque le DOM est prêt
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHomeCarousel);
-} else {
-    initHomeCarousel().catch(console.error);
-}
+
 
 // Exporter pour le débogage
 window.initHomeCarousel = initHomeCarousel;
