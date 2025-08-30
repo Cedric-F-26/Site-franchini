@@ -84,8 +84,10 @@ title: Matériel Neuf
 <style>
 .unified-brand-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1.5rem;
+    max-width: 1000px; /* Largeur maximale pour 4 éléments */
+    margin: 0 auto; /* Centrage de la grille */
 }
 
 .grid-header {
@@ -116,7 +118,7 @@ title: Matériel Neuf
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid #ddd;
-    height: 160px;
+    height: 170px; /* Hauteur légèrement augmentée */
 }
 
 .brand-card:hover {
