@@ -4,7 +4,7 @@
  * @param {Object} options - Options de configuration du carrousel
  * @param {Function} options.onSlideChange - Callback appelé à chaque changement de slide
  */
-function initCarousel(carouselId, options = {}) {
+export function initCarousel(carouselId, options = {}) {
     const { onSlideChange } = options;
     const carousel = document.getElementById(carouselId);
     if (!carousel) {

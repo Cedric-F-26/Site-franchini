@@ -1,6 +1,9 @@
 // Vérifier si le navigateur supporte les modules ES
 console.log('Démarrage du chargement du script home-carousel.js');
 
+// Importer initCarousel depuis carousel.js
+import { initCarousel } from './carousel.js';
+
 // Variables globales pour la gestion des vidéos
 let youtubePlayers = {};
 let currentVideoId = null;
@@ -142,13 +145,13 @@ async function initHomeCarousel() {
         carouselSlider.innerHTML = slidesHTML;
         
         // Initialiser le carrousel
-        if (window.initCarousel) {
+        try {
             initCarousel('home-carousel', {
                 onSlideChange: onSlideChange
             });
             console.log('Carrousel initialisé avec succès');
-        } else {
-            console.error('ERREUR: La fonction initCarousel n\'est pas disponible');
+        } catch (error) {
+            console.error('Erreur lors de l\'initialisation du carrousel:', error);
         }
         
     } catch (error) {

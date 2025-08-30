@@ -32,13 +32,13 @@
     {% include footer.html %}
     
     <!-- Scripts JS -->
-    <script src="{{ '/assets/js/carousel.js' | relative_url }}" defer></script>
-    <script src="{{ '/assets/js/home-carousel.js' | relative_url }}" type="module" defer></script>
+    <script src="{{ '/assets/js/carousel.js' | relative_url }}" type="module"></script>
+    <script src="{{ '/assets/js/home-carousel.js' | relative_url }}" type="module"></script>
     
     <!-- Scripts spécifiques à la page -->
     {%- if page.scripts -%}
         {% for script in page.scripts %}
-            <script src="{{ script | relative_url }}" defer></script>
+            <script src="{{ script | relative_url }}" type="module"></script>
         {% endfor %}
     {%- endif -%}
 </body>
