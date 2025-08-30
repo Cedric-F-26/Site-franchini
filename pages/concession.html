@@ -28,8 +28,9 @@ scripts:
                     <h3>Calculer votre itinéraire</h3>
                     <form id="routeForm" class="route-form">
                         <div class="form-group">
-                            <input type="text" id="startAddress" placeholder="Votre adresse de départ" required>
-                            <button type="button" onclick="calculateRoute()" class="btn-route">Calculer l'itinéraire</button>
+                            <label for="startAddress" class="sr-only">Votre adresse de départ</label>
+                            <input type="text" id="startAddress" name="startAddress" placeholder="Votre adresse de départ" required>
+                            <button type="button" id="calculateRouteBtn" class="btn-route">Calculer l'itinéraire</button>
                         </div>
                     </form>
                     <div id="routeInstructions" class="route-instructions"></div>

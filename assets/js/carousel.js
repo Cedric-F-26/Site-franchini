@@ -1,8 +1,11 @@
 /**
  * Initialise un carrousel avec navigation, autoplay et accessibilité
  * @param {string} carouselId - L'ID de l'élément carrousel à initialiser
+ * @param {Object} options - Options de configuration du carrousel
+ * @param {Function} options.onSlideChange - Callback appelé à chaque changement de slide
  */
-function initCarousel(carouselId) {
+function initCarousel(carouselId, options = {}) {
+    const { onSlideChange } = options;
     const carousel = document.getElementById(carouselId);
     if (!carousel) {
         console.warn(`Carrousel avec l'ID "${carouselId}" non trouvé.`);
@@ -89,16 +92,25 @@ function initCarousel(carouselId) {
         // Mettre à jour les slides
         slides.forEach((slide, index) => {
             const isActive = index === currentIndex;
-            slide.classList.toggle('active', isActive);
-            slide.setAttribute('aria-hidden', !isActive);
+            const wasActive = slide.classList.contains('active');
             
-            // Mettre à jour l'accessibilité
-            if (isActive) {
-                slide.removeAttribute('inert');
-                slide.setAttribute('tabindex', '0');
-            } else {
-                slide.setAttribute('inert', '');
-                slide.setAttribute('tabindex', '-1');
+            if (isActive !== wasActive) {
+                slide.classList.toggle('active', isActive);
+                slide.setAttribute('aria-hidden', !isActive);
+                
+                // Mettre à jour l'accessibilité
+                if (isActive) {
+                    slide.removeAttribute('inert');
+                    slide.setAttribute('tabindex', '0');
+                    
+                    // Appeler le callback onSlideChange avec le slide actif
+                    if (typeof onSlideChange === 'function') {
+                        onSlideChange(slide);
+                    }
+                } else {
+                    slide.setAttribute('inert', '');
+                    slide.removeAttribute('tabindex');
+                }
             }
         });
         

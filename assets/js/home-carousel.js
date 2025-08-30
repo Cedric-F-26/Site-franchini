@@ -1,6 +1,10 @@
 // Vérifier si le navigateur supporte les modules ES
 console.log('Démarrage du chargement du script home-carousel.js');
 
+// Variables globales pour la gestion des vidéos
+let youtubePlayers = {};
+let currentVideoId = null;
+
 // Fonction utilitaire pour extraire l'ID d'une vidéo YouTube
 function getYouTubeID(url) {
     if (!url) return null;
@@ -9,9 +13,52 @@ function getYouTubeID(url) {
     return (match && match[2].length === 11) ? match[2] : null;
 }
 
+// Charger l'API YouTube
+function loadYouTubeAPI() {
+    return new Promise((resolve) => {
+        if (window.YT && window.YT.Player) {
+            resolve();
+            return;
+        }
+        const tag = document.createElement('script');
+        tag.src = 'https://www.youtube.com/iframe_api';
+        const firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        window.onYouTubeIframeAPIReady = resolve;
+    });
+}
+
+// Gérer le changement de slide
+function onSlideChange(slide) {
+    const videoSlide = slide.querySelector('.carousel-slide[data-type="youtube"]');
+    
+    // Arrêter la vidéo en cours
+    if (currentVideoId && youtubePlayers[currentVideoId]) {
+        youtubePlayers[currentVideoId].pauseVideo();
+    }
+    
+    // Lancer la nouvelle vidéo
+    if (videoSlide) {
+        const videoId = videoSlide.getAttribute('data-video-id');
+        if (videoId && youtubePlayers[videoId]) {
+            currentVideoId = videoId;
+            youtubePlayers[videoId].playVideo().catch(console.error);
+        }
+    } else {
+        currentVideoId = null;
+    }
+}
+
 // Fonction principale asynchrone
 async function initHomeCarousel() {
     console.log('Initialisation du carrousel d\'accueil...');
+    
+    // Charger l'API YouTube
+    try {
+        await loadYouTubeAPI();
+    } catch (error) {
+        console.error('Erreur API YouTube:', error);
+    }
     
     const carouselSlider = document.querySelector('#home-carousel .carousel-slider');
     if (!carouselSlider) {
@@ -41,28 +88,37 @@ async function initHomeCarousel() {
             return;
         }
 
-        // Créer les slides du carrousel
         let slidesHTML = '';
+        let slideIndex = 0;
+        
         querySnapshot.forEach((doc, index) => {
             const item = doc.data();
-            const isActive = index === 0 ? 'active' : '';
+            const isActive = slideIndex === 0 ? 'active' : '';
             
             if (item.type === 'youtube') {
                 const videoId = getYouTubeID(item.mediaUrl);
                 if (videoId) {
+                    const containerId = `youtube-player-${slideIndex}`;
                     slidesHTML += `
-                        <div class="carousel-slide ${isActive}" data-type="youtube">
-                            <div class="video-container">
-                                <iframe 
-                                    src="https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1&enablejsapi=1" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                    allowfullscreen
-                                    loading="lazy"
-                                    title="Vidéo ${index + 1}">
-                                </iframe>
-                            </div>
+                        <div class="carousel-slide ${isActive}" data-type="youtube" data-video-id="${videoId}">
+                            <div id="${containerId}" class="youtube-player"></div>
                         </div>`;
+                        
+                    // Créer le lecteur YouTube
+                    if (window.YT && window.YT.Player) {
+                        youtubePlayers[videoId] = new YT.Player(containerId, {
+                            videoId: videoId,
+                            playerVars: {
+                                'autoplay': isActive ? 1 : 0,
+                                'controls': 1,
+                                'rel': 0,
+                                'enablejsapi': 1,
+                                'modestbranding': 1,
+                                'playsinline': 1,
+                                'mute': 1
+                            }
+                        });
+                    }
                 }
             } else {
                 slidesHTML += `
@@ -79,6 +135,7 @@ async function initHomeCarousel() {
                         </div>` : ''}
                     </div>`;
             }
+            slideIndex++;
         });
 
         // Mettre à jour le DOM
@@ -86,7 +143,9 @@ async function initHomeCarousel() {
         
         // Initialiser le carrousel
         if (window.initCarousel) {
-            initCarousel('home-carousel');
+            initCarousel('home-carousel', {
+                onSlideChange: onSlideChange
+            });
             console.log('Carrousel initialisé avec succès');
         } else {
             console.error('ERREUR: La fonction initCarousel n\'est pas disponible');
