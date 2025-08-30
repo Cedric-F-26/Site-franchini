@@ -83,8 +83,14 @@ async function onSlideChange(slide) {
 async function initYouTubePlayer(container, videoId) {
     if (!container || !videoId) return null;
     
+    const iframe = container.querySelector('iframe');
+    if (!iframe) {
+        console.error('Iframe non trouvée pour la vidéo ID:', videoId);
+        return null;
+    }
+    
     try {
-        const player = await YouTubeAPI.setupYouTubePlayer(container, {
+        const player = await YouTubeAPI.setupYouTubePlayer(iframe, {
             onEnded: () => console.log(`Vidéo ${videoId} terminée`),
             onPlaying: () => console.log(`Lecture de la vidéo ${videoId} démarrée`)
         });
