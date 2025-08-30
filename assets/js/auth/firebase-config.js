@@ -8,17 +8,7 @@ import {
     signOut 
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import {
-    getFirestore, 
-    collection, 
-    getDocs, 
-    orderBy, 
-    query, 
-    addDoc, 
-    deleteDoc, 
-    doc, 
-    writeBatch, 
-    updateDoc,
-    enableIndexedDbPersistence,
+    initializeFirestore, 
     CACHE_SIZE_UNLIMITED
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import {
@@ -43,7 +33,14 @@ const firebaseConfig = {
 // Initialiser Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+
+// Configurer Firestore avec le cache
+const firestoreConfig = {
+  cacheSizeBytes: CACHE_SIZE_UNLIMITED,
+  experimentalForceLongPolling: true // Optionnel : peut améliorer la stabilité
+};
+
+const db = initializeFirestore(app, firestoreConfig);
 const storage = getStorage(app);
 
 // Configurer la persistance de l'authentification
@@ -54,15 +51,7 @@ setPersistence(auth, browserSessionPersistence)
 
 // Activer la persistance hors ligne pour Firestore
 if (typeof window !== 'undefined') {
-    enableIndexedDbPersistence(db, {
-        cacheSizeBytes: CACHE_SIZE_UNLIMITED
-    }).catch((err) => {
-        if (err.code === 'failed-precondition') {
-            console.warn("La persistance multi-onglets n'est pas prise en charge");
-        } else if (err.code === 'unimplemented') {
-            console.warn("Le navigateur ne supporte pas la persistance hors ligne");
-        }
-    });
+    // La persistance est déjà configurée dans initializeFirestore
 }
 
 export {
@@ -76,15 +65,15 @@ export {
     signOut,
     
     // Firestore
-    collection, 
-    getDocs, 
-    orderBy, 
-    query, 
-    addDoc, 
-    deleteDoc, 
-    doc, 
-    writeBatch, 
-    updateDoc,
+    // collection, 
+    // getDocs, 
+    // orderBy, 
+    // query, 
+    // addDoc, 
+    // deleteDoc, 
+    // doc, 
+    // writeBatch, 
+    // updateDoc,
     
     // Storage
     ref, 
