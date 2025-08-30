@@ -25,52 +25,47 @@
 <body class="page-{{ page.title | slugify | default: 'default' }}">
     {% include header.html %}
     
-    <main>
-        {{ content }}
+    <main class="page-content" aria-label="Content">
+        <div class="wrapper">
+            {{ content }}
+        </div>
     </main>
     
     {% include footer.html %}
     
-    <!-- Scripts JS -->
+    <!-- Scripts -->
     <script type="module">
-        // Charger d'abord le module carousel
+        // Importer les fonctions nécessaires
         import { initCarousel } from '{{ "/assets/js/carousel.js" | relative_url }}';
+        import { initHomeCarousel } from '{{ "/assets/js/home-carousel.js" | relative_url }}';
         
-        // Exporter initCarousel globalement pour la compatibilité
+        // Exposer initCarousel globalement pour la rétrocompatibilité
         window.initCarousel = initCarousel;
         
-        // Démarrer l'initialisation du carrousel d'accueil
-        document.addEventListener('DOMContentLoaded', async () => {
+        // Initialiser le carrousel quand le DOM est prêt
+        document.addEventListener('DOMContentLoaded', () => {
             try {
-                // Importer le module home-carousel de manière dynamique
-                const { default: initHomeCarousel } = await import('{{ "/assets/js/home-carousel.js" | relative_url }}');
-                
-                // Appeler la fonction d'initialisation
-                await initHomeCarousel();
-                
-                // Afficher un message de débogage
-                console.log('Carrousel initialisé avec succès');
+                initHomeCarousel().catch(error => {
+                    console.error('Erreur lors de l\'initialisation du carrousel:', error);
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'error-message';
+                    errorDiv.style.padding = '20px';
+                    errorDiv.style.color = '#721c24';
+                    errorDiv.style.backgroundColor = '#f8d7da';
+                    errorDiv.style.border = '1px solid #f5c6cb';
+                    errorDiv.style.borderRadius = '4px';
+                    errorDiv.style.margin = '20px 0';
+                    errorDiv.textContent = 'Une erreur est survenue lors du chargement du carrousel. Veuillez rafraîchir la page ou réessayer plus tard.';
+                    
+                    const carousel = document.querySelector('#home-carousel');
+                    if (carousel) {
+                        carousel.prepend(errorDiv);
+                    } else {
+                        document.body.prepend(errorDiv);
+                    }
+                });
             } catch (error) {
-                console.error('Erreur lors du chargement du carrousel:', error);
-                
-                // Afficher un message d'erreur dans la console
-                const errorMessage = document.createElement('div');
-                errorMessage.style.padding = '1rem';
-                errorMessage.style.background = '#ffebee';
-                errorMessage.style.color = '#c62828';
-                errorMessage.style.border = '1px solid #ef9a9a';
-                errorMessage.style.borderRadius = '4px';
-                errorMessage.style.margin = '1rem';
-                errorMessage.style.fontFamily = 'monospace';
-                errorMessage.style.whiteSpace = 'pre';
-                errorMessage.textContent = `Erreur de chargement du carrousel:\n${error.message}\n${error.stack}`;
-                
-                const carousel = document.getElementById('home-carousel');
-                if (carousel) {
-                    carousel.appendChild(errorMessage);
-                } else {
-                    document.body.prepend(errorMessage);
-                }
+                console.error('Erreur critique lors du chargement du carrousel:', error);
             }
         });
     </script>

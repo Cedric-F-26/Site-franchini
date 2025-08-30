@@ -105,21 +105,21 @@ async function initHomeCarousel() {
     
     // Charger l'API YouTube
     const youtubeAPILoaded = await loadYouTubeAPI();
-    if (!youtubeAPILoaded) {
-        console.warn('L\'API YouTube n\'a pas pu être chargée. Les vidéos ne fonctionneront pas.');
-    }
     
-    const carouselSlider = document.querySelector('#home-carousel .carousel-slider');
-    if (!carouselSlider) {
-        console.error('ERREUR: Élément .carousel-slider non trouvé dans #home-carousel');
+    const carouselElement = document.querySelector('#home-carousel');
+    if (!carouselElement) {
+        console.error('ERREUR: Élément #home-carousel non trouvé');
         return;
     }
 
     // Afficher un indicateur de chargement
-    carouselSlider.innerHTML = '<div class="loading">Chargement du carrousel en cours...</div>';
+    const slider = carouselElement.querySelector('.carousel-slider');
+    if (slider) {
+        slider.innerHTML = '<div class="loading">Chargement du carrousel en cours...</div>';
+    }
 
     try {
-        // Importer les fonctions Firestore depuis le fichier de configuration
+        // Importer les fonctions Firestore
         const { db, collection, getDocs, query, orderBy } = await import('./auth/firebase-config.js');
         
         console.log('Connexion à Firestore...');
@@ -130,10 +130,12 @@ async function initHomeCarousel() {
         
         if (querySnapshot.empty) {
             console.warn('Aucun document trouvé dans la collection "carousel"');
-            carouselSlider.innerHTML = `
-                <div class="carousel-slide active" data-type="image">
-                    <img src="/assets/images/logo/Logo-Franchini-2.jpg" class="carousel-image" alt="Bienvenue chez Franchini">
-                </div>`;
+            if (slider) {
+                slider.innerHTML = `
+                    <div class="carousel-slide active" data-type="image">
+                        <img src="/assets/images/logo/Logo-Franchini-2.jpg" class="carousel-image" alt="Bienvenue chez Franchini">
+                    </div>`;
+            }
             return;
         }
 
@@ -141,7 +143,7 @@ async function initHomeCarousel() {
         let slideIndex = 0;
         
         // Créer les slides
-        querySnapshot.forEach((doc, index) => {
+        querySnapshot.forEach((doc) => {
             const item = doc.data();
             const isActive = slideIndex === 0 ? 'active' : '';
             
@@ -151,7 +153,7 @@ async function initHomeCarousel() {
                     slidesHTML += `
                         <div class="carousel-slide ${isActive}" data-type="youtube">
                             <div class="video-container" data-video-id="${videoId}" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-                                <iframe id="ytplayer-${videoId}" 
+                                <iframe 
                                     src="https://www.youtube.com/embed/${videoId}?enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}&rel=0"
                                     frameborder="0" 
                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -160,51 +162,53 @@ async function initHomeCarousel() {
                                 </iframe>
                             </div>
                         </div>`;
+                    slideIndex++;
                 }
             } else if (item.type === 'image' && item.imageUrl) {
                 slidesHTML += `
                     <div class="carousel-slide ${isActive}" data-type="image">
                         <img src="${item.imageUrl}" class="carousel-image" alt="${item.altText || ''}">
                     </div>`;
+                slideIndex++;
             }
-            
-            slideIndex++;
         });
 
         // Mettre à jour le DOM
-        carouselSlider.innerHTML = slidesHTML;
-        
-        // Initialiser le carrousel
-        const carousel = initCarousel({
-            selector: '#home-carousel',
-            autoplay: true,
-            autoplayInterval: 5000,
-            onSlideChange: onSlideChange
-        });
-        
-        // Initialiser les lecteurs YouTube
-        if (youtubeAPILoaded) {
-            const videoContainers = document.querySelectorAll('.video-container');
-            for (const container of videoContainers) {
-                const videoId = container.getAttribute('data-video-id');
-                if (videoId) {
-                    await initYouTubePlayer(container, videoId);
+        if (slider) {
+            slider.innerHTML = slidesHTML;
+            
+            // Initialiser le carrousel
+            const carousel = initCarousel(carouselElement, {
+                autoplay: true,
+                autoplayInterval: 5000,
+                onSlideChange: onSlideChange
+            });
+            
+            // Initialiser les lecteurs YouTube
+            if (youtubeAPILoaded) {
+                const videoContainers = carouselElement.querySelectorAll('.video-container');
+                for (const container of videoContainers) {
+                    const videoId = container.getAttribute('data-video-id');
+                    if (videoId) {
+                        await initYouTubePlayer(container, videoId);
+                    }
                 }
             }
         }
         
         console.log('Carrousel initialisé avec succès');
-        return carousel;
         
     } catch (error) {
         console.error('Erreur lors de l\'initialisation du carrousel:', error);
-        carouselSlider.innerHTML = `
-            <div class="carousel-slide active" data-type="image">
-                <img src="/assets/images/logo/Logo-Franchini-2.jpg" class="carousel-image" alt="Bienvenue chez Franchini">
-                <div class="error-message">
-                    Une erreur est survenue lors du chargement du carrousel.
-                </div>
-            </div>`;
+        if (slider) {
+            slider.innerHTML = `
+                <div class="carousel-slide active" data-type="image">
+                    <img src="/assets/images/logo/Logo-Franchini-2.jpg" class="carousel-image" alt="Bienvenue chez Franchini">
+                    <div class="error-message">
+                        Une erreur est survenue lors du chargement du carrousel.
+                    </div>
+                </div>`;
+        }
     }
 }
 
@@ -217,3 +221,5 @@ if (document.readyState === 'loading') {
 
 // Exporter pour le débogage
 window.initHomeCarousel = initHomeCarousel;
+
+export { initHomeCarousel };
