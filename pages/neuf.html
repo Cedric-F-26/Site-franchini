@@ -84,21 +84,22 @@ title: Matériel Neuf
 <style>
 .unified-brand-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
-    justify-items: center;
+    padding: 0 1rem;
+    justify-content: center;
 }
 
 .grid-header {
-    grid-column: 1 / -1; /* Le titre prend toute la largeur */
+    grid-column: 1 / -1;
     color: var(--deutz-green);
-    margin-top: 2rem;
-    margin-bottom: 1rem;
+    margin: 2rem 0 1rem;
     padding-bottom: 0.5rem;
     border-bottom: 2px solid var(--deutz-green);
-    text-align: center; /* Centrage du titre */
+    text-align: center;
+    width: 100%;
 }
 
 .grid-header:first-of-type {
@@ -110,17 +111,17 @@ title: Matériel Neuf
 }
 
 .header-icon-img {
-    height: 32px; /* Taille du logo augmentée */
+    height: 32px;
     margin-right: 10px;
     vertical-align: middle;
     background-color: var(--deutz-green);
-    mix-blend-mode: multiply; /* Tente de colorer l'image */
+    mix-blend-mode: multiply;
 }
 
 .brand-card {
     background-color: #fff;
     border-radius: 8px;
-    padding: 1rem;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -128,8 +129,9 @@ title: Matériel Neuf
     text-align: center;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid #ddd;
-    height: 170px; /* Hauteur légèrement augmentée */
-    width: 200px; /* Ajout d'une largeur fixe pour la cohérence */
+    height: 180px;
+    width: 180px;
+    margin: 0 auto;
 }
 
 .brand-card:hover {
@@ -138,7 +140,7 @@ title: Matériel Neuf
 }
 
 .brand-logo {
-    max-height: 80px; /* Taille de logo augmentée */
+    max-height: 80px;
     max-width: 100%;
     margin-bottom: 1rem;
     object-fit: contain;
