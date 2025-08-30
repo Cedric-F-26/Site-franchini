@@ -9,11 +9,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js";
 import { 
     getFirestore,
+    initializeFirestore,
+    persistentLocalCache,
     collection, 
     getDocs, 
     query, 
     orderBy,
-    enableIndexedDbPersistence,
     CACHE_SIZE_UNLIMITED
 } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-firestore.js";
 import {
@@ -39,27 +40,29 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Initialiser Firestore
-const db = getFirestore(app);
-
-// Activer la persistance hors ligne
-async function enableOfflinePersistence() {
+// Initialiser Firestore avec persistance
+let db;
+if (typeof window !== 'undefined') {
   try {
-    await enableIndexedDbPersistence(db, { 
-      cacheSizeBytes: CACHE_SIZE_UNLIMITED 
+    db = initializeFirestore(app, {
+      localCache: persistentLocalCache({ cacheSizeBytes: CACHE_SIZE_UNLIMITED })
     });
-    console.log("La persistance hors ligne est activée");
-  } catch (err) {
-    if (err.code === 'failed-precondition') {
-      console.warn("La persistance a échoué car plusieurs onglets sont ouverts");
-    } else if (err.code === 'unimplemented') {
-      console.warn("Le navigateur actuel ne supporte pas la persistance");
+    console.log("La persistance hors ligne est activée via initializeFirestore.");
+  } catch (e) {
+    if (e.code === 'failed-precondition') {
+      console.warn("La persistance a échoué car plusieurs onglets sont ouverts. Initialisation de Firestore sans persistance.");
+      db = getFirestore(app);
+    } else if (e.code === 'unimplemented') {
+      console.warn("Le navigateur actuel ne supporte pas la persistance. Initialisation de Firestore sans persistance.");
+      db = getFirestore(app);
+    } else {
+      console.error("Erreur lors de l'initialisation de Firestore avec la persistance", e);
+      db = getFirestore(app); // Fallback
     }
   }
-}
-
-if (typeof window !== 'undefined') {
-  enableOfflinePersistence();
+} else {
+  // Environnement sans fenêtre (ex: SSR), initialiser sans persistance
+  db = getFirestore(app);
 }
 
 const storage = getStorage(app);
