@@ -8,14 +8,16 @@ title: Matériel Neuf
     <section class="page-header">
         <div class="container">
             <h1>{{ page.title }}</h1>
+            <p>Découvrez notre sélection de matériel agricole neuf des plus grandes marques.</p>
         </div>
     </section>
 
     <section class="materiel-section">
         <div class="container">
 
+            <!-- Section Matériel Agricole -->
             <div class="category-section">
-                <h2>Agricole</h2>
+                <h2><i class="fas fa-tractor"></i> Matériel Agricole</h2>
                 <div class="brand-grid">
                     <a href="https://www.deutz-fahr.com/fr-fr/" target="_blank" class="brand-card">
                         <img src="{{ '/assets/images/logo/DEUTZ-FAHR_logo_positive_rgb.png' | relative_url }}" alt="Deutz-Fahr" class="brand-logo">
@@ -37,11 +39,20 @@ title: Matériel Neuf
                         <img src="https://www.berthoud.com/wp-content/uploads/2021/11/favicon.png" alt="Berthoud" class="brand-logo">
                         <span>Berthoud</span>
                     </a>
+                    <a href="https://www.kverneland.fr/" target="_blank" class="brand-card">
+                        <img src="https://www.kvernelandgroup.com/var/kvg/storage/images/media/images/kverneland-logo/263593-1-eng-GB/Kverneland-logo.png" alt="Kverneland" class="brand-logo">
+                        <span>Kverneland</span>
+                    </a>
+                    <a href="https://www.quivogne.fr/" target="_blank" class="brand-card">
+                        <img src="https://www.quivogne.fr/wp-content/uploads/2022/01/logo-quivogne.png" alt="Quivogne" class="brand-logo">
+                        <span>Quivogne</span>
+                    </a>
                 </div>
             </div>
 
+            <!-- Section Agriculture de Précision -->
             <div class="category-section">
-                <h2>Agriculture de précision</h2>
+                <h2><i class="fas fa-satellite-dish"></i> Agriculture de Précision</h2>
                 <div class="brand-grid">
                     <a href="https://www.topconpositioning.com/fr" target="_blank" class="brand-card">
                         <img src="https://www.topcon.com/favicon.ico" alt="Topcon" class="brand-logo">
@@ -50,8 +61,9 @@ title: Matériel Neuf
                 </div>
             </div>
 
+            <!-- Section TP-Manutention -->
             <div class="category-section">
-                <h2>TP-Manutention</h2>
+                <h2><i class="fas fa-truck-loading"></i> TP-Manutention</h2>
                 <div class="brand-grid">
                      <a href="https://www.bobcat.com/eu/fr/" target="_blank" class="brand-card">
                         <img src="https://www.bobcat.com/favicon.ico" alt="Bobcat" class="brand-logo">
@@ -65,11 +77,16 @@ title: Matériel Neuf
                         <img src="https://www.m-x.eu/favicon.ico" alt="MX" class="brand-logo">
                         <span>MX</span>
                     </a>
+                    <a href="https://www.quicke.nu/" target="_blank" class="brand-card">
+                        <img src="https://www.quicke.nu/wp-content/uploads/2021/10/quicke-logo-red.svg" alt="Quicke" class="brand-logo">
+                        <span>Quicke</span>
+                    </a>
                 </div>
             </div>
 
+            <!-- Section Parc et Jardin -->
             <div class="category-section">
-                <h2>Parc et Jardin</h2>
+                <h2><i class="fas fa-leaf"></i> Parc et Jardin</h2>
                 <div class="brand-grid">
                     <a href="https://egopowerplus.fr/" target="_blank" class="brand-card">
                         <img src="{{ '/assets/images/logo/Ego-logo.jpg' | relative_url }}" alt="EGO" class="brand-logo">
@@ -81,3 +98,85 @@ title: Matériel Neuf
         </div>
     </section>
 </main>
+
+<style>
+.category-section {
+    margin-bottom: 3rem;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.category-section h2 {
+    color: var(--deutz-green);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.category-section h2 i {
+    font-size: 1.5rem;
+}
+
+.category-description {
+    margin-bottom: 1.5rem;
+    color: #555;
+}
+
+.brand-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1.5rem;
+}
+
+.brand-card {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: 1px solid #eee;
+    height: 140px;
+}
+
+.brand-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-color: var(--deutz-green);
+}
+
+.brand-logo {
+    max-height: 60px;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    object-fit: contain;
+}
+
+.brand-card span {
+    font-weight: 600;
+    color: #333;
+    margin-top: auto;
+}
+
+@media (max-width: 768px) {
+    .brand-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+    
+    .brand-card {
+        padding: 1rem;
+        height: 120px;
+    }
+    
+    .brand-logo {
+        max-height: 50px;
+    }
+}
+</style>
