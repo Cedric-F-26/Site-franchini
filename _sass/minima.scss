@@ -2,18 +2,16 @@
 // ==================================================
 
 // Import custom variables first
-@import "minima/custom-variables";
+@import "minima/_custom-variables";
 
-// 1. Your custom variables and variable overwrites.
-@import "minima/skins/classic";
+// Import custom mixins
+@import "minima/_custom-mixins";
 
-// 2. Import default variables and available mixins.
-@import "minima/base";
+// 1. Import default variables and available mixins.
+@import "minima/_base";
 
-// 3. Your custom mixin overwrites.
+// 2. Import all components
+@import "minima/_layout";
+@import "minima/_syntax-highlighting";
 
-// 4. Import all components
-@import "minima/layout";
-@import "minima/syntax-highlighting";
-
-// 5. Add additional styles here
+// 3. Add additional styles here
