@@ -6,6 +6,15 @@ Thumbs.db
 node_modules/
 .jekyll-cache/
 .sass-cache/
+.jekyll-metadata
+.jekyll-version
+.jekyll-clean
+.jekyll-deps
+.jekyll-dependencies
+.jekyll-deps.json
+.jekyll-dependencies.json
+.jekyll-deps.lock
+.jekyll-dependencies.lock
 
 # Fichiers d'environnement
 .env
@@ -28,4 +37,26 @@ vercel.json.local
 .idea/
 .vscode/
 *.sublime-*
+
+# Fichiers de test et de couverture
+/coverage
+/spec
+/test
+/specs
+/tests
+
+# Fichiers temporaires
+/tmp
+/temp
+
+# Fichiers de documentation
+/docs
+/readme*
+/CHANGELOG*
+/CODE_OF_CONDUCT*
+/CONTRIBUTING*
+
+# Fichiers de déploiement
+/_site
+!/_site/**
 *.code-workspace

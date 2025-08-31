@@ -5,7 +5,8 @@
       "src": "vercel-build.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_site"
+        "distDir": "_site",
+        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh"
       }
     }
   ],
@@ -16,12 +17,13 @@
   "build": {
     "env": {
       "NODE_ENV": "production",
-      "JEKYLL_ENV": "production"
+      "JEKYLL_ENV": "production",
+      "BUNDLE_PATH": "/var/task/vendor/bundle"
     }
   },
   "env": {
-    "NODE_VERSION": "16.x",
-    "RUBY_VERSION": "3.2.2",
-    "BUNDLE_PATH": "/var/task/vendor/bundle"
-  }
+    "NODE_VERSION": "18.x",
+    "RUBY_VERSION": "3.2.2"
+  },
+  "installCommand": "npm install && bundle install --jobs=4 --retry=3"
 }

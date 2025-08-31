@@ -1,38 +1,88 @@
 #!/bin/bash
 set -e  # Arrêter le script en cas d'erreur
 
+# Charger la configuration
+CONFIG_FILE="$(dirname "$0")/vercel-build.config.js"
+
+# Vérifier si le fichier de configuration existe
+if [ ! -f "$CONFIG_FILE" ]; then
+  echo "❌ Erreur: Fichier de configuration $CONFIG_FILE introuvable" >&2
+  exit 1
+fi
+
+# Extraire les valeurs de configuration
+NODE_CMD=$(node -p "require('$CONFIG_FILE').versions.node")
+RUBY_CMD=$(node -p "require('$CONFIG_FILE').versions.ruby")
+BUNDLER_CMD=$(node -p "require('$CONFIG_FILE').versions.bundler")
+NPM_CMD=$(node -p "require('$CONFIG_FILE').versions.npm")
+
 # Fonction pour afficher des messages formatés
 log() {
   echo -e "\n\033[1;34m==> $1\033[0m"
 }
 
+# Vérification des versions des outils
+check_version() {
+  local name=$1
+  local current_version=$2
+  local required_version=$3
+  
+  # Extraire la version numérique pour la comparaison
+  local current_num=$(echo "$current_version" | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+  
+  if [ -z "$current_num" ]; then
+    echo "⚠️  Impossible de détecter la version de $name"
+    return 1
+  fi
+  
+  # Comparaison de version simplifiée
+  if [ "$(printf '%s\n' "$required_version" "$current_num" | sort -V | head -n1)" = "$required_version" ]; then
+    echo "✅ $name: $current_version (requis: $required_version)"
+    return 0
+  else
+    echo "❌ $name: $current_version (version requise: $required_version)" >&2
+    return 1
+  fi
+}
+
 # Afficher les versions des outils
 log "Vérification des versions des outils :"
-echo "- Ruby: $(ruby --version)"
-echo "- Bundler: $(bundle --version)"
-echo "- Node.js: $(node --version)"
-echo "- npm: $(npm --version)"
+check_version "Node.js" "$(node --version)" "$(echo $NODE_CMD | sed 's/[^0-9.]//g')" || exit 1
+check_version "npm" "$(npm --version)" "$(echo $NPM_CMD | sed 's/[^0-9.]//g')" || exit 1
+check_version "Ruby" "$(ruby --version)" "$(echo $RUBY_CMD | sed 's/[^0-9.]//g')" || exit 1
+check_version "Bundler" "$(bundle --version | cut -d' ' -f2)" "$(echo $BUNDLER_CMD | sed 's/[^0-9.]//g')" || exit 1
 
 # Configuration de l'environnement
-export JEKYLL_ENV=production
+export JEKYLL_ENV=$(node -p "require('$CONFIG_FILE').jekyll.env")
 
 # Installation des dépendances Node.js
 log "Installation des dépendances Node.js..."
-npm install --prefer-offline --no-audit --progress=false
+NODE_INSTALL_CMD=$(node -p "require('$CONFIG_FILE').installCommands.node")
+eval "$NODE_INSTALL_CMD"
 
 # Configuration de Bundler
 log "Configuration de Bundler..."
-bundle config set --local path 'vendor/bundle'
-bundle config set --local deployment 'true'
-bundle config set --local without 'development:test'
-bundle config set --local clean 'true'
-bundle config set --local no-prune 'true'
+BUNDLER_PATH=$(node -p "require('$CONFIG_FILE').bundler.path")
+BUNDLER_JOBS=$(node -p "require('$CONFIG_FILE').bundler.jobs")
+BUNDLER_RETRY=$(node -p "require('$CONFIG_FILE').bundler.retry")
+
+bundle config set --local path "$BUNDLER_PATH"
+bundle config set --local deployment $(node -p "require('$CONFIG_FILE').bundler.deployment")
+bundle config set --local without $(node -p "require('$CONFIG_FILE').bundler.without")
+bundle config set --local clean $(node -p "require('$CONFIG_FILE').bundler.clean")
+bundle config set --local no-prune $(node -p "require('$CONFIG_FILE').bundler.noPrune")
 
 # Installation des dépendances Ruby
 log "Installation des dépendances Ruby..."
-if ! bundle install --jobs=4 --retry=3; then
+RUBY_INSTALL_CMD=$(node -p "require('$CONFIG_FILE').installCommands.ruby")
+RUBY_CLEAN_CMD=$(node -p "require('$CONFIG_FILE').installCommands.rubyClean")
+
+if ! eval "$RUBY_INSTALL_CMD"; then
   log "⚠️  Échec de l'installation, tentative avec --clean..."
-  bundle install --jobs=4 --retry=3 --clean
+  if ! eval "$RUBY_CLEAN_CMD"; then
+    log "❌ Échec de l'installation des dépendances Ruby"
+    exit 1
+  fi
 fi
 
 # Nettoyage du cache Jekyll
@@ -41,21 +91,47 @@ bundle exec jekyll clean || true
 
 # Construction du site Jekyll
 log "Construction du site Jekyll..."
-if ! bundle exec jekyll build --trace --verbose; then
-  log "⚠️  Construction échouée, tentative avec --safe..."
-  bundle exec jekyll build --trace --verbose --safe
+JEKYLL_BUILD_CMD="bundle exec jekyll build"
+BUILD_OPTIONS=($(node -p "require('$CONFIG_FILE').jekyll.buildOptions.join(' ')"))
+
+if ! eval "$JEKYLL_BUILD_CMD ${BUILD_OPTIONS[@]}"; then
+  log "⚠️  Construction échouée, tentative avec les options de secours..."
+  SAFE_OPTIONS=($(node -p "require('$CONFIG_FILE').jekyll.safeBuildOptions.join(' ')"))
+  if ! eval "$JEKYLL_BUILD_CMD ${SAFE_OPTIONS[@]}"; then
+    log "❌ Échec de la construction du site Jekyll"
+    exit 1
+  fi
 fi
 
 # Vérification du répertoire de sortie
 log "Vérification du répertoire de sortie..."
 if [ -d "_site" ] && [ -n "$(ls -A _site 2>/dev/null)" ]; then
+  # Vérification des fichiers critiques
+  CRITICAL_FILES=($(node -p "require('$CONFIG_FILE').criticalFiles.join('\n')"))
+  MISSING_FILES=()
+  
+  for file in "${CRITICAL_FILES[@]}"; do
+    if [ ! -e "_site/$file" ] && [ ! -e "_site/${file%/}" ]; then
+      MISSING_FILES+=("$file")
+    fi
+  done
+  
+  if [ ${#MISSING_FILES[@]} -gt 0 ]; then
+    log "⚠️  Fichiers critiques manquants :"
+    for file in "${MISSING_FILES[@]}"; do
+      echo "   - $file"
+    done
+    log "ℹ️  Le site a été construit mais certains fichiers critiques sont manquants."
+  fi
+  
   echo "✅ Répertoire _site/ généré avec succès"
   echo "📦 Taille du répertoire: $(du -sh _site | cut -f1)"
   echo "📂 Contenu du répertoire:"
   ls -la _site/
+  
   log "✅ Build terminé avec succès !"
   exit 0
 else
-  echo "❌ Erreur: Le répertoire _site/ n'a pas été généré ou est vide !" >&2
+  log "❌ Erreur: Le répertoire _site/ n'a pas été généré ou est vide !"
   exit 1
 fi
