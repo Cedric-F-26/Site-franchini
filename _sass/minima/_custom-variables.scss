@@ -20,8 +20,8 @@ $background-color-dark: color.adjust($background-color, $lightness: -3%);
 
 // Grey colors (for borders, dividers, etc.)
 $grey-color: #828282 !default;
-$grey-color-light: lighten($grey-color, 40%) !default;
-$grey-color-dark: darken($grey-color, 25%) !default;
+$grey-color-light: color.adjust($grey-color, $lightness: 40%) !default;
+$grey-color-dark: color.adjust($grey-color, $lightness: -25%) !default;
 
 // Link colors
 $link-base-color: $brand-color !default;
