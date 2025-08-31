@@ -54,7 +54,10 @@ async function onSlideChange(slide) {
 
 // Initialiser un lecteur YouTube
 async function initYouTubePlayer(container, videoId) {
-    if (!container || !videoId) return null;
+    if (!container || !videoId) {
+        console.error('Paramètres manquants pour initYouTubePlayer');
+        return null;
+    }
     
     const iframe = container.querySelector('iframe');
     if (!iframe) {
@@ -63,19 +66,49 @@ async function initYouTubePlayer(container, videoId) {
     }
     
     try {
+        console.log(`Initialisation du lecteur YouTube pour la vidéo: ${videoId}`);
+        
+        // S'assurer que l'API YouTube est chargée
+        await YouTubeAPI.ensureYouTubeIframeAPI();
+        
+        // Configurer le lecteur YouTube
         const player = await YouTubeAPI.setupYouTubePlayer(iframe, {
-            onEnded: () => console.log(`Vidéo ${videoId} terminée`),
+            onEnded: () => {
+                console.log(`Vidéo ${videoId} terminée`);
+                // Passer à la vidéo suivante si nécessaire
+                const carousel = document.querySelector('#home-carousel');
+                if (carousel) {
+                    const nextBtn = carousel.querySelector('.carousel-next');
+                    if (nextBtn) nextBtn.click();
+                }
+            },
             onPlaying: () => console.log(`Lecture de la vidéo ${videoId} démarrée`)
         });
         
         if (player) {
             youtubePlayers.set(videoId, player);
+            console.log(`Lecteur YouTube ${videoId} initialisé avec succès`);
             return player;
+        } else {
+            throw new Error('Échec de la création du lecteur YouTube');
         }
     } catch (error) {
         console.error(`Erreur lors de l'initialisation du lecteur YouTube ${videoId}:`, error);
+        
+        // Afficher un message d'erreur dans le conteneur
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'youtube-error';
+        errorDiv.style.color = '#721c24';
+        errorDiv.style.backgroundColor = '#f8d7da';
+        errorDiv.style.border = '1px solid #f5c6cb';
+        errorDiv.style.borderRadius = '4px';
+        errorDiv.style.padding = '10px';
+        errorDiv.style.margin = '10px 0';
+        errorDiv.textContent = 'Impossible de charger la vidéo. Veuillez réessayer plus tard.';
+        
+        container.appendChild(errorDiv);
+        return null;
     }
-    return null;
 }
 
 // Fonction principale asynchrone

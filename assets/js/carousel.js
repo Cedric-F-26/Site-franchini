@@ -261,32 +261,40 @@ export function initCarousel(config) {
 // YouTube Iframe API integration
 let YT_API_REQUESTED = false;
 let YT_READY = false;
+const YT_API_KEY = 'AIzaSyBfZhDCtitB-Qfmkr3fcsDk7Mc9nkla7jI';
 const YT_API_CALLBACKS = [];
 
 // Fonction pour gérer le chargement de l'API YouTube
 function ensureYouTubeIframeAPI() {
-    if (!YT_API_REQUESTED) {
+    if (YT_API_REQUESTED) {
+        if (YT_READY) {
+            return Promise.resolve();
+        }
+        return new Promise(resolve => YT_API_CALLBACKS.push(resolve));
+    }
+
+    YT_API_REQUESTED = true;
+    
+    return new Promise((resolve, reject) => {
         const tag = document.createElement('script');
-        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.src = `https://www.youtube.com/iframe_api?api_key=${YT_API_KEY}`;
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        
-        // Définir la fonction de rappel globale pour YouTube
-        window.onYouTubeIframeAPIReady = function() {
+
+        window.onYouTubeIframeAPIReady = () => {
             YT_READY = true;
-            // Exécuter toutes les callbacks en attente
-            YT_API_CALLBACKS.forEach(callback => {
-                try {
-                    callback();
-                } catch (e) {
-                    console.error('Error in YT API callback:', e);
-                }
-            });
-            YT_API_CALLBACKS.length = 0;
+            while (YT_API_CALLBACKS.length) {
+                YT_API_CALLBACKS.shift()();
+            }
+            resolve();
         };
-        
-        YT_API_REQUESTED = true;
-    }
+
+        // Gestion des erreurs de chargement
+        tag.onerror = (error) => {
+            console.error('Erreur lors du chargement de l\'API YouTube:', error);
+            reject(new Error('Impossible de charger l\'API YouTube'));
+        };
+    });
 }
 
 function enableJsApiOnIframe(iframe) {
