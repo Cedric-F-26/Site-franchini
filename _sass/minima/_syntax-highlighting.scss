@@ -3,8 +3,8 @@
  */
 .highlight {
   background: #f8f8f8;
-  margin-top: $spacing-unit / 2;
-  margin-bottom: $spacing-unit / 2;
+  margin-top: calc($spacing-unit / 2);
+  margin-bottom: calc($spacing-unit / 2);
 
   .highlighter-rouge & {
     background: #f8f8f8;

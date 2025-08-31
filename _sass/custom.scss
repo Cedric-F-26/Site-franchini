@@ -1,8 +1,6 @@
 // Custom styles and overrides
 @use "sass:color";
-
-// Import custom variables first
-@import "minima/_custom-variables";
+@use "minima/_custom-variables" as *;
 
 // Custom styles specific to your site
 // Add any additional custom styles below this line
