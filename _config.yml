@@ -117,22 +117,6 @@ kramdown:
 # ==============================================================================
 # GESTION DES ASSETS
 # ==============================================================================
-# Configuration pour jekyll-assets
-# La gem 'jekyll-assets' n'est pas listée dans le Gemfile.
-# Cette section est probablement inactive.
-assets:
-  sources:
-    - _assets/images
-    - _assets/fonts
-    - _assets/js
-    - _assets/css
-  compress: true
-  gzip: true
-  cache: true
-  cache_path: "_cache"
-  prefix: "/assets"
-  digest: true
-
 # Configuration pour SASS
 sass:
   style: compressed

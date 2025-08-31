@@ -1,2 +1,1 @@
-import * as firebase from './auth/firebase-config.js';
-window.firebase = firebase;
+import { auth, onAuthStateChanged, signOut } from './auth/firebase-config.js';
