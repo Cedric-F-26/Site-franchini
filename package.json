@@ -6,7 +6,7 @@
   "scripts": {
     "start": "bundle exec jekyll serve --livereload --incremental",
     "build": "bundle exec jekyll build",
-    "vercel-build": "chmod +x vercel-build.sh && ./vercel-build.sh",
+    "vercel-build": "npm install && bundle install --jobs=4 --retry=3 && JEKYLL_ENV=production bundle exec jekyll build --trace",
     "serve": "bundle exec jekyll serve",
     "clean": "bundle exec jekyll clean",
     "test": "npm run lint:js && npm run lint:css",
