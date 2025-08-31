@@ -50,7 +50,31 @@ log "Vérification des versions des outils :"
 check_version "Node.js" "$(node --version)" "$(echo $NODE_CMD | sed 's/[^0-9.]//g')" || exit 1
 check_version "npm" "$(npm --version)" "$(echo $NPM_CMD | sed 's/[^0-9.]//g')" || exit 1
 check_version "Ruby" "$(ruby --version)" "$(echo $RUBY_CMD | sed 's/[^0-9.]//g')" || exit 1
-check_version "Bundler" "$(bundle --version | cut -d' ' -f2)" "$(echo $BUNDLER_CMD | sed 's/[^0-9.]//g')" || exit 1
+
+# Vérification de Bundler
+if ! command -v bundle &> /dev/null; then
+  log "⚠️  Bundler n'est pas installé. Installation en cours..."
+  gem install bundler || { echo "❌ Impossible d'installer Bundler"; exit 1; }
+fi
+
+# Récupération de la version de Bundler
+BUNDLER_VERSION=$(bundle --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+if [ -z "$BUNDLER_VERSION" ]; then
+  log "⚠️  Impossible de détecter la version de Bundler, continuation avec la version par défaut"
+  echo "ℹ️  Bundler sera installé avec la version requise si nécessaire"
+else
+  REQUIRED_BUNDLER=$(echo $BUNDLER_CMD | sed 's/[^0-9.]//g')
+  log "✅ Bundler version détectée: $BUNDLER_VERSION (requise: $REQUIRED_BUNDLER)"
+  
+  # Vérification de la version minimale requise
+  if [ "$(printf '%s\n' "$REQUIRED_BUNDLER" "$BUNDLER_VERSION" | sort -V | head -n1)" != "$REQUIRED_BUNDLER" ]; then
+    log "⚠️  Mise à jour de Bundler vers la version requise ($REQUIRED_BUNDLER)..."
+    gem install bundler:$REQUIRED_BUNDLER || {
+      echo "❌ Impossible de mettre à jour Bundler"; 
+      exit 1;
+    }
+  fi
+fi
 
 # Configuration de l'environnement
 export JEKYLL_ENV=$(node -p "require('$CONFIG_FILE').jekyll.env")
