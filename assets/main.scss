@@ -1,8 +1,8 @@
 // Import custom variables first
-@import "minima/_custom-variables";
+@use "minima/_custom-variables" as *;
 
 // Then import the rest of Minima
-@import "minima";
+@use "minima" as *;
 
 // Custom styles
 body {
