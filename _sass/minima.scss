@@ -2,12 +2,16 @@
 // ==================================================
 
 // 1. Import default variables and available mixins.
-@use "minima/_custom-variables" as *;
-@use "minima/_custom-mixins" as *;
-@use "minima/_base" as *;
+@use "sass:color";
+@use "sass:math";
+@use "minima/_custom-variables" as vars;
+@use "minima/_custom-mixins" as mixins;
+@use "minima/_base" as base;
 
 // 2. Import all components
-@use "minima/_layout" as *;
-@use "minima/_syntax-highlighting" as *;
+@use "minima/_layout" as layout;
+@use "minima/_syntax-highlighting" as syntax;
 
 // 3. Add additional styles here
+// Access variables using vars.$variable-name
+// Access mixins using mixins.mixin-name()

@@ -1,4 +1,8 @@
 // Custom mixins for Minima
+@use "sass:math";
+@use "sass:color";
+@use "minima/_custom-variables" as vars;
+
 
 /**
  * Clearfix

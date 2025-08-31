@@ -2,17 +2,26 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "vercel-build.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "_site",
-        "installCommand": "npm install",
-        "buildCommand": "npm run build"
+        "distDir": "_site"
       }
     }
   ],
   "routes": [
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/$1" }
-  ]
+  ],
+  "build": {
+    "env": {
+      "NODE_ENV": "production",
+      "JEKYLL_ENV": "production"
+    }
+  },
+  "env": {
+    "NODE_VERSION": "16.x",
+    "RUBY_VERSION": "3.2.2",
+    "BUNDLE_PATH": "/var/task/vendor/bundle"
+  }
 }

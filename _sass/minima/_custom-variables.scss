@@ -2,6 +2,7 @@
 // Using modern SASS functions to replace deprecated ones
 
 @use "sass:color";
+@use "sass:math";
 
 // Brand colors
 $brand-color: #2a7ae2 !default;
@@ -25,7 +26,7 @@ $grey-color-dark: color.adjust($grey-color, $lightness: -25%) !default;
 
 // Link colors
 $link-base-color: $brand-color !default;
-$link-visited-color: color.adjust($link-base-color, $hue: 30deg);
+$link-visited-color: color.adjust($link-base-color, $hue: 30);
 $link-hover-color: color.adjust($link-base-color, $lightness: -15%);
 
 // Typography
@@ -34,7 +35,7 @@ $code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospa
 $base-font-size: 16px !default;
 $base-font-weight: 400 !default;
 $heavy-font-weight: 700 !default;
-$small-font-size: $base-font-size * 0.875 !default;
+$small-font-size: calc($base-font-size * 0.875) !default;
 $base-line-height: 1.5 !default;
 $spacing-unit: 30px !default;
 
@@ -56,4 +57,34 @@ $on-laptop: 800px !default;
   @media screen and (max-width: $device) {
     @content;
   }
+}
+
+// Export des variables pour une utilisation globale
+:export {
+  brandColor: $brand-color;
+  brandColorLight: $brand-color-light;
+  brandColorDark: $brand-color-dark;
+  textColor: $text-color;
+  textColorLight: $text-color-light;
+  textColorDark: $text-color-dark;
+  backgroundColor: $background-color;
+  backgroundColorLight: $background-color-light;
+  backgroundColorDark: $background-color-dark;
+  greyColor: $grey-color;
+  greyColorLight: $grey-color-light;
+  greyColorDark: $grey-color-dark;
+  linkBaseColor: $link-base-color;
+  linkVisitedColor: $link-visited-color;
+  linkHoverColor: $link-hover-color;
+  baseFontFamily: $base-font-family;
+  codeFontFamily: $code-font-family;
+  baseFontSize: $base-font-size;
+  baseFontWeight: $base-font-weight;
+  heavyFontWeight: $heavy-font-weight;
+  smallFontSize: $small-font-size;
+  baseLineHeight: $base-line-height;
+  spacingUnit: $spacing-unit;
+  contentWidth: $content-width;
+  onPalm: $on-palm;
+  onLaptop: $on-laptop;
 }

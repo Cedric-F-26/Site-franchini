@@ -8,13 +8,19 @@ dl, dd, ol, ul, figure {
   padding: 0;
 }
 
+// Import des variables et fonctions Sass
+@use "sass:math";
+@use "sass:color";
+@use "minima/_custom-variables" as vars;
+@use "minima/_custom-mixins" as mixins;
+
 /**
  * Basic styling
  */
 body {
-  font: $base-font-weight #{$base-font-size}/#{$base-line-height} $base-font-family;
-  color: $text-color;
-  background-color: $background-color;
+  font: #{vars.$base-font-weight} #{vars.$base-font-size}/#{vars.$base-line-height} #{vars.$base-font-family};
+  color: vars.$text-color;
+  background-color: vars.$background-color;
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: "kern" 1;
      -moz-font-feature-settings: "kern" 1;
@@ -32,8 +38,8 @@ body {
 h1, h2, h3, h4, h5, h6,
 p, blockquote, pre,
 ul, ol, dl, figure {
-  margin-top: calc($spacing-unit / 2);
-  margin-bottom: calc($spacing-unit / 2);
+  margin-top: calc(#{vars.$spacing-unit} / 2);
+  margin-bottom: calc(#{vars.$spacing-unit} / 2);
 }
 
 /**
@@ -52,14 +58,14 @@ figure > img {
 }
 
 figcaption {
-  font-size: $small-font-size;
+  font-size: vars.$small-font-size;
 }
 
 /**
  * Lists
  */
 ul, ol {
-  margin-left: $spacing-unit;
+  margin: 0 0 vars.$spacing-unit;
 }
 
 li {
@@ -73,22 +79,22 @@ li {
  * Headings
  */
 h1, h2, h3, h4, h5, h6 {
-  font-weight: $base-font-weight;
+  font-weight: vars.$base-font-weight;
 }
 
 /**
  * Links
  */
 a {
-  color: $brand-color;
+  color: vars.$brand-color;
   text-decoration: none;
 
   &:visited {
-    color: $link-visited-color;
+    color: vars.$link-visited-color;
   }
 
   &:hover {
-    color: $link-hover-color;
+    color: vars.$link-hover-color;
     text-decoration: underline;
   }
 
@@ -105,10 +111,10 @@ a {
  * Blockquotes
  */
 blockquote {
-  color: $text-color;
-  border-left: 4px solid $grey-color-light;
-  padding-left: calc($spacing-unit / 2);
-  font-size: calc($base-font-size * 1.125);
+  color: vars.$text-color;
+  border-left: 4px solid vars.$grey-color-light;
+  padding-left: calc(vars.$spacing-unit / 2);
+  font-size: calc(vars.$base-font-size * 1.125);
   letter-spacing: -1px;
   font-style: italic;
 
@@ -122,11 +128,11 @@ blockquote {
  */
 pre,
 code {
-  font-size: $base-font-size * 0.9375;
-  border: 1px solid $grey-color-light;
+  font-size: vars.$base-font-size * 0.9375;
+  border: 1px solid vars.$grey-color-light;
   border-radius: 3px;
   background-color: #f8f8f8;
-  font-family: $code-font-family;
+  font-family: vars.$code-font-family;
 }
 
 code {
@@ -148,19 +154,19 @@ pre {
  * Wrapper
  */
 .wrapper {
-  max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit} * 2));
-  max-width:         calc(#{$content-width} - (#{$spacing-unit} * 2));
+  max-width: -webkit-calc(#{vars.$content-width} - (#{vars.$spacing-unit} * 2));
+  max-width:         calc(#{vars.$content-width} - (#{vars.$spacing-unit} * 2));
   margin-right: auto;
   margin-left: auto;
-  padding-right: $spacing-unit;
-  padding-left: $spacing-unit;
-  @include clearfix;
+  padding-right: vars.$spacing-unit;
+  padding: 0 vars.$spacing-unit;
+  @include mixins.clearfix;
 
-  @include media-query($on-laptop) {
-    max-width: -webkit-calc(#{$content-width} - (#{$spacing-unit}));
-    max-width:         calc(#{$content-width} - (#{$spacing-unit}));
-    padding-right: calc($spacing-unit / 2);
-    padding-left: calc($spacing-unit / 2);
+  @include mixins.media-query(vars.$on-laptop) {
+    max-width: -webkit-calc(#{vars.$content-width} - (#{vars.$spacing-unit}));
+    max-width:         calc(#{vars.$content-width} - (#{vars.$spacing-unit}));
+    padding-right: calc(#{vars.$spacing-unit} / 2);
+    padding-left: calc(#{vars.$spacing-unit} / 2);
   }
 }
 
