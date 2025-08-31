@@ -4,21 +4,6 @@ _site/
 .sass-cache/
 .jekyll-cache/
 .jekyll-metadata
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
 
 # Build files
 build/
@@ -26,10 +11,8 @@ dist/
 
 # Environment files
 .env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*
+!.env.example
 
 # Editor directories and files
 .idea/
@@ -38,7 +21,8 @@ dist/
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+*.swp
+*.swo
 
 # OS generated files
 .DS_Store
@@ -48,3 +32,20 @@ dist/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Jekyll
+_site/
+.jekyll-cache/
+.jekyll-metadata
+
+# Coverage directory
+coverage/
+
+# Logs
+logs
+*.log
+
+# Local development
+.cache/
+.temp/
+.tmp/

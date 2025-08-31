@@ -37,9 +37,7 @@ end_of_line = lf
 [*.diff]
 trim_trailing_whitespace = false
 
+# Docker files
 [Dockerfile]
 indent_style = space
 indent_size = 4
-
-[*.{cmd,bat}]
-end_of_line = crlf

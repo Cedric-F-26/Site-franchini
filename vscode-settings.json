@@ -1,5 +1,4 @@
 {
-  // Paramètres de base
   "editor.tabSize": 2,
   "editor.insertSpaces": true,
   "editor.detectIndentation": false,
@@ -8,12 +7,8 @@
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
   },
-  
-  // Extensions recommandées
   "extensions.ignoreRecommendations": false,
   "extensions.showRecommendationsOnlyOnDemand": false,
-  
-  // Paramètres de formatage
   "prettier.singleQuote": true,
   "prettier.trailingComma": "es5",
   "prettier.printWidth": 100,
@@ -24,8 +19,6 @@
   "prettier.jsxBracketSameLine": false,
   "prettier.arrowParens": "avoid",
   "prettier.endOfLine": "auto",
-  
-  // Paramètres ESLint
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -39,19 +32,13 @@
   "eslint.lintTask.enable": true,
   "eslint.packageManager": "npm",
   "eslint.run": "onSave",
-  
-  // Paramètres Stylelint
   "stylelint.validate": ["css", "scss"],
   "css.validate": false,
   "scss.validate": false,
-  
-  // Paramètres Git
   "git.autofetch": true,
   "git.confirmSync": false,
   "git.enableSmartCommit": true,
   "git.enableStatusBarSync": true,
-  
-  // Autres paramètres
   "files.autoSave": "onFocusChange",
   "files.exclude": {
     "**/.git": true,
