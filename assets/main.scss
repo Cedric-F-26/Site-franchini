@@ -1,9 +1,5 @@
----
-# Only the main Sass file needs front matter (the dashes are enough)
----
-
 // Import custom variables first
-@import "minima/custom-variables";
+@import "minima/_custom-variables";
 
 // Then import the rest of Minima
 @import "minima";
