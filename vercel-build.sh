@@ -14,18 +14,44 @@ echo "- Ruby: $(ruby --version || echo 'Non disponible')"
 
 # Installation de Bundler
 echo -e "\n=== INSTALLATION DE BUNDLER ==="
-if ! command -v bundle &> /dev/null; then
-  echo "Bundler n'est pas installé. Installation en cours..."
-  gem install bundler:2.4.22 || {
-    echo "⚠️  Impossible d'installer Bundler 2.4.22, tentative avec la dernière version..."
-    gem install bundler || {
-      echo "❌ Échec de l'installation de Bundler"
+
+# Afficher le chemin Ruby
+echo "Recherche de Ruby..."
+which ruby
+echo "Chemin Ruby: $(which ruby)"
+
+# Vérifier les gems installés
+echo -e "\nGems installés :"
+gem list || echo "Impossible de lister les gems"
+
+# Installation de Bundler avec version spécifique
+echo -e "\nInstallation de Bundler 2.4.22..."
+if ! gem install bundler:2.4.22; then
+  echo "⚠️  Impossible d'installer Bundler 2.4.22, tentative avec la dernière version..."
+  if ! gem install bundler; then
+    echo "❌ Échec de l'installation de Bundler"
+    echo "Tentative avec sudo..."
+    if ! sudo gem install bundler; then
+      echo "❌ Échec critique de l'installation de Bundler"
       exit 1
-    }
-  }
+    fi
+  fi
 fi
 
-echo "✅ Bundler installé: $(bundle --version || echo 'Version inconnue')"
+# Vérification de l'installation
+echo -e "\nVérification de l'installation de Bundler..."
+BUNDLER_PATH=$(which bundle 2>/dev/null || gem which bundler 2>/dev/null || echo "")
+if [ -z "$BUNDLER_PATH" ]; then
+  echo "❌ Bundler n'est pas dans le PATH"
+  echo "Recherche de Bundler..."
+  find / -name bundle 2>/dev/null || echo "Bundler introuvable"
+  exit 1
+else
+  echo "✅ Bundler trouvé à: $BUNDLER_PATH"
+  echo "Version de Bundler: $(bundle --version || echo 'Inconnue')"
+  # Ajouter au PATH si nécessaire
+  export PATH="$(dirname "$BUNDLER_PATH"):$PATH"
+fi
 
 # Configuration de l'environnement
 export JEKYLL_ENV=production
