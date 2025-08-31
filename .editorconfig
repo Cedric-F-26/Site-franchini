@@ -1,34 +1,41 @@
-# EditorConfig helps developers define and maintain consistent
-# coding styles between different editors and IDEs
-# editorconfig.org
+# EditorConfig: https://editorconfig.org
 
 root = true
 
+# Default configuration for all files
 [*]
-# Change these settings to your own preference
+charset = utf-8
+end_of_line = lf
 indent_style = space
 indent_size = 2
-
-# We recommend you to keep these unchanged
-end_of_line = lf
-charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
+max_line_length = 100
 
+# Source files
 [*.{js,jsx,ts,tsx,vue}]
-indent_size = 2
+quote_type = single
 
-[*.{html,css,scss,json,yml,yaml}]
-indent_size = 2
-
-[*.md]
-trim_trailing_whitespace = false
-
-[*.{diff,md}]
-trim_trailing_whitespace = false
-
+# Makefiles must use tabs
 [Makefile]
 indent_style = tab
+
+# Batch files must use CRLF
+[*.{cmd,bat}]
+end_of_line = crlf
+
+# Documentation files
+[*.{md,mdx,adoc,txt}]
+trim_trailing_whitespace = false
+insert_final_newline = false
+
+# Git configuration files
+[.git{attributes,ignore}]
+end_of_line = lf
+
+# Diff files
+[*.diff]
+trim_trailing_whitespace = false
 
 [Dockerfile]
 indent_style = space

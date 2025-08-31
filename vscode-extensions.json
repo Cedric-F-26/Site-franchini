@@ -1,12 +1,9 @@
 {
   "recommendations": [
-    // Outils de développement essentiels
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "stylelint.vscode-stylelint",
     "eamodio.gitlens",
-    
-    // Langages et frameworks
     "bradlc.vscode-tailwindcss",
     "svelte.svelte-vscode",
     "vue.volar",
@@ -14,8 +11,6 @@
     "redhat.vscode-yaml",
     "graphql.vscode-graphql",
     "bradymholt.pgformatter",
-    
-    // Productivité
     "streetsidesoftware.code-spell-checker",
     "mikestead.dotenv",
     "naumovs.color-highlight",
@@ -26,34 +21,20 @@
     "formulahendry.auto-close-tag",
     "mrmlnc.vscode-scss",
     "pflannery.vscode-versionlens",
-    
-    // Thèmes et icônes
     "pkief.material-icon-theme",
     "dracula-theme.theme-dracula",
     "zhuangtongfa.material-theme",
     "jpoissonnier.vscode-styled-components",
-    
-    // Outils de test
     "firsttris.vscode-jest-runner",
     "hbenl.vscode-test-explorer",
     "ms-vscode.test-adapter-converter",
-    
-    // Outils de débogage
     "ms-vscode.js-debug",
     "ms-vscode.vscode-js-profile-table",
     "ms-vscode.node-debug2",
-    
-    // Outils de performance
-    "wix.vscode-import-cost",
     "ms-vscode.vscode-js-profile-flame",
-    "ms-vscode.vscode-js-profile-table",
-    
-    // Outils de collaboration
     "ms-vsliveshare.vsliveshare",
     "ms-vsliveshare.vsliveshare-audio",
     "ms-vsliveshare.vsliveshare-pack",
-    
-    // Autres outils utiles
     "mhutchie.git-graph",
     "christian-kohler.npm-intellisense",
     "christian-kohler.path-intellisense",
