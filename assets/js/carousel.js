@@ -262,39 +262,55 @@ export function initCarousel(config) {
 let YT_API_REQUESTED = false;
 let YT_READY = false;
 const YT_API_KEY = 'AIzaSyBfZhDCtitB-Qfmkr3fcsDk7Mc9nkla7jI';
-const YT_API_CALLBACKS = [];
+let YT_LOAD_PROMISE = null;
 
 // Fonction pour gérer le chargement de l'API YouTube
-function ensureYouTubeIframeAPI() {
-    if (YT_API_REQUESTED) {
-        if (YT_READY) {
-            return Promise.resolve();
-        }
-        return new Promise(resolve => YT_API_CALLBACKS.push(resolve));
-    }
+export async function ensureYouTubeIframeAPI() {
+    if (YT_READY) return Promise.resolve();
+    if (YT_API_REQUESTED) return YT_LOAD_PROMISE;
 
     YT_API_REQUESTED = true;
     
-    return new Promise((resolve, reject) => {
+    YT_LOAD_PROMISE = new Promise((resolve, reject) => {
+        // Vérifier si l'API est déjà chargée par un autre script
+        if (window.YT && window.YT.Player) {
+            YT_READY = true;
+            console.log('YouTube API déjà chargée');
+            return resolve();
+        }
+
+        // Créer la balise script
         const tag = document.createElement('script');
-        tag.src = `https://www.youtube.com/iframe_api?api_key=${YT_API_KEY}`;
+        tag.src = 'https://www.youtube.com/iframe_api';
+        tag.async = true;
+        
+        // Premier script à charger
         const firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        window.onYouTubeIframeAPIReady = () => {
+        // Définir la fonction de rappel globale
+        window.onYouTubeIframeAPIReady = function() {
+            console.log('YouTube Iframe API prête');
             YT_READY = true;
-            while (YT_API_CALLBACKS.length) {
-                YT_API_CALLBACKS.shift()();
-            }
             resolve();
         };
 
         // Gestion des erreurs de chargement
-        tag.onerror = (error) => {
-            console.error('Erreur lors du chargement de l\'API YouTube:', error);
-            reject(new Error('Impossible de charger l\'API YouTube'));
+        tag.onerror = function() {
+            console.error('Erreur lors du chargement de l\'API YouTube');
+            reject(new Error('Erreur lors du chargement de l\'API YouTube'));
         };
+
+        // Timeout au cas où le chargement échouerait silencieusement
+        setTimeout(() => {
+            if (!YT_READY) {
+                console.error('Timeout lors du chargement de l\'API YouTube');
+                reject(new Error('Timeout lors du chargement de l\'API YouTube'));
+            }
+        }, 10000); // 10 secondes de timeout
     });
+
+    return YT_LOAD_PROMISE;
 }
 
 function enableJsApiOnIframe(iframe) {
@@ -346,11 +362,10 @@ function setupYouTubePlayer(iframe, { onEnded, onPlaying } = {}) {
         return create();
     } else {
         return new Promise((resolve) => {
-            YT_API_CALLBACKS.push(() => {
+            ensureYouTubeIframeAPI().then(() => {
                 const player = create();
                 resolve(player);
             });
-            ensureYouTubeIframeAPI();
         });
     }
 }
