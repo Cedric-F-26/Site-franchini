@@ -1,0 +1,13 @@
+// Override Minima variables with modern SASS functions
+
+@use "sass:color";
+
+$grey-color: #828282;
+
+// Replace lighten() with color.adjust()
+$grey-color-light: color.adjust($grey-color, $lightness: 40%);
+$grey-color-dark:  color.adjust($grey-color, $lightness: -25%);
+
+// Import Minima variables after overrides
+@import "minima/skins/classic";
+@import "minima/initialize";

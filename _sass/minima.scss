@@ -1,0 +1,19 @@
+// Minima CSS Framework
+// ==================================================
+
+// Import custom variables first
+@import "minima/custom-variables";
+
+// 1. Your custom variables and variable overwrites.
+@import "minima/skins/classic";
+
+// 2. Import default variables and available mixins.
+@import "minima/base";
+
+// 3. Your custom mixin overwrites.
+
+// 4. Import all components
+@import "minima/layout";
+@import "minima/syntax-highlighting";
+
+// 5. Add additional styles here
