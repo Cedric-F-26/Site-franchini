@@ -1,44 +1,16 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "vercel-build.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "_site",
-        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh"
-      }
+  "functions": {
+    "vercel-build.sh": {
+      "memory": 3008,
+      "maxDuration": 300,
+      "runtime": "nodejs18.x"
     }
-  ],
+  },
   "routes": [
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/$1" }
   ],
-  "build": {
-    "env": {
-      "NODE_ENV": "production",
-      "JEKYLL_ENV": "production",
-      "BUNDLE_PATH": "/var/task/vendor/bundle",
-      "BUNDLE_GEMFILE": "./Gemfile",
-      "BUNDLE_JOBS": "4",
-      "BUNDLE_RETRY": "3"
-    }
-  },
-  "env": {
-    "NODE_VERSION": "18.x",
-    "RUBY_VERSION": "3.2.2",
-    "BUNDLER_VERSION": "2.4.22"
-  },
-  "installCommand": "npm install",
-  "buildCommand": "./vercel-build.sh",
-  "outputDirectory": "_site",
-  "framework": null,
-  "regions": ["cdg1"],
-  "functions": {
-    "api/**/*.js": {
-      "maxDuration": 10
-    }
-  },
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -58,5 +30,19 @@
         }
       ]
     }
-  ]
+  ],
+  "env": {
+    "NODE_VERSION": "18.x",
+    "RUBY_VERSION": "3.2.2",
+    "BUNDLER_VERSION": "2.4.22",
+    "NODE_ENV": "production",
+    "JEKYLL_ENV": "production",
+    "BUNDLE_PATH": "/var/task/vendor/bundle",
+    "BUNDLE_GEMFILE": "./Gemfile",
+    "BUNDLE_JOBS": "4",
+    "BUNDLE_RETRY": "3"
+  },
+  "buildCommand": "./vercel-build.sh",
+  "outputDirectory": "_site",
+  "regions": ["cdg1"]
 }
