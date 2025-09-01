@@ -6,45 +6,53 @@ log() {
   echo -e "\n\033[1;34m==> $1\033[0m"
 }
 
-# Afficher les versions des outils
-echo -e "\n=== VERSIONS DES OUTILS ==="
+# Afficher les informations du système
+echo -e "\n=== INFORMATIONS SYSTÈME ==="
+echo "- Système: $(uname -a)"
 echo "- Node.js: $(node --version || echo 'Non disponible')"
 echo "- npm: $(npm --version || echo 'Non disponible')"
 echo "- Ruby: $(ruby --version || echo 'Non disponible')"
 
+# Configurer les chemins Ruby
+echo -e "\n=== CONFIGURATION RUBY ==="
+RUBY_PATH=$(which ruby)
+echo "Ruby trouvé à: $RUBY_PATH"
+
+# Configuration des chemins
+export GEM_HOME="$PWD/vendor/bundle"
+export BUNDLE_PATH="$GEM_HOME"
+export BUNDLE_APP_CONFIG="$PWD/.bundle"
+export PATH="$GEM_HOME/bin:$PATH"
+mkdir -p "$GEM_HOME"
+mkdir -p "$BUNDLE_APP_CONFIG"
+
+# Créer un fichier de configuration Bundler
+echo "---" > "$BUNDLE_APP_CONFIG/config"
+echo "BUNDLE_PATH: '$BUNDLE_PATH'" >> "$BUNDLE_APP_CONFIG/config"
+echo "BUNDLE_DISABLE_SHARED_GEMS: '1'" >> "$BUNDLE_APP_CONFIG/config"
+echo "BUNDLE_WITHOUT: 'development:test'" >> "$BUNDLE_APP_CONFIG/config"
+
+echo -e "\n=== INSTALLATION DES DÉPENDANCES ==="
+
+# Mettre à jour RubyGems
+echo "Mise à jour de RubyGems..."
+gem update --system --no-document || echo "⚠️ Impossible de mettre à jour RubyGems"
+
 # Installation de Bundler
-echo -e "\n=== INSTALLATION DE BUNDLER ==="
-
-# Afficher le chemin Ruby
-echo "Recherche de Ruby..."
-which ruby
-echo "Chemin Ruby: $(which ruby)"
-
-# Vérifier les gems installés
-echo -e "\nGems installés :"
-gem list || echo "Impossible de lister les gems"
-
-# Installation de Bundler avec version spécifique
-echo -e "\nInstallation de Bundler 2.4.22..."
-if ! gem install bundler:2.4.22; then
-  echo "⚠️  Impossible d'installer Bundler 2.4.22, tentative avec la dernière version..."
-  if ! gem install bundler; then
-    echo "❌ Échec de l'installation de Bundler"
-    echo "Tentative avec sudo..."
-    if ! sudo gem install bundler; then
-      echo "❌ Échec critique de l'installation de Bundler"
-      exit 1
-    fi
+echo -e "\nInstallation de Bundler..."
+if ! gem install bundler --version '~> 2.4.0' --no-document; then
+  echo "⚠️  Impossible d'installer Bundler 2.4.0, tentative avec une version différente..."
+  if ! gem install bundler --no-document; then
+    echo "❌ Échec critique de l'installation de Bundler"
+    exit 1
   fi
 fi
 
-# Vérification de l'installation
+# Vérification de l'installation de Bundler
 echo -e "\nVérification de l'installation de Bundler..."
 BUNDLER_PATH=$(which bundle 2>/dev/null || gem which bundler 2>/dev/null || echo "")
 if [ -z "$BUNDLER_PATH" ]; then
   echo "❌ Bundler n'est pas dans le PATH"
-  echo "Recherche de Bundler..."
-  find / -name bundle 2>/dev/null || echo "Bundler introuvable"
   exit 1
 else
   echo "✅ Bundler trouvé à: $BUNDLER_PATH"
@@ -58,25 +66,41 @@ export JEKYLL_ENV=production
 
 # Installation des dépendances Node.js
 echo -e "\n=== INSTALLATION DES DÉPENDANCES NODE.JS ==="
-npm install --prefer-offline --no-audit --progress=false || {
+npm install --production=false --prefer-offline --no-audit --progress=false || {
   echo "⚠️  Échec de l'installation des dépendances Node.js"
   exit 1
 }
 
-# Configuration de Bundler
-echo -e "\n=== CONFIGURATION DE BUNDLER ==="
-echo "Configuration du chemin des gems..."
-bundle config set --local path 'vendor/bundle' || echo "⚠️  Impossible de configurer le chemin des gems"
-
 # Installation des dépendances Ruby
 echo -e "\n=== INSTALLATION DES DÉPENDANCES RUBY ==="
-if ! bundle install --jobs=4 --retry=3; then
+echo "Installation des gems..."
+bundle config set --local path 'vendor/bundle'
+bundle config set --local deployment 'true'
+bundle config set --local without 'development test'
+
+# Nettoyer le cache de Bundler
+echo "Nettoyage du cache Bundler..."
+bundle clean --force || true
+
+# Installation des gems
+echo "Installation des gems avec Bundler..."
+if ! bundle install --jobs 4 --retry 3; then
   echo "⚠️  Échec de l'installation, tentative avec --clean..."
-  if ! bundle install --jobs=4 --retry=3 --clean; then
-    echo "❌ Échec de l'installation des dépendances Ruby"
+  if ! bundle install --jobs 4 --retry 3 --clean; then
+    echo "❌ Échec de l'installation des gems Ruby"
     exit 1
   fi
 fi
+
+# Construction du site Jekyll
+echo -e "\n=== CONSTRUCTION DU SITE JEKYLL ==="
+echo "Construction du site avec Jekyll..."
+if ! bundle exec jekyll build --trace; then
+  echo "❌ Échec de la construction du site Jekyll"
+  exit 1
+fi
+
+echo -e "\n✅ Construction terminée avec succès !"
 
 # Nettoyage et construction
 echo -e "\n=== NETTOYAGE ET CONSTRUCTION ==="
