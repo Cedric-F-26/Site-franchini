@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "functions": {
-    "vercel-build.sh": {
-      "memory": 3008,
-      "maxDuration": 300,
-      "runtime": "nodejs18.x"
+  "builds": [
+    {
+      "src": "vercel-build.sh",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "_site",
+        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh"
+      }
     }
-  },
+  ],
   "routes": [
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/$1" }
@@ -33,16 +36,22 @@
   ],
   "env": {
     "NODE_VERSION": "18.x",
-    "RUBY_VERSION": "3.2.2",
+    "RUBY_VERSION": "3.1.7",
     "BUNDLER_VERSION": "2.4.22",
     "NODE_ENV": "production",
     "JEKYLL_ENV": "production",
-    "BUNDLE_PATH": "/var/task/vendor/bundle",
+    "BUNDLE_PATH": "./vendor/bundle",
     "BUNDLE_GEMFILE": "./Gemfile",
     "BUNDLE_JOBS": "4",
-    "BUNDLE_RETRY": "3"
+    "BUNDLE_RETRY": "3",
+    "BUNDLE_WITHOUT": "development test",
+    "GEM_HOME": "./vendor/bundle"
   },
+  "installCommand": "npm install",
   "buildCommand": "./vercel-build.sh",
   "outputDirectory": "_site",
-  "regions": ["cdg1"]
+  "regions": ["cdg1"],
+  "github": {
+    "silent": true
+  }
 }

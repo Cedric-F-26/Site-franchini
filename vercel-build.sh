@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e  # Arrêter le script en cas d'erreur
 
+# Activer le mode verbeux pour le débogage
+set -x
+
 # Fonction pour afficher des messages formatés
 log() {
   echo -e "\n\033[1;34m==> $1\033[0m"
@@ -38,15 +41,22 @@ echo -e "\n=== INSTALLATION DES DÉPENDANCES ==="
 echo "Mise à jour de RubyGems..."
 gem update --system --no-document || echo "⚠️ Impossible de mettre à jour RubyGems"
 
-# Installation de Bundler
+# Installation de Bundler avec des permissions spécifiques
 echo -e "\nInstallation de Bundler..."
-if ! gem install bundler --version '~> 2.4.0' --no-document; then
+# Désinstallation de toutes les versions existantes pour éviter les conflits
+gem uninstall -aix bundler || true
+
+# Installation avec des permissions spécifiques
+if ! gem install bundler --version '~> 2.4.0' --no-document --user-install; then
   echo "⚠️  Impossible d'installer Bundler 2.4.0, tentative avec une version différente..."
-  if ! gem install bundler --no-document; then
+  if ! gem install bundler --no-document --user-install; then
     echo "❌ Échec critique de l'installation de Bundler"
     exit 1
   fi
 fi
+
+# Ajout du répertoire des gems au PATH
+export PATH="$HOME/.gem/ruby/$(ruby -e 'puts RUBY_VERSION[/\d+\.\d+/]')/bin:$PATH"
 
 # Vérification de l'installation de Bundler
 echo -e "\nVérification de l'installation de Bundler..."
@@ -82,12 +92,21 @@ bundle config set --local without 'development test'
 echo "Nettoyage du cache Bundler..."
 bundle clean --force || true
 
-# Installation des gems
+# Installation des gems avec des permissions spécifiques
 echo "Installation des gems avec Bundler..."
-if ! bundle install --jobs 4 --retry 3; then
-  echo "⚠️  Échec de l'installation, tentative avec --clean..."
-  if ! bundle install --jobs 4 --retry 3 --clean; then
-    echo "❌ Échec de l'installation des gems Ruby"
+if ! bundle config set --local path 'vendor/bundle' && \
+   bundle config set --local deployment 'true' && \
+   bundle config set --local without 'development test' && \
+   bundle install --jobs 4 --retry 3; then
+  echo "✅ Installation des gems réussie"
+else
+  echo "⚠️  Tentative de réparation de l'installation..."
+  bundle config unset deployment
+  bundle config unset path
+  bundle config unset without
+  
+  if ! bundle install --jobs 4 --retry 3 --path vendor/bundle; then
+    echo "❌ Échec critique de l'installation des gems Ruby"
     exit 1
   fi
 fi
