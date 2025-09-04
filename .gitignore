@@ -15,6 +15,7 @@ _site/
 # Dépendances
 node_modules/
 /vendor/
+Gemfile.lock
 package-lock.json
 yarn.lock
 
