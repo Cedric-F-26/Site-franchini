@@ -11,7 +11,7 @@ timezone: Europe/Paris
 language: fr
 version: "~> 4.3.3" # Doit correspondre à la version dans Gemfile
 
-# Configuration SASS moderne
+# Configuration SASS
 sass:
   style: compressed
   sourcemap: never
@@ -22,6 +22,8 @@ sass:
   quiet_deps: true
   charset: true
   import: ["node_modules"]
+  future:
+    enable_deprecation_warnings: false
 
 # ==============================================================================
 # CONFIGURATION DU THÈME

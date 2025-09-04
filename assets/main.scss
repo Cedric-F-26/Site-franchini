@@ -2,13 +2,15 @@
 @use "minima/_custom-variables" as *;
 
 // Chargement du thème Minima
-@use "minima" as *;
+@use "minima";
+
+// Utilisation des variables du thème via l'espace de noms
 
 // Custom styles
 body {
-  font-family: $base-font-family;
-  color: $text-color;
-  background-color: $background-color;
+  font-family: minima.$base-font-family;
+  color: minima.$text-color;
+  background-color: minima.$background-color;
   -webkit-text-size-adjust: 100%;
   -webkit-font-feature-settings: "kern" 1;
      -moz-font-feature-settings: "kern" 1;
