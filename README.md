@@ -132,3 +132,5 @@ Pour toute question ou suggestion, n'hésitez pas à nous contacter à [contact@
   <a href="https://twitter.com/franchini">Twitter</a> ·
   <a href="https://linkedin.com/company/franchini">LinkedIn</a>
 </p>
+
+<!-- Trigger Vercel build -->
