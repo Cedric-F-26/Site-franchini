@@ -127,7 +127,7 @@
   list-style: none;
 
   > li {
-    margin-left: -#{vars.$spacing-unit / 2};
+    margin-left: -#{math.div(vars.$spacing-unit, 2)};
   }
 }
 
@@ -145,7 +145,7 @@
  * Posts
  */
 .post-header {
-  margin-left: -#{vars.$spacing-unit / 2};
+  margin-left: -#{math.div(vars.$spacing-unit, 2)};
 }
 
 .post-title {
@@ -159,7 +159,7 @@
 }
 
 .post-content {
-  margin-left: -#{vars.$spacing-unit / 2};
+  margin-left: -#{math.div(vars.$spacing-unit, 2)};
 
   h2 {
     font-size: vars.$base-font-size * 1.5;
