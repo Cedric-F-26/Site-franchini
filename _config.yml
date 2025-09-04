@@ -11,7 +11,7 @@ timezone: Europe/Paris
 language: fr
 version: "~> 4.3.3" # Doit correspondre à la version dans Gemfile
 
-# Configuration SASS pour désactiver les avertissements de dépréciation
+# Configuration SASS moderne
 sass:
   style: compressed
   sourcemap: never
@@ -19,10 +19,9 @@ sass:
   load_paths:
     - _sass
     - node_modules
-  quiet: true
-  trace_selectors: false
-  line_comments: false
-  future_deprecation: false
+  quiet_deps: true
+  charset: true
+  import: ["node_modules"]
 
 # ==============================================================================
 # CONFIGURATION DU THÈME

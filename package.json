@@ -17,7 +17,7 @@
     "prepare": "echo 'Skipping husky install for Vercel'"
   },
   "engines": {
-    "node": ">=18.0.0",
+    "node": "20.x",
     "npm": ">=9.0.0",
     "ruby": ">= 3.2.0 < 3.3.0"
   },
