@@ -1,7 +1,7 @@
-// Import custom variables first
+// Chargement des variables personnalisées
 @use "minima/_custom-variables" as *;
 
-// Then import the rest of Minima
+// Chargement du thème Minima
 @use "minima" as *;
 
 // Custom styles
