@@ -65,7 +65,7 @@
   font-size: vars.$small-font-size;
   color: vars.$text-color-light;
   margin-left: calc(-1 * #{vars.$spacing-unit} / 2);
-  @include clearfix;
+  @include mixins.clearfix;
 }
 
 .footer-col {
@@ -89,7 +89,7 @@
   width:         calc(45% - (#{vars.$spacing-unit} / 2));
 }
 
-@include media-query(vars.$on-laptop) {
+@include mixins.media-query(vars.$on-laptop) {
   .footer-col-1,
   .footer-col-2 {
     width: -webkit-calc(50% - (#{vars.$spacing-unit} / 2));
