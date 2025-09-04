@@ -3,6 +3,10 @@
  * Initialise les composants communs et gère le chargement des ressources
  */
 
+// Global variables for mobile menu
+let menuToggle;
+let mainNav;
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Application initialisée');
     
@@ -44,8 +48,8 @@ function initNavigation() {
  * Initialise le menu mobile
  */
 function initMobileMenu() {
-    const menuToggle = document.querySelector('.mobile-menu-toggle');
-    const mainNav = document.querySelector('.main-nav');
+    menuToggle = document.querySelector('.mobile-menu-toggle');
+    mainNav = document.querySelector('.main-nav');
     
     if (!menuToggle || !mainNav) return;
     
