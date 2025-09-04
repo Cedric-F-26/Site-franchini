@@ -16,11 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initBackToTop();
     initLazyLoading();
     
-    // Initialisation des composants spécifiques aux pages
-    initPageComponents();
-
-    // Initialisation des fonctions qui dépendent du DOM et des éléments du menu mobile
-    handleResize();
+    // Initialisation
+animateOnScroll();
 });
 
 /**
