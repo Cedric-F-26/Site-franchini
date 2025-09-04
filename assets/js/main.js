@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialisation des composants spécifiques aux pages
     initPageComponents();
+
+    // Initialisation des fonctions qui dépendent du DOM et des éléments du menu mobile
+    handleResize();
 });
 
 /**
@@ -349,7 +352,6 @@ window.addEventListener('resize', handleResize, { passive: true });
 
 // Initialisation
 animateOnScroll();
-handleResize();
 
 // Ajouter la classe loaded au body une fois que tout est chargé
 document.body.classList.add('loaded');
