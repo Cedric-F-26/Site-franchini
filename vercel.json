@@ -1,15 +1,6 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "vercel-build.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "_site",
-        "installCommand": "chmod +x vercel-build.sh && ./vercel-build.sh"
-      }
-    }
-  ],
+  
   "routes": [
     { "handle": "filesystem" },
     { "src": "/(.*)", "dest": "/$1" }
