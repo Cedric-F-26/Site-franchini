@@ -36,7 +36,7 @@
     "GEM_HOME": "./vendor/bundle"
   },
   "installCommand": "npm install",
-    "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",,
+    "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
   "outputDirectory": "_site",
   "regions": ["cdg1"],
   "github": {
