@@ -311,31 +311,8 @@ navLinks.forEach(link => {
 
 // Gestion du redimensionnement de la fenêtre
 function handleResize() {
-    // Afficher/masquer le bouton du menu en fonction de la largeur de l'écran
-    if (window.innerWidth > 767) {
-        // Sur les grands écrans, réinitialiser les états du menu
-        // if (menuToggle) {
-        //     menuToggle.classList.remove('active');
-        //     menuToggle.setAttribute('aria-expanded', 'false');
-        // }
-        // if (mainNav) {
-        //     mainNav.classList.remove('active');
-        //     mainNav.style.display = '';
-        // }
-        document.body.classList.remove('menu-open');
-        document.body.style.overflow = '';
-    } else {
-        // Sur mobile, s'assurer que le bouton est visible
-        // if (menuToggle) {
-        //     menuToggle.style.display = 'flex';
-        // }
-        // Cacher le menu s'il n'est pas actif
-        // if (mainNav && !mainNav.classList.contains('active')) {
-        //     mainNav.style.display = 'none';
-        // }
-    }
-    
     // Mettre à jour la hauteur du header
+    const header = document.querySelector('.main-header'); // Re-déclarer header localement s'il n'est pas accessible globalement
     if (header) {
         const headerHeight = header.offsetHeight;
         document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
