@@ -1,5 +1,6 @@
 console.log("AUDIT: Fichier carousel.js chargé.");
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(async function() {
     console.log('AUDIT: Événement DOMContentLoaded déclenché.');
     console.log('Démarrage du script carousel.js');
     
@@ -296,6 +297,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         console.error('Erreur lors du chargement des dépendances Firebase:', error);
         showAlert('Erreur de configuration. Veuillez recharger la page.', 'error');
     }
+    }, 0);
 });
 
 // Fonction utilitaire pour afficher les alertes
