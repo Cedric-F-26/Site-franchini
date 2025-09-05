@@ -20,29 +20,35 @@ function getYouTubeID(url) {
 
 // Gérer le changement de slide
 async function onSlideChange(slide) {
-    const videoSlide = slide.querySelector('.carousel-slide[data-type="youtube"]');
-    const videoContainer = videoSlide?.querySelector('.video-container');
-    const videoId = videoContainer?.getAttribute('data-video-id');
-    
-    // Arrêter la vidéo en cours
+    // Arrêter la vidéo qui jouait précédemment
     if (currentVideoId && youtubePlayers.has(currentVideoId)) {
         try {
-            const player = youtubePlayers.get(currentVideoId);
-            if (player.pauseVideo) {
-                player.pauseVideo();
+            const oldPlayer = youtubePlayers.get(currentVideoId);
+            if (oldPlayer && typeof oldPlayer.pauseVideo === 'function') {
+                oldPlayer.pauseVideo();
             }
         } catch (e) {
-            console.error('Erreur lors de l\'arrêt de la vidéo:', e);
+            console.error('Erreur lors de l'arrêt de la vidéo précédente:', e);
         }
-    }
-    
-    // Lancer la nouvelle vidéo (handled by onReady callback in initYouTubePlayer)
-    if (videoId && youtubePlayers.has(videoId)) {
-        // The playVideo() call is now handled by the onReady callback in initYouTubePlayer
-        // We just need to ensure currentVideoId is updated if the video is meant to play
-        currentVideoId = videoId;
-    } else {
         currentVideoId = null;
+    }
+
+    // Lancer la nouvelle vidéo si la diapositive active est une vidéo
+    if (slide.dataset.type === 'youtube') {
+        const videoContainer = slide.querySelector('.video-container');
+        const videoId = videoContainer?.getAttribute('data-video-id');
+        
+        if (videoId && youtubePlayers.has(videoId)) {
+            try {
+                const newPlayer = youtubePlayers.get(videoId);
+                if (newPlayer && typeof newPlayer.playVideo === 'function') {
+                    newPlayer.playVideo();
+                    currentVideoId = videoId;
+                }
+            } catch (e) {
+                console.error('Erreur lors du lancement de la nouvelle vidéo:', e);
+            }
+        }
     }
 }
 
