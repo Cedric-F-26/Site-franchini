@@ -1,26 +1,4 @@
-// VERCEL_BUILD_TEST: This file was correctly overridden on 2025-09-05
-// Chargement des variables personnalisées
-@use "minima/_custom-variables" as *;
+--- 
+---
 
-// Chargement du thème Minima
 @use "minima";
-
-// Utilisation des variables du thème via l'espace de noms
-
-// Custom styles
-body {
-  font-family: minima.$base-font-family;
-  color: minima.$text-color;
-  background-color: minima.$background-color;
-  -webkit-text-size-adjust: 100%;
-  -webkit-font-feature-settings: "kern" 1;
-     -moz-font-feature-settings: "kern" 1;
-       -o-font-feature-settings: "kern" 1;
-          font-feature-settings: "kern" 1;
-  font-kerning: normal;
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-// Add any additional custom styles below
