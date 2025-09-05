@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     
     // Vérifier si les éléments du DOM existent
     const carouselItemsList = document.getElementById('carousel-items-list');
-    const mediaTypeSelect = document.getElementById('media-type-select');
+    const mediaTypeSelect = document.getElementById('media-type');
     
     if (!carouselItemsList || !mediaTypeSelect) {
         console.error('AUDIT - ERREUR: Éléments du DOM manquants. carouselItemsList:', carouselItemsList, 'mediaTypeSelect:', mediaTypeSelect);
