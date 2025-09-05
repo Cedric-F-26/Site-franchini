@@ -36,17 +36,11 @@ async function onSlideChange(slide) {
         }
     }
     
-    // Lancer la nouvelle vidéo
+    // Lancer la nouvelle vidéo (handled by onReady callback in initYouTubePlayer)
     if (videoId && youtubePlayers.has(videoId)) {
-        try {
-            const player = youtubePlayers.get(videoId);
-            if (player.playVideo) {
-                await player.playVideo();
-                currentVideoId = videoId;
-            }
-        } catch (e) {
-            console.error('Erreur lors du démarrage de la vidéo:', e);
-        }
+        // The playVideo() call is now handled by the onReady callback in initYouTubePlayer
+        // We just need to ensure currentVideoId is updated if the video is meant to play
+        currentVideoId = videoId;
     } else {
         currentVideoId = null;
     }
@@ -85,6 +79,16 @@ async function initYouTubePlayer(container, videoId) {
 
         // Configurer le lecteur YouTube
         const player = await YouTubeAPI.setupYouTubePlayer(iframe, {
+            onReady: (event) => { // Added onReady callback
+                console.log(`Lecteur YouTube ${videoId} est prêt.`);
+                // Check if this is the current active slide before playing
+                const videoSlide = container.closest('.carousel-slide');
+                if (videoSlide && videoSlide.classList.contains('active')) {
+                    event.target.playVideo(); // Play video when ready and slide is active
+                    currentVideoId = videoId; // Update currentVideoId here
+                    console.log(`Lecture de la vidéo ${videoId} démarrée via onReady.`);
+                }
+            },
             onEnded: () => {
                 console.log(`Vidéo ${videoId} terminée`);
                 // Passer à la vidéo suivante si nécessaire
@@ -111,6 +115,7 @@ async function initYouTubePlayer(container, videoId) {
         if (player) {
             youtubePlayers.set(videoId, player);
             console.log(`Lecteur YouTube ${videoId} initialisé avec succès`);
+            // No direct playVideo() here, it will be handled by onReady
             return player;
         } else {
             throw new Error('Échec de la création du lecteur YouTube');

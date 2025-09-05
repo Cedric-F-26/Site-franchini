@@ -327,7 +327,7 @@ function enableJsApiOnIframe(iframe) {
     }
 }
 
-function setupYouTubePlayer(iframe, { onEnded, onPlaying } = {}) {
+function setupYouTubePlayer(iframe, { onEnded, onPlaying, onReady } = {}) {
     const create = () => {
         if (!window.YT || !window.YT.Player) {
             console.warn('YouTube Player API not available');
@@ -340,6 +340,11 @@ function setupYouTubePlayer(iframe, { onEnded, onPlaying } = {}) {
                     'origin': window.location.origin
                 },
                 events: {
+                    'onReady': (event) => { // Added onReady event
+                        if (typeof onReady === 'function') {
+                            onReady(event);
+                        }
+                    },
                     'onStateChange': (event) => {
                         if (!window.YT) return;
                         const state = event.data;
