@@ -1,4 +1,4 @@
-function initializeCarouselAdmin() {
+document.addEventListener('DOMContentLoaded', async function() {
     const carouselItemsList = document.getElementById('carousel-items-list');
     const mediaTypeSelect = document.getElementById('media-type');
 
@@ -9,7 +9,7 @@ function initializeCarouselAdmin() {
     }
 
     try {
-        const { db, collection, getDocs, query, orderBy, addDoc, deleteDoc, doc, writeBatch } = window.firebase;
+        const { db, collection, getDocs, query, orderBy, addDoc, deleteDoc, doc, writeBatch } = await import('../auth/firebase-config.js');
 
         const CLOUDINARY_CLOUD_NAME = 'dokuchvas';
         const CLOUDINARY_UPLOAD_PRESET = 'Site Web';
@@ -200,8 +200,7 @@ function initializeCarouselAdmin() {
         }
 
         function getYouTubeID(url) {
-            const regex = /(?:https?:ossovers)?(?:www
-ever)?(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/; 
+            const regex = /(?:https?:\[\/]{2})?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})/; 
             return (url.match(regex) || [])[1] || null;
         }
 
@@ -214,9 +213,7 @@ ever)?(?:youtube(?:-nocookie)?\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*
         console.error('Erreur lors du chargement des dépendances Firebase:', error);
         showAlert('Erreur de configuration. Veuillez recharger la page.', 'error');
     }
-}
-
-window.initializeCarouselAdmin = initializeCarouselAdmin;
+});
 
 function showAlert(message, type = 'info') {
     const alertContainer = document.getElementById('alert-container');
