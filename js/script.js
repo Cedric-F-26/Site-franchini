@@ -106,3 +106,86 @@ const imageObserver = new IntersectionObserver((entries, observer) => {
 });
 
 lazyImages.forEach(img => imageObserver.observe(img));
+
+// YouTube Carousel
+let players = [];
+const videoIds = ['j_EeGikCEt8', 'H3gApB9cgoo'];
+let currentSlide = 0;
+
+function onYouTubeIframeAPIReady() {
+    for (let i = 0; i < videoIds.length; i++) {
+        players[i] = new YT.Player('player' + (i + 1), {
+            height: '100%',
+            width: '100%',
+            videoId: videoIds[i],
+            playerVars: {
+                'autoplay': 1,
+                'controls': 0,
+                'showinfo': 0,
+                'rel': 0,
+                'loop': 1,
+                'mute': 1,
+                'playlist': videoIds[i] // Important for looping
+            },
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+            }
+        });
+    }
+}
+
+function onPlayerReady(event) {
+    event.target.playVideo();
+}
+
+function onPlayerStateChange(event) {
+    if (event.data === YT.PlayerState.ENDED) {
+        nextSlide();
+    }
+}
+
+const carouselContainer = document.querySelector('.carousel-container');
+const slides = document.querySelectorAll('.carousel-slide');
+const nextBtn = document.querySelector('.next');
+const prevBtn = document.querySelector('.prev');
+
+function goToSlide(slideIndex) {
+    if (slideIndex < 0) {
+        slideIndex = slides.length - 1;
+    } else if (slideIndex >= slides.length) {
+        slideIndex = 0;
+    }
+
+    carouselContainer.style.transform = 'translateX(' + (-slideIndex * (100 / slides.length)) + '%);
+    
+    // Pause all players except the current one
+    for (let i = 0; i < players.length; i++) {
+        if (i !== slideIndex) {
+            if (players[i] && typeof players[i].pauseVideo === 'function') {
+                players[i].pauseVideo();
+            }
+        }
+    }
+    
+    // Play the current video
+    if (players[slideIndex] && typeof players[slideIndex].playVideo === 'function') {
+        players[slideIndex].playVideo();
+    }
+
+    currentSlide = slideIndex;
+}
+
+function nextSlide() {
+    goToSlide(currentSlide + 1);
+}
+
+function prevSlide() {
+    goToSlide(currentSlide - 1);
+}
+
+nextBtn.addEventListener('click', nextSlide);
+prevBtn.addEventListener('click', prevSlide);
+
+// Initial setup
+goToSlide(0);

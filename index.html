@@ -6,6 +6,7 @@
     <title>Franchini - Concessionnaire Deutz-Fahr</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="icon" href="favicon.ico">
+    <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
     <header>
@@ -26,31 +27,26 @@
     </header>
 
     <main>
-        <section id="accueil" class="hero">
-            <div class="container">
-                <h2>Bienvenue chez Franchini</h2>
-                <p>Votre concessionnaire Deutz-Fahr à Marches, Drôme</p>
-                <a href="#contact" class="btn">Nous contacter</a>
-            </div>
-        </section>
-
-        <section id="vehicules" class="vehicles">
-            <div class="container">
-                <h2>Nos véhicules</h2>
-                <div class="vehicle-grid">
-                    <div class="vehicle-card">
-                        <img src="images/tracteur-1.jpg" alt="Tracteur Deutz-Fahr">
-                        <h3>Nouveaux modèles</h3>
-                        <p>Découvrez notre gamme de véhicules neufs</p>
+        <section id="accueil" class="video-carousel">
+            <div class="carousel-container">
+                <div class="carousel-slide">
+                    <div class="video-container">
+                        <div id="player1"></div>
                     </div>
-                    <div class="vehicle-card">
-                        <img src="images/occasion.jpg" alt="Véhicules d'occasion">
-                        <h3>Occasions</h3>
-                        <p>Des véhicules d'occasion contrôlés et garantis</p>
+                </div>
+                <div class="carousel-slide">
+                    <div class="video-container">
+                        <div id="player2"></div>
                     </div>
                 </div>
             </div>
+            <div class="carousel-controls">
+                <button class="prev">&#10094;</button>
+                <button class="next">&#10095;</button>
+            </div>
         </section>
+
+        
 
         <section id="services" class="services">
             <div class="container">
