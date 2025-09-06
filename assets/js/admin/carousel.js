@@ -1,3 +1,4 @@
+console.log('admin/carousel.js: File loaded and executing.');
 document.addEventListener('DOMContentLoaded', async function() {
     const carouselItemsList = document.getElementById('carousel-items-list');
     const mediaTypeSelect = document.getElementById('media-type');
