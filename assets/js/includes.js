@@ -5,17 +5,15 @@
 // Configuration des chemins
 const PATHS = {
     header: 'includes/header.html',
-    footer: 'includes/footer.html',
-    adminPages: ['administrateur.html', 'connexion-prive.html', 'admin/']
+    footer: 'includes/footer.html'
 };
 
 /**
- * Vérifie si la page actuelle est une page d'administration
- * @returns {boolean} True si c'est une page d'administration
+ * Fonction de compatibilité maintenue pour les anciennes références
+ * @returns {boolean} Retourne toujours false car la page d'administration n'existe plus
  */
 function isAdminPage() {
-    const currentPath = window.location.pathname.toLowerCase();
-    return PATHS.adminPages.some(page => currentPath.includes(page));
+    return false;
 }
 
 /**

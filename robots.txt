@@ -41,20 +41,10 @@ Disallow: /.github/        # Configuration GitHub
 Disallow: /.vscode/        # Configuration VS Code
 
 # ===========================================
-# Pages d'administration et paramètres
+# Pages techniques et paramètres
 # ===========================================
-Disallow: /admin/          # Interface d'administration
-Disallow: /wp-admin/       # Administration WordPress (si migration)
-Disallow: /wp-login.php    # Connexion WordPress (si migration)
-Disallow: /administrateur/ # Page d'administration personnalisée
-Disallow: /login/          # Page de connexion
-Disallow: /signin/         # Page d'inscription
-Disallow: /account/        # Compte utilisateur
-Disallow: /profile/        # Profil utilisateur
 Disallow: /search/         # Résultats de recherche interne
 Disallow: /api/            # Points d'API
-Disallow: /private/        # Contenu privé
-Disallow: /secure/         # Zone sécurisée
 
 # ===========================================
 # Paramètres et sessions

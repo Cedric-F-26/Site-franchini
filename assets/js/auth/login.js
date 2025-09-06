@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.removeItem('rememberedEmail');
             }
 
-            // Redirection vers la page administrateur
-            window.location.href = '/administrateur/';
+            // Redirection vers la page d'accueil après connexion
+            window.location.href = '/';
         } catch (error) {
             console.error('Erreur de connexion:', error.code, error.message);
             let displayMessage = 'Erreur de connexion. Veuillez vérifier vos identifiants.';
