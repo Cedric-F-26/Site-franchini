@@ -12,13 +12,13 @@ title: Accueil
 <section class="video-carousel">
     <div class="video-carousel-container">
         <div class="video-wrapper active">
-            <div id="player1"></div>
+            <iframe id="player1" src="https://www.youtube.com/embed/j_EeGikCEt8?enablejsapi=1&origin=https://site-franchini.vercel.app" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <div class="video-wrapper">
-            <div id="player2"></div>
+            <iframe id="player2" src="about:blank" data-src="https://www.youtube.com/embed/sC4AXwDOFew?enablejsapi=1&origin=https://site-franchini.vercel.app" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <div class="video-wrapper">
-            <div id="player3"></div>
+            <iframe id="player3" src="about:blank" data-src="https://www.youtube.com/embed/H3gApB9cgoo?enablejsapi=1&origin=https://site-franchini.vercel.app" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </div>
     <div class="carousel-controls">

@@ -1,142 +1,142 @@
-// Tableau des vidéos avec leurs IDs et durées (en secondes)
-const videos = [
-    { id: 'j_EeGikCEt8', duration: 0 }, // Durée sera mise à jour après le chargement
-    { id: 'sC4AXwDOFew', duration: 0 },
-    { id: 'H3gApB9cgoo', duration: 0 }
-];
-
-let players = [];
-let currentVideoIndex = 0;
-let videoTimeout;
-
-// Fonction appelée par l'API YouTube
-function onYouTubeIframeAPIReady() {
-    // Créer les lecteurs pour chaque vidéo
-    videos.forEach((video, index) => {
-        players[index] = new YT.Player(`player${index + 1}`, {
-            videoId: video.id,
-            playerVars: {
-                'autoplay': 0,
-                'controls': 1,
-                'rel': 0,
-                'showinfo': 0,
-                'modestbranding': 1,
-                'playsinline': 1,
-                'origin': window.location.origin
-            },
-            events: {
-                'onReady': (event) => onPlayerReady(event, index),
-                'onStateChange': (event) => onPlayerStateChange(event, index)
-            }
-        });
-    });
-}
-
-// Quand un lecteur est prêt
-function onPlayerReady(event, index) {
-    // Récupérer la durée de la vidéo
-    const duration = event.target.getDuration();
-    videos[index].duration = duration * 1000; // Convertir en millisecondes
-    
-    // Si c'est la première vidéo, on la lance
-    if (index === 0) {
-        event.target.playVideo();
-        showVideo(0);
-    }
-}
-
-// Quand l'état du lecteur change
-function onPlayerStateChange(event, index) {
-    // Si la vidéo est terminée
-    if (event.data === YT.PlayerState.ENDED) {
-        playNextVideo();
-    }
-}
-
-// Afficher une vidéo spécifique
-function showVideo(index) {
-    // Mettre à jour l'interface
-    document.querySelectorAll('.video-wrapper').forEach((wrapper, i) => {
-        if (i === index) {
-            wrapper.classList.add('active');
-        } else {
-            wrapper.classList.remove('active');
-        }
-    });
-    
-    // Mettre à jour les points de navigation
-    document.querySelectorAll('.dot').forEach((dot, i) => {
-        if (i === index) {
-            dot.classList.add('active');
-        } else {
-            dot.classList.remove('active');
-        }
-    });
-    
-    // Mettre à jour l'index de la vidéo courante
-    currentVideoIndex = index;
-    
-    // Arrêter le timer précédent s'il existe
-    if (videoTimeout) {
-        clearTimeout(videoTimeout);
-    }
-}
-
-// Lire la vidéo suivante
-function playNextVideo() {
-    const nextIndex = (currentVideoIndex + 1) % videos.length;
-    showVideo(nextIndex);
-    
-    // Démarrer la lecture de la vidéo suivante
-    if (players[nextIndex]) {
-        players[nextIndex].playVideo();
-    }
-    
-    // Planifier la lecture de la vidéo suivante après la durée de la vidéo actuelle
-    videoTimeout = setTimeout(() => {
-        if (players[nextIndex] && players[nextIndex].getPlayerState() !== YT.PlayerState.ENDED) {
-            players[nextIndex].stopVideo();
-            playNextVideo();
-        }
-    }, videos[nextIndex].duration || 60000); // Par défaut 60 secondes si la durée n'est pas disponible
-}
-
-// Gestion des contrôles de navigation
 document.addEventListener('DOMContentLoaded', function() {
-    // Bouton suivant
-    document.querySelector('.carousel-next').addEventListener('click', () => {
-        if (players[currentVideoIndex]) {
-            players[currentVideoIndex].stopVideo();
-        }
-        playNextVideo();
-    });
+    const videoWrappers = document.querySelectorAll('.video-wrapper');
+    const dots = document.querySelectorAll('.dot');
+    const prevBtn = document.querySelector('.carousel-prev');
+    const nextBtn = document.querySelector('.carousel-next');
     
-    // Bouton précédent
-    document.querySelector('.carousel-prev').addEventListener('click', () => {
-        if (players[currentVideoIndex]) {
-            players[currentVideoIndex].stopVideo();
-        }
-        
-        let prevIndex = currentVideoIndex - 1;
-        if (prevIndex < 0) prevIndex = videos.length - 1;
-        
-        showVideo(prevIndex);
-        if (players[prevIndex]) {
-            players[prevIndex].playVideo();
-        }
-    });
+    let currentIndex = 0;
+    let players = [];
+    let videoTimeout;
     
-    // Points de navigation
-    document.querySelectorAll('.dot').forEach((dot, index) => {
-        dot.addEventListener('click', () => {
-            if (players[currentVideoIndex]) {
-                players[currentVideoIndex].stopVideo();
-            }
-            
-            showVideo(index);
-            if (players[index]) {
-                players[index].playVideo();
+    // Initialiser le lecteur YouTube pour la première vidéo
+    function initYouTubePlayers() {
+        // Charger la première vidéo directement
+        const firstIframe = document.getElementById('player1');
+        players[0] = new YT.Player('player1', {
+            events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
             }
         });
+        
+        // Configurer les autres iframes avec des données vides pour le moment
+        for (let i = 1; i < videoWrappers.length; i++) {
+            const iframe = document.getElementById(`player${i+1}`);
+            if (iframe) {
+                iframe.src = iframe.dataset.src;
+            }
+        }
+    }
+    
+    // Quand un lecteur est prêt
+    function onPlayerReady(event) {
+        // Démarrer la lecture de la première vidéo
+        event.target.playVideo();
+    }
+    
+    // Quand l'état du lecteur change
+    function onPlayerStateChange(event) {
+        // Si la vidéo est terminée, passer à la suivante
+        if (event.data === YT.PlayerState.ENDED) {
+            goToNextVideo();
+        }
+    }
+    
+    // Aller à une vidéo spécifique
+    function goToVideo(index) {
+        // Mettre à jour l'interface
+        videoWrappers.forEach((wrapper, i) => {
+            if (i === index) {
+                wrapper.classList.add('active');
+                
+                // Charger le lecteur YouTube si ce n'est pas déjà fait
+                if (!players[index] && index > 0) {
+                    const iframe = document.getElementById(`player${index+1}`);
+                    if (iframe) {
+                        players[index] = new YT.Player(`player${index+1}`, {
+                            events: {
+                                'onReady': (e) => e.target.playVideo(),
+                                'onStateChange': onPlayerStateChange
+                            }
+                        });
+                    }
+                } else if (players[index]) {
+                    players[index].playVideo();
+                }
+            } else {
+                wrapper.classList.remove('active');
+                if (players[i]) {
+                    players[i].pauseVideo();
+                }
+            }
+        });
+        
+        // Mettre à jour les points de navigation
+        dots.forEach((dot, i) => {
+            if (i === index) {
+                dot.classList.add('active');
+            } else {
+                dot.classList.remove('active');
+            }
+        });
+        
+        currentIndex = index;
+        
+        // Réinitialiser le timer
+        resetTimer();
+    }
+    
+    // Aller à la vidéo suivante
+    function goToNextVideo() {
+        const nextIndex = (currentIndex + 1) % videoWrappers.length;
+        goToVideo(nextIndex);
+    }
+    
+    // Aller à la vidéo précédente
+    function goToPrevVideo() {
+        const prevIndex = (currentIndex - 1 + videoWrappers.length) % videoWrappers.length;
+        goToVideo(prevIndex);
+    }
+    
+    // Réinitialiser le timer de défilement automatique
+    function resetTimer() {
+        if (videoTimeout) {
+            clearTimeout(videoTimeout);
+        }
+        
+        // Si ce n'est pas la dernière vidéo, planifier la suivante
+        if (currentIndex < videoWrappers.length - 1) {
+            // Par défaut, attendre 30 secondes avant de passer à la suivante
+            videoTimeout = setTimeout(goToNextVideo, 30000);
+        }
+    }
+    
+    // Gestionnaires d'événements
+    nextBtn.addEventListener('click', goToNextVideo);
+    prevBtn.addEventListener('click', goToPrevVideo);
+    
+    dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => goToVideo(index));
     });
+    
+    // Initialisation
+    if (typeof YT !== 'undefined') {
+        initYouTubePlayers();
+    } else {
+        // Si l'API YouTube n'est pas encore chargée, attendre qu'elle le soit
+        window.onYouTubeIframeAPIReady = initYouTubePlayers;
+    }
+    
+    // Démarrer le défilement automatique
+    resetTimer();
+    
+    // Arrêter le défilement automatique lors du survol
+    const carousel = document.querySelector('.video-carousel');
+    if (carousel) {
+        carousel.addEventListener('mouseenter', () => {
+            if (videoTimeout) clearTimeout(videoTimeout);
+        });
+        
+        carousel.addEventListener('mouseleave', resetTimer);
+    }
 });
