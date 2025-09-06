@@ -8,6 +8,30 @@ title: Accueil
     <p>Découvrez notre sélection de matériels et services de qualité.</p>
 </section>
 
+<!-- Carrousel de vidéos YouTube -->
+<section class="video-carousel">
+    <div class="video-carousel-container">
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/j_EeGikCEt8" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/sC4AXwDOFew" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="video-wrapper">
+            <iframe src="https://www.youtube.com/embed/H3gApB9cgoo" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    <div class="carousel-controls">
+        <button class="carousel-prev">❮</button>
+        <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+        <button class="carousel-next">❯</button>
+    </div>
+</section>
+
 <div class="content-sections">
     <section class="news-section">
         <h2>Actualités</h2>
