@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async function() {
     const carouselItemsList = document.getElementById('carousel-items-list');
     const mediaTypeSelect = document.getElementById('media-type');
+    console.log('admin/carousel.js: Debugging DOM elements - carouselItemsList:', carouselItemsList, 'mediaTypeSelect:', mediaTypeSelect);
 
     if (!carouselItemsList || !mediaTypeSelect) {
         console.error('Éléments du DOM pour le carrousel manquants. carouselItemsList:', carouselItemsList, 'mediaTypeSelect:', mediaTypeSelect);
