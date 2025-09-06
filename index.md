@@ -11,26 +11,35 @@ title: Accueil
 <!-- Carrousel de vidéos YouTube -->
 <section class="video-carousel">
     <div class="video-carousel-container">
-        <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/j_EeGikCEt8" frameborder="0" allowfullscreen></iframe>
+        <div class="video-wrapper active">
+            <div id="player1"></div>
         </div>
         <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/sC4AXwDOFew" frameborder="0" allowfullscreen></iframe>
+            <div id="player2"></div>
         </div>
         <div class="video-wrapper">
-            <iframe src="https://www.youtube.com/embed/H3gApB9cgoo" frameborder="0" allowfullscreen></iframe>
+            <div id="player3"></div>
         </div>
     </div>
     <div class="carousel-controls">
-        <button class="carousel-prev">❮</button>
+        <button class="carousel-prev" aria-label="Vidéo précédente">❮</button>
         <div class="carousel-dots">
-            <span class="dot active"></span>
-            <span class="dot"></span>
-            <span class="dot"></span>
+            <span class="dot active" data-video="0"></span>
+            <span class="dot" data-video="1"></span>
+            <span class="dot" data-video="2"></span>
         </div>
-        <button class="carousel-next">❯</button>
+        <button class="carousel-next" aria-label="Vidéo suivante">❯</button>
     </div>
 </section>
+
+<!-- API YouTube -->
+<script>
+  // Charger l'API YouTube de manière asynchrone
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+</script>
 
 <div class="content-sections">
     <section class="news-section">
