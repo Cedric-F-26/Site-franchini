@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     const mediaTypeSelect = document.getElementById('media-type');
 
     if (!carouselItemsList || !mediaTypeSelect) {
-        console.error('Éléments du DOM pour le carrousel manquants.');
-        showAlert('Erreur critique: Impossible de trouver les éléments de base du formulaire.', 'error');
+        console.error('Éléments du DOM pour le carrousel manquants. carouselItemsList:', carouselItemsList, 'mediaTypeSelect:', mediaTypeSelect);
+        showAlert('Erreur critique: Impossible de trouver les éléments de base du formulaire. Vérifiez la console pour plus de détails.', 'error');
         return;
     }
 

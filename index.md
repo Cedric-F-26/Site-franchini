@@ -3,16 +3,16 @@ layout: default
 title: Accueil
 ---
 
-<!-- Carrousel principal -->
-<section id="home-carousel-section">
-    <div id="home-carousel" class="carousel-container">
-        <div class="carousel-slider">
-            <!-- Le contenu est chargé dynamiquement -->
-        </div>
-        <button class="carousel-control prev" aria-label="Précédent">&#10094;</button>
-        <button class="carousel-control next" aria-label="Suivant">&#10095;</button>
-        <div class="carousel-dots"></div>
+<!-- Carrousel principal (Swiper) -->
+<section id="home-carousel-section" class="swiper-container">
+    <div id="home-carousel" class="swiper-wrapper">
+        <!-- Slides will be loaded dynamically here -->
     </div>
+    <!-- If we need navigation buttons -->
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+    <!-- If we need pagination -->
+    <div class="swiper-pagination"></div>
 </section>
 
 <div class="secondary-carousels-wrapper">
