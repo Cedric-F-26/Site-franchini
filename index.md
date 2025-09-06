@@ -4,7 +4,7 @@ title: Accueil
 ---
 
 <!-- Carrousel principal (Swiper) -->
-<section id="home-carousel-section" class="swiper-container">
+<section id="home-carousel-section" class="swiper">
     <div id="home-carousel" class="swiper-wrapper">
         <!-- Slides will be loaded dynamically here -->
     </div>
@@ -29,7 +29,7 @@ title: Accueil
     <!-- Section Occasions (Swiper) -->
     <div class="secondary-carousel">
         <h3>Nos Occasions</h3>
-        <div id="occasions-carousel" class="swiper-container">
+        <div id="occasions-carousel" class="swiper">
             <div class="swiper-wrapper">
                 <!-- Slides will be loaded dynamically here -->
             </div>

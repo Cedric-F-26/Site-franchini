@@ -1,7 +1,5 @@
 import { db, collection, getDocs, query, orderBy } from './auth/firebase-config.js';
 
-import { db, collection, getDocs, query, orderBy } from './auth/firebase-config.js';
-
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('main-carousel.js: DOMContentLoaded event fired.');
     const homeCarouselSection = document.getElementById('home-carousel-section');

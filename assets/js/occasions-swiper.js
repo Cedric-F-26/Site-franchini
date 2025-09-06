@@ -9,18 +9,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
     console.log('occasions-swiper.js: #occasions-carousel found.');
 
-    // Add Swiper classes
-    occasionsCarouselElement.classList.add('swiper');
     const occasionsCarouselWrapper = occasionsCarouselElement.querySelector('.swiper-wrapper');
-    console.log('occasions-swiper.js: Swiper classes added to elements.');
-
-    // Add navigation and pagination elements
-    occasionsCarouselElement.innerHTML += `
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-        <div class="swiper-pagination"></div>
-    `;
-    console.log('occasions-swiper.js: Swiper navigation and pagination elements added.');
+    console.log('occasions-swiper.js: Swiper elements are expected to be in HTML.');
 
     try {
         console.log('occasions-swiper.js: Attempting to fetch occasions data from Firestore...');
@@ -94,3 +84,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log('occasions-swiper.js: Error fallback content added.');
     }
 });
+
