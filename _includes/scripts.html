@@ -1,6 +1,4 @@
 ﻿<!-- Scripts principaux du site -->
-<script src="{{ '/assets/js/vendor/modernizr-3.11.2.min.js' | relative_url }}"></script>
-<script src="{{ '/assets/js/plugins.js' | relative_url }}"></script>
 <script src="{{ '/assets/js/image-fallback.js' | relative_url }}" defer></script>
 <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
 
@@ -15,10 +13,6 @@
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     // Initialisation des composants JavaScript
-    if (typeof initCarousel === 'function') {
-      initCarousel('occasions-carousel');
-    }
-    
     // Autres initialisations de scripts peuvent Ãªtre ajoutÃ©es ici
   });
 </script>

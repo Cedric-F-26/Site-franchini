@@ -1,12 +1,6 @@
 /* Correctif pour la taille des titres de page */
 
-/* Assure que les médias du carrousel (images et vidéos) couvrent leur conteneur sans se déformer */
-.carousel-media {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* C'est la ligne la plus importante. Elle empêche la déformation. */
-    display: block;
-}
+
 
 .page-header h1 {
     font-size: 2.5rem !important; /* Ajustez cette valeur si nécessaire */
@@ -1784,76 +1778,7 @@ padding: 0 15px;
     text-decoration: underline;
 }
 
-.carousel-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    transition: all 0.3s ease;
-}
 
-.carousel-arrow:hover {
-    background-color: var(--deutz-green);
-    color: white;
-}
-
-.carousel-arrow.prev {
-    left: 10px;
-}
-
-.carousel-arrow.next {
-    right: 10px;
-}
-
-.carousel-nav {
-    display: flex;
-    justify-content: center;
-    margin-top: 1rem;
-    gap: 8px;
-}
-
-.carousel-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #ddd;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.carousel-dot.active {
-    background-color: var(--deutz-green);
-}
-
-/* Styles pour les écrans plus petits */
-@media (max-width: 992px) {
-    .carousel-item {
-        min-width: calc(50% - 10px);
-    }
-}
-
-@media (max-width: 768px) {
-    .carousel-item {
-        min-width: 100%;
-    }
-    
-    .carousel-arrow {
-        width: 35px;
-        height: 35px;
-    }
-}
 /* =================================================================
    Footer Styles
 ================================================================= */

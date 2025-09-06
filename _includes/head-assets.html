@@ -22,19 +22,11 @@
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
 
-  // Fonction pour charger les scripts de manière asynchrone
-  function loadScript(src, callback) {
-    var script = document.createElement('script');
-    script.src = src;
-    script.async = true;
-    if (callback) script.onload = callback;
-    document.head.appendChild(script);
-  }
   
   // Chargement différé des scripts non critiques
   document.addEventListener('DOMContentLoaded', function() {
     // Charger les scripts non critiques ici
-    loadScript('{{ site.baseurl }}/assets/js/main.js');
+    
   });
 </script>
 

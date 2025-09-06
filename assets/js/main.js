@@ -45,72 +45,140 @@ function initNavigation() {
 }
 
 /**
- * Initialise le menu mobile
+ * Point d'entrée principal de l'application
+ * Initialise les composants communs et gère le chargement des ressources
  */
-function initMobileMenu() {
-    menuToggle = document.querySelector('.mobile-menu-toggle');
-    mainNav = document.querySelector('.main-nav');
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('Application initialisée');
     
-    if (!menuToggle || !mainNav) return;
+    // Initialisation des composants communs
+    initNavigation();
+    initBackToTop();
+    initLazyLoading();
     
-    menuToggle.addEventListener('click', () => {
-        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-        menuToggle.setAttribute('aria-expanded', !isExpanded);
-        mainNav.classList.toggle('active');
-        document.body.style.overflow = isExpanded ? '' : 'hidden';
-    });
+    // Initialisation
+    animateOnScroll();
+});
+
+/**
+ * Initialise la navigation principale
+ */
+function initNavigation() {
+    const navLinks = document.querySelectorAll('nav a');
+    const currentPath = window.location.pathname;
     
-    // Fermer le menu lors du clic sur un lien
-    document.querySelectorAll('.main-nav a').forEach(link => {
-        link.addEventListener('click', () => {
-            if (window.innerWidth <= 767) {
-                menuToggle.setAttribute('aria-expanded', 'false');
-                mainNav.classList.remove('active');
-                document.body.style.overflow = '';
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+            link.setAttribute('aria-current', 'page');
+        }
+        
+        // Amélioration de l'accessibilité
+        link.setAttribute('tabindex', '0');
+        link.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                link.click();
             }
         });
     });
+}
+
+/**
+ * Initialise le bouton de retour en haut de page
+ */
+function initBackToTop() {
+    const backToTop = document.createElement('button');
+    backToTop.className = 'back-to-top';
+    backToTop.innerHTML = '↑';
+    backToTop.setAttribute('aria-label', 'Retour en haut de la page');
+    document.body.appendChild(backToTop);
     
-    // Ajouter le bouton de menu mobile s'il n'existe pas déjà
-    if (window.innerWidth <= 767 && !menuToggle) {
-        const toggleButton = document.createElement('button');
-        toggleButton.className = 'mobile-menu-toggle';
-        toggleButton.setAttribute('aria-label', 'Menu');
-        toggleButton.setAttribute('aria-expanded', 'false');
-        toggleButton.innerHTML = `
-            <span></span>
-            <span></span>
-            <span></span>
-        `;
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('show');
+        } else {
+            backToTop.classList.remove('show');
+        }
+    });
+    
+    backToTop.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+/**
+ * Initialise le chargement paresseux des images
+ */
+function initLazyLoading() {
+    if ('loading' in HTMLImageElement.prototype) {
+        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+        lazyImages.forEach(img => {
+            img.src = img.dataset.src;
+        });
+    } else {
+        // Fallback pour les navigateurs qui ne supportent pas loading="lazy"
+        const script = document.createElement('script');
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/17.3.0/lazyload.min.js';
+        document.body.appendChild(script);
         
-        // Insérer le bouton avant la navigation
-        if (mainNav) {
-            mainNav.parentNode.insertBefore(toggleButton, mainNav);
-            
-            // Gestion du clic sur le bouton du menu
-            toggleButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                toggleMobileMenu();
-                this.setAttribute('aria-expanded', this.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+        script.onload = () => {
+            const lazyLoadInstance = new LazyLoad({
+                elements_selector: '.lazy'
             });
-        }
-    }
-    
-    function toggleMobileMenu() {
-        if (menuToggle && mainNav) {
-            menuToggle.classList.toggle('active');
-            mainNav.classList.toggle('active');
-            document.body.classList.toggle('menu-open');
-            
-            // Empêcher le défilement du corps lorsque le menu est ouvert
-            if (document.body.classList.contains('menu-open')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
-        }
+        };
     }
 }
+
+// Gestion des erreurs non capturées
+window.addEventListener('error', (event) => {
+    console.error('Erreur non capturée :', event.error);
+    
+    // Afficher un message d'erreur convivial si nécessaire
+    const errorContainer = document.getElementById('error-container');
+    if (errorContainer) {
+        errorContainer.innerHTML = `
+            <div class="error-message">
+                <h3>Oups ! Une erreur est survenue</h3>
+                <p>Veuillez actualiser la page ou réessayer plus tard.</p>
+                <button onclick="location.reload()">Actualiser la page</button>
+            </div>
+        `;
+        errorContainer.style.display = 'block';
+    }
+    
+    // Empêcher la propagation de l'événement
+    event.preventDefault();
+    return false;
+});
+
+// Animation au chargement de la page
+const animateOnScroll = () => {
+    const elements = document.querySelectorAll('.fade-in, .slide-up, .slide-left, .slide-right');
+    
+    elements.forEach(element => {
+        const elementPosition = element.getBoundingClientRect().top;
+        const screenPosition = window.innerHeight / 1.3;
+        
+        if (elementPosition < screenPosition) {
+            element.classList.add('visible');
+        }
+    });
+};
+
+// Événements
+window.addEventListener('scroll', animateOnScroll, { passive: true });
+
+// Initialisation
+animateOnScroll();
+
+// Ajouter la classe loaded au body une fois que tout est chargé
+document.body.classList.add('loaded');
 
 /**
  * Initialise le bouton de retour en haut de page
