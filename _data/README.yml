@@ -1,7 +1,0 @@
-# Configuration du README
-# Ce fichier permet de gérer le contenu du README sans utiliser de front-matter
-# qui pourrait causer des erreurs avec Jekyll
-
-title: "Site Franchini"
-description: "Site web de l'entreprise Franchini"
-# Ajoutez ici d'autres métadonnées si nécessaire
