@@ -1,11 +1,7 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "Gemfile",
-      "use": "@vercel/jekyll"
-    }
-  ],
+  "buildCommand": "bundle exec jekyll build",
+  "outputDirectory": "_site",
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -26,6 +22,5 @@
       ]
     }
   ],
-  "outputDirectory": "_site",
   "regions": ["cdg1"]
 }
