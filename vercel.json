@@ -1,7 +1,11 @@
 {
   "version": 2,
-  
-  
+  "builds": [
+    {
+      "src": "Gemfile",
+      "use": "@vercel/jekyll"
+    }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
@@ -22,24 +26,6 @@
       ]
     }
   ],
-  "env": {
-    "NODE_VERSION": "18.x",
-    "RUBY_VERSION": "3.1.7",
-    "BUNDLER_VERSION": "2.4.22",
-    "NODE_ENV": "production",
-    "JEKYLL_ENV": "production",
-    "BUNDLE_PATH": "./vendor/bundle",
-    "BUNDLE_GEMFILE": "./Gemfile",
-    "BUNDLE_JOBS": "4",
-    "BUNDLE_RETRY": "3",
-    "BUNDLE_WITHOUT": "development test",
-    "GEM_HOME": "./vendor/bundle"
-  },
-  "installCommand": "npm install",
-    "buildCommand": "chmod +x vercel-build.sh && ./vercel-build.sh",
   "outputDirectory": "_site",
-  "regions": ["cdg1"],
-  "github": {
-    "silent": true
-  }
+  "regions": ["cdg1"]
 }

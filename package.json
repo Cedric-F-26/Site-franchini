@@ -6,7 +6,6 @@
   "scripts": {
     "start": "bundle exec jekyll serve --livereload --incremental",
     "build": "bundle exec jekyll build",
-    "vercel-build": "./vercel-build.sh",
     "serve": "bundle exec jekyll serve",
     "clean": "bundle exec jekyll clean",
     "test": "npm run lint:js && npm run lint:css",
@@ -16,17 +15,11 @@
     "format": "prettier --write '**/*.{js,jsx,ts,tsx,json,md,html,css,scss}'",
     "prepare": "echo 'Skipping husky install for Vercel'"
   },
-  "engines": {
-    "node": "20.x",
-    "npm": ">=9.0.0",
-    "ruby": ">= 3.2.0 < 3.3.0"
-  },
   "cacheDirectories": [
     "node_modules",
     "vendor/bundle"
   ],
   "dependencies": {
-    "@vercel/static-build": "^2.7.22",
     "chalk": "^5.3.0"
   },
   "devDependencies": {
