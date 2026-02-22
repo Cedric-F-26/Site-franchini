@@ -1,0 +1,164 @@
+current directory: c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+C:/Ruby34-x64/bin/ruby.exe extconf.rb
+creating Makefile
+
+current directory: c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20250714-1656-2wmjoz sitelibdir\=./.gem.20250714-1656-2wmjoz clean
+
+current directory: c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20250714-1656-2wmjoz sitelibdir\=./.gem.20250714-1656-2wmjoz
+generating ruby_http_parser-x64-mingw-ucrt.def
+compiling ruby_http_parser.c
+ruby_http_parser.c: In function 'Parser_alloc_by_type':
+ruby_http_parser.c:273:3: warning: 'rb_data_object_wrap_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  273 |   return Data_Wrap_Struct(klass, ParserWrapper_mark, ParserWrapper_free, wrapper);
+      |   ^~~~~~
+In file included from C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from C:/Ruby34-x64/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from C:/Ruby34-x64/include/ruby-3.4.0/ruby.h:38,
+                 from ruby_http_parser.c:1:
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:293:1: note: declared here
+  293 | rb_data_object_wrap_warning(VALUE klass, void *ptr, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_initialize':
+ruby_http_parser.c:294:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  294 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_execute':
+ruby_http_parser.c:317:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  317 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_set_on_message_begin':
+ruby_http_parser.c:340:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  340 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_set_on_headers_complete':
+ruby_http_parser.c:348:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  348 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_set_on_body':
+ruby_http_parser.c:356:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  356 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_set_on_message_complete':
+ruby_http_parser.c:364:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  364 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_keep_alive_p':
+ruby_http_parser.c:372:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  372 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_upgrade_p':
+ruby_http_parser.c:379:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  379 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_http_version':
+ruby_http_parser.c:386:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  386 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_http_major':
+ruby_http_parser.c:396:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  396 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_http_minor':
+ruby_http_parser.c:406:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  406 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_http_method':
+ruby_http_parser.c:416:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  416 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_status_code':
+ruby_http_parser.c:426:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  426 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_request_url':
+ruby_http_parser.c:441:1: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  441 | DEFINE_GETTER(request_url);
+      | ^~~~~~~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_headers':
+ruby_http_parser.c:442:1: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  442 | DEFINE_GETTER(headers);
+      | ^~~~~~~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_upgrade_data':
+ruby_http_parser.c:443:1: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  443 | DEFINE_GETTER(upgrade_data);
+      | ^~~~~~~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_header_value_type':
+ruby_http_parser.c:444:1: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  444 | DEFINE_GETTER(header_value_type);
+      | ^~~~~~~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_set_header_value_type':
+ruby_http_parser.c:452:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  452 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+ruby_http_parser.c: In function 'Parser_reset':
+ruby_http_parser.c:459:3: warning: 'rb_data_object_get_warning' is deprecated: by TypedData [-Wdeprecated-declarations]
+  459 |   DATA_GET(self, ParserWrapper, wrapper);
+      |   ^~~~~~~~
+C:/Ruby34-x64/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+compiling ryah_http_parser.c
+linking shared-object ruby_http_parser.so
+
+current directory: c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20250714-1656-2wmjoz sitelibdir\=./.gem.20250714-1656-2wmjoz install
+/usr/bin/install -c -m 0755 ruby_http_parser.so ./.gem.20250714-1656-2wmjoz
+
+current directory: c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20250714-1656-2wmjoz sitelibdir\=./.gem.20250714-1656-2wmjoz clean

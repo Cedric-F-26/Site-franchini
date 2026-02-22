@@ -1,57 +1,44 @@
-# Mon Site Web
+# Site Web Simplifié pour Franchini
 
-Ceci est un site web moderne construit avec HTML, CSS et JavaScript, utilisant Supabase comme backend.
+Ceci est une version simplifiée du site web pour Franchini, concessionnaire officiel Deutz-Fahr.
 
 ## Structure du projet
 
 ```
-mon-site-web/
-├── public/                  # Fichiers publics
-│   ├── css/                 # Feuilles de style
-│   │   └── styles.css
-│   ├── js/                  # Fichiers JavaScript
-│   │   └── app.js
-│   └── assets/              # Images et médias
-├── index.html               # Page d'accueil
-└── README.md               # Ce fichier
+site-simplifie/
+├── index.html          # Page d'accueil
+├── css/
+│   └── styles.css      # Feuille de style principale
+├── js/
+│   └── script.js       # Scripts JavaScript
+├── images/             # Dossier pour les images
+│   ├── hero-bg.jpg     # Image de fond pour la bannière
+│   ├── tracteur-1.jpg  # Image de tracteur
+│   └── occasion.jpg    # Image pour la section occasions
+└── favicon.ico         # Icône du site
 ```
-
-## Configuration requise
-
-- Navigateur web moderne (Chrome, Firefox, Safari, Edge)
-- Compte Supabase (pour le backend)
-
-## Installation
-
-1. Cloner le dépôt :
-   ```
-   git clone https://github.com/votre-utilisateur/mon-site-web.git
-   cd mon-site-web
-   ```
-
-2. Configurer Supabase :
-   - Créez un projet sur [Supabase](https://supabase.com/)
-   - Mettez à jour les informations de configuration dans `public/js/app.js`
-     ```javascript
-     const supabaseUrl = 'VOTRE_URL_SUPABASE';
-     const supabaseKey = 'VOTRE_CLE_SUPABASE';
-     ```
-
-3. Ouvrez `index.html` dans votre navigateur ou servez-le avec un serveur local.
 
 ## Fonctionnalités
 
-- Interface utilisateur moderne et réactive
-- Intégration avec Supabase pour l'authentification et la base de données
-- Formulaire de contact
-- Gestion d'état d'authentification
+- Design responsive qui s'adapte à tous les appareils
+- Navigation fluide avec défilement doux
+- Formulaire de contact fonctionnel (à connecter à un backend)
+- Menu mobile pour les petits écrans
+- Chargement optimisé des images
+
+## Comment l'utiliser
+
+1. Téléchargez ou clonez ce dépôt
+2. Ouvrez le fichier `index.html` dans votre navigateur pour voir le site localement
+3. Pour le déploiement, chargez simplement tous les fichiers sur votre hébergeur web
 
 ## Personnalisation
 
-- Modifiez les couleurs dans `public/css/styles.css`
-- Ajoutez vos propres styles et fonctionnalités dans les fichiers correspondants
-- Personnalisez les requêtes Supabase selon vos besoins
+- Modifiez les couleurs dans `css/styles.css` (variables CSS en haut du fichier)
+- Mettez à jour les images dans le dossier `images/`
+- Modifiez le contenu directement dans `index.html`
+- Personnalisez le formulaire de contact dans `js/script.js`
 
-## Licence
+## Prévisualisation
 
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus d'informations.
+Ouvrez le fichier `index.html` dans votre navigateur pour voir une prévisualisation du site.

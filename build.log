@@ -1,0 +1,11 @@
+[2025-06-21 08:00:32] === Début du script de build ===
+[2025-06-21 08:00:32] Répertoire de travail: /c/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini
+[2025-06-21 08:00:33] Utilisateur: cedri
+[2025-06-21 08:00:33] Ruby version: ./build.sh: line 15: ruby: command not found
+Ruby non installé
+[2025-06-21 08:00:33] Bundler version: ./build.sh: line 16: bundle: command not found
+Bundler non installé
+[2025-06-21 08:00:33] Ruby n'est pas installé. Installation en cours...
+./build.sh: line 21: apt-get: command not found
+[2025-06-21 08:00:33] RubyGems n'est pas installé. Installation en cours...
+./build.sh: line 27: apt-get: command not found
