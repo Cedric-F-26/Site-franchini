@@ -1,0 +1,6 @@
+current directory: c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/sass-embedded-1.89.2/ext/sass
+C:/Ruby34-x64/bin/ruby.exe -rrubygems c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/rake-13.3.0/exe/rake RUBYARCHDIR\=c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/extensions/x64-mingw-ucrt/3.4.0/sass-embedded-1.89.2 RUBYLIBDIR\=c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/extensions/x64-mingw-ucrt/3.4.0/sass-embedded-1.89.2
+gem install --force --install-dir c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/sass-embedded-1.89.2/ext/sass/ruby --no-document --ignore-dependencies --platform x64-mingw-ucrt --version 1.89.2 sass-embedded
+WARNING:  Unable to use symlinks, installing wrapper
+mv c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/sass-embedded-1.89.2/ext/sass/ruby/gems/sass-embedded-1.89.2-x64-mingw-ucrt/ext/sass/dart-sass dart-sass
+rm -rf c:/Users/cedri/Documents/GitHub/mon-site-web/Site-franchini/vendor/bundle/ruby/3.4.0/gems/sass-embedded-1.89.2/ext/sass/ruby

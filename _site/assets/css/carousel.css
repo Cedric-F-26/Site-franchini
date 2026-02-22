@@ -1,0 +1,365 @@
+/* Styles pour les carrousels */
+
+#home-carousel-section {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    height: 70vh; /* Hauteur du carrousel principal */
+    margin-bottom: 2rem;
+}
+
+#home-carousel {
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.secondary-carousels-wrapper {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.secondary-carousel {
+    flex: 1 1 0px;
+    min-width: 0;
+}
+
+.secondary-carousel .carousel-container {
+    height: 400px; /* Hauteur pour les carrousels secondaires */
+}
+
+.carousel-wrapper {
+    width: 100%;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Carrousel plein écran */
+.carousel-container.full-width {
+    height: 600px;
+}
+
+/* Conteneur du slider */
+.carousel-slider {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Slides */
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    z-index: 1;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+    z-index: 2;
+}
+
+.carousel-media {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Assure que l'image/vidéo couvre le slide */
+    z-index: 1;
+}
+
+.carousel-slide,
+.carousel-media {
+    width: 100vw; /* Full viewport width */
+    height: 70vh; /* Match the height of the main carousel */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Contenu des slides */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+    text-align: center;
+    padding: 2rem;
+    /* background: rgba(0, 0, 0, 0.4); */ /* Supprimé pour enlever l'assombrissement */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.slide-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1;
+}
+
+
+
+.carousel-caption h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.carousel-caption p {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Contrôles de navigation */
+.carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.carousel-control:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-control.prev {
+    left: 20px;
+}
+
+.carousel-control.next {
+    right: 20px;
+}
+
+/* Points de navigation */
+.carousel-dots {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    z-index: 3;
+    padding: 0 1rem;
+}
+
+.carousel-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-dot:hover,
+.carousel-dot.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+/* Styles pour les cartes dans les carrousels */
+.carousel-slide .card {
+    height: 100%;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    margin: 0 5px;
+}
+
+.carousel-slide .card:hover {
+    transform: translateY(-5px);
+}
+
+.carousel-slide .card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.carousel-slide .card-body {
+    padding: 1.25rem;
+}
+
+.carousel-slide .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.carousel-slide .card-text {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.carousel-slide .price {
+    font-weight: bold;
+    color: #2c7be5;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+/* Styles responsifs */
+@media (max-width: 1200px) {
+    #home-carousel-section {
+        height: 60vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .secondary-carousels-wrapper {
+        flex-direction: column;
+    }
+
+    #home-carousel-section {
+        height: 50vh;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 2rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .carousel-container.full-width {
+        height: 400px;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.75rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 1rem;
+    }
+    
+    .carousel-control {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .carousel-container.full-width {
+        height: 350px;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+    }
+    
+    .carousel-caption .btn {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+    }
+    
+    .carousel-slide .card-img-top {
+        height: 180px;
+    }
+    
+    .carousel-dots {
+        bottom: 10px;
+    }
+    
+    .carousel-dot {
+        width: 10px;
+        height: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .carousel-container.full-width {
+        height: 300px;
+    }
+    
+    .carousel-caption h2 {
+        font-size: 1.25rem;
+    }
+    
+    .carousel-caption p {
+        font-size: 0.8rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .carousel-caption .btn {
+        padding: 0.3rem 0.75rem;
+        font-size: 0.8rem;
+    }
+    
+    .carousel-control {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .carousel-slide .card-img-top {
+        height: 150px;
+    }
+    
+    .carousel-slide .card-body {
+        padding: 1rem;
+    }
+    
+    .carousel-slide .card-title {
+        font-size: 1rem;
+    }
+    
+    .carousel-slide .card-text {
+        font-size: 0.8rem;
+    }
+    
+    .carousel-slide .price {
+        font-size: 1rem;
+    }
+}
