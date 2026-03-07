@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | Franchini - Concessionnaire Deutz-Fahr</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="favicon.ico">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>Franchini</h1>
+                <p>Concessionnaire officiel Deutz-Fahr</p>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="concession.html">Concession</a></li>
+                    <li><a href="neuf.html">Matériel Neuf</a></li>
+                    <li><a href="occasion.html">Matériel Occasion</a></li>
+                    <li><a href="magasin.html">Magasin</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>Contact</h1>
+                <p>Nous sommes à votre disposition</p>
+            </div>
+        </section>
+
+        <section class="content">
+            <div class="container">
+                <div class="contact-grid">
+                    <div class="contact-info">
+                        <h2>Nos Coordonnées</h2>
+                        <div class="address">
+                            <h3>Adresse</h3>
+                            <p>111 av des monts du matin<br>
+                            26300 Marches</p>
+                        </div>
+                        
+                        <div class="phone">
+                            <h3>Téléphone</h3>
+                            <p><a href="tel:0475474037">04 75 47 40 37</a></p>
+                        </div>
+                        
+                        <div class="hours">
+                            <h3>Horaires</h3>
+                            <p>Lundi au Vendredi : 8h-12h / 14h-18h<br>
+                            Samedi : 8h-12h</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-form">
+                        <h2>Formulaire de Contact</h2>
+                        <form>
+                            <div class="form-group">
+                                <label for="name">Nom *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email">Email *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="phone">Téléphone</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Sujet *</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Choisissez un sujet</option>
+                                    <option value="neuf">Matériel neuf</option>
+                                    <option value="occasion">Matériel d'occasion</option>
+                                    <option value="pieces">Pièces détachées</option>
+                                    <option value="service">Service après-vente</option>
+                                    <option value="other">Autre</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="btn-submit">Envoyer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Franchini SARL. Tous droits réservés.</p>
+        </div>
+    </footer>
+</body>
+</html>
