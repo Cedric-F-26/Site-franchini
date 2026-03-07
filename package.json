@@ -1,0 +1,15 @@
+{
+  "name": "site-franchini",
+  "version": "1.0.0",
+  "description": "Site officiel du concessionnaire Deutz-Fahr Franchini",
+  "scripts": {
+    "build": "bundle exec jekyll build",
+    "dev": "bundle exec jekyll serve --watch --livereload"
+  },
+  "dependencies": {
+    "github-pages": "^232"
+  },
+  "devDependencies": {
+    "bundle": "^2.3.0"
+  }
+}

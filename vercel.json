@@ -10,7 +10,7 @@
       }
     },
     {
-      "src": "_config.yml",
+      "src": "package.json",
       "use": "@vercel/static",
       "config": {
         "distDir": "_site"
