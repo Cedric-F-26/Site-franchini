@@ -223,19 +223,35 @@
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('errorMessage');
             
-            // Simulation d'authentification (à remplacer par votre logique réelle)
-            if (username === 'admin' && password === 'franchini2024') {
-                // Redirection vers la page d'administration
-                window.location.href = 'administrateur.html';
-            } else {
-                // Afficher le message d'erreur
+            fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Redirection vers la page d'administration
+                    window.location.href = 'administrateur.html';
+                } else {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = data.message || 'Identifiant ou mot de passe incorrect';
+                }
+            })
+            .catch(error => {
                 errorMessage.style.display = 'block';
-                
-                // Masquer le message après 3 secondes
-                setTimeout(() => {
-                    errorMessage.style.display = 'none';
-                }, 3000);
-            }
+                errorMessage.textContent = 'Erreur de connexion. Veuillez réessayer.';
+            });
+            
+            // Masquer le message après 3 secondes
+            setTimeout(() => {
+                errorMessage.style.display = 'none';
+            }, 3000);
         });
     </script>
 </body>

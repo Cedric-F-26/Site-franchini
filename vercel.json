@@ -1,7 +1,62 @@
 {
-  "framework": null,
-  "buildCommand": null,
-  "outputDirectory": null,
-  "installCommand": null,
-  "devCommand": null
+  "version": 2,
+  "name": "site-franchini",
+  "builds": [
+    {
+      "src": "api/package.json",
+      "use": "@vercel/node",
+      "config": {
+        "serverless": true
+      }
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/static",
+      "config": {
+        "distDir": ""
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "JWT_SECRET": "@jwt_secret",
+    "NODE_ENV": "production"
+  },
+  "functions": {
+    "api/server.js": {
+      "maxDuration": 10
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        }
+      ]
+    }
+  ]
 }
