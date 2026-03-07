@@ -27,7 +27,11 @@ function setupDropzone(dropzoneId, inputId, previewId, onFileSelected) {
         reader.readAsDataURL(file);
     };
 
+<<<<<<< Updated upstream:_site/assets/js/admin/actualites-firebase.js
     dropzone.addEventListener('click', () => input.click());
+=======
+    dropzone.addEventListener('click', (e) => { e.stopPropagation(); input.click(); });
+>>>>>>> Stashed changes:assets/js/admin/actualites-firebase.js
     ['dragenter', 'dragover'].forEach(eventName => dropzone.addEventListener(eventName, (e) => {
         e.preventDefault();
         dropzone.classList.add('dragover');
