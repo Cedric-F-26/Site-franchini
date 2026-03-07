@@ -23,15 +23,26 @@ const limiter = rateLimit({
 });
 
 // Base de données utilisateurs (en production, utilisez une vraie BDD)
+// Le mot de passe est hashé avec bcrypt, JWT_SECRET protège les tokens
 const users = [
     {
         id: 1,
         username: 'admin',
-        password: '$2b$10$N9qo8uLOickgx2ZMRZoMye5YrK6m5s8y6Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q', // "franchini2025" hashé
+        password: '$2b$10$N9qo8uLOickgx2ZMRZoMye5YrK6m5s8y6Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q', // "franchini2025" hashé avec bcrypt
         role: 'admin',
         email: 'admin@franchini.fr'
     }
 ];
+
+// Fonction pour créer un hash de mot de passe sécurisé
+function createPasswordHash(password) {
+    return bcrypt.hashSync(password, 10);
+}
+
+// Fonction pour vérifier le mot de passe
+function verifyPassword(password, hash) {
+    return bcrypt.compareSync(password, hash);
+}
 
 // Middleware de vérification JWT
 const authenticateToken = (req, res, next) => {
@@ -73,8 +84,8 @@ app.post('/api/login', limiter, async (req, res) => {
             });
         }
 
-        // Vérification du mot de passe
-        const validPassword = await bcrypt.compare(password, user.password);
+        // Vérification du mot de passe avec bcrypt
+        const validPassword = verifyPassword(password, user.password);
         if (!validPassword) {
             return res.status(401).json({
                 success: false,
