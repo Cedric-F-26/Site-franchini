@@ -1,97 +1,9 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magasin | Franchini - Concessionnaire Deutz-Fahr</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" href="favicon.ico">
-    <style>
-        .footer-bottom {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .lock-link {
-            text-decoration: none;
-            transition: transform 0.3s ease;
-        }
-        
-        .lock-link:hover {
-            transform: scale(1.2);
-        }
-        
-        .footer-compact {
-            background-color: #1a1a1a;
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            margin-top: 40px;
-        }
-        
-        .footer-compact .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-        
-        .footer-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-links a:hover {
-            color: #4CAF50;
-        }
-        
-        .footer-bottom {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid #333;
-            font-size: 0.8rem;
-            color: #aaa;
-        }
-        
-        @media (max-width: 768px) {
-            .footer-bottom {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="container">
-            <div class="logo">
-                <a href="index.html" style="text-decoration: none; color: inherit;">
-                    <h1>Franchini</h1>
-                    <p>Concessionnaire officiel Deutz-Fahr</p>
-                </a>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="concession.html">Concession</a></li>
-                    <li><a href="neuf.html">Matériel Neuf</a></li>
-                    <li><a href="occasion.html">Matériel Occasion</a></li>
-                    <li><a href="magasin.html">Magasin</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+---
+layout: default
+title: Magasin
+---
+
+{% include header.html %}
 
     <main>
         <section class="page-header">
@@ -125,20 +37,4 @@
         </section>
     </main>
 
-    <footer class="footer-compact">
-        <div class="container">
-            <div class="footer-links">
-                <a href="mentions-legales.html">Mentions légales</a>
-                <a href="confidentialite.html">Confidentialité des données</a>
-                <a href="consentements.html">Mes consentements</a>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Franchini. Tous droits réservés.</p>
-                <a href="connexion.html" title="Connexion Administration" class="lock-link">
-                    <i class="fas fa-lock" style="color: #4CAF50; font-size: 20px;"></i>
-                </a>
-            </div>
-        </div>
-    </footer>
-</body>
-</html>
+{% include footer.html %}
