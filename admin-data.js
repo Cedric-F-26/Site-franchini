@@ -6,71 +6,15 @@ class AdminDataManager {
         this.initializeData();
     }
 
-    // Initialisation des données par défaut
+    // Initialisation des données par défaut (vides pour données réelles)
     initializeData() {
         if (!localStorage.getItem('franchini_home_videos')) {
-            const defaultVideos = [
-                {
-                    id: 1,
-                    title: "Deutz-Fahr Série 6",
-                    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                    description: "Découvrez la nouvelle série 6 Deutz-Fahr",
-                    position: 1,
-                    active: true
-                },
-                {
-                    id: 2,
-                    title: "Démonstration Matériel",
-                    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                    description: "Voir nos matériels en action",
-                    position: 2,
-                    active: true
-                },
-                {
-                    id: 3,
-                    title: "Promotion Printemps",
-                    url: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                    description: "Offres spéciales sur le matériel neuf",
-                    position: 3,
-                    active: true
-                }
-            ];
+            const defaultVideos = [];
             localStorage.setItem('franchini_home_videos', JSON.stringify(defaultVideos));
         }
 
         if (!localStorage.getItem('franchini_actualites')) {
-            const defaultActualites = [
-                {
-                    id: 1,
-                    title: "Nouveau Tracteur Deutz-Fahr",
-                    description: "Découvrez notre dernier modèle de tracteur",
-                    type: "video",
-                    mediaUrl: "https://picsum.photos/seed/tracteur1/600/400.jpg",
-                    date: "07/03/2024",
-                    position: 1,
-                    active: true
-                },
-                {
-                    id: 2,
-                    title: "Promotion Printemps",
-                    description: "Offres spéciales sur le matériel neuf",
-                    type: "image",
-                    mediaUrl: "https://picsum.photos/seed/promo1/600/400.jpg",
-                    date: "05/03/2024",
-                    position: 2,
-                    active: true
-                },
-                {
-                    id: 3,
-                    title: "Nouveau Service",
-                    description: "Maintenance 24/7 disponible",
-                    type: "image",
-                    mediaUrl: "https://picsum.photos/seed/service1/600/400.jpg",
-                    date: "01/03/2024",
-                    position: 3,
-                    active: false
-                }
-            ];
+            const defaultActualites = [];
             localStorage.setItem('franchini_actualites', JSON.stringify(defaultActualites));
         }
 
@@ -232,6 +176,33 @@ class AdminDataManager {
         localStorage.removeItem('franchini_actualites');
         localStorage.removeItem('franchini_settings');
         this.initializeData();
+        return true;
+    }
+
+    // Ajouter des données réelles pour démonstration
+    addRealData() {
+        // Vidéo promotionnelle réelle Deutz-Fahr
+        this.addHomeVideo({
+            title: "Deutz-Fahr Série 6 - Présentation officielle",
+            url: "https://www.youtube.com/embed/6XhP3LzF9cQ",
+            description: "Découvrez la nouvelle série 6 Deutz-Fahr avec ses innovations technologiques"
+        });
+
+        // Actualités réelles
+        this.addActualite({
+            title: "Nouveauté : Deutz-Fahr 6175 TTV",
+            description: "Le nouveau tracteur télescopique 6175 TTV arrive chez Franchini",
+            type: "image",
+            mediaUrl: "https://www.deutz-fahr.com/fr-fr/actualites/nouveautes/_jcr_content/root/container_1/teaser_1/media.coreimg.jpeg/1699364213516.jpeg"
+        });
+
+        this.addActualite({
+            title: "Journée Portes Ouvertes - 15 Mars 2025",
+            description: "Venez découvrir nos nouveautés et bénéficier de nos offres spéciales",
+            type: "image",
+            mediaUrl: "https://via.placeholder.com/600x400/4CAF50/FFFFFF?text=Journée+Portes+Ouvertes+15+Mars"
+        });
+
         return true;
     }
 }

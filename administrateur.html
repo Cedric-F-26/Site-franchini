@@ -274,7 +274,7 @@
                     <p>Bienvenue, Admin</p>
                 </div>
             </div>
-            <a href="index.html" class="logout-btn">
+            <a href="#" class="logout-btn" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i> Déconnexion
             </a>
         </div>
@@ -551,11 +551,73 @@
     </footer>
 
     <script>
+        // Vérification de l'authentification (compatible Vercel et local)
+        function checkAuth() {
+            const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
+            const token = sessionStorage.getItem('adminToken');
+            
+            // En production, vérifier le token avec l'API
+            if (window.location.hostname !== 'localhost' && token) {
+                fetch('/api/verify', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.valid) {
+                        window.location.href = 'connexion.html';
+                    }
+                })
+                .catch(() => {
+                    // Fallback: vérifier seulement sessionStorage
+                    if (!isLoggedIn) {
+                        window.location.href = 'connexion.html';
+                    }
+                });
+            } else if (!isLoggedIn) {
+                window.location.href = 'connexion.html';
+            }
+        }
+        
+        checkAuth();
+
+        // Fonction de déconnexion
+        function logout() {
+            const token = sessionStorage.getItem('adminToken');
+            
+            // Informer l'API de la déconnexion en production
+            if (window.location.hostname !== 'localhost' && token) {
+                fetch('/api/logout', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                }).catch(() => {});
+            }
+            
+            sessionStorage.removeItem('adminLoggedIn');
+            sessionStorage.removeItem('adminUser');
+            sessionStorage.removeItem('adminToken');
+            window.location.href = 'connexion.html';
+        }
+
         // Test de débogage - Ajouté pour vérifier que les fonctions fonctionnent
         console.log('Page administrateur chargée - Test des fonctions');
         
-        // Test immédiat
+        // Initialiser les données réelles si vide
         setTimeout(() => {
+            const videos = window.adminData.getHomeVideos();
+            const actualites = window.adminData.getActualites();
+            
+            if (videos.length === 0 && actualites.length === 0) {
+                console.log('Initialisation avec des données réelles...');
+                window.adminData.addRealData();
+                console.log('Données réelles ajoutées avec succès');
+            }
+            
             console.log('Test: manageActualites disponible ?', typeof manageActualites);
             console.log('Test: manageHomeCarousel disponible ?', typeof manageHomeCarousel);
             console.log('Test: manageNews disponible ?', typeof manageNews);

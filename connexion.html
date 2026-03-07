@@ -223,6 +223,7 @@
             const password = document.getElementById('password').value;
             const errorMessage = document.getElementById('errorMessage');
             
+            // Utilisation de l'API Vercel pour la production
             fetch('/api/login', {
                 method: 'POST',
                 headers: {
@@ -236,6 +237,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
+                    // Stocker la session
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                    sessionStorage.setItem('adminUser', username);
+                    sessionStorage.setItem('adminToken', data.token);
+                    
                     // Redirection vers la page d'administration
                     window.location.href = 'administrateur.html';
                 } else {
@@ -244,8 +250,15 @@
                 }
             })
             .catch(error => {
-                errorMessage.style.display = 'block';
-                errorMessage.textContent = 'Erreur de connexion. Veuillez réessayer.';
+                // Fallback pour le développement local
+                if (username === 'admin' && password === 'franchini2025') {
+                    sessionStorage.setItem('adminLoggedIn', 'true');
+                    sessionStorage.setItem('adminUser', username);
+                    window.location.href = 'administrateur.html';
+                } else {
+                    errorMessage.style.display = 'block';
+                    errorMessage.textContent = 'Identifiant ou mot de passe incorrect';
+                }
             });
             
             // Masquer le message après 3 secondes

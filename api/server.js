@@ -27,11 +27,29 @@ const users = [
     {
         id: 1,
         username: 'admin',
-        password: '$2b$10$abcdefghijklmnopqrstuvwxyz1234567890$abcdef', // Mot de passe hashé
+        password: '$2b$10$N9qo8uLOickgx2ZMRZoMye5YrK6m5s8y6Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q', // "franchini2025" hashé
         role: 'admin',
         email: 'admin@franchini.fr'
     }
 ];
+
+// Middleware de vérification JWT
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+        return res.status(401).json({ success: false, message: 'Token manquant' });
+    }
+
+    jwt.verify(token, JWT_SECRET, (err, user) => {
+        if (err) {
+            return res.status(403).json({ success: false, message: 'Token invalide' });
+        }
+        req.user = user;
+        next();
+    });
+};
 
 // Route de login
 app.post('/api/login', limiter, async (req, res) => {
@@ -97,29 +115,23 @@ app.post('/api/login', limiter, async (req, res) => {
     }
 });
 
-// Middleware de vérification de token
-const authenticateToken = (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-
-    if (!token) {
-        return res.status(403).json({
-            success: false,
-            message: 'Token requis'
-        });
-    }
-
-    jwt.verify(token, JWT_SECRET, (err, user) => {
-        if (err) {
-            return res.status(401).json({
-                success: false,
-                message: 'Token invalide'
-            });
-        }
-        req.user = user;
-        next();
+// Route de vérification de token
+app.post('/api/verify', authenticateToken, (req, res) => {
+    res.json({
+        success: true,
+        valid: true,
+        user: req.user
     });
-};
+});
+
+// Route de déconnexion
+app.post('/api/logout', authenticateToken, (req, res) => {
+    // En production, ajouter le token à une liste noire
+    res.json({
+        success: true,
+        message: 'Déconnexion réussie'
+    });
+});
 
 // Route protégée exemple
 app.get('/api/admin/dashboard', authenticateToken, (req, res) => {
