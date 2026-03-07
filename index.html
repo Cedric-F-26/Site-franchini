@@ -242,6 +242,29 @@
             background: #365899;
         }
         
+        .facebook-share-btn {
+            background: #4267B2;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .facebook-share-btn:hover {
+            background: #365899;
+        }
+        
+        .facebook-share-btn i {
+            font-size: 1.2rem;
+        }
+        
         /* Carousel actualités */
         .actualites-carousel {
             position: relative;
@@ -408,17 +431,31 @@
             <section class="facebook-section">
                 <h2><i class="fab fa-facebook"></i></h2>
                 <div class="facebook-widget">
-                    <!-- Iframe Facebook qui fonctionne -->
-                    <iframe 
-                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fpeople%2FFranchini%2F61573705277749%2F&tabs=timeline&width=500&height=400&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId=285599302608864" 
-                        width="100%" 
-                        height="400" 
-                        style="border:none;overflow:hidden;border-radius:10px;" 
-                        scrolling="no" 
-                        frameborder="0" 
-                        allowfullscreen="true" 
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                    </iframe>
+                    <!-- SDK Facebook -->
+                    <div id="fb-root"></div>
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0&appId=1439664521133215"></script>
+                    
+                    <!-- Widget Facebook Page -->
+                    <div class="fb-page" 
+                         data-href="https://www.facebook.com/people/Franchini/61573705277749/" 
+                         data-tabs="timeline" 
+                         data-width="500" 
+                         data-height="400" 
+                         data-small-header="false" 
+                         data-adapt-container-width="true" 
+                         data-hide-cover="false" 
+                         data-show-facepile="true">
+                        <blockquote cite="https://www.facebook.com/people/Franchini/61573705277749/" class="fb-xfbml-parse-ignore">
+                            <a href="https://www.facebook.com/people/Franchini/61573705277749/">Franchini</a>
+                        </blockquote>
+                    </div>
+                    
+                    <!-- Bouton Partager -->
+                    <div style="text-align: center; margin-top: 15px;">
+                        <button onclick="shareOnFacebook()" class="facebook-share-btn">
+                            <i class="fab fa-facebook"></i> Partager sur Facebook
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -534,6 +571,15 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Page Franchini chargée - Version sans conflits');
             
+            // Initialiser Facebook SDK
+            window.fbAsyncInit = function() {
+                FB.init({
+                    appId: '1439664521133215',
+                    xfbml: true,
+                    version: 'v18.0'
+                });
+            };
+            
             // Démarrer les carousels
             if (slides.length > 0) {
                 startSlideShow();
@@ -543,6 +589,25 @@
                 startActualiteShow();
             }
         });
+
+        // Fonction de partage Facebook
+        function shareOnFacebook() {
+            FB.ui({
+                method: 'feed',
+                app_id: '1439664521133215',
+                link: window.location.href,
+                name: 'Franchini - Concessionnaire Deutz-Fahr',
+                caption: 'Véhicules agricoles neufs et occasion',
+                description: 'Découvrez nos promotions et notre catalogue de matériel agricole Deutz-Fahr',
+                picture: 'https://picsum.photos/seed/franchini-logo/1200/630.jpg'
+            }, function(response){
+                if (response && response.post_id) {
+                    alert('Merci ! Votre publication a été partagée avec succès.');
+                } else {
+                    console.log('Partage annulé ou échoué');
+                }
+            });
+        }
 
         // YouTube API simplifiée
         function onYouTubeIframeAPIReady() {
