@@ -1309,239 +1309,212 @@
 
         // Fonctions de gestion des Actualités
         function manageActualites(action) {
-            const actions = {
-                'add': `
-                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
-                            <h2 style="color: #333; margin: 0;"><i class="fas fa-plus"></i> Ajouter une Actualité</h2>
-                            <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
-                        </div>
-                        <div style="display: grid; gap: 20px;">
-                            <div>
-                                <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-edit"></i> Contenu</h3>
-                                <div style="display: grid; gap: 15px;">
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Titre</label>
-                                        <input type="text" placeholder="Titre de l'actualité" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                    </div>
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Description</label>
-                                        <textarea placeholder="Description de l'actualité" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px;"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-image"></i> Média</h3>
-                                <div style="display: grid; gap: 15px;">
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Type de média</label>
-                                        <select onchange="toggleMediaType(this.value)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                            <option value="image">Image</option>
-                                            <option value="video">Vidéo</option>
-                                        </select>
-                                    </div>
-                                    <div id="imageField">
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">URL de l'image</label>
-                                        <input type="text" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                    </div>
-                                    <div id="videoField" style="display: none;">
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">URL de la vidéo</label>
-                                        <input type="text" placeholder="https://example.com/video.mp4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end;">
-                            <button onclick="saveNewActualite(); this.closest('div').parentElement.parentElement.remove();" style="background: #FF9800; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
-                                <i class="fas fa-save"></i> Ajouter l'actualité
-                            </button>
-                            <button onclick="this.closest('div').parentElement.parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
-                                Annuler
-                            </button>
-                        </div>
-                    </div>
-                `,
-                'list': `
-                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
-                            <h2 style="color: #333; margin: 0;"><i class="fas fa-list"></i> Liste des Actualités</h2>
-                            <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
-                        </div>
-                        <div style="overflow-x: auto;">
-                            <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 5px; overflow: hidden;">
-                                <thead>
-                                    <tr style="background: #FF9800; color: white;">
-                                        <th style="padding: 15px; text-align: left;">Titre</th>
-                                        <th style="padding: 15px; text-align: left;">Type</th>
-                                        <th style="padding: 15px; text-align: left;">Date</th>
-                                        <th style="padding: 15px; text-align: left;">Statut</th>
-                                        <th style="padding: 15px; text-align: center;">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="actualitesTableBody">
-                                    <tr style="border-bottom: 1px solid #eee;">
-                                        <td style="padding: 15px;">📹 Nouveau Tracteur Deutz-Fahr</td>
-                                        <td style="padding: 15px;"><span style="background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 3px; font-size: 0.8rem;">Vidéo</span></td>
-                                        <td style="padding: 15px;">07/03/2024</td>
-                                        <td style="padding: 15px;"><span style="background: #e8f5e8; color: #2e7d32; padding: 4px 8px; border-radius: 3px; font-size: 0.8rem;">Actif</span></td>
-                                        <td style="padding: 15px; text-align: center;">
-                                            <button style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
-                                            <button style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
-                                        </td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid #eee;">
-                                        <td style="padding: 15px;">🎯 Promotion Printemps</td>
-                                        <td style="padding: 15px;"><span style="background: #fff3e0; color: #f57c00; padding: 4px 8px; border-radius: 3px; font-size: 0.8rem;">Image</span></td>
-                                        <td style="padding: 15px;">05/03/2024</td>
-                                        <td style="padding: 15px;"><span style="background: #e8f5e8; color: #2e7d32; padding: 4px 8px; border-radius: 3px; font-size: 0.8rem;">Actif</span></td>
-                                        <td style="padding: 15px; text-align: center;">
-                                            <button style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
-                                            <button style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
-                                        </td>
-                                    </tr>
-                                    <tr style="border-bottom: 1px solid #eee;">
-                                        <td style="padding: 15px;">🔧 Nouveau Service</td>
-                                        <td style="padding: 15px;"><span style="background: #fff3e0; color: #f57c00; padding: 4px 8px; border-radius: 3px; font-size: 0.8rem;">Image</span></td>
-                                        <td style="padding: 15px;">01/03/2024</td>
-                                        <td style="padding: 15px;"><span style="background: #ffebee; color: #c62828; padding: 4px 8px; border-radius: 3px; font-size: 0.8rem;">Inactif</span></td>
-                                        <td style="padding: 15px; text-align: center;">
-                                            <button style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
-                                            <button style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: space-between;">
-                            <button onclick="addNewActualite()" style="background: #FF9800; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
-                                <i class="fas fa-plus"></i> Ajouter une actualité
-                            </button>
-                            <div>
-                                <button style="background: #17a2b8; color: white; border: none; padding: 10px 20px; border-radius: 5px; margin-right: 10px;">
-                                    <i class="fas fa-download"></i> Exporter
-                                </button>
-                                <button style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px;">
-                                    <i class="fas fa-sync"></i> Actualiser
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `,
-                'carousel': `
-                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
-                            <h2 style="color: #333; margin: 0;"><i class="fas fa-images"></i> Carousel des Actualités</h2>
-                            <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
-                        </div>
-                        <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
-                            <p style="margin-bottom: 15px; color: #666;">Glissez-déposez les actualités pour réorganiser l'ordre d'affichage dans le carousel</p>
-                            <div style="display: grid; gap: 15px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: white; border-radius: 5px; border: 2px solid #FF9800; cursor: move;">
-                                    <div style="display: flex; align-items: center; gap: 15px;">
-                                        <span style="font-size: 1.5rem;">📹</span>
-                                        <div>
-                                            <strong>Nouveau Tracteur Deutz-Fahr</strong>
-                                            <div style="font-size: 0.9rem; color: #666;">Vidéo • 07/03/2024</div>
-                                        </div>
-                                    </div>
-                                    <span style="color: #FF9800; font-weight: bold;">Position 1</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: white; border-radius: 5px; border: 1px solid #ddd; cursor: move;">
-                                    <div style="display: flex; align-items: center; gap: 15px;">
-                                        <span style="font-size: 1.5rem;">🎯</span>
-                                        <div>
-                                            <strong>Promotion Printemps</strong>
-                                            <div style="font-size: 0.9rem; color: #666;">Image • 05/03/2024</div>
-                                        </div>
-                                    </div>
-                                    <span style="color: #666;">Position 2</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: white; border-radius: 5px; border: 1px solid #ddd; cursor: move;">
-                                    <div style="display: flex; align-items: center; gap: 15px;">
-                                        <span style="font-size: 1.5rem;">🔧</span>
-                                        <div>
-                                            <strong>Nouveau Service</strong>
-                                            <div style="font-size: 0.9rem; color: #666;">Image • 01/03/2024</div>
-                                        </div>
-                                    </div>
-                                    <span style="color: #666;">Position 3</span>
-                                </div>
-                            </div>
-                            <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
-                                <button onclick="saveActualitesOrder(); this.closest('div').parentElement.remove();" style="background: #FF9800; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
-                                    <i class="fas fa-save"></i> Enregistrer l'ordre
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `,
-                'settings': `
-                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%;">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
-                            <h2 style="color: #333; margin: 0;"><i class="fas fa-cog"></i> Paramètres des Actualités</h2>
-                            <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
-                        </div>
-                        <div style="display: grid; gap: 20px;">
-                            <div>
-                                <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-play"></i> Carousel</h3>
-                                <div style="display: grid; gap: 15px;">
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">
-                                            <input type="checkbox" checked> Lecture automatique
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Intervalle (secondes)</label>
-                                        <select style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                            <option value="3">3 secondes</option>
-                                            <option value="5" selected>5 secondes</option>
-                                            <option value="10">10 secondes</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div>
-                                <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-eye"></i> Affichage</h3>
-                                <div style="display: grid; gap: 15px;">
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">
-                                            <input type="checkbox" checked> Afficher les descriptions
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">
-                                            <input type="checkbox" checked> Afficher les dates
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end;">
-                            <button onclick="saveActualitesSettings(); this.closest('div').parentElement.remove();" style="background: #FF9800; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
-                                <i class="fas fa-save"></i> Enregistrer
-                            </button>
-                        </div>
-                    </div>
-                `
-            };
+            console.log('manageActualites appelée avec action:', action);
             
-            if (actions[action]) {
-                const modal = document.createElement('div');
-                modal.style.cssText = `
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0,0,0,0.5);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    z-index: 10000;
-                `;
-                modal.innerHTML = actions[action];
-                document.body.appendChild(modal);
+            if (action === 'add') {
+                showAddActualiteModal();
+            } else if (action === 'list') {
+                showActualitesListModal();
+            } else if (action === 'carousel') {
+                showActualitesCarouselModal();
+            } else if (action === 'settings') {
+                showActualitesSettingsModal();
             }
+        }
+
+        function showAddActualiteModal() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+            `;
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
+                        <h2 style="color: #333; margin: 0;"><i class="fas fa-plus"></i> Ajouter une Actualité</h2>
+                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                    </div>
+                    <div style="display: grid; gap: 20px;">
+                        <div>
+                            <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-edit"></i> Contenu</h3>
+                            <div style="display: grid; gap: 15px;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Titre</label>
+                                    <input type="text" id="actualiteTitle" placeholder="Titre de l'actualité" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Description</label>
+                                    <textarea id="actualiteDescription" placeholder="Description de l'actualité" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 100px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-image"></i> Média</h3>
+                            <div style="display: grid; gap: 15px;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Type de média</label>
+                                    <select id="mediaType" onchange="toggleMediaType(this.value)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                        <option value="image">Image</option>
+                                        <option value="video">Vidéo</option>
+                                    </select>
+                                </div>
+                                <div id="imageField">
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">URL de l'image</label>
+                                    <input type="text" id="imageUrl" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div id="videoField" style="display: none;">
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">URL de la vidéo</label>
+                                    <input type="text" id="videoUrl" placeholder="https://example.com/video.mp4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end;">
+                        <button onclick="saveNewActualite(); this.closest('div').parentElement.parentElement.remove();" style="background: #FF9800; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-save"></i> Ajouter l'actualité
+                        </button>
+                        <button onclick="this.closest('div').parentElement.parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                            Annuler
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function showActualitesListModal() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+            `;
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
+                        <h2 style="color: #333; margin: 0;"><i class="fas fa-list"></i> Liste des Actualités</h2>
+                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 5px; overflow: hidden;">
+                            <thead>
+                                <tr style="background: #FF9800; color: white;">
+                                    <th style="padding: 15px; text-align: left;">Titre</th>
+                                    <th style="padding: 15px; text-align: left;">Type</th>
+                                    <th style="padding: 15px; text-align: left;">Date</th>
+                                    <th style="padding: 15px; text-align: left;">Statut</th>
+                                    <th style="padding: 15px; text-align: center;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid #eee;">
+                                    <td style="padding: 15px;">📹 Nouveau Tracteur Deutz-Fahr</td>
+                                    <td style="padding: 15px;"><span style="background: #e3f2fd; color: #1976d2; padding: 4px 8px; border-radius: 3px; font-size: 0.8rem;">Vidéo</span></td>
+                                    <td style="padding: 15px;">07/03/2024</td>
+                                    <td style="padding: 15px;"><span style="background: #e8f5e8; color: #2e7d32; padding: 4px 8px; border-radius: 3px; font-size: 0.8rem;">Actif</span></td>
+                                    <td style="padding: 15px; text-align: center;">
+                                        <button style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
+                                        <button style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function showActualitesCarouselModal() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+            `;
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
+                        <h2 style="color: #333; margin: 0;"><i class="fas fa-images"></i> Carousel des Actualités</h2>
+                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                    </div>
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
+                        <p style="margin-bottom: 15px; color: #666;">Glissez-déposez les actualités pour réorganiser l'ordre d'affichage dans le carousel</p>
+                        <div style="display: grid; gap: 15px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px; background: white; border-radius: 5px; border: 2px solid #FF9800; cursor: move;">
+                                <div style="display: flex; align-items: center; gap: 15px;">
+                                    <span style="font-size: 1.5rem;">📹</span>
+                                    <div>
+                                        <strong>Nouveau Tracteur Deutz-Fahr</strong>
+                                        <div style="font-size: 0.9rem; color: #666;">Vidéo • 07/03/2024</div>
+                                    </div>
+                                </div>
+                                <span style="color: #FF9800; font-weight: bold;">Position 1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function showActualitesSettingsModal() {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 10000;
+            `;
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
+                        <h2 style="color: #333; margin: 0;"><i class="fas fa-cog"></i> Paramètres des Actualités</h2>
+                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                    </div>
+                    <div style="display: grid; gap: 20px;">
+                        <div>
+                            <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-play"></i> Carousel</h3>
+                            <div style="display: grid; gap: 15px;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">
+                                        <input type="checkbox" checked> Lecture automatique
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
         }
 
         // Fonctions utilitaires pour les nouvelles sections
@@ -1558,7 +1531,28 @@
         }
 
         function saveNewActualite() {
-            alert('Actualité ajoutée avec succès !\n\nL\'actualité sera maintenant visible dans le carousel de la page d\'accueil.');
+            const title = document.getElementById('actualiteTitle')?.value;
+            const description = document.getElementById('actualiteDescription')?.value;
+            const mediaType = document.getElementById('mediaType')?.value;
+            const imageUrl = document.getElementById('imageUrl')?.value;
+            const videoUrl = document.getElementById('videoUrl')?.value;
+            
+            if (!title || !description) {
+                alert('Veuillez remplir le titre et la description.');
+                return;
+            }
+            
+            if (mediaType === 'image' && !imageUrl) {
+                alert('Veuillez entrer l\'URL de l\'image.');
+                return;
+            }
+            
+            if (mediaType === 'video' && !videoUrl) {
+                alert('Veuillez entrer l\'URL de la vidéo.');
+                return;
+            }
+            
+            alert('Actualité ajoutée avec succès !\n\nTitre: ' + title + '\nType: ' + mediaType + '\n\nL\'actualité sera maintenant visible dans le carousel de la page d\'accueil.');
         }
 
         function saveActualitesOrder() {
@@ -1573,12 +1567,14 @@
             const imageField = document.getElementById('imageField');
             const videoField = document.getElementById('videoField');
             
-            if (type === 'image') {
-                imageField.style.display = 'block';
-                videoField.style.display = 'none';
-            } else {
-                imageField.style.display = 'none';
-                videoField.style.display = 'block';
+            if (imageField && videoField) {
+                if (type === 'image') {
+                    imageField.style.display = 'block';
+                    videoField.style.display = 'none';
+                } else {
+                    imageField.style.display = 'none';
+                    videoField.style.display = 'block';
+                }
             }
         }
 
