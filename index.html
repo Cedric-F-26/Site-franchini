@@ -266,80 +266,38 @@
             font-size: 1.2rem;
         }
         
-        /* Alternative Facebook personnalisée */
-        .facebook-alternative {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-height: 400px;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .facebook-header {
+        .facebook-fallback {
             text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+            padding: 40px 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #4267B2;
         }
         
-        .facebook-header i {
+        .facebook-fallback .fab {
             font-size: 3rem;
             color: #4267B2;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
         }
         
-        .facebook-header h3 {
-            margin: 0 0 5px 0;
-            color: #1c1e21;
-            font-size: 1.5rem;
-        }
-        
-        .facebook-header span {
-            color: #606770;
-            font-size: 0.9rem;
-        }
-        
-        .facebook-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        
-        .facebook-content p {
+        .facebook-fallback p {
             margin-bottom: 15px;
-            color: #1c1e21;
-            line-height: 1.5;
+            color: #333;
         }
         
-        .facebook-stats {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            padding: 15px;
-            background: #f0f2f5;
-            border-radius: 8px;
+        .facebook-link {
+            display: inline-block;
+            background: #4267B2;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
         
-        .stat {
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        .stat i {
-            color: #4267B2;
-            font-size: 1.2rem;
-        }
-        
-        .stat span {
-            font-size: 0.8rem;
-            color: #606770;
-            font-weight: 500;
+        .facebook-link:hover {
+            background: #365899;
         }
         
         /* Carousel actualités */
@@ -509,30 +467,31 @@
             <section class="facebook-section">
                 <h2><i class="fab fa-facebook"></i></h2>
                 <div class="facebook-widget">
-                    <!-- Alternative simple et fiable -->
-                    <div class="facebook-alternative">
-                        <div class="facebook-header">
-                            <i class="fab fa-facebook"></i>
-                            <h3>Franchini</h3>
-                            <span>Concessionnaire Deutz-Fahr</span>
-                        </div>
-                        <div class="facebook-content">
-                            <p><strong>Suivez notre actualité sur Facebook !</strong></p>
-                            <p>Découvrez nos dernières nouveautés, promotions et événements.</p>
-                            <div class="facebook-stats">
-                                <div class="stat">
-                                    <i class="fas fa-users"></i>
-                                    <span>Abonnés</span>
-                                </div>
-                                <div class="stat">
-                                    <i class="fas fa-heart"></i>
-                                    <span>J'aime</span>
-                                </div>
-                            </div>
-                            <a href="https://www.facebook.com/people/Franchini/61573705277749/" target="_blank" class="facebook-link">
-                                <i class="fab fa-facebook"></i> Voir notre page Facebook
-                            </a>
-                        </div>
+                    <!-- Widget Facebook officiel pour voir les publications -->
+                    <div id="fb-root"></div>
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0&appId=1439664521133215"></script>
+                    
+                    <div class="fb-page" 
+                         data-href="https://www.facebook.com/people/Franchini/61573705277749/" 
+                         data-tabs="timeline" 
+                         data-width="500" 
+                         data-height="400" 
+                         data-small-header="false" 
+                         data-adapt-container-width="true" 
+                         data-hide-cover="false" 
+                         data-show-facepile="true">
+                        <blockquote cite="https://www.facebook.com/people/Franchini/61573705277749/" class="fb-xfbml-parse-ignore">
+                            <a href="https://www.facebook.com/people/Franchini/61573705277749/">Franchini</a>
+                        </blockquote>
+                    </div>
+                    
+                    <!-- Fallback si le widget ne charge pas -->
+                    <div class="facebook-fallback" style="display: none;">
+                        <p><i class="fab fa-facebook"></i> <strong>Rejoignez-nous sur Facebook !</strong></p>
+                        <p>Suivez notre page pour voir nos actualités et promotions.</p>
+                        <a href="https://www.facebook.com/people/Franchini/61573705277749/" target="_blank" class="facebook-link">
+                            <i class="fab fa-facebook"></i> Voir notre page Facebook
+                        </a>
                     </div>
                     
                     <!-- Bouton Partager -->
@@ -654,23 +613,23 @@
 
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page Franchini chargée - Version sans conflits');
+            console.log('Page Franchini chargée - Version avec widget Facebook');
             
-            // Vérifier si l'iframe Facebook charge
+            // Vérifier si le widget Facebook charge
             setTimeout(() => {
-                const iframe = document.querySelector('.facebook-widget iframe');
+                const fbPage = document.querySelector('.fb-page');
                 const fallback = document.querySelector('.facebook-fallback');
                 
-                if (iframe && iframe.offsetHeight === 0) {
-                    // L'iframe ne charge pas, afficher le fallback
+                if (fbPage && fbPage.offsetHeight === 0) {
+                    // Le widget ne charge pas, afficher le fallback
                     if (fallback) {
                         fallback.style.display = 'block';
-                        iframe.style.display = 'none';
+                        fbPage.style.display = 'none';
                     }
                 }
             }, 5000); // Attendre 5 secondes
             
-            // Initialiser Facebook SDK pour le bouton partager
+            // Initialiser Facebook SDK
             window.fbAsyncInit = function() {
                 FB.init({
                     appId: '1439664521133215',
