@@ -1,17 +1,7 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 ---
 BUNDLE_FORCE_RUBY_PLATFORM: "true"
-=======
-=======
->>>>>>> Stashed changes
----
 BUNDLE_DEPLOYMENT: "false"
 BUNDLE_PATH: "vendor/bundle"
-BUNDLE_WITHOUT: "development:test"
 BUNDLE_CLEAN: "true"
 BUNDLE_FROZEN: "0"
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+BUNDLE_WITHOUT: "development:test"
