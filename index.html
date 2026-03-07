@@ -114,11 +114,53 @@
         }
         
         .facebook-widget {
-            width: 100%;
-            height: 400px;
-            border: none;
-            border-radius: 8px;
-            overflow: hidden;
+            min-height: 400px;
+            position: relative;
+        }
+        
+        .facebook-fallback {
+            text-align: center;
+            padding: 40px 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #4267B2;
+            display: none;
+        }
+        
+        .facebook-fallback p {
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .facebook-fallback .fab {
+            font-size: 3rem;
+            color: #4267B2;
+            margin-bottom: 20px;
+        }
+        
+        .facebook-link {
+            display: inline-block;
+            background: #4267B2;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        
+        .facebook-link:hover {
+            background: #365899;
+        }
+        
+        /* Masquer le fallback si le widget Facebook charge */
+        .fb-page:not(:empty) + .facebook-fallback {
+            display: none;
+        }
+        
+        /* Afficher le fallback si le widget Facebook ne charge pas */
+        .fb-page:empty + .facebook-fallback {
+            display: block;
         }
         
         .actualites-section {
@@ -341,11 +383,26 @@
                 <h2><i class="fab fa-facebook"></i> Facebook</h2>
                 <div class="facebook-widget">
                     <div id="fb-root"></div>
-                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0"></script>
-                    <div class="fb-page" data-href="https://www.facebook.com/people/Franchini/61573705277749/" data-tabs="timeline" data-width="500" data-height="400" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0&appId=YOUR_APP_ID"></script>
+                    <div class="fb-page" 
+                         data-href="https://www.facebook.com/people/Franchini/61573705277749/" 
+                         data-tabs="timeline,events,messages" 
+                         data-width="500" 
+                         data-height="600" 
+                         data-small-header="false" 
+                         data-adapt-container-width="true" 
+                         data-hide-cover="false" 
+                         data-show-facepile="true">
                         <blockquote cite="https://www.facebook.com/people/Franchini/61573705277749/" class="fb-xfbml-parse-ignore">
-                            <a href="https://www.facebook.com/people/Franchini/61573705277749/">Franchini</a>
+                            <a href="https://www.facebook.com/people/Franchini/61573705277749/">Suivez Franchini sur Facebook</a>
                         </blockquote>
+                    </div>
+                    <div class="facebook-fallback">
+                        <p><i class="fab fa-facebook"></i> <strong>Rejoignez-nous sur Facebook !</strong></p>
+                        <p>Suivez notre page pour les dernières actualités, promotions et nouveautés.</p>
+                        <a href="https://www.facebook.com/people/Franchini/61573705277749/" target="_blank" class="facebook-link">
+                            <i class="fab fa-facebook"></i> Voir notre page Facebook
+                        </a>
                     </div>
                 </div>
             </section>
@@ -469,13 +526,46 @@
         function changeSlide(direction) {
             clearInterval(slideInterval);
             showSlide(currentSlide + direction);
-            startAutoSlide();
+            startSlideShow();
         }
 
-        function startAutoSlide() {
+        function startSlideShow() {
             slideInterval = setInterval(() => {
                 showSlide(currentSlide + 1);
             }, 15000); // Changer de slide toutes les 15 secondes
+        }
+
+        // Initialiser les vidéos YouTube
+        function onYouTubeIframeAPIReady() {
+            const players = [];
+            slides.forEach((slide, index) => {
+                const iframe = slide.querySelector('iframe');
+                if (iframe) {
+                    const videoId = iframe.src.match(/embed\/([^?]+)/)[1];
+                    players[index] = new YT.Player(iframe, {
+                        videoId: videoId,
+                        playerVars: {
+                            autoplay: index === 0 ? 1 : 0,
+                            mute: 1,
+                            loop: 1,
+                            playlist: videoId,
+                            controls: 1,
+                            rel: 0,
+                            modestbranding: 1
+                        },
+                        events: {
+                            onStateChange: function(event) {
+                                if (event.data === YT.PlayerState.ENDED) {
+                                    // Passer à la slide suivante quand la vidéo se termine
+                                    if (index === currentSlide) {
+                                        changeSlide(1);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            });
         }
 
         // Carousel des actualités
@@ -488,28 +578,84 @@
             actualites.forEach(actualite => actualite.classList.remove('active'));
             currentActualite = (index + totalActualites) % totalActualites;
             actualites[currentActualite].classList.add('active');
-        }
-
-        function startActualiteAutoSlide() {
-            actualiteInterval = setInterval(() => {
-                showActualite(currentActualite + 1);
-            }, 3000); // Changer toutes les 3 secondes pour les photos
-        }
-
-        // Démarrer les carousels
-        document.addEventListener('DOMContentLoaded', function() {
-            showSlide(0);
-            startAutoSlide();
             
+            const actualiteElement = actualites[currentActualite];
+            const video = actualiteElement.querySelector('video');
+            
+            if (video) {
+                video.play();
+                video.onended = function() {
+                    setTimeout(() => {
+                        showActualite(currentActualite + 1);
+                    }, 1000);
+                };
+                actualiteInterval = null;
+            } else {
+                // Pour les images, changer toutes les 3 secondes
+                if (actualiteInterval) clearInterval(actualiteInterval);
+                actualiteInterval = setInterval(() => {
+                    showActualite(currentActualite + 1);
+                }, 3000);
+            }
+        }
+
+        function startActualiteShow() {
             showActualite(0);
-            startActualiteAutoSlide();
+        }
+
+        // Gestion du widget Facebook
+        function checkFacebookWidget() {
+            setTimeout(() => {
+                const fbPage = document.querySelector('.fb-page');
+                const fallback = document.querySelector('.facebook-fallback');
+                
+                // Vérifier si le widget Facebook est chargé
+                if (fbPage && fbPage.offsetHeight === 0) {
+                    // Le widget n'a pas chargé, afficher le fallback
+                    if (fallback) {
+                        fallback.style.display = 'block';
+                    }
+                }
+                
+                // Alternative : vérifier si le script Facebook est chargé
+                if (typeof FB === 'undefined') {
+                    if (fallback) {
+                        fallback.style.display = 'block';
+                    }
+                }
+            }, 3000); // Attendre 3 secondes pour voir si le widget charge
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Démarrer le carousel de vidéos
+            startSlideShow();
+            
+            // Démarrer le carousel d'actualités
+            startActualiteShow();
+            
+            // Vérifier le widget Facebook
+            checkFacebookWidget();
+            
+            // Gestion du formulaire de contact
+            const contactForm = document.querySelector('.contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    alert('Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.');
+                    this.reset();
+                });
+            }
         });
 
-        // Gérer la durée des vidéos YouTube
-        function onYouTubeIframeAPIReady() {
-            // Cette fonction sera appelée lorsque l'API YouTube sera prête
-            console.log('API YouTube prête');
-        }
+        // Recharger le widget Facebook si nécessaire
+        window.fbAsyncInit = function() {
+            FB.init({
+                appId: 'YOUR_APP_ID',
+                xfbml: true,
+                version: 'v18.0'
+            });
+        };
     </script>
 </body>
 </html>

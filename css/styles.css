@@ -28,11 +28,10 @@ body {
 
 /* En-tête */
 header {
-    background-color: white;
+    background-color: #fff;
+    padding: 20px 0;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: fixed;
-    width: 100%;
-    top: 0;
+    position: relative;
     z-index: 1000;
 }
 
@@ -245,9 +244,14 @@ section h2 {
     font-family: inherit;
 }
 
-.form-group textarea {
-    resize: vertical;
-    min-height: 120px;
+main {
+    padding: 20px 0;
+    min-height: calc(100vh - 200px);
+}
+
+/* Ajout d'un padding pour éviter que le contenu ne soit coupé */
+main section:first-child {
+    padding-top: 20px;
 }
 
 /* Pied de page */
