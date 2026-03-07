@@ -5,13 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matériel Neuf | Franchini - Concessionnaire Deutz-Fahr</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="favicon.ico">
     <style>
-        .admin-link {
-            background-color: #ff6b6b;
-            color: white !important;
-            padding: 5px 10px;
-            border-radius: 3px;
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .lock-link {
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        
+        .lock-link:hover {
+            transform: scale(1.2);
+        }
+        
+        @media (max-width: 768px) {
+            .footer-bottom {
+                flex-direction: column;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -29,7 +45,6 @@
                     <li><a href="occasion.html">Matériel Occasion</a></li>
                     <li><a href="magasin.html">Magasin</a></li>
                     <li><a href="contact.html">Contact</a></li>
-                    <li><a href="administrateur.html" class="admin-link">Administration</a></li>
                 </ul>
             </nav>
         </div>
@@ -71,6 +86,11 @@
     <footer>
         <div class="container">
             <p>&copy; 2024 Franchini SARL. Tous droits réservés.</p>
+            <div class="admin-access">
+                <a href="connexion.html" title="Connexion Administration" class="lock-link">
+                    <i class="fas fa-lock" style="color: #4CAF50; font-size: 20px;"></i>
+                </a>
+            </div>
         </div>
     </footer>
 </body>
