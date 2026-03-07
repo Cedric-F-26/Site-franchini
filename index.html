@@ -133,6 +133,7 @@
             justify-content: center;
             gap: 10px;
             font-size: 1.2rem;
+            height: 40px;
         }
         
         .facebook-section h2 {
@@ -420,8 +421,23 @@
             <section class="facebook-section">
                 <h2><i class="fab fa-facebook"></i></h2>
                 <div class="facebook-widget">
-                    <!-- Version simplifiée avec fallback direct -->
-                    <div class="facebook-fallback" style="display: block;">
+                    <!-- Widget Facebook qui fonctionne -->
+                    <div id="fb-root"></div>
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0"></script>
+                    <div class="fb-page" 
+                         data-href="https://www.facebook.com/people/Franchini/61573705277749/" 
+                         data-tabs="timeline" 
+                         data-width="500" 
+                         data-height="400" 
+                         data-small-header="false" 
+                         data-adapt-container-width="true" 
+                         data-hide-cover="false" 
+                         data-show-facepile="true">
+                        <blockquote cite="https://www.facebook.com/people/Franchini/61573705277749/" class="fb-xfbml-parse-ignore">
+                            <a href="https://www.facebook.com/people/Franchini/61573705277749/">Franchini</a>
+                        </blockquote>
+                    </div>
+                    <div class="facebook-fallback" style="display: none;">
                         <p><i class="fab fa-facebook"></i> <strong>Rejoignez-nous sur Facebook !</strong></p>
                         <p>Suivez notre page pour les dernières actualités, promotions et nouveautés.</p>
                         <a href="https://www.facebook.com/people/Franchini/61573705277749/" target="_blank" class="facebook-link">
@@ -550,6 +566,19 @@
             if (actualites.length > 0) {
                 startActualiteShow();
             }
+            
+            // Vérifier si le widget Facebook charge
+            setTimeout(() => {
+                const fbPage = document.querySelector('.fb-page');
+                const fallback = document.querySelector('.facebook-fallback');
+                
+                // Si le widget Facebook ne charge pas, afficher le fallback
+                if (fbPage && fbPage.offsetHeight === 0) {
+                    if (fallback) {
+                        fallback.style.display = 'block';
+                    }
+                }
+            }, 3000);
             
             // Gestion du formulaire de contact
             const contactForm = document.querySelector('.contact-form');
