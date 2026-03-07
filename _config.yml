@@ -28,12 +28,3 @@ exclude:
   - connexion.html
   - .windsurf/
 
-# Include
-include:
-  - _pages
-
-# Collections
-collections:
-  pages:
-    output: true
-    permalink: /:name/
