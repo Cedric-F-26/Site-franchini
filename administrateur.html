@@ -416,32 +416,9 @@
             </div>
 
             <div class="section-card">
-                <div class="section-header" style="background: linear-gradient(135deg, #FF9800, #F57C00);">
-                    <i class="fas fa-newspaper"></i>
-                    <h3>Gestion des Actualités</h3>
-                </div>
-                <div class="section-content">
-                    <div class="section-actions">
-                        <a href="#" class="action-btn" onclick="manageNews('new')">
-                            <i class="fas fa-plus"></i> Nouvelle actualité
-                        </a>
-                        <a href="#" class="action-btn" onclick="manageNews('list')">
-                            <i class="fas fa-list"></i> Liste des actualités
-                        </a>
-                        <a href="#" class="action-btn" onclick="manageNews('categories')">
-                            <i class="fas fa-tags"></i> Catégories
-                        </a>
-                        <a href="#" class="action-btn" onclick="manageNews('schedule')">
-                            <i class="fas fa-calendar"></i> Planifier
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-card">
-                <div class="section-header" style="background: linear-gradient(135deg, #4CAF50, #388E3C);">
+                <div class="section-header" style="background: linear-gradient(135deg, #9C27B0, #7B1FA2);">
                     <i class="fas fa-envelope"></i>
-                    <h3>Messages & Contact</h3>
+                    <h3>Messages</h3>
                 </div>
                 <div class="section-content">
                     <div class="section-actions">
@@ -573,6 +550,16 @@
     </footer>
 
     <script>
+        // Test de débogage - Ajouté pour vérifier que les fonctions fonctionnent
+        console.log('Page administrateur chargée - Test des fonctions');
+        
+        // Test immédiat
+        setTimeout(() => {
+            console.log('Test: manageActualites disponible ?', typeof manageActualites);
+            console.log('Test: manageHomeCarousel disponible ?', typeof manageHomeCarousel);
+            console.log('Test: manageNews disponible ?', typeof manageNews);
+        }, 1000);
+
         // Fonctions d'administration
         function addNewEquipment() {
             alert('Fonctionnalité: Ajouter un nouveau matériel\n\nCette fonction ouvrira un formulaire pour ajouter un nouveau tracteur ou équipement avec:\n- Photos\n- Caractéristiques techniques\n- Prix\n- Disponibilité\n- Catégorie');
@@ -611,13 +598,16 @@
         }
 
         function manageNews(action) {
-            const actions = {
-                'new': 'Créer une nouvelle actualité',
-                'list': 'Voir les actualités publiées',
-                'categories': 'Gérer les catégories d\'actualités',
-                'schedule': 'Planifier des publications'
-            };
-            alert(`Gestion des Actualités: ${actions[action]}\n\nCette fonctionnalité permettra de ${actions[action].toLowerCase()}.`);
+            // Rediriger vers les fonctions manageActualites pour éviter la duplication
+            if (action === 'new') {
+                manageActualites('add');
+            } else if (action === 'list') {
+                manageActualites('list');
+            } else if (action === 'categories') {
+                manageActualites('settings');
+            } else if (action === 'schedule') {
+                manageActualites('carousel');
+            }
         }
 
         function manageMessages(action) {
