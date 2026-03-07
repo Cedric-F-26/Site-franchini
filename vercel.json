@@ -1,6 +1,10 @@
 {
   "version": 2,
   "name": "site-franchini",
+  "framework": "jekyll",
+  "buildCommand": "npm run build",
+  "outputDirectory": "_site",
+  "installCommand": "npm install",
   "builds": [
     {
       "src": "api/package.json",
