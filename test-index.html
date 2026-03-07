@@ -3,13 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Franchini - Concessionnaire Deutz-Fahr</title>
+    <title>Test - Franchini</title>
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="icon" href="favicon.ico">
     <script src="https://www.youtube.com/iframe_api"></script>
     <style>
-        /* Reset des styles pour éviter les conflits */
+        /* Reset des styles qui pourraient causer des conflits */
         * {
             margin: 0;
             padding: 0;
@@ -22,12 +21,56 @@
             color: #333;
         }
         
-        main {
-            padding: 40px 0 !important;
+        /* Header fixé pour éviter les problèmes */
+        header {
+            background-color: #fff;
+            padding: 20px 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: relative !important;
+            z-index: 1000;
         }
         
-        main section:first-child {
-            padding-top: 0 !important;
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 15px;
+        }
+        
+        .logo h1 {
+            color: #006400;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+        
+        .logo p {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        
+        nav a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: #006400;
         }
         
         .social-links {
@@ -48,12 +91,17 @@
             transform: scale(1.2);
         }
         
+        main {
+            padding: 40px 0;
+        }
+        
         .video-carousel {
             position: relative;
             width: 100%;
             height: 500px;
             overflow: hidden;
             margin-bottom: 40px;
+            background: #000;
         }
         
         .carousel-container {
@@ -74,12 +122,6 @@
             opacity: 1;
         }
         
-        .video-container {
-            width: 100%;
-            height: 100%;
-            position: relative;
-        }
-        
         .video-container iframe {
             width: 100%;
             height: 100%;
@@ -92,23 +134,22 @@
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 15px;
+            gap: 10px;
             z-index: 10;
         }
         
         .carousel-controls button {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0,0,0,0.5);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 50%;
+            padding: 10px 15px;
             cursor: pointer;
+            border-radius: 5px;
             font-size: 18px;
-            transition: background 0.3s ease;
         }
         
         .carousel-controls button:hover {
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0,0,0,0.8);
         }
         
         .content-sections {
@@ -116,22 +157,28 @@
             grid-template-columns: 1fr 1fr;
             gap: 30px;
             margin-bottom: 40px;
-            padding: 0 20px;
         }
         
-        .facebook-section {
+        .facebook-section, .actualites-section {
             background: #f8f9fa;
             border-radius: 10px;
             padding: 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        .facebook-section h2 {
-            color: #1877f2;
-            margin-bottom: 15px;
+        .facebook-section h2, .actualites-section h2 {
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+        
+        .facebook-section h2 {
+            color: #1877f2;
+        }
+        
+        .actualites-section h2 {
+            color: #006400;
         }
         
         .facebook-widget {
@@ -145,12 +192,6 @@
             background: #f8f9fa;
             border-radius: 10px;
             border: 2px dashed #4267B2;
-            display: none;
-        }
-        
-        .facebook-fallback p {
-            margin-bottom: 15px;
-            color: #333;
         }
         
         .facebook-fallback .fab {
@@ -174,37 +215,10 @@
             background: #365899;
         }
         
-        /* Masquer le fallback si le widget Facebook charge */
-        .fb-page:not(:empty) + .facebook-fallback {
-            display: none;
-        }
-        
-        /* Afficher le fallback si le widget Facebook ne charge pas */
-        .fb-page:empty + .facebook-fallback {
-            display: block;
-        }
-        
-        .actualites-section {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .actualites-section h2 {
-            color: var(--primary-color);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
         .actualites-carousel {
             position: relative;
-            width: 100%;
             height: 400px;
             overflow: hidden;
-            border-radius: 8px;
         }
         
         .actualite-slide {
@@ -213,25 +227,16 @@
             height: 100%;
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         .actualite-slide.active {
             opacity: 1;
         }
         
-        .actualite-slide img {
+        .actualite-slide img, .actualite-slide video {
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-        
-        .actualite-slide iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
         }
         
         .actualite-info {
@@ -244,27 +249,12 @@
             padding: 20px;
         }
         
-        .actualite-info h3 {
-            margin: 0 0 5px 0;
-        }
-        
-        .actualite-info p {
-            margin: 0;
-            font-size: 0.9rem;
-        }
-        
         .footer-compact {
             background-color: #1a1a1a;
             color: white;
             text-align: center;
             padding: 20px 0;
             margin-top: 40px;
-        }
-        
-        .footer-compact .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
         }
         
         .footer-links {
@@ -296,7 +286,6 @@
         
         .lock-link {
             text-decoration: none;
-            transition: transform 0.3s ease;
             margin-left: 10px;
         }
         
@@ -313,28 +302,14 @@
                 height: 300px;
             }
             
-            .social-links {
-                margin-left: 10px;
-            }
-            
-            .footer-links {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
             header .container > div {
                 flex-direction: column;
                 gap: 15px;
             }
             
-            header .logo {
-                width: 100%;
-                text-align: center;
-            }
-            
-            header nav {
-                width: 100%;
-                justify-content: center;
+            .footer-links {
+                flex-direction: column;
+                gap: 10px;
             }
         }
     </style>
@@ -345,7 +320,7 @@
             <div style="display: flex; align-items: center; justify-content: space-between;">
                 <div style="display: flex; align-items: center;">
                     <div class="logo">
-                        <a href="index.html" style="text-decoration: none; color: inherit;">
+                        <a href="test-index.html" style="text-decoration: none; color: inherit;">
                             <h1>Franchini</h1>
                             <p>Concessionnaire officiel Deutz-Fahr</p>
                         </a>
@@ -378,17 +353,17 @@
             <div class="carousel-container">
                 <div class="carousel-slide active">
                     <div class="video-container">
-                        <iframe id="player1" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=dQw4w9WgXcQ" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <iframe id="player1" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=1&showinfo=0&rel=0&loop=1&playlist=dQw4w9WgXcQ" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                     </div>
                 </div>
                 <div class="carousel-slide">
                     <div class="video-container">
-                        <iframe id="player2" src="https://www.youtube.com/embed/9bZkp7q19f0?autoplay=0&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=9bZkp7q19f0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <iframe id="player2" src="https://www.youtube.com/embed/9bZkp7q19f0?autoplay=0&mute=1&controls=1&showinfo=0&rel=0&loop=1&playlist=9bZkp7q19f0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                     </div>
                 </div>
                 <div class="carousel-slide">
                     <div class="video-container">
-                        <iframe id="player3" src="https://www.youtube.com/embed/3tmd-ClpJpM?autoplay=0&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=3tmd-ClpJpM" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <iframe id="player3" src="https://www.youtube.com/embed/3tmd-ClpJpM?autoplay=0&mute=1&controls=1&showinfo=0&rel=0&loop=1&playlist=3tmd-ClpJpM" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -403,17 +378,21 @@
             <section class="facebook-section">
                 <h2><i class="fab fa-facebook"></i> Facebook</h2>
                 <div class="facebook-widget">
-                    <!-- Version iframe plus fiable -->
-                    <iframe 
-                        src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fpeople%2FFranchini%2F61573705277749%2F&tabs=timeline&width=500&height=400&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true" 
-                        width="100%" 
-                        height="400" 
-                        style="border:none;overflow:hidden;border-radius:10px;" 
-                        scrolling="no" 
-                        frameborder="0" 
-                        allowfullscreen="true" 
-                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share">
-                    </iframe>
+                    <div id="fb-root"></div>
+                    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0"></script>
+                    <div class="fb-page" 
+                         data-href="https://www.facebook.com/people/Franchini/61573705277749/" 
+                         data-tabs="timeline" 
+                         data-width="500" 
+                         data-height="400" 
+                         data-small-header="false" 
+                         data-adapt-container-width="true" 
+                         data-hide-cover="false" 
+                         data-show-facepile="true">
+                        <blockquote cite="https://www.facebook.com/people/Franchini/61573705277749/" class="fb-xfbml-parse-ignore">
+                            <a href="https://www.facebook.com/people/Franchini/61573705277749/">Suivez Franchini sur Facebook</a>
+                        </blockquote>
+                    </div>
                     <div class="facebook-fallback" style="display: none;">
                         <p><i class="fab fa-facebook"></i> <strong>Rejoignez-nous sur Facebook !</strong></p>
                         <p>Suivez notre page pour les dernières actualités, promotions et nouveautés.</p>
@@ -431,21 +410,23 @@
                         <img src="https://picsum.photos/seed/franchini1/600/400.jpg" alt="Nouveau tracteur Deutz-Fahr">
                         <div class="actualite-info">
                             <h3>Nouveauté : Série 6</h3>
-                            <p>Découvrez les derniers modèles Deutz-Fahr</p>
+                            <p>Découvrez notre nouvelle gamme de tracteurs performants</p>
                         </div>
                     </div>
                     <div class="actualite-slide">
-                        <img src="https://picsum.photos/seed/franchini2/600/400.jpg" alt="Promotion printemps">
+                        <img src="https://picsum.photos/seed/franchini2/600/400.jpg" alt="Événement spécial">
                         <div class="actualite-info">
-                            <h3>Promotion Printemps</h3>
-                            <p>Jusqu'à -15% sur le matériel d'occasion</p>
+                            <h3>Journée Portes Ouvertes</h3>
+                            <p>Venez nous rendre visite le 15 mars prochain</p>
                         </div>
                     </div>
                     <div class="actualite-slide">
-                        <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=ScMzIvxBSi4" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        <video autoplay muted loop>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                        </video>
                         <div class="actualite-info">
-                            <h3>Démonstration 6180</h3>
-                            <p>Voir le tracteur en action</p>
+                            <h3>Démonstration Technique</h3>
+                            <p>Voir nos matériels en action</p>
                         </div>
                     </div>
                     <div class="actualite-slide">
@@ -458,43 +439,6 @@
                 </div>
             </section>
         </div>
-
-        
-        <section id="contact" class="contact">
-            <div class="container">
-                <h2>Contactez-nous</h2>
-                <div class="contact-grid">
-                    <div class="contact-info">
-                        <h3>Coordonnées</h3>
-                        <p><strong>Adresse :</strong> 111 av des monts du matin, 26300 Marches</p>
-                        <p><strong>Téléphone :</strong> <a href="tel:0475474037">04 75 47 40 37</a></p>
-                        <p><strong>Email :</strong> <a href="mailto:contact@franchini.fr">contact@franchini.fr</a></p>
-                        <div class="map">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2828.1234567890123!2d5.1234567!3d44.9876543!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDTCsDU5JzE1LjYiTiA1wrAwNyc0OC40IkU!5e0!3m2!1sfr!2sfr!4v1234567890123!5m2!1sfr!2sfr" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
-                        </div>
-                    </div>
-                    <form class="contact-form">
-                        <div class="form-group">
-                            <label for="name">Nom complet</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Téléphone</label>
-                            <input type="tel" id="phone" name="phone">
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn">Envoyer</button>
-                    </form>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer class="footer-compact">
@@ -514,7 +458,7 @@
     </footer>
 
     <script>
-        // Carousel des vidéos YouTube - Version simplifiée
+        // Carousel des vidéos YouTube
         let currentSlide = 0;
         const slides = document.querySelectorAll('.carousel-slide');
         const totalSlides = slides.length;
@@ -524,6 +468,20 @@
             slides.forEach(slide => slide.classList.remove('active'));
             currentSlide = (index + totalSlides) % totalSlides;
             slides[currentSlide].classList.add('active');
+            
+            // Gérer la lecture automatique des vidéos
+            const iframes = document.querySelectorAll('.video-container iframe');
+            iframes.forEach((iframe, i) => {
+                if (i === currentSlide) {
+                    // Activer la vidéo actuelle
+                    const src = iframe.src;
+                    iframe.src = src.replace('autoplay=0', 'autoplay=1');
+                } else {
+                    // Mettre en pause les autres vidéos
+                    const src = iframe.src;
+                    iframe.src = src.replace('autoplay=1', 'autoplay=0');
+                }
+            });
         }
 
         function changeSlide(direction) {
@@ -538,7 +496,7 @@
             }, 15000);
         }
 
-        // Carousel des actualités - Version simplifiée
+        // Carousel des actualités
         let currentActualite = 0;
         const actualites = document.querySelectorAll('.actualite-slide');
         const totalActualites = actualites.length;
@@ -554,6 +512,11 @@
             
             if (video) {
                 video.play();
+                video.onended = function() {
+                    setTimeout(() => {
+                        showActualite(currentActualite + 1);
+                    }, 1000);
+                };
                 actualiteInterval = null;
             } else {
                 // Pour les images, changer toutes les 3 secondes
@@ -568,31 +531,43 @@
             showActualite(0);
         }
 
-        // Initialisation simplifiée
+        // Gestion du widget Facebook
+        function checkFacebookWidget() {
+            setTimeout(() => {
+                const fbPage = document.querySelector('.fb-page');
+                const fallback = document.querySelector('.facebook-fallback');
+                
+                if (fbPage && fbPage.offsetHeight === 0) {
+                    if (fallback) {
+                        fallback.style.display = 'block';
+                    }
+                }
+                
+                if (typeof FB === 'undefined') {
+                    if (fallback) {
+                        fallback.style.display = 'block';
+                    }
+                }
+            }, 3000);
+        }
+
+        // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page Franchini chargée');
+            console.log('Page chargée - Initialisation...');
             
-            // Démarrer les carousels
-            if (slides.length > 0) {
-                startSlideShow();
-            }
+            // Démarrer le carousel de vidéos
+            startSlideShow();
             
-            if (actualites.length > 0) {
-                startActualiteShow();
-            }
+            // Démarrer le carousel d'actualités
+            startActualiteShow();
             
-            // Gestion du formulaire de contact
-            const contactForm = document.querySelector('.contact-form');
-            if (contactForm) {
-                contactForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    alert('Merci pour votre message ! Nous vous répondrons dans les plus brefs délais.');
-                    this.reset();
-                });
-            }
+            // Vérifier le widget Facebook
+            checkFacebookWidget();
+            
+            console.log('Initialisation terminée');
         });
 
-        // YouTube API simplifiée
+        // YouTube API
         function onYouTubeIframeAPIReady() {
             console.log('YouTube API prête');
         }
