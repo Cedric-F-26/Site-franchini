@@ -28,7 +28,11 @@ function setupDropzone(dropzoneId, inputId, previewId, onFileSelected) {
     };
 
 <<<<<<< Updated upstream:_site/assets/js/admin/actualites-firebase.js
+<<<<<<< Updated upstream:_site/assets/js/admin/actualites-firebase.js
     dropzone.addEventListener('click', () => input.click());
+=======
+    dropzone.addEventListener('click', (e) => { e.stopPropagation(); input.click(); });
+>>>>>>> Stashed changes:assets/js/admin/actualites-firebase.js
 =======
     dropzone.addEventListener('click', (e) => { e.stopPropagation(); input.click(); });
 >>>>>>> Stashed changes:assets/js/admin/actualites-firebase.js
