@@ -8,8 +8,5 @@
   },
   "dependencies": {
     "github-pages": "^232"
-  },
-  "devDependencies": {
-    "bundle": "^2.3.0"
   }
 }
