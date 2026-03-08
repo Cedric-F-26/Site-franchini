@@ -757,7 +757,7 @@
                             </div>
                             
                             <div style="display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end;">
-                                <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Fermer</button>
+                                <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Fermer</button>
                             </div>
                         </div>
                     `;
@@ -979,7 +979,7 @@
                             </div>
                             
                             <div style="display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end;">
-                                <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Fermer</button>
+                                <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Fermer</button>
                             </div>
                         </div>
                     `;
@@ -1032,8 +1032,8 @@
                         </div>
                     </div>
                     <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
-                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Annuler</button>
-                        <button onclick="saveNewUser(); this.closest('div').parentElement.remove();" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Annuler</button>
+                        <button onclick="saveNewUser(); closeModal(this.closest('div').parentElement)" style="background: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
                             <i class="fas fa-save"></i> Ajouter
                         </button>
                     </div>
@@ -1071,7 +1071,7 @@
                     <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #4CAF50; padding-bottom: 15px;">
                             <h2 style="color: #333; margin: 0;"><i class="fas fa-video"></i> Carousel Vidéos Accueil</h2>
-                            <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                            <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                         </div>
                         <div style="display: grid; gap: 20px;">
                             <div>
@@ -1116,10 +1116,10 @@
                                         <textarea placeholder="Description de la vidéo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 80px;"></textarea>
                                     </div>
                                     <div style="display: flex; gap: 10px; margin-top: 15px;">
-                                        <button onclick="saveHomeVideo(); this.closest('div').parentElement.parentElement.parentElement.parentElement.remove();" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                        <button onclick="saveHomeVideo(); closeModal(this.closest('div').parentElement.parentElement.parentElement.parentElement)" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
                                             <i class="fas fa-save"></i> Ajouter la vidéo
                                         </button>
-                                        <button onclick="this.closest('div').parentElement.parentElement.parentElement.parentElement.remove();" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                        <button onclick="closeModal(this.closest('div').parentElement.parentElement.parentElement.parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
                                             Annuler
                                         </button>
                                     </div>
@@ -1132,7 +1132,7 @@
                     <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #4CAF50; padding-bottom: 15px;">
                             <h2 style="color: #333; margin: 0;"><i class="fas fa-sort"></i> Ordre des Vidéos</h2>
-                            <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                            <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                         </div>
                         <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
                             <p style="margin-bottom: 15px; color: #666;">Glissez-déposez les vidéos pour réorganiser l'ordre d'affichage</p>
@@ -1151,7 +1151,7 @@
                                 </div>
                             </div>
                             <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
-                                <button onclick="saveVideoOrder(); this.closest('div').parentElement.remove();" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                <button onclick="saveVideoOrder(); closeModal(this.closest('div').parentElement)" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
                                     <i class="fas fa-save"></i> Enregistrer l'ordre
                                 </button>
                             </div>
@@ -1162,7 +1162,7 @@
                     <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #4CAF50; padding-bottom: 15px;">
                             <h2 style="color: #333; margin: 0;"><i class="fas fa-cog"></i> Paramètres Carousel</h2>
-                            <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                            <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                         </div>
                         <div style="display: grid; gap: 20px;">
                             <div>
@@ -1200,7 +1200,7 @@
                             </div>
                         </div>
                         <div style="display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end;">
-                            <button onclick="saveCarouselSettings(); this.closest('div').parentElement.remove();" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                            <button onclick="saveCarouselSettings(); closeModal(this.closest('div').parentElement)" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
                                 <i class="fas fa-save"></i> Enregistrer
                             </button>
                         </div>
@@ -1210,7 +1210,7 @@
                     <div style="background: white; padding: 30px; border-radius: 10px; max-width: 900px; width: 90%;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #4CAF50; padding-bottom: 15px;">
                             <h2 style="color: #333; margin: 0;"><i class="fas fa-eye"></i> Aperçu Carousel</h2>
-                            <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                            <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                         </div>
                         <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
                             <div style="position: relative; width: 100%; height: 400px; background: #000; border-radius: 10px; overflow: hidden;">
@@ -1285,7 +1285,7 @@
                 <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
                         <h2 style="color: #333; margin: 0;"><i class="fas fa-plus"></i> Ajouter une Actualité</h2>
-                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                        <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                     </div>
                     <div style="display: grid; gap: 20px;">
                         <div>
@@ -1408,7 +1408,7 @@
                 <div style="background: white; padding: 30px; border-radius: 10px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
                         <h2 style="color: #333; margin: 0;"><i class="fas fa-list"></i> Liste des Actualités (${actualites.length})</h2>
-                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                        <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                     </div>
                     <div style="overflow-x: auto;">
                         <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 5px; overflow: hidden;">
@@ -1462,7 +1462,7 @@
                 <div style="background: white; padding: 30px; border-radius: 10px; max-width: 900px; width: 90%; max-height: 90vh; overflow-y: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
                         <h2 style="color: #333; margin: 0;"><i class="fas fa-images"></i> Carousel des Actualités</h2>
-                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                        <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                     </div>
                     <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
                         <p style="margin-bottom: 15px; color: #666;">Glissez-déposez les actualités pour réorganiser l'ordre d'affichage dans le carousel</p>
@@ -1502,7 +1502,7 @@
                 <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
                         <h2 style="color: #333; margin: 0;"><i class="fas fa-cog"></i> Paramètres des Actualités</h2>
-                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                        <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                     </div>
                     <div style="display: grid; gap: 20px;">
                         <div>
@@ -1604,7 +1604,7 @@
                 <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
                         <h2 style="color: #333; margin: 0;"><i class="fas fa-edit"></i> Modifier l'Actualité</h2>
-                        <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                        <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                     </div>
                     <div style="display: grid; gap: 20px;">
                         <div>
