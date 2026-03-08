@@ -4,5 +4,8 @@
   "framework": "jekyll",
   "installCommand": "bundle install",
   "buildCommand": "bundle exec jekyll build",
-  "outputDirectory": "_site"
+  "outputDirectory": "_site",
+  "env": {
+    "BUNDLE_SILENCE_ROOT_WARNING": "1"
+  }
 }
