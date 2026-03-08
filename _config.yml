@@ -25,6 +25,5 @@ exclude:
   - vendor/gems/
   - vendor/ruby/
   - api/
-  - admin-data.js
   - .windsurf/
 
