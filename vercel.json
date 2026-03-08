@@ -24,11 +24,6 @@
     "JWT_SECRET": "temporary-secret-change-me",
     "NODE_ENV": "production"
   },
-  "functions": {
-    "api/server.js": {
-      "maxDuration": 10
-    }
-  },
   "headers": [
     {
       "source": "/(.*)",
