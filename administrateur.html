@@ -608,17 +608,13 @@
         // Test de débogage - Ajouté pour vérifier que les fonctions fonctionnent
         console.log('Page administrateur chargée - Test des fonctions');
         
-        // Initialiser les données réelles si vide
+        // Initialisation sans données démo - commence avec des listes vides
         setTimeout(() => {
             const videos = window.adminData.getHomeVideos();
             const actualites = window.adminData.getActualites();
             
-            if (videos.length === 0 && actualites.length === 0) {
-                console.log('Initialisation avec des données réelles...');
-                window.adminData.addRealData();
-                console.log('Données réelles ajoutées avec succès');
-            }
-            
+            console.log('Vidéos chargées:', videos.length);
+            console.log('Actualités chargées:', actualites.length);
             console.log('Test: manageActualites disponible ?', typeof manageActualites);
             console.log('Test: manageHomeCarousel disponible ?', typeof manageHomeCarousel);
             console.log('Test: manageNews disponible ?', typeof manageNews);
@@ -1646,30 +1642,39 @@
         function saveNewActualiteReal() {
             const title = document.getElementById('actualiteTitle')?.value;
             const description = document.getElementById('actualiteDescription')?.value;
-            const mediaType = document.getElementById('mediaType')?.value;
-            const imageUrl = document.getElementById('imageUrl')?.value;
-            const videoUrl = document.getElementById('videoUrl')?.value;
             
             if (!title || !description) {
                 alert('Veuillez remplir le titre et la description.');
                 return;
             }
             
-            const mediaUrl = mediaType === 'image' ? imageUrl : videoUrl;
-            if (!mediaUrl) {
-                alert(`Veuillez entrer l'URL de l'${mediaType}.`);
+            // Vérifier si un fichier a été uploadé
+            if (!window.uploadedFile) {
+                alert('Veuillez uploader une image ou une vidéo avant de sauvegarder.');
                 return;
             }
+            
+            // Utiliser les données du fichier uploadé
+            const uploadedData = window.uploadedFile.data;
+            const mediaType = uploadedData.type; // 'image' ou 'video'
             
             // Utiliser le gestionnaire de données
             const newActualite = window.adminData.addActualite({
                 title,
                 description,
                 type: mediaType,
-                mediaUrl
+                mediaUrl: uploadedData.url, // URL de l'API
+                dataUrl: uploadedData.dataUrl, // dataURL pour affichage
+                filename: uploadedData.filename
             });
             
-            alert(`Actualité ajoutée avec succès !\n\nTitre: ${title}\nType: ${mediaType}\nID: ${newActualite.id}\n\nL'actualité est maintenant sauvegardée et visible dans le carousel.`);
+            alert(`Actualité ajoutée avec succès !\n\nTitre: ${title}\nType: ${mediaType}\nFichier: ${uploadedData.filename}\nID: ${newActualite.id}\n\nL'actualité est maintenant sauvegardée et visible dans le carousel.`);
+            
+            // Réinitialiser l'upload
+            if (window.currentUpload) {
+                window.currentUpload.reset();
+            }
+            window.uploadedFile = null;
         }
 
         function saveActualitesOrder() {

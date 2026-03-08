@@ -179,32 +179,8 @@ class AdminDataManager {
         return true;
     }
 
-    // Ajouter des données réelles pour démonstration
-    addRealData() {
-        // Vidéo promotionnelle réelle Deutz-Fahr
-        this.addHomeVideo({
-            title: "Deutz-Fahr Série 6 - Présentation officielle",
-            url: "https://www.youtube.com/embed/6XhP3LzF9cQ",
-            description: "Découvrez la nouvelle série 6 Deutz-Fahr avec ses innovations technologiques"
-        });
-
-        // Actualités réelles
-        this.addActualite({
-            title: "Nouveauté : Deutz-Fahr 6175 TTV",
-            description: "Le nouveau tracteur télescopique 6175 TTV arrive chez Franchini",
-            type: "image",
-            mediaUrl: "https://www.deutz-fahr.com/fr-fr/actualites/nouveautes/_jcr_content/root/container_1/teaser_1/media.coreimg.jpeg/1699364213516.jpeg"
-        });
-
-        this.addActualite({
-            title: "Journée Portes Ouvertes - 15 Mars 2025",
-            description: "Venez découvrir nos nouveautés et bénéficier de nos offres spéciales",
-            type: "image",
-            mediaUrl: "https://via.placeholder.com/600x400/4CAF50/FFFFFF?text=Journée+Portes+Ouvertes+15+Mars"
-        });
-
-        return true;
-    }
+    // Les données seront ajoutées manuellement via l'interface administrateur
+    // Plus de données démo automatiques
 }
 
 // Instance globale
