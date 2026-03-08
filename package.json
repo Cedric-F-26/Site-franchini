@@ -5,8 +5,5 @@
   "scripts": {
     "build": "bundle exec jekyll build",
     "dev": "bundle exec jekyll serve --watch --livereload"
-  },
-  "dependencies": {
-    "github-pages": "^231"
   }
 }
