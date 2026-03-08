@@ -2,5 +2,7 @@
   "version": 2,
   "name": "site-franchini",
   "framework": "jekyll",
+  "installCommand": "bundle install",
+  "buildCommand": "bundle exec jekyll build",
   "outputDirectory": "_site"
 }
