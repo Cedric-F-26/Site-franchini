@@ -7,6 +7,6 @@
     "dev": "bundle exec jekyll serve --watch --livereload"
   },
   "dependencies": {
-    "github-pages": "^232"
+    "github-pages": "^231"
   }
 }
