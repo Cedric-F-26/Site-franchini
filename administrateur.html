@@ -464,6 +464,15 @@
     <script>
         // Vérification de l'authentification (compatible Vercel et local)
         function checkAuth() {
+            // MODE DEBUG: bypass auth en local pour tests
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                console.log('🔧 Mode debug: authentification bypassée pour développement local');
+                // Simuler une session admin pour les tests
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                sessionStorage.setItem('adminUser', 'debug-admin');
+                return;
+            }
+            
             const isLoggedIn = sessionStorage.getItem('adminLoggedIn');
             const token = sessionStorage.getItem('adminToken');
             
@@ -529,6 +538,36 @@
             console.log('Test: manageHomeCarousel disponible ?', typeof manageHomeCarousel);
             console.log('Test: manageNews disponible ?', typeof manageNews);
         }, 1000);
+
+        // Fonction de test pour l'API upload (mode debug)
+        function testUploadAPI() {
+            console.log('🧪 Test API Upload...');
+            
+            // Créer un fichier test
+            const testBlob = new Blob(['test content'], { type: 'text/plain' });
+            const testFile = new File([testBlob], 'test.txt', { type: 'text/plain' });
+            
+            const formData = new FormData();
+            formData.append('file', testFile);
+            
+            fetch('/api/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('✅ API Upload fonctionne:', data);
+            })
+            .catch(error => {
+                console.error('❌ API Upload erreur:', error);
+                console.log('📡 Note: L API fonctionne seulement sur Vercel, pas en local');
+            });
+        }
+
+        // Lancer le test en mode debug
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            setTimeout(testUploadAPI, 2000);
+        }
 
         // Fonction utilitaire pour fermer les modales correctement
         function closeModal(modalElement) {
