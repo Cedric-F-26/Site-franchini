@@ -540,6 +540,12 @@
             console.log('Test: manageActualites disponible ?', typeof manageActualites);
             console.log('Test: manageHomeCarousel disponible ?', typeof manageHomeCarousel);
             console.log('Test: manageNews disponible ?', typeof manageNews);
+            
+            // Test des fonctions de modales
+            console.log('Test: showAddActualiteModal disponible ?', typeof showAddActualiteModal);
+            console.log('Test: closeModal disponible ?', typeof closeModal);
+            console.log('Test: FileUploadComponent disponible ?', typeof FileUploadComponent);
+            console.log('Test: adminData disponible ?', typeof window.adminData);
         }, 1000);
 
         // Fonction de test pour l'API upload (mode debug)
@@ -1299,13 +1305,36 @@
             console.log('manageActualites appelée avec action:', action);
             
             if (action === 'add') {
-                showAddActualiteModal();
+                if (typeof showAddActualiteModal === 'function') {
+                    showAddActualiteModal();
+                } else {
+                    console.error('showAddActualiteModal non définie!');
+                    alert('Erreur: La fonction d\'ajout d\'actualité n\'est pas disponible. Veuillez recharger la page.');
+                }
             } else if (action === 'list') {
-                showActualitesListModal();
+                if (typeof showActualitesListModal === 'function') {
+                    showActualitesListModal();
+                } else {
+                    console.error('showActualitesListModal non définie!');
+                    alert('Erreur: La fonction de liste d\'actualités n\'est pas disponible.');
+                }
             } else if (action === 'carousel') {
-                showActualitesCarouselModal();
+                if (typeof showActualitesCarouselModal === 'function') {
+                    showActualitesCarouselModal();
+                } else {
+                    console.error('showActualitesCarouselModal non définie!');
+                    alert('Erreur: La fonction de carousel n\'est pas disponible.');
+                }
             } else if (action === 'settings') {
-                showActualitesSettingsModal();
+                if (typeof showActualitesSettingsModal === 'function') {
+                    showActualitesSettingsModal();
+                } else {
+                    console.error('showActualitesSettingsModal non définie!');
+                    alert('Erreur: La fonction de paramètres n\'est pas disponible.');
+                }
+            } else {
+                console.error('Action non reconnue:', action);
+                alert('Erreur: Action non reconnue: ' + action);
             }
         }
 
