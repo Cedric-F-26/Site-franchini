@@ -1,7 +1,0 @@
----
-BUNDLE_FORCE_RUBY_PLATFORM: "true"
-BUNDLE_DEPLOYMENT: "false"
-BUNDLE_PATH: "vendor/bundle"
-BUNDLE_CLEAN: "true"
-BUNDLE_FROZEN: "0"
-BUNDLE_WITHOUT: "development:test"
