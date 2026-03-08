@@ -1606,8 +1606,13 @@
         }
 
         function saveNewActualiteReal() {
+            console.log('🧪 saveNewActualiteReal appelée');
+            
             const title = document.getElementById('actualiteTitle')?.value;
             const description = document.getElementById('actualiteDescription')?.value;
+            
+            console.log('📝 Titre:', title);
+            console.log('📝 Description:', description);
             
             if (!title || !description) {
                 alert('Veuillez remplir le titre et la description.');
@@ -1620,27 +1625,49 @@
                 return;
             }
             
+            console.log('📁 Fichier uploadé:', window.uploadedFile);
+            
             // Utiliser les données du fichier uploadé
             const uploadedData = window.uploadedFile.data;
             const mediaType = uploadedData.type; // 'image' ou 'video'
             
-            // Utiliser le gestionnaire de données
-            const newActualite = window.adminData.addActualite({
-                title,
-                description,
-                type: mediaType,
-                mediaUrl: uploadedData.url, // URL de l'API
-                dataUrl: uploadedData.dataUrl, // dataURL pour affichage
-                filename: uploadedData.filename
-            });
+            console.log('🎯 Type média:', mediaType);
+            console.log('📊 adminData disponible?', typeof window.adminData);
+            console.log('📊 addActualite disponible?', typeof window.adminData?.addActualite);
             
-            alert(`Actualité ajoutée avec succès !\n\nTitre: ${title}\nType: ${mediaType}\nFichier: ${uploadedData.filename}\nID: ${newActualite.id}\n\nL'actualité est maintenant sauvegardée et visible dans le carousel.`);
-            
-            // Réinitialiser l'upload
-            if (window.currentUpload) {
-                window.currentUpload.reset();
+            try {
+                // En local, utiliser le dataURL directement comme mediaUrl
+                const mediaUrl = window.location.hostname === 'localhost' ? 
+                    uploadedData.dataUrl : // Fallback local
+                    uploadedData.url; // URL API Vercel
+                
+                // Utiliser le gestionnaire de données
+                const newActualite = window.adminData.addActualite({
+                    title,
+                    description,
+                    type: mediaType,
+                    mediaUrl: mediaUrl,
+                    dataUrl: uploadedData.dataUrl, // dataURL pour affichage
+                    filename: uploadedData.filename
+                });
+                
+                console.log('✅ Actualité ajoutée:', newActualite);
+                
+                alert(`Actualité ajoutée avec succès !\n\nTitre: ${title}\nType: ${mediaType}\nFichier: ${uploadedData.filename}\nID: ${newActualite.id}\n\nL'actualité est maintenant sauvegardée et visible dans le carousel.`);
+                
+                // Réinitialiser l'upload
+                if (window.currentUpload) {
+                    window.currentUpload.reset();
+                }
+                window.uploadedFile = null;
+                
+                // Fermer la modale
+                closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
+                
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'ajout de l\'actualité:', error);
+                alert('Erreur lors de la sauvegarde: ' + error.message);
             }
-            window.uploadedFile = null;
         }
 
         function saveActualitesOrder() {
