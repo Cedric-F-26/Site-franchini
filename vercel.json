@@ -2,5 +2,6 @@
   "version": 2,
   "name": "site-franchini",
   "framework": "jekyll",
-  "buildCommand": "bundle exec jekyll build"
+  "installCommand": "npm install",
+  "buildCommand": "npm run build"
 }
