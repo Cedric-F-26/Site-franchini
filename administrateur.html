@@ -464,8 +464,11 @@
     <script>
         // Vérification de l'authentification (compatible Vercel et local)
         function checkAuth() {
-            // MODE DEBUG: bypass auth en local pour tests
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            // MODE DEBUG: bypass auth SEULEMENT en développement local explicite
+            const isLocalDev = (window.location.hostname === 'localhost' && window.location.port === '8001') || 
+                             window.location.hostname === '127.0.0.1';
+            
+            if (isLocalDev) {
                 console.log('🔧 Mode debug: authentification bypassée pour développement local');
                 // Simuler une session admin pour les tests
                 sessionStorage.setItem('adminLoggedIn', 'true');

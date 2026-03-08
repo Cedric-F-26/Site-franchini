@@ -1,5 +1,5 @@
 // 🗄️ Système de gestion des données administrateur
-// Stockage local pour les actualités et carrousels
+// Stockage local partagé entre admin et site public
 
 class AdminDataManager {
     constructor() {
@@ -8,6 +8,7 @@ class AdminDataManager {
 
     // Initialisation des données par défaut (vides pour données réelles)
     initializeData() {
+        // Utiliser les mêmes clés que le site public pour partage
         if (!localStorage.getItem('franchini_home_videos')) {
             const defaultVideos = [];
             localStorage.setItem('franchini_home_videos', JSON.stringify(defaultVideos));
