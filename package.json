@@ -5,5 +5,9 @@
   "scripts": {
     "build": "bundle install && bundle exec jekyll build",
     "dev": "bundle exec jekyll serve --watch --livereload"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2"
   }
 }

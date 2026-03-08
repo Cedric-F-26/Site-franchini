@@ -3,5 +3,10 @@
   "name": "site-franchini",
   "framework": "jekyll",
   "installCommand": "npm install",
-  "buildCommand": "npm run build"
+  "buildCommand": "npm run build",
+  "functions": {
+    "api/login.js": {
+      "maxDuration": 10
+    }
+  }
 }
