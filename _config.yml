@@ -26,7 +26,5 @@ exclude:
   - vendor/ruby/
   - api/
   - admin-data.js
-  - administrateur.html
-  - connexion.html
   - .windsurf/
 
