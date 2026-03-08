@@ -530,6 +530,17 @@
             console.log('Test: manageNews disponible ?', typeof manageNews);
         }, 1000);
 
+        // Fonction utilitaire pour fermer les modales correctement
+        function closeModal(modalElement) {
+            if (modalElement) {
+                modalElement.remove();
+            } else {
+                // Chercher et fermer toutes les modales ouvertes
+                const modals = document.querySelectorAll('[style*="position: fixed"][style*="z-index: 10000"]');
+                modals.forEach(modal => modal.remove());
+            }
+        }
+
         // Fonctions d'administration
         function manageEquipment(action) {
             const actions = {
@@ -598,7 +609,7 @@
                         <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #4CAF50; padding-bottom: 15px;">
                                 <h2 style="color: #4CAF50; margin: 0;"><i class="fas fa-cogs"></i> Paramètres Généraux</h2>
-                                <button onclick="this.closest('div').parentElement.remove()" style="background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">✕</button>
+                                <button onclick="closeModal(this.closest('div').parentElement)" style="background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">✕</button>
                             </div>
                             
                             <div style="display: grid; gap: 20px;">
@@ -668,8 +679,8 @@
                             </div>
                             
                             <div style="display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end;">
-                                <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Annuler</button>
-                                <button onclick="saveSettings('general'); this.closest('div').parentElement.remove();" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Annuler</button>
+                                <button onclick="saveSettings('general'); closeModal(this.closest('div').parentElement)" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
                                     <i class="fas fa-save"></i> Enregistrer
                                 </button>
                             </div>
@@ -682,7 +693,7 @@
                         <div style="background: white; padding: 30px; border-radius: 10px; max-width: 1000px; width: 90%; max-height: 90vh; overflow-y: auto;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #2196F3; padding-bottom: 15px;">
                                 <h2 style="color: #2196F3; margin: 0;"><i class="fas fa-user-shield"></i> Gestion des Utilisateurs</h2>
-                                <button onclick="this.closest('div').parentElement.remove()" style="background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">✕</button>
+                                <button onclick="closeModal(this.closest('div').parentElement)" style="background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">✕</button>
                             </div>
                             
                             <div style="margin-bottom: 20px;">
@@ -757,7 +768,7 @@
                         <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #9C27B0; padding-bottom: 15px;">
                                 <h2 style="color: #9C27B0; margin: 0;"><i class="fas fa-shield-alt"></i> Paramètres de Sécurité</h2>
-                                <button onclick="this.closest('div').parentElement.remove()" style="background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">✕</button>
+                                <button onclick="closeModal(this.closest('div').parentElement)" style="background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">✕</button>
                             </div>
                             
                             <div style="display: grid; gap: 25px;">
@@ -855,8 +866,8 @@
                             </div>
                             
                             <div style="display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end;">
-                                <button onclick="this.closest('div').parentElement.remove()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Annuler</button>
-                                <button onclick="saveSettings('security'); this.closest('div').parentElement.remove();" style="background: #9C27B0; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Annuler</button>
+                                <button onclick="saveSettings('security'); closeModal(this.closest('div').parentElement)" style="background: #9C27B0; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
                                     <i class="fas fa-save"></i> Enregistrer
                                 </button>
                             </div>
@@ -869,7 +880,7 @@
                         <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #607D8B; padding-bottom: 15px;">
                                 <h2 style="color: #607D8B; margin: 0;"><i class="fas fa-database"></i> Gestion des Sauvegardes</h2>
-                                <button onclick="this.closest('div').parentElement.remove()" style="background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">✕</button>
+                                <button onclick="closeModal(this.closest('div').parentElement)" style="background: #ff4444; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">✕</button>
                             </div>
                             
                             <div style="display: grid; gap: 25px;">
