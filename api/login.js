@@ -2,13 +2,17 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-development';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'franchini2025';
+
+// Hash du mot de passe admin depuis la variable d'environnement
+const adminPasswordHash = bcrypt.hashSync(ADMIN_PASSWORD, 10);
 
 // Base de données utilisateurs
 const users = [
     {
         id: 1,
         username: 'admin',
-        password: '$2b$10$N9qo8uLOickgx2ZMRZoMye5YrK6m5s8y6Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q5Q', // "franchini2025" hashé
+        password: adminPasswordHash,
         role: 'admin',
         email: 'admin@franchini.fr'
     }
