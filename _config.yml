@@ -15,6 +15,7 @@ plugins:
 
 # Exclude from processing
 exclude:
+  - vendor/
   - Gemfile
   - Gemfile.lock
   - package.json
