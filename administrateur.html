@@ -280,49 +280,6 @@
             </a>
         </div>
 
-        <!-- Statistiques -->
-        <div class="admin-stats">
-            <div class="stat-card">
-                <i class="fas fa-tractor" style="color: #4CAF50;"></i>
-                <div class="stat-number">24</div>
-                <div class="stat-label">Matériels en stock</div>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-users" style="color: #2196F3;"></i>
-                <div class="stat-number">156</div>
-                <div class="stat-label">Clients</div>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-envelope" style="color: #FF9800;"></i>
-                <div class="stat-number">8</div>
-                <div class="stat-label">Messages non lus</div>
-            </div>
-            <div class="stat-card">
-                <i class="fas fa-chart-line" style="color: #9C27B0;"></i>
-                <div class="stat-number">+12%</div>
-                <div class="stat-label">Croissance ce mois</div>
-            </div>
-        </div>
-
-        <!-- Actions Rapides -->
-        <div class="quick-actions">
-            <h3><i class="fas fa-bolt"></i> Actions Rapides</h3>
-            <div class="quick-buttons">
-                <button class="quick-btn" onclick="addNewEquipment()">
-                    <i class="fas fa-plus"></i> Ajouter un matériel
-                </button>
-                <button class="quick-btn" onclick="viewMessages()">
-                    <i class="fas fa-envelope"></i> Voir les messages
-                </button>
-                <button class="quick-btn" onclick="addNews()">
-                    <i class="fas fa-newspaper"></i> Publier une actualité
-                </button>
-                <button class="quick-btn" onclick="backupData()">
-                    <i class="fas fa-download"></i> Sauvegarder
-                </button>
-            </div>
-        </div>
-
         <!-- Sections d'administration -->
         <div class="admin-sections">
             <div class="section-card">
@@ -486,53 +443,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Activité Récente -->
-        <div class="recent-activity">
-            <h3><i class="fas fa-history"></i> Activité Récente</h3>
-            <ul class="activity-list">
-                <li class="activity-item">
-                    <div class="activity-icon" style="background-color: #e8f5e8; color: #4CAF50;">
-                        <i class="fas fa-plus"></i>
-                    </div>
-                    <div class="activity-content">
-                        <strong>Nouveau matériel ajouté</strong><br>
-                        <span>Deutz-Fahr 6180 - Série 6</span>
-                    </div>
-                    <div class="activity-time">Il y a 2 heures</div>
-                </li>
-                <li class="activity-item">
-                    <div class="activity-icon" style="background-color: #e3f2fd; color: #2196F3;">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="activity-content">
-                        <strong>Nouveau client inscrit</strong><br>
-                        <span>Jean Dupont - Marches</span>
-                    </div>
-                    <div class="activity-time">Il y a 4 heures</div>
-                </li>
-                <li class="activity-item">
-                    <div class="activity-icon" style="background-color: #fff3e0; color: #FF9800;">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="activity-content">
-                        <strong>Nouveau message reçu</strong><br>
-                        <span>Demande de devis tracteur</span>
-                    </div>
-                    <div class="activity-time">Il y a 6 heures</div>
-                </li>
-                <li class="activity-item">
-                    <div class="activity-icon" style="background-color: #f3e5f5; color: #9C27B0;">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="activity-content">
-                        <strong>Rapport mensuel généré</strong><br>
-                        <span>Ventes +15% ce mois</span>
-                    </div>
-                    <div class="activity-time">Hier</div>
-                </li>
-            </ul>
-        </div>
     </main>
 
     <footer class="footer-compact">
@@ -621,22 +531,6 @@
         }, 1000);
 
         // Fonctions d'administration
-        function addNewEquipment() {
-            alert('Fonctionnalité: Ajouter un nouveau matériel\n\nCette fonction ouvrira un formulaire pour ajouter un nouveau tracteur ou équipement avec:\n- Photos\n- Caractéristiques techniques\n- Prix\n- Disponibilité\n- Catégorie');
-        }
-
-        function viewMessages() {
-            alert('Fonctionnalité: Boîte de réception\n\nVous avez 8 messages non lus:\n1. Demande de devis - Jean Dupont\n2. Question sur matériel occasion\n3. Prise de rendez-vous\n4. ...\n\nCette fonction affichera la liste complète des messages.');
-        }
-
-        function addNews() {
-            alert('Fonctionnalité: Publier une actualité\n\nCette fonction permettra de:\n- Rédiger un article\n- Ajouter des images\n- Planifier la publication\n- Gérer les catégories\n- Voir les statistiques de lecture');
-        }
-
-        function backupData() {
-            alert('Fonctionnalité: Sauvegarde\n\nSauvegarde en cours...\n\nCette fonction créera une sauvegarde complète de:\n- Base de données clients\n- Inventaire matériel\n- Messages\n- Paramètres\n\n✅ Sauvegarde terminée avec succès!');
-        }
-
         function manageEquipment(action) {
             const actions = {
                 'new': 'Ajouter un nouveau matériel',
@@ -645,16 +539,6 @@
                 'stock': 'Gérer les niveaux de stock'
             };
             alert(`Gestion du Matériel: ${actions[action]}\n\nCette fonctionnalité sera développée pour permettre ${actions[action].toLowerCase()}.`);
-        }
-
-        function manageClients(action) {
-            const actions = {
-                'list': 'Voir la liste des clients',
-                'add': 'Ajouter un nouveau client',
-                'search': 'Rechercher un client',
-                'export': 'Exporter la liste des clients'
-            };
-            alert(`Gestion des Clients: ${actions[action]}\n\nCette fonctionnalité permettra de ${actions[action].toLowerCase()}.`);
         }
 
         function manageNews(action) {
