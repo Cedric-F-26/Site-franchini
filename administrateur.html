@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="favicon.ico">
     <script src="admin-data.js"></script>
+    <script src="admin-upload-component.js"></script>
     <style>
         .admin-container {
             max-width: 1400px;
@@ -1410,23 +1411,12 @@
                             </div>
                         </div>
                         <div>
-                            <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-image"></i> Média</h3>
-                            <div style="display: grid; gap: 15px;">
-                                <div>
-                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Type de média</label>
-                                    <select id="mediaType" onchange="toggleMediaType(this.value)" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                        <option value="image">Image</option>
-                                        <option value="video">Vidéo</option>
-                                    </select>
-                                </div>
-                                <div id="imageField">
-                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">URL de l'image</label>
-                                    <input type="text" id="imageUrl" placeholder="https://example.com/image.jpg" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                </div>
-                                <div id="videoField" style="display: none;">
-                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">URL de la vidéo</label>
-                                    <input type="text" id="videoUrl" placeholder="https://example.com/video.mp4" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                </div>
+                            <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-cloud-upload-alt"></i> Média (Glisser-déposer)</h3>
+                            <div id="uploadContainer"></div>
+                            <div style="margin-top: 15px; padding: 10px; background: #f0f8ff; border-radius: 5px; border-left: 4px solid #4CAF50;">
+                                <p style="margin: 0; font-size: 0.9rem; color: #666;">
+                                    <strong>💡 Astuce :</strong> Vous pouvez glisser-déposer directement vos images et vidéos dans cette zone, ou cliquer pour parcourir vos fichiers.
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -1441,6 +1431,49 @@
                 </div>
             `;
             document.body.appendChild(modal);
+            
+            // Initialiser le composant d'upload après l'ajout au DOM
+            setTimeout(() => {
+                const uploadContainer = document.getElementById('uploadContainer');
+                if (uploadContainer) {
+                    window.currentUpload = new FileUploadComponent(uploadContainer, {
+                        multiple: false,
+                        acceptedTypes: 'image/*,video/*',
+                        maxSize: 10 * 1024 * 1024, // 10MB
+                        onUpload: (data, file) => {
+                            console.log('Fichier uploadé:', data);
+                            // Stocker les données du fichier pour la sauvegarde
+                            window.uploadedFile = {
+                                data: data,
+                                file: file,
+                                title: document.getElementById('actualiteTitle').value,
+                                description: document.getElementById('actualiteDescription').value
+                            };
+                            
+                            // Mettre à jour l'interface
+                            const uploadInfo = document.createElement('div');
+                            uploadInfo.style.cssText = `
+                                margin-top: 15px;
+                                padding: 10px;
+                                background: #d4edda;
+                                border: 1px solid #c3e6cb;
+                                border-radius: 5px;
+                                color: #155724;
+                            `;
+                            uploadInfo.innerHTML = `
+                                <i class="fas fa-check-circle"></i> 
+                                <strong>Fichier uploadé:</strong> ${file.name} 
+                                (${(file.size / 1024 / 1024).toFixed(2)} MB)
+                            `;
+                            uploadContainer.appendChild(uploadInfo);
+                        },
+                        onError: (error) => {
+                            console.error('Erreur upload:', error);
+                            alert(`Erreur lors de l'upload: ${error}`);
+                        }
+                    });
+                }
+            }, 100);
         }
 
         function showActualitesListModal() {
