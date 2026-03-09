@@ -1678,6 +1678,9 @@
         function saveNewActualiteReal() {
             console.log('🧪 saveNewActualiteReal appelée');
             
+            // Vérifier l'espace disponible dans localStorage
+            checkLocalStorageQuota();
+            
             const title = document.getElementById('actualiteTitle')?.value;
             const description = document.getElementById('actualiteDescription')?.value;
             
@@ -1711,6 +1714,15 @@
                     uploadedData.dataUrl : // Fallback local
                     uploadedData.url; // URL API Vercel
                 
+                // Vérifier la taille du dataURL avant sauvegarde
+                const dataSizeKB = Math.round(uploadedData.dataUrl.length * 0.75 / 1024); // Approximation base64 -> bytes
+                console.log('📊 Taille des données:', dataSizeKB, 'KB');
+                
+                if (dataSizeKB > 1000) { // > 1MB
+                    const confirm = confirm(`⚠️ Fichier volumineux détecté (${dataSizeKB} KB).\n\nCela peut remplir rapidement le localStorage.\n\nContinuer quand même ?`);
+                    if (!confirm) return;
+                }
+                
                 // Utiliser le gestionnaire de données
                 const newActualite = window.adminData.addActualite({
                     title,
@@ -1736,9 +1748,104 @@
                 
             } catch (error) {
                 console.error('❌ Erreur lors de l\'ajout de l\'actualité:', error);
-                alert('Erreur lors de la sauvegarde: ' + error.message);
+                
+                if (error.message.includes('quota') || error.message.includes('exceeded')) {
+                    alert('❌ Espace de stockage plein !\n\nLe localStorage est plein. Voici les solutions :\n\n1️⃣ Supprimez d\'anciennes actualités\n2️⃣ Utilisez des images plus petites (< 500KB)\n3️⃣ Videz le cache du navigateur\n\nPour vider le localStorage, tapez dans la console :\nlocalStorage.clear()');
+                } else {
+                    alert('Erreur lors de la sauvegarde: ' + error.message);
+                }
             }
         }
+
+        // Fonction pour vérifier et afficher l'état du localStorage
+        function checkLocalStorageQuota() {
+            try {
+                const used = JSON.stringify(localStorage).length;
+                const usedKB = Math.round(used * 0.75 / 1024); // Approximation
+                const estimatedTotal = 5120; // 5MB estimé
+                const percentage = Math.round((usedKB / estimatedTotal) * 100);
+                
+                console.log(`💾 État localStorage: ${usedKB}KB/${estimatedTotal}KB (${percentage}%)`);
+                
+                if (percentage > 80) {
+                    console.warn('⚠️ localStorage presque plein !');
+                }
+                
+                return { usedKB, estimatedTotal, percentage };
+            } catch (error) {
+                console.error('Erreur vérification quota:', error);
+                return null;
+            }
+        }
+
+        // Fonction pour nettoyer le localStorage
+        function clearLocalStorageData() {
+            const confirm = confirm('⚠️ Vider toutes les données ?\n\nCela supprimera :\n• Toutes les actualités\n• Toutes les vidéos\n• Tous les paramètres\n\nCette action est IRREVERSIBLE !\n\nContinuer ?');
+            
+            if (confirm) {
+                localStorage.clear();
+                alert('✅ Données supprimées avec succès !\n\nLa page va se recharger.');
+                location.reload();
+            }
+        }
+
+        // Fonction pour optimiser les images (réduire la taille)
+        function optimizeImageDataURL(dataURL, maxWidth = 800, quality = 0.7) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Calculer les nouvelles dimensions
+                    let { width, height } = img;
+                    if (width > maxWidth) {
+                        height = (height * maxWidth) / width;
+                        width = maxWidth;
+                    }
+                    
+                    canvas.width = width;
+                    canvas.height = height;
+                    
+                    // Dessiner l'image optimisée
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    // Convertir en dataURL avec compression
+                    const optimizedDataURL = canvas.toDataURL('image/jpeg', quality);
+                    resolve(optimizedDataURL);
+                };
+                img.src = dataURL;
+            });
+        }
+
+        // Ajouter un bouton de nettoyage dans la section Paramètres
+        function addStorageCleanupButton() {
+            const settingsSection = document.querySelector('.admin-section:has(.fa-database)');
+            if (settingsSection && !settingsSection.querySelector('.cleanup-btn')) {
+                const cleanupBtn = document.createElement('button');
+                cleanupBtn.className = 'cleanup-btn';
+                cleanupBtn.innerHTML = '<i class="fas fa-broom"></i> Nettoyer le stockage';
+                cleanupBtn.style.cssText = `
+                    background: #ff6b6b;
+                    color: white;
+                    border: none;
+                    padding: 10px 15px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-top: 10px;
+                    font-size: 0.9rem;
+                `;
+                cleanupBtn.onclick = clearLocalStorageData;
+                
+                const sectionActions = settingsSection.querySelector('.section-actions');
+                if (sectionActions) {
+                    sectionActions.appendChild(cleanupBtn);
+                }
+            }
+        }
+
+        // Initialiser le bouton de nettoyage après chargement
+        setTimeout(addStorageCleanupButton, 1500);
 
         function manageClients(action) {
             const actions = {
