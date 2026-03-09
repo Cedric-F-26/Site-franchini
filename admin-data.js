@@ -36,6 +36,12 @@ class AdminDataManager {
             };
             localStorage.setItem('franchini_settings', JSON.stringify(defaultSettings));
         }
+
+        // Initialiser le matériel d'occasion
+        if (!localStorage.getItem('franchini_equipment')) {
+            const defaultEquipment = [];
+            localStorage.setItem('franchini_equipment', JSON.stringify(defaultEquipment));
+        }
     }
 
     // Gestion des vidéos d'accueil
@@ -178,6 +184,49 @@ class AdminDataManager {
         localStorage.removeItem('franchini_settings');
         this.initializeData();
         return true;
+    }
+
+    // Gestion du matériel d'occasion
+    getEquipment() {
+        return JSON.parse(localStorage.getItem('franchini_equipment') || '[]');
+    }
+
+    addEquipment(equipment) {
+        const equipmentList = this.getEquipment();
+        const newEquipment = {
+            id: Date.now(),
+            ...equipment,
+            dateAdded: new Date().toLocaleDateString('fr-FR'),
+            status: equipment.status || 'available',
+            reference: this.generateReference()
+        };
+        equipmentList.push(newEquipment);
+        localStorage.setItem('franchini_equipment', JSON.stringify(equipmentList));
+        return newEquipment;
+    }
+
+    updateEquipment(id, updates) {
+        const equipmentList = this.getEquipment();
+        const index = equipmentList.findIndex(e => e.id === id);
+        if (index !== -1) {
+            equipmentList[index] = { ...equipmentList[index], ...updates };
+            localStorage.setItem('franchini_equipment', JSON.stringify(equipmentList));
+            return equipmentList[index];
+        }
+        return null;
+    }
+
+    deleteEquipment(id) {
+        const equipmentList = this.getEquipment();
+        const filtered = equipmentList.filter(e => e.id !== id);
+        localStorage.setItem('franchini_equipment', JSON.stringify(filtered));
+        return filtered.length < equipmentList.length;
+    }
+
+    generateReference() {
+        const year = new Date().getFullYear();
+        const random = Math.floor(Math.random() * 10000);
+        return `FR-${year}-${random}`;
     }
 
     // Les données seront ajoutées manuellement via l'interface administrateur

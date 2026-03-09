@@ -661,13 +661,288 @@
 
         // Fonctions d'administration
         function manageEquipment(action) {
+            console.log('🚜 manageEquipment appelée avec action:', action);
+            
+            // Récupérer les vraies données
+            const equipment = window.adminData?.getEquipment() || [];
+            
             const actions = {
-                'new': 'Ajouter un nouveau matériel',
-                'list': 'Voir la liste complète des matériels',
-                'categories': 'Gérer les catégories de matériel',
-                'stock': 'Gérer les niveaux de stock'
+                'new': `
+                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
+                            <h2 style="color: #333; margin: 0;"><i class="fas fa-plus"></i> Ajouter un Matériel d'Occasion</h2>
+                            <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                        </div>
+                        <div style="display: grid; gap: 20px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Marque</label>
+                                    <input type="text" id="equipmentBrand" placeholder="Ex: Deutz-Fahr" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Modèle</label>
+                                    <input type="text" id="equipmentModel" placeholder="Ex: 6160" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Année</label>
+                                    <input type="number" id="equipmentYear" placeholder="2022" min="2000" max="2025" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Heures</label>
+                                    <input type="number" id="equipmentHours" placeholder="1500" min="0" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">Prix (€)</label>
+                                    <input type="number" id="equipmentPrice" placeholder="25000" min="0" step="100" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                </div>
+                                <div>
+                                    <label style="display: block; margin-bottom: 5px; font-weight: 500;">État</label>
+                                    <select id="equipmentStatus" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                        <option value="available">Disponible</option>
+                                        <option value="reserved">Réservé</option>
+                                        <option value="sold">Vendu</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Description</label>
+                                <textarea id="equipmentDescription" placeholder="Description détaillée du matériel..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 120px;"></textarea>
+                            </div>
+                            <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                                <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Annuler</button>
+                                <button onclick="saveEquipment(); closeModal(this.closest('div').parentElement)" style="background: #FF9800; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                    <i class="fas fa-save"></i> Ajouter le matériel
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                'list': `
+                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 1000px; width: 90%; max-height: 90vh; overflow-y: auto;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
+                            <h2 style="color: #333; margin: 0;"><i class="fas fa-list"></i> Liste des Matériels (${equipment.length} matériel(s))</h2>
+                            <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                        </div>
+                        <div style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse; background: white; border-radius: 5px; overflow: hidden;">
+                                <thead>
+                                    <tr style="background: #FF9800; color: white;">
+                                        <th style="padding: 15px; text-align: left;">Référence</th>
+                                        <th style="padding: 15px; text-align: left;">Marque/Modèle</th>
+                                        <th style="padding: 15px; text-align: left;">Année</th>
+                                        <th style="padding: 15px; text-align: left;">Heures</th>
+                                        <th style="padding: 15px; text-align: left;">Prix</th>
+                                        <th style="padding: 15px; text-align: left;">État</th>
+                                        <th style="padding: 15px; text-align: center;">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${equipment.length === 0 ? 
+                                        '<tr><td colspan="7" style="text-align: center; padding: 40px; color: #666;">Aucun matériel enregistré. Ajoutez votre premier matériel.</td></tr>' :
+                                        equipment.map(item => `
+                                            <tr style="border-bottom: 1px solid #ddd;">
+                                                <td style="padding: 12px;">${item.reference}</td>
+                                                <td style="padding: 12px;">${item.brand} ${item.model}</td>
+                                                <td style="padding: 12px;">${item.year}</td>
+                                                <td style="padding: 12px;">${item.hours}h</td>
+                                                <td style="padding: 12px;">${item.price.toLocaleString('fr-FR')} €</td>
+                                                <td style="padding: 12px;">
+                                                    <span style="padding: 4px 8px; border-radius: 3px; font-size: 0.8rem; 
+                                                        ${item.status === 'available' ? 'background: #d4edda; color: #155724;' : 
+                                                          item.status === 'reserved' ? 'background: #fff3cd; color: #856404;' : 
+                                                          'background: #f8d7da; color: #721c24;'}">
+                                                        ${item.status === 'available' ? 'Disponible' : 
+                                                          item.status === 'reserved' ? 'Réservé' : 'Vendu'}
+                                                    </span>
+                                                </td>
+                                                <td style="padding: 12px; text-align: center;">
+                                                    <button onclick="editEquipment(${item.id})" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
+                                                    <button onclick="deleteEquipment(${item.id})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
+                                                </td>
+                                            </tr>
+                                        `).join('')
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `,
+                'categories': `
+                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
+                            <h2 style="color: #333; margin: 0;"><i class="fas fa-tags"></i> Gérer les Catégories</h2>
+                            <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                        </div>
+                        <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
+                            <p style="margin-bottom: 15px; color: #666;">Catégories disponibles pour le matériel d'occasion</p>
+                            <div style="display: grid; gap: 10px;">
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 5px;">
+                                    <span>🚛 Tracteurs</span>
+                                    <span style="color: #666;">12 équipements</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 5px;">
+                                    <span>🌾 Moissonneuses</span>
+                                    <span style="color: #666;">5 équipements</span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 5px;">
+                                    <span>🚜 Matériel de travail du sol</span>
+                                    <span style="color: #666;">8 équipements</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                'stock': `
+                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #FF9800; padding-bottom: 15px;">
+                            <h2 style="color: #333; margin: 0;"><i class="fas fa-boxes"></i> Gestion des Stocks</h2>
+                            <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
+                        </div>
+                        <div style="display: grid; gap: 20px;">
+                            <div style="background: #d4edda; padding: 20px; border-radius: 5px; border: 1px solid #c3e6cb;">
+                                <h3 style="color: #155724; margin-bottom: 10px;">📊 État des stocks</h3>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; text-align: center;">
+                                    <div>
+                                        <div style="font-size: 2rem; font-weight: bold; color: #28a745;">${equipment.filter(e => e.status === 'available').length}</div>
+                                        <div style="color: #155724;">Disponibles</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 2rem; font-weight: bold; color: #ffc107;">${equipment.filter(e => e.status === 'reserved').length}</div>
+                                        <div style="color: #856404;">Réservés</div>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 2rem; font-weight: bold; color: #dc3545;">${equipment.filter(e => e.status === 'sold').length}</div>
+                                        <div style="color: #721c24;">Vendus</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
             };
-            alert(`Gestion du Matériel: ${actions[action]}\n\nCette fonctionnalité sera développée pour permettre ${actions[action].toLowerCase()}.`);
+            
+            if (actions[action]) {
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.5);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 10000;
+                `;
+                modal.innerHTML = actions[action];
+                document.body.appendChild(modal);
+            } else {
+                console.error('Action non reconnue:', action);
+                alert('Erreur: Action non reconnue: ' + action);
+            }
+        }
+
+        // Fonctions de gestion du matériel
+        function saveEquipment() {
+            console.log('🚜 saveEquipment appelée');
+            
+            const brand = document.getElementById('equipmentBrand')?.value;
+            const model = document.getElementById('equipmentModel')?.value;
+            const year = document.getElementById('equipmentYear')?.value;
+            const hours = document.getElementById('equipmentHours')?.value;
+            const price = document.getElementById('equipmentPrice')?.value;
+            const status = document.getElementById('equipmentStatus')?.value;
+            const description = document.getElementById('equipmentDescription')?.value;
+            
+            console.log('📝 Marque:', brand);
+            console.log('📝 Modèle:', model);
+            console.log('📝 Année:', year);
+            console.log('📝 Heures:', hours);
+            console.log('📝 Prix:', price);
+            console.log('📝 Statut:', status);
+            
+            if (!brand || !model || !year || !hours || !price) {
+                alert('Veuillez remplir tous les champs obligatoires.');
+                return;
+            }
+            
+            try {
+                // Utiliser le gestionnaire de données
+                const newEquipment = window.adminData.addEquipment({
+                    brand: brand,
+                    model: model,
+                    year: parseInt(year),
+                    hours: parseInt(hours),
+                    price: parseFloat(price),
+                    status: status,
+                    description: description || ''
+                });
+                
+                console.log('✅ Matériel ajouté:', newEquipment);
+                
+                alert(`Matériel ajouté avec succès !\n\nRéférence: ${newEquipment.reference}\nMarque: ${brand} ${model}\nAnnée: ${year}\nPrix: ${parseFloat(price).toLocaleString('fr-FR')} €\n\nLe matériel est maintenant visible dans la liste.`);
+                
+                // Réinitialiser le formulaire
+                document.getElementById('equipmentBrand').value = '';
+                document.getElementById('equipmentModel').value = '';
+                document.getElementById('equipmentYear').value = '';
+                document.getElementById('equipmentHours').value = '';
+                document.getElementById('equipmentPrice').value = '';
+                document.getElementById('equipmentStatus').value = 'available';
+                document.getElementById('equipmentDescription').value = '';
+                
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'ajout du matériel:', error);
+                alert('Erreur lors de la sauvegarde: ' + error.message);
+            }
+        }
+
+        function editEquipment(id) {
+            console.log('✏️ editEquipment appelée avec ID:', id);
+            
+            const equipment = window.adminData.getEquipment().find(e => e.id === id);
+            if (!equipment) {
+                alert('Matériel non trouvé.');
+                return;
+            }
+            
+            const newStatus = prompt(`Modifier le statut pour "${equipment.brand} ${equipment.model}":\n\nStatut actuel: ${equipment.status}\n\nNouveaux statuts possibles:\n- available (Disponible)\n- reserved (Réservé)\n- sold (Vendu)`, equipment.status);
+            
+            if (newStatus && ['available', 'reserved', 'sold'].includes(newStatus)) {
+                const success = window.adminData.updateEquipment(id, { status: newStatus });
+                if (success) {
+                    alert('Statut du matériel mis à jour avec succès !');
+                    // Rafraîchir la modale
+                    closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
+                    manageEquipment('list');
+                } else {
+                    alert('Erreur lors de la mise à jour.');
+                }
+            }
+        }
+
+        function deleteEquipment(id) {
+            console.log('🗑️ deleteEquipment appelée avec ID:', id);
+            
+            const equipment = window.adminData.getEquipment().find(e => e.id === id);
+            if (!equipment) {
+                alert('Matériel non trouvé.');
+                return;
+            }
+            
+            const confirm = confirm(`Êtes-vous sûr de vouloir supprimer le matériel "${equipment.brand} ${equipment.model}" (Référence: ${equipment.reference}) ?\n\nCette action est irréversible.`);
+            if (confirm) {
+                const success = window.adminData.deleteEquipment(id);
+                if (success) {
+                    alert('Matériel supprimé avec succès !');
+                    // Rafraîchir la modale
+                    closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
+                    manageEquipment('list');
+                } else {
+                    alert('Erreur lors de la suppression.');
+                }
+            }
         }
 
         function manageNews(action) {
