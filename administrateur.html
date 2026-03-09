@@ -1184,89 +1184,83 @@
 
         // Fonctions de gestion du carousel Accueil
         function manageHomeCarousel(action) {
+            console.log('🎠 manageHomeCarousel appelée avec action:', action);
+            
+            // Récupérer les vraies données
+            const videos = window.adminData?.getHomeVideos() || [];
+            
             const actions = {
                 'videos': `
                     <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #4CAF50; padding-bottom: 15px;">
-                            <h2 style="color: #333; margin: 0;"><i class="fas fa-video"></i> Carousel Vidéos Accueil</h2>
+                            <h2 style="color: #333; margin: 0;"><i class="fas fa-video"></i> Carousel Vidéos Accueil (${videos.length} vidéo(s))</h2>
                             <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                         </div>
                         <div style="display: grid; gap: 20px;">
                             <div>
                                 <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-list"></i> Vidéos Actuelles</h3>
                                 <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; border: 1px solid #ddd;">
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px; background: white; border-radius: 5px;">
-                                        <span>📹 Deutz-Fahr Série 6</span>
-                                        <div>
-                                            <button style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
-                                            <button style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px; background: white; border-radius: 5px;">
-                                        <span>📹 Démonstration Matériel</span>
-                                        <div>
-                                            <button style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
-                                            <button style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
-                                        </div>
-                                    </div>
-                                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 5px;">
-                                        <span>📹 Promotion Printemps</span>
-                                        <div>
-                                            <button style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
-                                            <button style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
-                                        </div>
-                                    </div>
+                                    ${videos.length === 0 ? 
+                                        '<p style="text-align: center; color: #666; padding: 20px;">Aucune vidéo dans le carousel. Utilisez "Ajouter une vidéo" pour commencer.</p>' :
+                                        videos.map((video, index) => `
+                                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px; background: white; border-radius: 5px;">
+                                                <span>📹 ${video.title || 'Video ' + (index + 1)}</span>
+                                                <div>
+                                                    <button onclick="editVideo(${video.id})" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
+                                                    <button onclick="deleteVideo(${video.id})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
+                                                </div>
+                                            </div>
+                                        `).join('')
+                                    }
                                 </div>
                             </div>
                             <div>
                                 <h3 style="color: #333; margin-bottom: 15px;"><i class="fas fa-plus"></i> Ajouter une Vidéo</h3>
-                                <div style="display: grid; gap: 15px;">
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Titre</label>
-                                        <input type="text" placeholder="Titre de la vidéo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                    </div>
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">URL YouTube</label>
-                                        <input type="text" placeholder="https://www.youtube.com/watch?v=..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
-                                    </div>
-                                    <div>
-                                        <label style="display: block; margin-bottom: 5px; font-weight: 500;">Description</label>
-                                        <textarea placeholder="Description de la vidéo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 80px;"></textarea>
-                                    </div>
-                                    <div style="display: flex; gap: 10px; margin-top: 15px;">
-                                        <button onclick="saveHomeVideo(); closeModal(this.closest('div').parentElement.parentElement.parentElement.parentElement)" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
-                                            <i class="fas fa-save"></i> Ajouter la vidéo
-                                        </button>
-                                        <button onclick="closeModal(this.closest('div').parentElement.parentElement.parentElement.parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
-                                            Annuler
-                                        </button>
+                                <div style="background: #e8f5e8; padding: 20px; border-radius: 5px; border: 1px solid #4CAF50;">
+                                    <div style="display: grid; gap: 15px;">
+                                        <div>
+                                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Titre de la vidéo</label>
+                                            <input type="text" id="videoTitle" placeholder="Ex: Deutz-Fahr Série 6" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                        </div>
+                                        <div>
+                                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">URL YouTube</label>
+                                            <input type="text" id="videoUrl" placeholder="https://www.youtube.com/watch?v=..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                        </div>
+                                        <div>
+                                            <label style="display: block; margin-bottom: 5px; font-weight: 500;">Description</label>
+                                            <textarea placeholder="Description de la vidéo" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; min-height: 80px;"></textarea>
+                                        </div>
+                                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                            <button onclick="saveHomeVideo(); closeModal(this.closest('div').parentElement.parentElement.parentElement.parentElement)" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                                <i class="fas fa-save"></i> Ajouter la vidéo
+                                            </button>
+                                            <button onclick="closeModal(this.closest('div').parentElement.parentElement.parentElement.parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                                Annuler
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                `,
-                'order': `
+                `,'order': `
                     <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #4CAF50; padding-bottom: 15px;">
-                            <h2 style="color: #333; margin: 0;"><i class="fas fa-sort"></i> Ordre des Vidéos</h2>
+                            <h2 style="color: #333; margin: 0;"><i class="fas fa-sort"></i> Ordre des Vidéos (${videos.length} vidéo(s))</h2>
                             <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                         </div>
                         <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
                             <p style="margin-bottom: 15px; color: #666;">Glissez-déposez les vidéos pour réorganiser l'ordre d'affichage</p>
                             <div style="display: grid; gap: 10px;">
-                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 5px; border: 2px solid #4CAF50; cursor: move;">
-                                    <span>☰ 📹 Deutz-Fahr Série 6</span>
-                                    <span style="color: #4CAF50; font-weight: bold;">Position 1</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 5px; border: 1px solid #ddd; cursor: move;">
-                                    <span>☰ 📹 Démonstration Matériel</span>
-                                    <span style="color: #666;">Position 2</span>
-                                </div>
-                                <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 5px; border: 1px solid #ddd; cursor: move;">
-                                    <span>☰ 📹 Promotion Printemps</span>
-                                    <span style="color: #666;">Position 3</span>
-                                </div>
+                                ${videos.length === 0 ? 
+                                    '<p style="text-align: center; color: #666; padding: 20px;">Aucune vidéo à ordonner. Ajoutez d\'abord des vidéos.</p>' :
+                                    videos.map((video, index) => `
+                                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 5px; border: ${index === 0 ? '2px solid #4CAF50' : '1px solid #ddd'}; cursor: move;">
+                                            <span>☰ 📹 ${video.title || 'Video ' + (index + 1)}</span>
+                                            <span style="color: ${index === 0 ? '#4CAF50' : '#666'}; font-weight: ${index === 0 ? 'bold' : 'normal'};">Position ${index + 1}</span>
+                                        </div>
+                                    `).join('')
+                                }
                             </div>
                             <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
                                 <button onclick="saveVideoOrder(); closeModal(this.closest('div').parentElement)" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
@@ -1664,7 +1658,99 @@
 
         // Fonctions utilitaires pour les nouvelles sections
         function saveHomeVideo() {
-            alert('Vidéo ajoutée au carousel avec succès !\n\nLa vidéo sera maintenant visible sur la page d\'accueil.');
+            console.log('🎬 saveHomeVideo appelée');
+            
+            const title = document.getElementById('videoTitle')?.value;
+            const url = document.getElementById('videoUrl')?.value;
+            const description = document.querySelector('textarea[placeholder="Description de la vidéo"]')?.value;
+            
+            console.log('📝 Titre:', title);
+            console.log('🔗 URL:', url);
+            console.log('📝 Description:', description);
+            
+            if (!title || !url) {
+                alert('Veuillez remplir le titre et l\'URL YouTube de la vidéo.');
+                return;
+            }
+            
+            // Validation URL YouTube
+            const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
+            if (!youtubeRegex.test(url)) {
+                alert('Veuillez entrer une URL YouTube valide.');
+                return;
+            }
+            
+            try {
+                // Utiliser le gestionnaire de données
+                const newVideo = window.adminData.addHomeVideo({
+                    title: title,
+                    url: url,
+                    description: description || '',
+                    type: 'youtube'
+                });
+                
+                console.log('✅ Vidéo ajoutée:', newVideo);
+                
+                alert(`Vidéo ajoutée avec succès !\n\nTitre: ${title}\nURL: ${url}\nID: ${newVideo.id}\n\nLa vidéo est maintenant visible dans le carousel de la page d'accueil.`);
+                
+                // Fermer la modale
+                closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
+                
+                // Réinitialiser le formulaire
+                document.getElementById('videoTitle').value = '';
+                document.getElementById('videoUrl').value = '';
+                document.querySelector('textarea[placeholder="Description de la vidéo"]').value = '';
+                
+            } catch (error) {
+                console.error('❌ Erreur lors de l\'ajout de la vidéo:', error);
+                alert('Erreur lors de la sauvegarde: ' + error.message);
+            }
+        }
+
+        function editVideo(id) {
+            console.log('✏️ editVideo appelée avec ID:', id);
+            
+            const video = window.adminData.getHomeVideos().find(v => v.id === id);
+            if (!video) {
+                alert('Vidéo non trouvée.');
+                return;
+            }
+            
+            const newTitle = prompt('Modifier le titre:', video.title);
+            if (newTitle && newTitle !== video.title) {
+                const success = window.adminData.updateHomeVideo(id, { title: newTitle });
+                if (success) {
+                    alert('Titre de la vidéo mis à jour avec succès !');
+                    // Rafraîchir la modale
+                    closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
+                    manageHomeCarousel('videos');
+                } else {
+                    alert('Erreur lors de la mise à jour.');
+                }
+            }
+        }
+
+        function deleteVideo(id) {
+            console.log('🗑️ deleteVideo appelée avec ID:', id);
+            
+            const video = window.adminData.getHomeVideos().find(v => v.id === id);
+            if (!video) {
+                alert('Vidéo non trouvée.');
+                return;
+            }
+            
+            const confirm = confirm(`Êtes-vous sûr de vouloir supprimer la vidéo "${video.title}" ?\n\nCette action est irréversible.`);
+            if (confirm) {
+                const success = window.adminData.deleteHomeVideo(id);
+                if (success) {
+                    alert('Vidéo supprimée avec succès !');
+                    // Rafraîchir la modale
+                    closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
+                    manageHomeCarousel('videos');
+                } else {
+                    alert('Erreur lors de la suppression.');
+                }
+            }
         }
 
         function saveVideoOrder() {
