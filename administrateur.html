@@ -1015,10 +1015,13 @@
                     </div>
                     
                     <div style="display: flex; gap: 10px; margin-top: 25px; justify-content: flex-end;">
-                        <button onclick="exportStats('${action}')" style="background: #17a2b8; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
-                            <i class="fas fa-download"></i> Exporter
+                        <button onclick="exportStats('json', '${action}')" style="background: #17a2b8; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-file-code"></i> Exporter JSON
                         </button>
-                        <button onclick="refreshStats()" style="background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                        <button onclick="exportStats('excel', '${action}')" style="background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                            <i class="fas fa-file-excel"></i> Exporter Excel
+                        </button>
+                        <button onclick="refreshStats()" style="background: #ffc107; color: #212529; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
                             <i class="fas fa-sync"></i> Actualiser
                         </button>
                         <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">Fermer</button>
@@ -1169,35 +1172,163 @@
             closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
         }
 
-        function exportStats(type) {
+        function exportStats(format, type) {
             const realStats = getRealBrowserStats();
             const navigationData = JSON.parse(localStorage.getItem('franchini_navigation_stats') || '{}');
             
-            const data = {
-                type: type,
-                date: new Date().toLocaleDateString('fr-FR'),
-                conformite: 'RGPD - Anonymisé',
-                note: 'Export des statistiques du site Franchini',
-                periode: new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }),
-                statistiques: realStats,
-                sessions: navigationData.sessions || [],
-                total_sessions: navigationData.sessions ? navigationData.sessions.length : 0,
-                source_donnees: 'Navigation Timing API - Analytics locales anonymisées'
-            };
-            
-            const jsonStr = JSON.stringify(data, null, 2);
-            const blob = new Blob([jsonStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `stats-${type}-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            
-            alert('📊 Statistiques exportées avec succès !\n\nFichier : stats-' + type + '-' + new Date().toISOString().split('T')[0] + '.json\n\nDonnées incluses :\n• ' + data.total_sessions + ' sessions analysées\n• Période : ' + data.periode + '\n• Conformité RGPD garantie');
+            if (format === 'json') {
+                // Export JSON
+                const data = {
+                    type: type,
+                    date: new Date().toLocaleDateString('fr-FR'),
+                    conformite: 'RGPD - Anonymisé',
+                    note: 'Export des statistiques du site Franchini',
+                    periode: new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }),
+                    statistiques: realStats,
+                    sessions: navigationData.sessions || [],
+                    total_sessions: navigationData.sessions ? navigationData.sessions.length : 0,
+                    source_donnees: 'Navigation Timing API - Analytics locales anonymisées'
+                };
+                
+                const jsonStr = JSON.stringify(data, null, 2);
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `stats-${type}-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert('📊 Statistiques exportées en JSON avec succès !\n\nFichier : stats-' + type + '-' + new Date().toISOString().split('T')[0] + '.json\n\nDonnées incluses :\n• ' + data.total_sessions + ' sessions analysées\n• Période : ' + data.periode + '\n• Conformité RGPD garantie');
+                
+            } else if (format === 'excel') {
+                // Export Excel (CSV compatible)
+                let csvContent = '\ufeff'; // BOM pour UTF-8
+                
+                // En-tête
+                csvContent += 'Rapport de Statistiques - Site Franchini\n';
+                csvContent += 'Date d\'export,' + new Date().toLocaleDateString('fr-FR') + '\n';
+                csvContent += 'Type de rapport,' + type + '\n';
+                csvContent += 'Période,' + new Date().toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' }) + '\n';
+                csvContent += 'Conformité,RGPD - Anonymisé\n';
+                csvContent += 'Source,Navigation Timing API\n\n';
+                
+                // Statistiques principales
+                csvContent += 'STATISTIQUES PRINCIPALES\n';
+                csvContent += 'Métrique,Valeur,Unité\n';
+                csvContent += 'Pages vues aujourd\'hui,' + realStats.pageViewsToday + ',pages\n';
+                csvContent += 'Visiteurs uniques,' + realStats.uniqueVisitors + ',visiteurs\n';
+                csvContent += 'Temps moyen,' + realStats.avgTimeOnPage + ',minutes\n';
+                csvContent += 'Taux de rebond,' + realStats.bounceRate + ',%\n';
+                csvContent += 'Visites aujourd\'hui,' + realStats.visitsToday + ',visites\n';
+                csvContent += 'Visites cette semaine,' + realStats.visitsThisWeek + ',visites\n';
+                csvContent += 'Visites ce mois,' + realStats.visitsThisMonth + ',visites\n';
+                csvContent += 'Pages par visite,' + realStats.pagesPerVisit + ',pages\n';
+                csvContent += 'Demandes de contact,' + realStats.contactRequests + ',demandes\n';
+                csvContent += 'Consultations matériel,' + realStats.equipmentViews + ',consultations\n';
+                csvContent += 'Taux de conversion,' + realStats.conversionRate + ',%\n';
+                csvContent += 'Leads qualifiés,' + realStats.qualifiedLeads + ',leads\n\n';
+                
+                // Pages les plus visitées
+                csvContent += 'PAGES LES PLUS VISITÉES\n';
+                csvContent += 'Page,Nombre de visites\n';
+                const pageViews = {};
+                navigationData.sessions?.forEach(s => {
+                    pageViews[s.page] = (pageViews[s.page] || 0) + 1;
+                });
+                Object.entries(pageViews)
+                    .sort(([,a], [,b]) => b - a)
+                    .slice(0, 10)
+                    .forEach(([page, count]) => {
+                        const pageName = page.split('/').pop() || 'Accueil';
+                        csvContent += '"' + pageName + '",' + count + '\n';
+                    });
+                
+                csvContent += '\n';
+                
+                // Heures de pointe
+                csvContent += 'HEURES DE POINTE\n';
+                csvContent += 'Heure,Nombre de visites\n';
+                const hourCounts = {};
+                navigationData.sessions?.forEach(s => {
+                    const hour = new Date(s.timestamp).getHours();
+                    hourCounts[hour] = (hourCounts[hour] || 0) + 1;
+                });
+                Object.entries(hourCounts)
+                    .sort(([a], [b]) => a - b)
+                    .forEach(([hour, count]) => {
+                        csvContent += hour + 'h-' + (parseInt(hour) + 1) + 'h,' + count + '\n';
+                    });
+                
+                csvContent += '\n';
+                
+                // Jours d'activité
+                csvContent += 'JOURS D\'ACTIVITÉ\n';
+                csvContent += 'Jour,Nombre de visites\n';
+                const dayCounts = {};
+                const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+                navigationData.sessions?.forEach(s => {
+                    const day = new Date(s.timestamp).getDay();
+                    const dayName = dayNames[day];
+                    dayCounts[dayName] = (dayCounts[dayName] || 0) + 1;
+                });
+                Object.entries(dayCounts)
+                    .forEach(([day, count]) => {
+                        csvContent += '"' + day + '",' + count + '\n';
+                    });
+                
+                csvContent += '\n';
+                
+                // Sources de trafic
+                csvContent += 'SOURCES DE TRAFIC\n';
+                csvContent += 'Source,Nombre de visites\n';
+                const sourceCounts = {};
+                navigationData.sessions?.forEach(s => {
+                    const source = s.referrer === 'direct' ? 'Direct' : 
+                                 s.referrer.includes('google') ? 'Google' :
+                                 s.referrer.includes('facebook') ? 'Facebook' : 
+                                 s.referrer.includes('bing') ? 'Bing' : 'Autre';
+                    sourceCounts[source] = (sourceCounts[source] || 0) + 1;
+                });
+                Object.entries(sourceCounts)
+                    .sort(([,a], [,b]) => b - a)
+                    .forEach(([source, count]) => {
+                        csvContent += '"' + source + '",' + count + '\n';
+                    });
+                
+                csvContent += '\n';
+                
+                // Sessions détaillées (limitées aux 100 dernières pour éviter un fichier trop gros)
+                csvContent += 'SESSIONS DÉTAILLÉES (100 dernières)\n';
+                csvContent += 'Date,Heure,Page,Navigateur,Langue,Résolution,Source\n';
+                navigationData.sessions?.slice(-100).forEach(s => {
+                    const date = new Date(s.timestamp).toLocaleDateString('fr-FR');
+                    const time = new Date(s.timestamp).toLocaleTimeString('fr-FR');
+                    const page = s.page.split('/').pop() || 'Accueil';
+                    const browser = s.userAgent.split(' ')[0] || 'Inconnu';
+                    const source = s.referrer === 'direct' ? 'Direct' : 
+                                 s.referrer.includes('google') ? 'Google' : 'Autre';
+                    
+                    csvContent += '"' + date + '",' + time + ',"' + page + '","' + browser + '",' + s.language + ',"' + s.screen + '","' + source + '"\n';
+                });
+                
+                // Créer le blob et télécharger
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `stats-${type}-${new Date().toISOString().split('T')[0]}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                alert('📊 Statistiques exportées en Excel (CSV) avec succès !\n\nFichier : stats-' + type + '-' + new Date().toISOString().split('T')[0] + '.csv\n\nDonnées incluses :\n• ' + (navigationData.sessions?.length || 0) + ' sessions analysées\n• Statistiques complètes\n• Pages les plus visitées\n• Heures de pointe\n• Sources de trafic\n• Compatible Excel, Google Sheets, LibreOffice');
+            }
         }
 
         function manageSettings(action) {
