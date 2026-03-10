@@ -2319,15 +2319,19 @@
                 
                 console.log('✅ Vidéo ajoutée:', newVideo);
                 
+                // Réinitialiser le formulaire AVANT de fermer la modale
+                const titleField = document.getElementById('videoTitle');
+                const urlField = document.getElementById('videoUrl');
+                const descField = document.querySelector('textarea[placeholder="Description de la vidéo"]');
+                
+                if (titleField) titleField.value = '';
+                if (urlField) urlField.value = '';
+                if (descField) descField.value = '';
+                
                 alert(`Vidéo ajoutée avec succès !\n\nTitre: ${title}\nURL: ${url}\nID: ${newVideo.id}\n\nLa vidéo est maintenant visible dans le carousel de la page d'accueil.`);
                 
                 // Fermer la modale
                 closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
-                
-                // Réinitialiser le formulaire
-                document.getElementById('videoTitle').value = '';
-                document.getElementById('videoUrl').value = '';
-                document.querySelector('textarea[placeholder="Description de la vidéo"]').value = '';
                 
             } catch (error) {
                 console.error('❌ Erreur lors de l\'ajout de la vidéo:', error);
