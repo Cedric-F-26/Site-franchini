@@ -791,6 +791,11 @@
                 `;
                 modal.innerHTML = actions[action];
                 document.body.appendChild(modal);
+                
+                // Initialiser le drag-and-drop si c'est la section order
+                if (action === 'order') {
+                    setTimeout(() => initVideoSort(), 100);
+                }
             } else {
                 console.error('Action non reconnue:', action);
                 alert('Erreur: Action non reconnue: ' + action);
@@ -1816,6 +1821,7 @@
             
             // Récupérer les vraies données
             const videos = window.adminData?.getHomeVideos() || [];
+            console.log('📹 Vidéos trouvées:', videos);
             
             const actions = {
                 'videos': `
@@ -1872,29 +1878,38 @@
                         </div>
                     </div>
                 `,'order': `
-                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px; width: 90%;">
+                    <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px; width: 90%; max-height: 90vh; overflow-y: auto;">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #4CAF50; padding-bottom: 15px;">
                             <h2 style="color: #333; margin: 0;"><i class="fas fa-sort"></i> Ordre des Vidéos (${videos.length} vidéo(s))</h2>
                             <button onclick="closeModal(this.closest('div').parentElement)" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">✕</button>
                         </div>
                         <div style="background: #f8f9fa; padding: 20px; border-radius: 5px; border: 1px solid #ddd;">
                             <p style="margin-bottom: 15px; color: #666;">Glissez-déposez les vidéos pour réorganiser l'ordre d'affichage</p>
-                            <div style="display: grid; gap: 10px;">
+                            <div id="video-sort-container" style="display: grid; gap: 10px;">
                                 ${videos.length === 0 ? 
                                     '<p style="text-align: center; color: #666; padding: 20px;">Aucune vidéo à ordonner. Ajoutez d\'abord des vidéos.</p>' :
-                                    videos.map((video, index) => `
-                                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 5px; border: ${index === 0 ? '2px solid #4CAF50' : '1px solid #ddd'}; cursor: move;">
-                                            <span>☰ 📹 ${video.title || 'Video ' + (index + 1)}</span>
+                                    videos.sort((a, b) => (a.position || 0) - (b.position || 0)).map((video, index) => `
+                                        <div class="video-sort-item" data-video-id="${video.id}" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: white; border-radius: 5px; border: ${index === 0 ? '2px solid #4CAF50' : '1px solid #ddd'}; cursor: move; transition: all 0.3s ease;">
+                                            <div style="display: flex; align-items: center; gap: 15px;">
+                                                <span style="font-size: 1.5rem; cursor: grab;">☰</span>
+                                                <div>
+                                                    <strong>${video.title || 'Video ' + (index + 1)}</strong>
+                                                    <div style="font-size: 0.9rem; color: #666;">${video.url}</div>
+                                                </div>
+                                            </div>
                                             <span style="color: ${index === 0 ? '#4CAF50' : '#666'}; font-weight: ${index === 0 ? 'bold' : 'normal'};">Position ${index + 1}</span>
                                         </div>
                                     `).join('')
                                 }
                             </div>
-                            <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
-                                <button onclick="saveVideoOrder(); closeModal(this.closest('div').parentElement)" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
-                                    <i class="fas fa-save"></i> Enregistrer l'ordre
-                                </button>
-                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 20px; justify-content: flex-end;">
+                            <button onclick="resetVideoOrder()" style="background: #dc3545; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                <i class="fas fa-undo"></i> Réinitialiser
+                            </button>
+                            <button onclick="saveVideoOrder()" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                <i class="fas fa-save"></i> Enregistrer l'ordre
+                            </button>
                         </div>
                     </div>
                 `,
@@ -2386,7 +2401,108 @@
         }
 
         function saveVideoOrder() {
-            alert('Ordre des vidéos enregistré avec succès !\n\nLe carousel affichera les vidéos dans le nouvel ordre.');
+            console.log('💾 saveVideoOrder appelée');
+            
+            const container = document.getElementById('video-sort-container');
+            if (!container) {
+                alert('Erreur: Conteneur de tri non trouvé.');
+                return;
+            }
+            
+            const items = container.querySelectorAll('.video-sort-item');
+            const newOrder = Array.from(items).map(item => parseInt(item.dataset.videoId));
+            
+            try {
+                const success = window.adminData.reorderHomeVideos(newOrder);
+                if (success) {
+                    alert('📋 Ordre des vidéos enregistré avec succès !\n\nLes vidéos seront affichées dans le nouvel ordre sur la page d\'accueil.');
+                    closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
+                } else {
+                    alert('Erreur lors de l\'enregistrement de l\'ordre.');
+                }
+            } catch (error) {
+                console.error('❌ Erreur lors de la sauvegarde de l\'ordre:', error);
+                alert('Erreur lors de la sauvegarde: ' + error.message);
+            }
+        }
+
+        function resetVideoOrder() {
+            console.log('🔄 resetVideoOrder appelée');
+            
+            const confirm = confirm('Êtes-vous sûr de vouloir réinitialiser l\'ordre des vidéos ?\n\nCela remettra les vidéos dans leur ordre d\'ajout.');
+            if (confirm) {
+                try {
+                    const videos = window.adminData.getHomeVideos();
+                    videos.forEach((video, index) => {
+                        video.position = index + 1;
+                    });
+                    localStorage.setItem('franchini_home_videos', JSON.stringify(videos));
+                    
+                    alert('🔄 Ordre réinitialisé avec succès !');
+                    closeModal(document.querySelector('[style*="position: fixed"][style*="z-index: 10000"]'));
+                    manageHomeCarousel('order'); // Recharger la modale
+                } catch (error) {
+                    console.error('❌ Erreur lors de la réinitialisation:', error);
+                    alert('Erreur lors de la réinitialisation: ' + error.message);
+                }
+            }
+        }
+
+        // Initialiser le drag-and-drop après l'ouverture de la modale
+        function initVideoSort() {
+            setTimeout(() => {
+                const container = document.getElementById('video-sort-container');
+                if (!container) return;
+                
+                const items = container.querySelectorAll('.video-sort-item');
+                let draggedItem = null;
+                
+                items.forEach(item => {
+                    item.draggable = true;
+                    
+                    item.addEventListener('dragstart', function(e) {
+                        draggedItem = this;
+                        this.style.opacity = '0.5';
+                        e.dataTransfer.effectAllowed = 'move';
+                    });
+                    
+                    item.addEventListener('dragend', function(e) {
+                        this.style.opacity = '';
+                        draggedItem = null;
+                    });
+                    
+                    item.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                        e.dataTransfer.dropEffect = 'move';
+                        
+                        const afterElement = getDragAfterElement(container, e.clientY);
+                        if (afterElement == null) {
+                            container.appendChild(draggedItem);
+                        } else {
+                            container.insertBefore(draggedItem, afterElement);
+                        }
+                    });
+                    
+                    item.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                    });
+                });
+                
+                function getDragAfterElement(container, y) {
+                    const draggableElements = [...container.querySelectorAll('.video-sort-item:not(.dragging)')];
+                    
+                    return draggableElements.reduce((closest, child) => {
+                        const box = child.getBoundingClientRect();
+                        const offset = y - box.top - box.height / 2;
+                        
+                        if (offset < 0 && offset > closest.offset) {
+                            return { offset: offset, element: child };
+                        } else {
+                            return closest;
+                        }
+                    }, { offset: Number.NEGATIVE_INFINITY }).element;
+                }
+            }, 100);
         }
 
         function saveCarouselSettings() {

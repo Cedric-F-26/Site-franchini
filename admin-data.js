@@ -4,6 +4,7 @@
 class AdminDataManager {
     constructor() {
         this.initializeData();
+        this.addTestDataIfEmpty(); // Ajouter des données de test pour le développement
     }
 
     // Initialisation des données par défaut (vides pour données réelles)
@@ -42,6 +43,37 @@ class AdminDataManager {
             const defaultEquipment = [];
             localStorage.setItem('franchini_equipment', JSON.stringify(defaultEquipment));
         }
+    }
+
+    // Ajouter des données de test si vide (pour développement)
+    addTestDataIfEmpty() {
+        const videos = this.getHomeVideos();
+        if (videos.length === 0) {
+            console.log('🎥 Ajout de vidéos de test pour le développement');
+            const testVideos = [
+                {
+                    id: Date.now() + 1,
+                    title: 'Deutz-Fahr Série 6 - Présentation',
+                    url: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+                    description: 'Découvrez la nouvelle série 6 Deutz-Fahr',
+                    type: 'youtube',
+                    position: 1,
+                    active: true
+                },
+                {
+                    id: Date.now() + 2,
+                    title: 'Matériel Agricole - Démonstration',
+                    url: 'https://www.youtube.com/watch?v=9bZkp7q19f0',
+                    description: 'Voir notre matériel en action',
+                    type: 'youtube',
+                    position: 2,
+                    active: true
+                }
+            ];
+            localStorage.setItem('franchini_home_videos', JSON.stringify(testVideos));
+            return testVideos;
+        }
+        return videos;
     }
 
     // Gestion des vidéos d'accueil
