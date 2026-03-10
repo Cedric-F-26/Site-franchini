@@ -46,11 +46,22 @@ class SiteDataLoader {
         }
 
         // Créer les slides pour les vidéos
-        carouselContainer.innerHTML = this.homeVideos.map((video, index) => `
+        carouselContainer.innerHTML = this.homeVideos.map((video, index) => {
+            // Préparer l'URL YouTube avec les paramètres d'autoplay
+            let videoUrl = video.url;
+            if (video.url.includes('youtube') || video.url.includes('youtu.be')) {
+                // Convertir l'URL en format embed avec paramètres d'autoplay
+                const videoId = this.extractYouTubeId(video.url);
+                if (videoId) {
+                    videoUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=1&showinfo=0&rel=0&loop=1&playlist=${videoId}`;
+                }
+            }
+            
+            return `
             <div class="carousel-slide ${index === 0 ? 'active' : ''}">
                 <div class="video-container">
                     ${video.url.includes('youtube') || video.url.includes('youtu.be') ? 
-                        `<iframe src="${video.url}" allow="autoplay; encrypted-media" allowfullscreen></iframe>` :
+                        `<iframe src="${videoUrl}" allow="autoplay; encrypted-media" allowfullscreen></iframe>` :
                         video.type === 'video' ?
                         `<video controls autoplay muted loop>
                             <source src="${video.dataUrl || video.url}" type="video/mp4">
@@ -59,10 +70,18 @@ class SiteDataLoader {
                     }
                 </div>
             </div>
-        `).join('');
+        `;
+        }).join('');
 
         // Réinitialiser le carrousel
         this.reinitCarousel();
+    }
+
+    // Extraire l'ID YouTube depuis différentes formats d'URL
+    extractYouTubeId(url) {
+        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? match[2] : null;
     }
 
     updateActualitesCarousel() {
