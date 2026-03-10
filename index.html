@@ -441,21 +441,7 @@
         <!-- Carousel de vidéos YouTube -->
         <section class="video-carousel">
             <div class="carousel-container">
-                <div class="carousel-slide active">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&controls=1&showinfo=0&rel=0&loop=1&playlist=dQw4w9WgXcQ" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/9bZkp7q19f0?autoplay=0&mute=1&controls=1&showinfo=0&rel=0&loop=1&playlist=9bZkp7q19f0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    </div>
-                </div>
-                <div class="carousel-slide">
-                    <div class="video-container">
-                        <iframe src="https://www.youtube.com/embed/3tmd-ClpJpM?autoplay=0&mute=1&controls=1&showinfo=0&rel=0&loop=1&playlist=3tmd-ClpJpM" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-                    </div>
-                </div>
+                <!-- Le contenu sera chargé dynamiquement par site-data-loader.js -->
             </div>
             <div class="carousel-controls">
                 <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
@@ -495,36 +481,11 @@
 
             <section class="actualites-section">
                 <div class="actualites-carousel">
-                    <div class="actualite-slide active">
-                        <img src="https://picsum.photos/seed/franchini1/600/400.jpg" alt="Nouveau tracteur Deutz-Fahr">
-                        <div class="actualite-info">
-                            <h3>Nouveauté : Série 6</h3>
-                            <p>Découvrez les derniers modèles Deutz-Fahr</p>
-                        </div>
-                    </div>
-                    <div class="actualite-slide">
-                        <img src="https://picsum.photos/seed/franchini2/600/400.jpg" alt="Promotion printemps">
-                        <div class="actualite-info">
-                            <h3>Promotion Printemps</h3>
-                            <p>Offres spéciales sur le matériel neuf</p>
-                        </div>
-                    </div>
-                    <div class="actualite-slide">
-                        <video autoplay muted loop>
-                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                        </video>
-                        <div class="actualite-info">
-                            <h3>Démonstration</h3>
-                            <p>Voir nos matériels en action</p>
-                        </div>
-                    </div>
-                    <div class="actualite-slide">
-                        <img src="https://picsum.photos/seed/franchini3/600/400.jpg" alt="Service client">
-                        <div class="actualite-info">
-                            <h3>Nouveau Service</h3>
-                            <p>Maintenance 24/7 disponible</p>
-                        </div>
-                    </div>
+                    <!-- Le contenu sera chargé dynamiquement par site-data-loader.js -->
+                </div>
+                <div class="actualites-controls">
+                    <button class="prev-actualite" onclick="changeActualite(-1)">&#10094;</button>
+                    <button class="next-actualite" onclick="changeActualite(1)">&#10095;</button>
                 </div>
             </section>
         </div>
@@ -547,116 +508,64 @@
     </footer>
 
     <script>
-        // Carousel des vidéos YouTube - Version simplifiée
-        let currentSlide = 0;
-        const slides = document.querySelectorAll('.carousel-slide');
-        const totalSlides = slides.length;
-        let slideInterval;
-
-        function showSlide(index) {
-            slides.forEach(slide => slide.classList.remove('active'));
-            currentSlide = (index + totalSlides) % totalSlides;
-            slides[currentSlide].classList.add('active');
-        }
-
+        // Le carousel est maintenant géré par site-data-loader.js
+        // Les fonctions changeSlide et changeActualite seront créées dynamiquement
+        
+        // Fonctions de compatibilité si le site-data-loader n'est pas chargé
         function changeSlide(direction) {
-            clearInterval(slideInterval);
-            showSlide(currentSlide + direction);
-            startSlideShow();
-        }
-
-        function startSlideShow() {
-            slideInterval = setInterval(() => {
-                showSlide(currentSlide + 1);
-            }, 15000);
-        }
-
-        // Carousel des actualités
-        let currentActualite = 0;
-        const actualites = document.querySelectorAll('.actualite-slide');
-        const totalActualites = actualites.length;
-        let actualiteInterval;
-
-        function showActualite(index) {
-            actualites.forEach(actualite => actualite.classList.remove('active'));
-            currentActualite = (index + totalActualites) % totalActualites;
-            actualites[currentActualite].classList.add('active');
-            
-            const actualiteElement = actualites[currentActualite];
-            const video = actualiteElement.querySelector('video');
-            
-            if (video) {
-                video.play();
-                actualiteInterval = null;
-            } else {
-                // Pour les images, changer toutes les 3 secondes
-                if (actualiteInterval) clearInterval(actualiteInterval);
-                actualiteInterval = setInterval(() => {
-                    showActualite(currentActualite + 1);
-                }, 3000);
+            if (window.siteData && window.siteData.changeSlide) {
+                window.siteData.changeSlide(direction);
             }
         }
-
-        function startActualiteShow() {
-            showActualite(0);
+        
+        function changeActualite(direction) {
+            if (window.siteData && window.siteData.changeActualite) {
+                window.siteData.changeActualite(direction);
+            }
         }
-
-        // Initialisation
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('Page Franchini chargée - Version avec widget Facebook');
-            
-            // Vérifier si le widget Facebook charge
-            setTimeout(() => {
-                const fbPage = document.querySelector('.fb-page');
-                const fallback = document.querySelector('.facebook-fallback');
-                
-                if (fbPage && fbPage.offsetHeight === 0) {
-                    // Le widget ne charge pas, afficher le fallback
-                    if (fallback) {
-                        fallback.style.display = 'block';
-                        fbPage.style.display = 'none';
-                    }
-                }
-            }, 5000); // Attendre 5 secondes
-            
-            // Initialiser Facebook SDK
-            window.fbAsyncInit = function() {
+        
+        // YouTube API simplifiée
+        function onYouTubeIframeAPIReady() {
+            console.log('YouTube API prête');
+        }
+        
+        // Fonctions de partage Facebook
+        function shareOnFacebook() {
+            if (typeof FB !== 'undefined') {
+                FB.ui({
+                    method: 'feed',
+                    app_id: '1439664521133215',
+                    link: window.location.href,
+                    name: 'Franchini - Concessionnaire Deutz-Fahr',
+                    caption: 'Véhicules agricoles neufs et occasion',
+                    description: 'Découvrez nos promotions et notre catalogue de matériel agricole Deutz-Fahr',
+                    picture: 'https://franchini-concession.com/images/logo-franchini.png'
+                }, function(response) {});
+            } else {
+                // Fallback si Facebook SDK n'est pas chargé
+                window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(window.location.href), '_blank');
+            }
+        }
+        
+        // Initialiser Facebook SDK
+        window.fbAsyncInit = function() {
+            if (typeof FB !== 'undefined') {
                 FB.init({
                     appId: '1439664521133215',
                     xfbml: true,
                     version: 'v18.0'
                 });
-            };
-            
-            // Démarrer les carousels
-            if (slides.length > 0) {
-                startSlideShow();
             }
-            
-            if (actualites.length > 0) {
-                startActualiteShow();
-            }
-        });
-
-        // Fonction de partage Facebook
-        function shareOnFacebook() {
-            FB.ui({
-                method: 'feed',
-                app_id: '1439664521133215',
-                link: window.location.href,
-                name: 'Franchini - Concessionnaire Deutz-Fahr',
-                caption: 'Véhicules agricoles neufs et occasion',
-                description: 'Découvrez nos promotions et notre catalogue de matériel agricole Deutz-Fahr',
-                picture: 'https://picsum.photos/seed/franchini-logo/1200/630.jpg'
-            }, function(response){
-                if (response && response.post_id) {
-                    alert('Merci ! Votre publication a été partagée avec succès.');
-                } else {
-                    console.log('Partage annulé ou échoué');
-                }
-            });
-        }
-
+        };
+        
+        // Charger Facebook SDK
+        (function(d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = 'https://connect.facebook.net/fr_FR/sdk.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
         // YouTube API simplifiée
         function onYouTubeIframeAPIReady() {
             console.log('YouTube API prête');
