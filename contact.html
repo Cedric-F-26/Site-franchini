@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
         .footer-bottom {
             display: flex;
@@ -121,6 +122,97 @@
         .btn-submit:hover {
             background-color: #004d00;
         }
+
+        /* Styles pour la carte */
+        .map-section {
+            background: #f5f5f5;
+            padding: 40px 0;
+        }
+
+        .map-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+
+        .route-calculator {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .route-calculator h3 {
+            color: #2e7d32;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .route-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 15px;
+            align-items: end;
+        }
+
+        .route-inputs input {
+            padding: 10px;
+            border: 1px solid #4CAF50;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn-calculate {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+        }
+
+        .btn-calculate:hover {
+            background: #45a049;
+        }
+
+        .route-info {
+            background: #f1f8e9;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .route-info h4 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .route-info p {
+            margin: 5px 0;
+            color: #1b5e20;
+        }
+
+        @media (max-width: 768px) {
+            .route-inputs {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            #map {
+                height: 350px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -138,7 +230,7 @@
                     <li><a href="neuf.html">Matériel Neuf</a></li>
                     <li><a href="occasion.html">Matériel Occasion</a></li>
                     <li><a href="magasin.html">Magasin</a></li>
-                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="contact.html" style="color: #4CAF50;">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -149,6 +241,32 @@
             <div class="container">
                 <h1>Contact</h1>
                 <p>Nous sommes à votre disposition</p>
+            </div>
+        </section>
+
+        <section class="map-section">
+            <div class="container">
+                <div class="route-calculator">
+                    <h3>
+                        <i class="fas fa-route"></i>
+                        Calculateur de trajet
+                    </h3>
+                    <div class="route-inputs">
+                        <input type="text" id="startAddress" placeholder="Votre adresse de départ">
+                        <input type="text" id="destinationAddress" value="111 av des monts du matin, 26300 Marches" readonly>
+                        <button class="btn-calculate" onclick="calculateRoute()">
+                            <i class="fas fa-directions"></i> Calculer
+                        </button>
+                    </div>
+                    <div id="routeInfo" class="route-info" style="display: none;">
+                        <h4>Informations de trajet</h4>
+                        <div id="routeDetails"></div>
+                    </div>
+                </div>
+                
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
             </div>
         </section>
 
@@ -217,6 +335,126 @@
             </div>
         </section>
     </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Coordonnées de la concession Franchini
+        const franchiniLocation = [44.5500, 4.1500]; // Coordonnées approximatives pour Marches
+        
+        // Initialiser la carte
+        const map = L.map('map').setView(franchiniLocation, 13);
+        
+        // Ajouter la couche de tuiles OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+        
+        // Ajouter un marqueur pour la concession
+        const marker = L.marker(franchiniLocation).addTo(map);
+        marker.bindPopup('<b>Franchini SARL</b><br>111 av des monts du matin<br>26300 Marches').openPopup();
+        
+        // Variables pour le calculateur de trajet
+        let startMarker = null;
+        let routeLine = null;
+        
+        // Fonction pour calculer le trajet
+        function calculateRoute() {
+            const startAddress = document.getElementById('startAddress').value;
+            const destinationAddress = document.getElementById('destinationAddress').value;
+            
+            if (!startAddress) {
+                alert('Veuillez entrer votre adresse de départ');
+                return;
+            }
+            
+            // Utiliser l'API Nominatim pour géocoder l'adresse
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(startAddress)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        const startCoords = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                        
+                        // Supprimer les marqueurs et lignes précédents
+                        if (startMarker) map.removeLayer(startMarker);
+                        if (routeLine) map.removeLayer(routeLine);
+                        
+                        // Ajouter le marqueur de départ
+                        startMarker = L.marker(startCoords).addTo(map);
+                        startMarker.bindPopup('<b>Départ</b><br>' + startAddress).openPopup();
+                        
+                        // Dessiner la ligne de trajet
+                        routeLine = L.polyline([startCoords, franchiniLocation], {
+                            color: '#4CAF50',
+                            weight: 4,
+                            opacity: 0.7
+                        }).addTo(map);
+                        
+                        // Ajuster la vue pour montrer tout le trajet
+                        const group = new L.featureGroup([startMarker, marker]);
+                        map.fitBounds(group.getBounds().pad(0.1));
+                        
+                        // Calculer la distance approximative
+                        const distance = calculateDistance(startCoords, franchiniLocation);
+                        showRouteInfo(distance, startAddress);
+                    } else {
+                        alert('Adresse non trouvée. Veuillez vérifier votre saisie.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur:', error);
+                    alert('Erreur lors du calcul du trajet. Veuillez réessayer.');
+                });
+        }
+        
+        // Fonction pour calculer la distance (formule de Haversine)
+        function calculateDistance(coords1, coords2) {
+            const R = 6371; // Rayon de la Terre en km
+            const dLat = (coords2[0] - coords1[0]) * Math.PI / 180;
+            const dLon = (coords2[1] - coords1[1]) * Math.PI / 180;
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                    Math.cos(coords1[0] * Math.PI / 180) * Math.cos(coords2[0] * Math.PI / 180) *
+                    Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            return R * c;
+        }
+        
+        // Fonction pour afficher les informations de trajet
+        function showRouteInfo(distance, startAddress) {
+            const routeInfo = document.getElementById('routeInfo');
+            const routeDetails = document.getElementById('routeDetails');
+            
+            const time = Math.round(distance / 50 * 60); // Estimation à 50 km/h moyenne
+            const hours = Math.floor(time / 60);
+            const minutes = time % 60;
+            
+            routeDetails.innerHTML = `
+                <p><strong>Distance :</strong> ${distance.toFixed(1)} km</p>
+                <p><strong>Temps estimé :</strong> ${hours}h ${minutes}min</p>
+                <p><strong>Départ :</strong> ${startAddress}</p>
+                <p><strong>Destination :</strong> 111 av des monts du matin, 26300 Marches</p>
+            `;
+            
+            routeInfo.style.display = 'block';
+        }
+        
+        // Géolocalisation de l'utilisateur
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const userLocation = [position.coords.latitude, position.coords.longitude];
+                document.getElementById('startAddress').placeholder = 'Utiliser ma position actuelle';
+                
+                // Ajouter un bouton pour utiliser la position actuelle
+                const geoButton = document.createElement('button');
+                geoButton.innerHTML = '<i class="fas fa-location-crosshairs"></i> Ma position';
+                geoButton.className = 'btn-calculate';
+                geoButton.style.marginLeft = '10px';
+                geoButton.onclick = function() {
+                    document.getElementById('startAddress').value = `Lat: ${userLocation[0].toFixed(6)}, Lng: ${userLocation[1].toFixed(6)}`;
+                };
+                document.getElementById('startAddress').parentNode.appendChild(geoButton);
+            });
+        }
+    </script>
 
     <footer class="footer-compact">
         <div class="container">
