@@ -410,70 +410,124 @@
     </main>
 
     <script>
-        // Fonction pour afficher la page occasion avec lien direct vers agriaffaires
-        function loadFranchiniEquipment() {
-            console.log('📋 Affichage page occasion avec lien direct agriaffaires');
+        // Vos annonces agriaffaires (à mettre à jour manuellement)
+        const franchiniAds = [
+            {
+                id: 1,
+                title: "Tracteur Deutz-Fahr 6160 C",
+                price: "42 500 €",
+                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Deutz-Fahr+6160",
+                description: "Tracteur agricole 140cv, année 2019, 3200h, excellent état, climatisation, GPS intégré",
+                agriaffairesLink: "https://www.agriaffaires.com/annonce/123456" // Remplacer par vrai lien
+            },
+            {
+                id: 2,
+                title: "Moissonneuse John Deere T660",
+                price: "87 000 €",
+                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=John+Deere+T660",
+                description: "Moissonneuse batteuse 6m, année 2020, 450h, moteur 6 cylindres, conditionnement automatique",
+                agriaffairesLink: "https://www.agriaffaires.com/annonce/789012" // Remplacer par vrai lien
+            },
+            {
+                id: 3,
+                title: "Presse à Balles Kuhn VB 2190",
+                price: "18 500 €",
+                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Kuhn+VB+2190",
+                description: "Presse à balles rondes 1.40m, chambre variable, année 2021, très bon état, faible utilisation",
+                agriaffairesLink: "https://www.agriaffaires.com/annonce/345678" // Remplacer par vrai lien
+            }
+        ];
+
+        let filteredAds = [...franchiniAds];
+
+        // Fonction pour afficher vos annonces
+        function displayFranchiniAds() {
             const equipmentGrid = document.getElementById('equipmentGrid');
             
-            // Afficher directement le lien vers vos annonces agriaffaires
-            equipmentGrid.innerHTML = `
-                <div style="text-align: center; padding: 60px 20px; grid-column: 1 / -1;">
-                    <i class="fas fa-store" style="font-size: 4rem; color: #4CAF50; margin-bottom: 30px;"></i>
-                    <h2 style="color: #333; margin-bottom: 20px; font-size: 2rem;">Notre Matériel d'Occasion</h2>
-                    <p style="color: #666; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; font-size: 1.1rem; line-height: 1.6;">
-                        Découvrez notre sélection complète de matériel agricole d'occasion vérifié et garanti.<br>
-                        Toutes nos annonces sont disponibles sur notre page Agriaffaires avec photos détaillées.
-                    </p>
-                    
-                    <div style="background: #f8f9fa; padding: 30px; border-radius: 15px; margin: 30px auto; max-width: 500px; border-left: 5px solid #4CAF50;">
-                        <h3 style="color: #333; margin-bottom: 15px; display: flex; align-items: center; justify-content: center; gap: 10px;">
-                            <i class="fas fa-tools" style="color: #4CAF50;"></i>
-                            Types de matériel disponible
-                        </h3>
-                        <ul style="text-align: left; color: #666; line-height: 1.8;">
-                            <li>🚜 Tracteurs agricoles</li>
-                            <li>🌾 Moissonneuses-batteuses</li>
-                            <li>📦 Presses à balles</li>
-                            <li>🌿 Épandeurs d'engrais</li>
-                            <li>🚚 Remorques agricoles</li>
-                            <li>⚙️ Matériel de travail du sol</li>
-                        </ul>
+            if (filteredAds.length === 0) {
+                equipmentGrid.innerHTML = `
+                    <div style="text-align: center; padding: 40px; grid-column: 1 / -1;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: #ccc; margin-bottom: 20px;"></i>
+                        <h3 style="color: #666;">Aucune annonce trouvée</h3>
+                        <p style="color: #999;">Essayez avec d'autres mots-clés</p>
                     </div>
-                    
-                    <div style="margin: 40px 0;">
-                        <a href="https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html" 
-                           target="_blank" 
-                           style="display: inline-block; background: #4CAF50; color: white; padding: 18px 35px; 
-                                  border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1rem;
-                                  transition: all 0.3s ease; margin: 10px; box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-                                  border: 2px solid #4CAF50;">
-                            <i class="fas fa-external-link-alt"></i> Voir toutes nos annonces
-                        </a>
-                        <br>
-                        <a href="tel:0475474037" 
-                           style="display: inline-block; background: #2196F3; color: white; padding: 18px 35px; 
-                                  border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1rem;
-                                  transition: all 0.3s ease; margin: 10px; box-shadow: 0 4px 15px rgba(33, 150, 243, 0.3);
-                                  border: 2px solid #2196F3;">
-                            <i class="fas fa-phone"></i> Contacter immédiatement
-                        </a>
-                    </div>
-                    
-                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 30px auto; max-width: 500px; border-left: 5px solid #ffc107;">
-                        <p style="color: #856404; margin: 0; font-weight: 500;">
-                            <i class="fas fa-info-circle"></i> 
-                            Nos annonces sont mises à jour régulièrement sur Agriaffaires avec photos et descriptions détaillées
-                        </p>
+                `;
+                return;
+            }
+
+            equipmentGrid.innerHTML = filteredAds.map(ad => `
+                <div class="occasion-card">
+                    <img src="${ad.image}" alt="${ad.title}" class="occasion-image" 
+                         onerror="this.src='https://via.placeholder.com/350x250/cccccc/ffffff?text=Photo+non+disponible'"
+                         style="width: 100%; height: 250px; object-fit: cover; background: #f0f0f0;">
+                    <div class="occasion-content">
+                        <h3 class="occasion-title">${ad.title}</h3>
+                        <div class="occasion-price">${ad.price}</div>
+                        <div class="occasion-details">
+                            <p>${ad.description}</p>
+                        </div>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <a href="${ad.agriaffairesLink}" target="_blank" class="occasion-link" style="flex: 1;">
+                                <i class="fas fa-external-link-alt"></i> Voir sur Agriaffaires
+                            </a>
+                            <a href="tel:0475474037" class="occasion-link" style="flex: 1; background: #2196F3;">
+                                <i class="fas fa-phone"></i> Contacter
+                            </a>
+                        </div>
                     </div>
                 </div>
-            `;
+            `).join('');
         }
+
+        // Fonction de recherche
+        function searchEquipment() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (searchTerm === '') {
+                filteredAds = [...franchiniAds];
+            } else {
+                filteredAds = franchiniAds.filter(ad => 
+                    ad.title.toLowerCase().includes(searchTerm) ||
+                    ad.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            displayFranchiniAds();
+        }
+
+        // Gérer la recherche avec la touche Entrée
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchEquipment();
+            }
+        });
 
         // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Initialisation de la page occasion.html');
-            loadFranchiniEquipment();
+            console.log('🚀 Initialisation de la page occasion.html avec annonces Franchini');
+            displayFranchiniAds();
         });
+
+        // Fonction pour ajouter une nouvelle annonce (utilisateur)
+        function addNewAd(title, price, description, agriaffairesLink, imageUrl) {
+            const newAd = {
+                id: franchiniAds.length + 1,
+                title: title,
+                price: price,
+                image: imageUrl || 'https://via.placeholder.com/350x250/4CAF50/ffffff?text=Nouveau',
+                description: description,
+                agriaffairesLink: agriaffairesLink
+            };
+            
+            franchiniAds.push(newAd);
+            filteredAds = [...franchiniAds];
+            displayFranchiniAds();
+            
+            console.log('✅ Nouvelle annonce ajoutée:', newAd);
+        }
+
+        // Rendre la fonction accessible globalement pour les tests
+        window.addNewAd = addNewAd;
     </script>
 
     <footer class="footer-compact">
