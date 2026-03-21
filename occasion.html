@@ -256,6 +256,85 @@
             background: #45a049;
         }
 
+        .refresh-section {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .refresh-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .refresh-button {
+            background: #2196F3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .refresh-button:hover {
+            background: #1976D2;
+            transform: translateY(-1px);
+        }
+
+        .refresh-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .last-update {
+            font-size: 0.8rem;
+            color: #999;
+            font-style: italic;
+        }
+
+        .auto-refresh-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            background: #e8f5e8;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #2e7d32;
+        }
+
+        .auto-refresh-indicator.active {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        @media (max-width: 768px) {
+            .refresh-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .refresh-info {
+                justify-content: center;
+            }
+        }
+
         @media (max-width: 768px) {
             .occasion-grid {
                 grid-template-columns: 1fr;
@@ -304,6 +383,20 @@
 
         <section class="occasion-container">
             <div class="container">
+                <div class="refresh-section">
+                    <div class="refresh-info">
+                        <span id="lastUpdate" class="last-update">Dernière mise à jour : Chargement...</span>
+                        <span id="autoRefreshIndicator" class="auto-refresh-indicator">
+                            <i class="fas fa-sync-alt"></i> Auto-rafraîchissement
+                        </span>
+                    </div>
+                    <div>
+                        <button id="refreshButton" class="refresh-button" onclick="manualRefresh()">
+                            <i class="fas fa-sync-alt"></i> Rafraîchir maintenant
+                        </button>
+                    </div>
+                </div>
+
                 <div class="filter-section">
                     <div class="filter-controls">
                         <input type="text" id="searchInput" class="filter-input" placeholder="Rechercher un matériel...">
@@ -333,15 +426,35 @@
     <script>
         let equipmentData = [];
         let filteredData = [];
+        let autoRefreshInterval;
+        let lastUpdateTime = null;
+        const AUTO_REFRESH_INTERVAL = 5 * 60 * 1000; // 5 minutes en millisecondes
 
         // Fonction pour charger les données depuis Agriaffaires
-        async function loadEquipmentFromAgriaffaires() {
+        async function loadEquipmentFromAgriaffaires(isManualRefresh = false) {
             const loadingMessage = document.getElementById('loadingMessage');
             const errorMessage = document.getElementById('errorMessage');
             const equipmentGrid = document.getElementById('equipmentGrid');
+            const refreshButton = document.getElementById('refreshButton');
+            const lastUpdateSpan = document.getElementById('lastUpdate');
+            const autoRefreshIndicator = document.getElementById('autoRefreshIndicator');
 
             try {
-                loadingMessage.style.display = 'block';
+                // Désactiver le bouton pendant le chargement
+                if (refreshButton) {
+                    refreshButton.disabled = true;
+                    refreshButton.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Chargement...';
+                }
+
+                // Indicateur de rafraîchissement automatique
+                if (autoRefreshIndicator && !isManualRefresh) {
+                    autoRefreshIndicator.classList.add('active');
+                    autoRefreshIndicator.innerHTML = '<i class="fas fa-sync-alt fa-spin"></i> Mise à jour automatique...';
+                }
+
+                if (!isManualRefresh) {
+                    loadingMessage.style.display = 'block';
+                }
                 errorMessage.style.display = 'none';
                 equipmentGrid.innerHTML = '';
 
@@ -412,11 +525,79 @@
 
                 filteredData = [...equipmentData];
                 displayEquipment();
+                updateLastUpdateTime();
 
             } catch (error) {
                 console.error('Erreur de chargement:', error);
                 loadingMessage.style.display = 'none';
                 errorMessage.style.display = 'block';
+                updateLastUpdateTime(true); // Indiquer une erreur
+            } finally {
+                // Réactiver le bouton après le chargement
+                if (refreshButton) {
+                    refreshButton.disabled = false;
+                    refreshButton.innerHTML = '<i class="fas fa-sync-alt"></i> Rafraîchir maintenant';
+                }
+
+                // Réinitialiser l'indicateur automatique
+                if (autoRefreshIndicator && !isManualRefresh) {
+                    autoRefreshIndicator.classList.remove('active');
+                    autoRefreshIndicator.innerHTML = '<i class="fas fa-sync-alt"></i> Auto-rafraîchissement';
+                }
+
+                loadingMessage.style.display = 'none';
+            }
+        }
+
+        // Fonction pour mettre à jour l'heure de dernière mise à jour
+        function updateLastUpdateTime(hasError = false) {
+            const lastUpdateSpan = document.getElementById('lastUpdate');
+            if (lastUpdateSpan) {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('fr-FR', { 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+                
+                if (hasError) {
+                    lastUpdateSpan.textContent = `Dernière tentative : ${timeString} (Erreur)`;
+                    lastUpdateSpan.style.color = '#dc3545';
+                } else {
+                    lastUpdateSpan.textContent = `Dernière mise à jour : ${timeString}`;
+                    lastUpdateSpan.style.color = '#999';
+                }
+                
+                lastUpdateTime = now;
+            }
+        }
+
+        // Fonction de rafraîchissement manuel
+        function manualRefresh() {
+            console.log('🔄 Rafraîchissement manuel demandé');
+            loadEquipmentFromAgriaffaires(true);
+            
+            // Redémarrer l'intervalle automatique
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+            startAutoRefresh();
+        }
+
+        // Démarrer le rafraîchissement automatique
+        function startAutoRefresh() {
+            console.log('⏰ Démarrage du rafraîchissement automatique (5 minutes)');
+            autoRefreshInterval = setInterval(() => {
+                console.log('🔄 Rafraîchissement automatique en cours...');
+                loadEquipmentFromAgriaffaires(false);
+            }, AUTO_REFRESH_INTERVAL);
+        }
+
+        // Arrêter le rafraîchissement automatique
+        function stopAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+                console.log('⏹️ Rafraîchissement automatique arrêté');
             }
         }
 
@@ -475,9 +656,31 @@
             }
         });
 
-        // Charger les données au chargement de la page
+        // Gérer la visibilité de la page (optimiser les ressources)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                // Page cachée : arrêter le rafraîchissement automatique
+                stopAutoRefresh();
+            } else {
+                // Page visible : redémarrer le rafraîchissement automatique
+                startAutoRefresh();
+            }
+        });
+
+        // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
-            loadEquipmentFromAgriaffaires();
+            console.log('🚀 Initialisation de la page occasion.html');
+            
+            // Charger les données initiales
+            loadEquipmentFromAgriaffaires(false);
+            
+            // Démarrer le rafraîchissement automatique
+            startAutoRefresh();
+        });
+
+        // Nettoyage lors de la fermeture de la page
+        window.addEventListener('beforeunload', function() {
+            stopAutoRefresh();
         });
     </script>
 
