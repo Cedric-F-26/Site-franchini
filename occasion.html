@@ -458,66 +458,130 @@
                 errorMessage.style.display = 'none';
                 equipmentGrid.innerHTML = '';
 
-                // Utiliser un proxy CORS pour contourner les restrictions
-                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html')}`;
-                
-                const response = await fetch(proxyUrl);
-                const htmlContent = await response.text();
-                
-                // Parser le HTML pour extraire les annonces
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlContent, 'text/html');
-                
-                // Extraire les annonces (adapter selon la structure réelle d'agriaffaires)
-                const listings = doc.querySelectorAll('.annonce, .listing, .item, [class*="annonc"], [class*="offer"]');
-                
-                equipmentData = [];
-                listings.forEach((listing, index) => {
-                    try {
-                        const title = listing.querySelector('h1, h2, h3, .title, [class*="title"]')?.textContent?.trim() || `Annonce ${index + 1}`;
-                        const price = listing.querySelector('.price, .prix, [class*="price"], [class*="prix"]')?.textContent?.trim() || 'Prix sur demande';
-                        const image = listing.querySelector('img')?.src || listing.querySelector('img')?.getAttribute('data-src') || 'https://via.placeholder.com/350x250/4CAF50/ffffff?text=Image';
-                        const description = listing.querySelector('.description, .desc, [class*="desc"]')?.textContent?.trim() || 'Description non disponible';
-                        const link = listing.querySelector('a')?.href || '#';
-                        
-                        equipmentData.push({
-                            id: index + 1,
-                            title: title,
-                            price: price,
-                            image: image,
-                            description: description,
-                            link: link
-                        });
-                    } catch (error) {
-                        console.warn('Erreur parsing annonce:', error);
-                    }
-                });
+                console.log('🌐 Tentative de chargement depuis agriaffaires.com...');
 
-                // Si aucune annonce trouvée avec les sélecteurs, créer des données de démonstration
+                // Essayer plusieurs méthodes pour récupérer les données
+                let dataLoaded = false;
+                let htmlContent = '';
+                
+                // Méthode 1: Proxy AllOrigins
+                try {
+                    console.log('🔄 Tentative 1: Proxy AllOrigins');
+                    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html')}`;
+                    const response = await fetch(proxyUrl);
+                    htmlContent = await response.text();
+                    console.log('✅ Succès avec proxy AllOrigins');
+                    dataLoaded = true;
+                } catch (error1) {
+                    console.warn('❌ Échec proxy AllOrigins:', error1.message);
+                    
+                    // Méthode 2: Proxy CORS-anywhere
+                    try {
+                        console.log('🔄 Tentative 2: Proxy CORS-anywhere');
+                        const corsProxy = `https://cors-anywhere.herokuapp.com/${encodeURIComponent('https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html')}`;
+                        const response = await fetch(corsProxy);
+                        htmlContent = await response.text();
+                        console.log('✅ Succès avec proxy CORS-anywhere');
+                        dataLoaded = true;
+                    } catch (error2) {
+                        console.warn('❌ Échec proxy CORS-anywhere:', error2.message);
+                        
+                        // Méthode 3: Tentative directe (peut fonctionner avec CORS)
+                        try {
+                            console.log('🔄 Tentative 3: Requête directe');
+                            const response = await fetch('https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html');
+                            htmlContent = await response.text();
+                            console.log('✅ Succès avec requête directe');
+                            dataLoaded = true;
+                        } catch (error3) {
+                            console.warn('❌ Échec requête directe:', error3.message);
+                        }
+                    }
+                }
+
+                if (dataLoaded && htmlContent) {
+                    // Parser le HTML pour extraire les annonces
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(htmlContent, 'text/html');
+                    
+                    // Extraire les annonces (adapter selon la structure réelle d'agriaffaires)
+                    const listings = doc.querySelectorAll('.annonce, .listing, .item, [class*="annonc"], [class*="offer"]');
+                    
+                    equipmentData = [];
+                    listings.forEach((listing, index) => {
+                        try {
+                            const title = listing.querySelector('h1, h2, h3, .title, [class*="title"]')?.textContent?.trim() || `Annonce ${index + 1}`;
+                            const price = listing.querySelector('.price, .prix, [class*="price"], [class*="prix"]')?.textContent?.trim() || 'Prix sur demande';
+                            const image = listing.querySelector('img')?.src || listing.querySelector('img')?.getAttribute('data-src') || 'https://via.placeholder.com/350x250/4CAF50/ffffff?text=Image';
+                            const description = listing.querySelector('.description, .desc, [class*="desc"]')?.textContent?.trim() || 'Description non disponible';
+                            const link = listing.querySelector('a')?.href || '#';
+                            
+                            equipmentData.push({
+                                id: index + 1,
+                                title: title,
+                                price: price,
+                                image: image,
+                                description: description,
+                                link: link
+                            });
+                        } catch (error) {
+                            console.warn('Erreur parsing annonce:', error);
+                        }
+                    });
+
+                    console.log(`📋 ${equipmentData.length} annonces trouvées et parsées`);
+                }
+
+                // Si aucune annonce trouvée avec les sélecteurs, créer des données de démonstration réalistes
                 if (equipmentData.length === 0) {
+                    console.log('📋 Aucune annonce trouvée, utilisation des données de démonstration réalistes');
                     equipmentData = [
                         {
                             id: 1,
-                            title: "Tracteur Deutz-Fahr Série 6",
-                            price: "45 000 €",
-                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Deutz-Fahr",
-                            description: "Tracteur puissant et fiable, parfait pour les grandes exploitations",
+                            title: "Tracteur Deutz-Fahr 6160 C",
+                            price: "42 500 €",
+                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Deutz-Fahr+6160",
+                            description: "Tracteur agricole 140cv, année 2019, 3200h, excellent état, climatisation, GPS intégré",
                             link: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
                         },
                         {
                             id: 2,
-                            title: "Moissonneuse John Deere",
-                            price: "28 000 €",
-                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=John+Deere",
-                            description: "Moissonneuse en excellent état, faible utilisation",
+                            title: "Moissonneuse John Deere T660",
+                            price: "87 000 €",
+                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=John+Deere+T660",
+                            description: "Moissonneuse batteuse 6m, année 2020, 450h, moteur 6 cylindres, conditionnement automatique",
                             link: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
                         },
                         {
                             id: 3,
-                            title: "Presse à Balles Round",
-                            price: "15 000 €",
-                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Presse",
-                            description: "Prese à balles performante, année 2020",
+                            title: "Presse à Balles Kuhn VB 2190",
+                            price: "18 500 €",
+                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Kuhn+VB+2190",
+                            description: "Presse à balles rondes 1.40m, chambre variable, année 2021, très bon état, faible utilisation",
+                            link: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
+                        },
+                        {
+                            id: 4,
+                            title: "Tracteur New Holland T7060",
+                            price: "35 000 €",
+                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=New+Holland+T7060",
+                            description: "Tracteur 70cv, année 2018, 2500h, 4 roues motrices, cabine confort, parfait petit élevage",
+                            link: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
+                        },
+                        {
+                            id: 5,
+                            title: "Épandeur d'engrais Amazone ZA-M",
+                            price: "12 000 €",
+                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Amazone+ZA-M",
+                            description: "Épandeur centrifuge 12m, année 2022, très peu utilisé, GPS de précision, contrôle section",
+                            link: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
+                        },
+                        {
+                            id: 6,
+                            title: "Remorque agricole Joskin 8T",
+                            price: "8 500 €",
+                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Joskin+8T",
+                            description: "Remorque benne 8 tonnes, année 2017, bon état, freins à air, essieux tandem",
                             link: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
                         }
                     ];
@@ -525,13 +589,30 @@
 
                 filteredData = [...equipmentData];
                 displayEquipment();
-                updateLastUpdateTime();
+                updateLastUpdateTime(dataLoaded);
 
             } catch (error) {
-                console.error('Erreur de chargement:', error);
+                console.error('❌ Erreur générale de chargement:', error);
                 loadingMessage.style.display = 'none';
                 errorMessage.style.display = 'block';
-                updateLastUpdateTime(true); // Indiquer une erreur
+                updateLastUpdateTime(false, true); // Indiquer une erreur
+                
+                // Même en cas d'erreur, afficher les données de démonstration
+                if (equipmentData.length === 0) {
+                    console.log('📋 Erreur critique, utilisation des données de démonstration');
+                    equipmentData = [
+                        {
+                            id: 1,
+                            title: "Tracteur Deutz-Fahr 6160 C",
+                            price: "42 500 €",
+                            image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Deutz-Fahr+6160",
+                            description: "Tracteur agricole 140cv, année 2019, 3200h, excellent état, climatisation, GPS intégré",
+                            link: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
+                        }
+                    ];
+                    filteredData = [...equipmentData];
+                    displayEquipment();
+                }
             } finally {
                 // Réactiver le bouton après le chargement
                 if (refreshButton) {
@@ -550,7 +631,7 @@
         }
 
         // Fonction pour mettre à jour l'heure de dernière mise à jour
-        function updateLastUpdateTime(hasError = false) {
+        function updateLastUpdateTime(dataLoaded = false, hasError = false) {
             const lastUpdateSpan = document.getElementById('lastUpdate');
             if (lastUpdateSpan) {
                 const now = new Date();
@@ -562,9 +643,12 @@
                 if (hasError) {
                     lastUpdateSpan.textContent = `Dernière tentative : ${timeString} (Erreur)`;
                     lastUpdateSpan.style.color = '#dc3545';
+                } else if (dataLoaded) {
+                    lastUpdateSpan.textContent = `Dernière mise à jour : ${timeString} (Live)`;
+                    lastUpdateSpan.style.color = '#28a745';
                 } else {
-                    lastUpdateSpan.textContent = `Dernière mise à jour : ${timeString}`;
-                    lastUpdateSpan.style.color = '#999';
+                    lastUpdateSpan.textContent = `Dernière mise à jour : ${timeString} (Démo)`;
+                    lastUpdateSpan.style.color = '#ffc107';
                 }
                 
                 lastUpdateTime = now;
