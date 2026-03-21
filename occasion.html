@@ -413,64 +413,204 @@
         let equipmentData = [];
         let filteredData = [];
 
-        // Fonction pour charger les données Franchini
-        function loadFranchiniEquipment() {
-            console.log('📋 Chargement des annonces personnalisées Franchini');
+        // Fonction pour charger les vraies annonces Franchini depuis agriaffaires
+        async function loadFranchiniEquipment() {
+            console.log('📋 Chargement des vraies annonces Franchini depuis agriaffaires.com');
+            const equipmentGrid = document.getElementById('equipmentGrid');
             
-            // Données personnalisées Franchini
-            equipmentData = [
-                {
-                    id: 1,
-                    title: "Tracteur Deutz-Fahr 6160 C",
-                    price: "42 500 €",
-                    image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Deutz-Fahr+6160",
-                    description: "Tracteur agricole 140cv, année 2019, 3200h, excellent état, climatisation, GPS intégré",
-                    link: "tel:0475474037"
-                },
-                {
-                    id: 2,
-                    title: "Moissonneuse John Deere T660",
-                    price: "87 000 €",
-                    image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=John+Deere+T660",
-                    description: "Moissonneuse batteuse 6m, année 2020, 450h, moteur 6 cylindres, conditionnement automatique",
-                    link: "tel:0475474037"
-                },
-                {
-                    id: 3,
-                    title: "Presse à Balles Kuhn VB 2190",
-                    price: "18 500 €",
-                    image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Kuhn+VB+2190",
-                    description: "Presse à balles rondes 1.40m, chambre variable, année 2021, très bon état, faible utilisation",
-                    link: "tel:0475474037"
-                },
-                {
-                    id: 4,
-                    title: "Tracteur New Holland T7060",
-                    price: "35 000 €",
-                    image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=New+Holland+T7060",
-                    description: "Tracteur 70cv, année 2018, 2500h, 4 roues motrices, cabine confort, parfait petit élevage",
-                    link: "tel:0475474037"
-                },
-                {
-                    id: 5,
-                    title: "Épandeur d'engrais Amazone ZA-M",
-                    price: "12 000 €",
-                    image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Amazone+ZA-M",
-                    description: "Épandeur centrifuge 12m, année 2022, très peu utilisé, GPS de précision, contrôle section",
-                    link: "tel:0475474037"
-                },
-                {
-                    id: 6,
-                    title: "Remorque agricole Joskin 8T",
-                    price: "8 500 €",
-                    image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Joskin+8T",
-                    description: "Remorque benne 8 tonnes, année 2017, bon état, freins à air, essieux tandem",
-                    link: "tel:0475474037"
-                }
-            ];
+            try {
+                equipmentGrid.innerHTML = `
+                    <div style="text-align: center; padding: 40px; grid-column: 1 / -1;">
+                        <div class="loading-spinner" style="margin: 0 auto 20px;"></div>
+                        <p style="color: #666;">Chargement de vos annonces Franchini...</p>
+                    </div>
+                `;
 
-            filteredData = [...equipmentData];
-            displayEquipment();
+                // Utiliser un proxy CORS pour contourner les restrictions
+                const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html')}`;
+                
+                const response = await fetch(proxyUrl);
+                const htmlContent = await response.text();
+                
+                // Parser le HTML pour extraire VOS annonces
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlContent, 'text/html');
+                
+                console.log('🔍 Recherche des annonces Franchini dans le HTML...');
+                
+                // Essayer plusieurs sélecteurs pour trouver les annonces
+                const selectors = [
+                    '.listing-card',
+                    '.annonce-card', 
+                    '.card',
+                    '[class*="listing"]',
+                    '[class*="annonce"]',
+                    '[class*="item"]',
+                    'a[href*="/annonce/"]',
+                    'tr[class*="listing"]',
+                    'tr[class*="annonce"]'
+                ];
+                
+                let listings = [];
+                for (const selector of selectors) {
+                    listings = doc.querySelectorAll(selector);
+                    if (listings.length > 0) {
+                        console.log(`✅ Trouvé ${listings.length} annonces avec sélecteur: ${selector}`);
+                        break;
+                    }
+                }
+                
+                // Si aucun sélecteur ne fonctionne, essayer de trouver les liens d'annonces
+                if (listings.length === 0) {
+                    const links = doc.querySelectorAll('a[href*="/annonce/"], a[href*="agriaffaires.com/annonce"]');
+                    console.log(`🔗 Trouvé ${links.length} liens d'annonces directes`);
+                    
+                    // Créer des annonces à partir des liens
+                    links.forEach((link, index) => {
+                        const parentRow = link.closest('tr');
+                        if (parentRow) {
+                            listings.push(parentRow);
+                        } else {
+                            const parentDiv = link.closest('div');
+                            if (parentDiv) {
+                                listings.push(parentDiv);
+                            }
+                        }
+                    });
+                }
+                
+                equipmentData = [];
+                listings.forEach((listing, index) => {
+                    try {
+                        // Extraire le titre
+                        let title = '';
+                        const titleSelectors = ['h1', 'h2', 'h3', 'h4', '.title', '[class*="title"]', 'strong', 'b'];
+                        for (const selector of titleSelectors) {
+                            const titleElement = listing.querySelector(selector);
+                            if (titleElement && titleElement.textContent.trim()) {
+                                title = titleElement.textContent.trim();
+                                break;
+                            }
+                        }
+                        
+                        // Si pas de titre trouvé, utiliser le texte du lien
+                        if (!title) {
+                            const link = listing.querySelector('a');
+                            if (link && link.textContent.trim()) {
+                                title = link.textContent.trim();
+                            }
+                        }
+                        
+                        // Extraire le prix
+                        let price = '';
+                        const priceSelectors = ['.price', '.prix', '[class*="price"]', '[class*="prix"]'];
+                        for (const selector of priceSelectors) {
+                            const priceElement = listing.querySelector(selector);
+                            if (priceElement && priceElement.textContent.trim()) {
+                                price = priceElement.textContent.trim();
+                                break;
+                            }
+                        }
+                        
+                        // Extraire l'image
+                        let image = '';
+                        const img = listing.querySelector('img');
+                        if (img) {
+                            image = img.src || img.getAttribute('data-src') || img.getAttribute('src') || '';
+                        }
+                        
+                        // Extraire la description
+                        let description = '';
+                        const descSelectors = ['.description', '.desc', '[class*="desc"]', 'p'];
+                        for (const selector of descSelectors) {
+                            const descElement = listing.querySelector(selector);
+                            if (descElement && descElement.textContent.trim()) {
+                                description = descElement.textContent.trim();
+                                break;
+                            }
+                        }
+                        
+                        // Extraire le lien de l'annonce
+                        let link = '';
+                        const linkElement = listing.querySelector('a[href*="/annonce/"], a[href*="agriaffaires.com/annonce"]');
+                        if (linkElement) {
+                            link = linkElement.href;
+                        }
+                        
+                        // Si on a au moins un titre ou un lien, ajouter l'annonce
+                        if (title || link) {
+                            equipmentData.push({
+                                id: index + 1,
+                                title: title || `Annonce ${index + 1}`,
+                                price: price || 'Prix sur demande',
+                                image: image || 'https://via.placeholder.com/350x250/4CAF50/ffffff?text=Franchini',
+                                description: description || 'Matériel agricole d\'occasion chez Franchini',
+                                link: link || 'tel:0475474037'
+                            });
+                            
+                            console.log(`📋 Annonce ${index + 1}: ${title} - ${price}`);
+                        }
+                    } catch (error) {
+                        console.warn(`Erreur parsing annonce ${index}:`, error);
+                    }
+                });
+                
+                console.log(`🎯 Total: ${equipmentData.length} annonces Franchini trouvées`);
+                
+                // Si aucune annonce trouvée, afficher un message et utiliser le lien direct
+                if (equipmentData.length === 0) {
+                    console.log('❌ Aucune annonce trouvée, affichage du lien direct');
+                    equipmentGrid.innerHTML = `
+                        <div style="text-align: center; padding: 60px 20px; grid-column: 1 / -1;">
+                            <i class="fas fa-store" style="font-size: 4rem; color: #4CAF50; margin-bottom: 20px;"></i>
+                            <h3 style="color: #333; margin-bottom: 15px;">Voir toutes nos annonces</h3>
+                            <p style="color: #666; margin-bottom: 30px; max-width: 400px; margin-left: auto; margin-right: auto;">
+                                Découvrez notre sélection complète de matériel agricole d'occasion sur notre page Agriaffaires
+                            </p>
+                            <a href="https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html" 
+                               target="_blank" 
+                               style="display: inline-block; background: #4CAF50; color: white; padding: 15px 30px; 
+                                      border-radius: 25px; text-decoration: none; font-weight: 500; 
+                                      transition: all 0.3s ease; margin: 10px;">
+                                <i class="fas fa-external-link-alt"></i> Voir nos annonces Agriaffaires
+                            </a>
+                            <br>
+                            <a href="tel:0475474037" 
+                               style="display: inline-block; background: #2196F3; color: white; padding: 15px 30px; 
+                                      border-radius: 25px; text-decoration: none; font-weight: 500; 
+                                      transition: all 0.3s ease; margin: 10px;">
+                                <i class="fas fa-phone"></i> Contacter Franchini
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                filteredData = [...equipmentData];
+                displayEquipment();
+                
+            } catch (error) {
+                console.error('❌ Erreur de chargement:', error);
+                equipmentGrid.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; grid-column: 1 / -1;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ff9800; margin-bottom: 20px;"></i>
+                        <h3 style="color: #333; margin-bottom: 15px;">Impossible de charger les annonces</h3>
+                        <p style="color: #666; margin-bottom: 30px;">Veuillez consulter directement notre page Agriaffaires</p>
+                        <a href="https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html" 
+                           target="_blank" 
+                           style="display: inline-block; background: #4CAF50; color: white; padding: 15px 30px; 
+                                  border-radius: 25px; text-decoration: none; font-weight: 500;">
+                            <i class="fas fa-external-link-alt"></i> Voir nos annonces sur Agriaffaires
+                        </a>
+                        <br><br>
+                        <a href="tel:0475474037" 
+                           style="display: inline-block; background: #2196F3; color: white; padding: 15px 30px; 
+                                  border-radius: 25px; text-decoration: none; font-weight: 500;">
+                            <i class="fas fa-phone"></i> Contacter directement
+                        </a>
+                    </div>
+                `;
+            }
         }
 
         // Fonction pour afficher les équipements
@@ -488,17 +628,24 @@
                 return;
             }
 
+            const buttonText = item.link.includes('tel:') ? 'Contacter Franchini' : 'Voir l\'annonce';
+            const iconClass = item.link.includes('tel:') ? 'fa-phone' : 'fa-external-link-alt';
+            const targetAttr = item.link.includes('tel:') ? '' : 'target="_blank"';
+            
             equipmentGrid.innerHTML = filteredData.map(item => `
                 <div class="occasion-card">
-                    <img src="${item.image}" alt="${item.title}" class="occasion-image" onerror="this.src='https://via.placeholder.com/350x250/cccccc/ffffff?text=Image+non+disponible'">
+                    <img src="${item.image}" alt="${item.title}" class="occasion-image" 
+                         onerror="this.src='https://via.placeholder.com/350x250/4CAF50/ffffff?text=Franchini'"
+                         style="width: 100%; height: 250px; object-fit: cover; background: #f0f0f0;">
                     <div class="occasion-content">
                         <h3 class="occasion-title">${item.title}</h3>
                         <div class="occasion-price">${item.price}</div>
                         <div class="occasion-details">
-                            <p>${item.description.substring(0, 100)}${item.description.length > 100 ? '...' : ''}</p>
+                            <p>${item.description.substring(0, 120)}${item.description.length > 120 ? '...' : ''}</p>
                         </div>
-                        <a href="${item.link}" class="occasion-link">
-                            <i class="fas fa-phone"></i> Contacter Franchini
+                        <a href="${item.link}" ${targetAttr} class="occasion-link">
+                            <i class="fas ${iconClass}"></i> 
+                            ${buttonText}
                         </a>
                     </div>
                 </div>
@@ -530,7 +677,7 @@
 
         // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Initialisation de la page occasion.html avec annonces Franchini');
+            console.log('🚀 Initialisation de la page occasion.html avec vraies annonces Franchini');
             loadFranchiniEquipment();
         });
     </script>
