@@ -277,20 +277,6 @@
             </div>
             <a href="#" class="logout-btn" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i> Déconnexion
-            </a>
-        </div>
-
-        <!-- Sections d'administration -->
-        <div class="admin-sections">
-            <div class="section-card">
-                <div class="section-header">
-                    <i class="fas fa-tractor"></i>
-                    <h3>Gestion du Matériel</h3>
-                </div>
-                <div class="section-content">
-                    <div class="section-actions">
-                        <a href="#" class="action-btn" onclick="manageEquipment('new')">
-                            <i class="fas fa-plus"></i> Ajouter un matériel
                         </a>
                         <a href="#" class="action-btn" onclick="manageEquipment('list')">
                             <i class="fas fa-list"></i> Liste des matériels
@@ -346,6 +332,29 @@
                         </a>
                         <a href="#" class="action-btn" onclick="manageActualites('settings')">
                             <i class="fas fa-cog"></i> Paramètres
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header" style="background: linear-gradient(135deg, #4CAF50, #45a049);">
+                    <i class="fas fa-ad"></i>
+                    <h3>Annonces d'Occasion</h3>
+                </div>
+                <div class="section-content">
+                    <div class="section-actions">
+                        <a href="#" class="action-btn" onclick="manageAnnonces('add')">
+                            <i class="fas fa-plus"></i> Ajouter une annonce
+                        </a>
+                        <a href="#" class="action-btn" onclick="manageAnnonces('list')">
+                            <i class="fas fa-list"></i> Liste des annonces
+                        </a>
+                        <a href="#" class="action-btn" onclick="manageAnnonces('edit')">
+                            <i class="fas fa-edit"></i> Modifier une annonce
+                        </a>
+                        <a href="#" class="action-btn" onclick="manageAnnonces('delete')">
+                            <i class="fas fa-trash"></i> Supprimer une annonce
                         </a>
                     </div>
                 </div>
@@ -2007,7 +2016,225 @@
             }
         }
 
-        // Fonctions de gestion des Actualités
+        // Fonctions pour gérer les annonces d'occasion
+        function manageAnnonces(action) {
+            let content = '';
+            
+            switch(action) {
+                case 'add':
+                    content = `
+                        <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px;">
+                            <h3 style="color: #333; margin-bottom: 20px;"><i class="fas fa-plus"></i> Ajouter une annonce d'occasion</h3>
+                            <form onsubmit="saveAnnonce(event)">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; color: #666;">Titre de l'annonce</label>
+                                        <input type="text" id="annonceTitle" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; color: #666;">Prix</label>
+                                        <input type="text" id="annoncePrice" placeholder="ex: 25 000 €" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    </div>
+                                </div>
+                                <div style="margin-bottom: 20px;">
+                                    <label style="display: block; margin-bottom: 5px; color: #666;">Description</label>
+                                    <textarea id="annonceDescription" rows="4" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;"></textarea>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; color: #666;">URL de la photo</label>
+                                        <input type="url" id="annonceImage" placeholder="https://..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    </div>
+                                    <div>
+                                        <label style="display: block; margin-bottom: 5px; color: #666;">Lien Agriaffaires</label>
+                                        <input type="url" id="annonceLink" placeholder="https://www.agriaffaires.com/..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <button type="submit" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                        <i class="fas fa-save"></i> Enregistrer l'annonce
+                                    </button>
+                                    <button type="button" onclick="closeModal()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                        <i class="fas fa-times"></i> Annuler
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'list':
+                    const annonces = getAnnoncesFromStorage();
+                    content = `
+                        <div style="background: white; padding: 30px; border-radius: 10px; max-width: 1000px;">
+                            <h3 style="color: #333; margin-bottom: 20px;"><i class="fas fa-list"></i> Liste des annonces d'occasion</h3>
+                            <div style="overflow-x: auto;">
+                                <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+                                    <thead>
+                                        <tr style="background: #f8f9fa;">
+                                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Titre</th>
+                                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Prix</th>
+                                            <th style="padding: 12px; text-align: left; border-bottom: 2px solid #dee2e6;">Description</th>
+                                            <th style="padding: 12px; text-align: center; border-bottom: 2px solid #dee2e6;">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${annonces.map((annonce, index) => `
+                                            <tr style="border-bottom: 1px solid #dee2e6;">
+                                                <td style="padding: 12px;">${annonce.title}</td>
+                                                <td style="padding: 12px;">${annonce.price}</td>
+                                                <td style="padding: 12px; max-width: 300px;">${annonce.description.substring(0, 50)}...</td>
+                                                <td style="padding: 12px; text-align: center;">
+                                                    <button onclick="editAnnonce(${index})" style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 3px; margin-right: 5px;">✏️</button>
+                                                    <button onclick="deleteAnnonce(${index})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 3px;">🗑️</button>
+                                                </td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'edit':
+                    content = `
+                        <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px;">
+                            <h3 style="color: #333; margin-bottom: 20px;"><i class="fas fa-edit"></i> Modifier une annonce</h3>
+                            <p style="color: #666; margin-bottom: 20px;">Sélectionnez l'annonce à modifier dans la liste, puis cliquez sur le bouton ✏️</p>
+                            <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; border-left: 4px solid #007bff;">
+                                <p style="margin: 0; color: #495057;">
+                                    <i class="fas fa-info-circle"></i> 
+                                    Utilisez d'abord l'option "Liste des annonces" pour voir toutes vos annonces, puis cliquez sur ✏️ pour modifier.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'delete':
+                    content = `
+                        <div style="background: white; padding: 30px; border-radius: 10px; max-width: 600px;">
+                            <h3 style="color: #333; margin-bottom: 20px;"><i class="fas fa-trash"></i> Supprimer une annonce</h3>
+                            <p style="color: #666; margin-bottom: 20px;">Sélectionnez l'annonce à supprimer dans la liste, puis cliquez sur le bouton 🗑️</p>
+                            <div style="background: #f8d7da; padding: 15px; border-radius: 5px; border-left: 4px solid #dc3545;">
+                                <p style="margin: 0; color: #721c24;">
+                                    <i class="fas fa-exclamation-triangle"></i> 
+                                    Attention : cette action est irréversible !
+                                </p>
+                            </div>
+                        </div>
+                    `;
+                    break;
+            }
+            
+            showModal(content);
+        }
+
+        // Fonctions pour la gestion des annonces
+        function saveAnnonce(event) {
+            event.preventDefault();
+            
+            const newAnnonce = {
+                id: Date.now(),
+                title: document.getElementById('annonceTitle').value,
+                price: document.getElementById('annoncePrice').value,
+                description: document.getElementById('annonceDescription').value,
+                image: document.getElementById('annonceImage').value || 'https://via.placeholder.com/350x250/4CAF50/ffffff?text=Nouveau',
+                agriaffairesLink: document.getElementById('annonceLink').value || 'https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html'
+            };
+            
+            let annonces = getAnnoncesFromStorage();
+            annonces.push(newAnnonce);
+            localStorage.setItem('franchiniAnnonces', JSON.stringify(annonces));
+            
+            alert('✅ Annonce ajoutée avec succès !');
+            closeModal();
+            manageAnnonces('list');
+        }
+
+        function getAnnoncesFromStorage() {
+            const stored = localStorage.getItem('franchiniAnnonces');
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function editAnnonce(index) {
+            const annonces = getAnnoncesFromStorage();
+            const annonce = annonces[index];
+            
+            const content = `
+                <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px;">
+                    <h3 style="color: #333; margin-bottom: 20px;"><i class="fas fa-edit"></i> Modifier l'annonce</h3>
+                    <form onsubmit="updateAnnonce(event, ${index})">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: #666;">Titre de l'annonce</label>
+                                <input type="text" id="editAnnonceTitle" value="${annonce.title}" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: #666;">Prix</label>
+                                <input type="text" id="editAnnoncePrice" value="${annonce.price}" placeholder="ex: 25 000 €" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                            </div>
+                        </div>
+                        <div style="margin-bottom: 20px;">
+                            <label style="display: block; margin-bottom: 5px; color: #666;">Description</label>
+                            <textarea id="editAnnonceDescription" rows="4" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">${annonce.description}</textarea>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: #666;">URL de la photo</label>
+                                <input type="url" id="editAnnonceImage" value="${annonce.image}" placeholder="https://..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                            </div>
+                            <div>
+                                <label style="display: block; margin-bottom: 5px; color: #666;">Lien Agriaffaires</label>
+                                <input type="url" id="editAnnonceLink" value="${annonce.agriaffairesLink}" placeholder="https://www.agriaffaires.com/..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 10px;">
+                            <button type="submit" style="background: #4CAF50; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                <i class="fas fa-save"></i> Mettre à jour
+                            </button>
+                            <button type="button" onclick="closeModal()" style="background: #6c757d; color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer;">
+                                <i class="fas fa-times"></i> Annuler
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            `;
+            
+            showModal(content);
+        }
+
+        function updateAnnonce(event, index) {
+            event.preventDefault();
+            
+            const annonces = getAnnoncesFromStorage();
+            annonces[index] = {
+                id: annonces[index].id,
+                title: document.getElementById('editAnnonceTitle').value,
+                price: document.getElementById('editAnnoncePrice').value,
+                description: document.getElementById('editAnnonceDescription').value,
+                image: document.getElementById('editAnnonceImage').value,
+                agriaffairesLink: document.getElementById('editAnnonceLink').value
+            };
+            
+            localStorage.setItem('franchiniAnnonces', JSON.stringify(annonces));
+            
+            alert('✅ Annonce mise à jour avec succès !');
+            closeModal();
+            manageAnnonces('list');
+        }
+
+        function deleteAnnonce(index) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette annonce ?')) {
+                const annonces = getAnnoncesFromStorage();
+                annonces.splice(index, 1);
+                localStorage.setItem('franchiniAnnonces', JSON.stringify(annonces));
+                
+                alert('✅ Annonce supprimée avec succès !');
+                manageAnnonces('list');
+            }
+        }
         function manageActualites(action) {
             console.log('manageActualites appelée avec action:', action);
             
