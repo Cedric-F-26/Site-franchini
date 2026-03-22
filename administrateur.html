@@ -284,6 +284,9 @@
                         <a href="#" class="action-btn" onclick="manageEquipment('categories')">
                             <i class="fas fa-tags"></i> Gérer les catégories
                         </a>
+                        <a href="#" class="action-btn" onclick="manageEquipment('occasions')">
+                            <i class="fas fa-ad"></i> Matériel d'occasion
+                        </a>
                         <a href="#" class="action-btn" onclick="manageEquipment('stock')">
                             <i class="fas fa-boxes"></i> Gestion des stocks
                         </a>
@@ -2021,7 +2024,9 @@
             let content = '';
             
             switch(action) {
-                case 'add':
+                case 'new':
+                case 'occasions':
+                case 'add-occasion':
                     content = `
                         <div style="background: white; padding: 30px; border-radius: 10px; max-width: 800px;">
                             <h3 style="color: #333; margin-bottom: 20px;"><i class="fas fa-plus"></i> Ajouter une annonce d'occasion</h3>
@@ -2064,6 +2069,7 @@
                     break;
                     
                 case 'list':
+                case 'list-occasions':
                     const annonces = getAnnoncesFromStorage();
                     content = `
                         <div style="background: white; padding: 30px; border-radius: 10px; max-width: 1000px;">
