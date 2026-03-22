@@ -534,27 +534,6 @@
             console.log('🚀 Initialisation de la page occasion.html avec synchronisation administration');
             loadFranchiniAds();
         });
-
-        // Fonction pour ajouter une nouvelle annonce (utilisateur)
-        function addNewAd(title, price, description, agriaffairesLink, imageUrl) {
-            const newAd = {
-                id: franchiniAds.length + 1,
-                title: title,
-                price: price,
-                image: imageUrl || 'https://via.placeholder.com/350x250/4CAF50/ffffff?text=Nouveau',
-                description: description,
-                agriaffairesLink: agriaffairesLink
-            };
-            
-            franchiniAds.push(newAd);
-            filteredAds = [...franchiniAds];
-            displayFranchiniAds();
-            
-            console.log('✅ Nouvelle annonce ajoutée:', newAd);
-        }
-
-        // Rendre la fonction accessible globalement pour les tests
-        window.addNewAd = addNewAd;
     </script>
 
     <footer class="footer-compact">
