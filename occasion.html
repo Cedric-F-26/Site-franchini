@@ -410,75 +410,62 @@
     </main>
 
     <script>
-        // Vos annonces agriaffaires (à mettre à jour manuellement)
-        const franchiniAds = [
-            {
-                id: 1,
-                title: "Fendt 313",
-                price: "Prix sur demande",
-                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Fendt+313",
-                description: "Tracteur agricole, 2020 - 2 800h - 130 ch, France, Auvergne-Rhône-Alpes (Drôme)",
-                agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
-            },
-            {
-                id: 2,
-                title: "Renault 80-14 F",
-                price: "Prix sur demande",
-                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Renault+80-14+F",
-                description: "Tracteur fruitier, 1990 - 6 500h - 80 ch, France, Auvergne-Rhône-Alpes (Drôme)",
-                agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
-            },
-            {
-                id: 3,
-                title: "Deutz-Fahr 5125",
-                price: "60 000 €",
-                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Deutz-Fahr+5125",
-                description: "Tracteur agricole, 2024 - 500h - 125 ch, France, Auvergne-Rhône-Alpes (Drôme)",
-                agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
-            },
-            {
-                id: 4,
-                title: "Same FUTTETO 80.4",
-                price: "20 000 €",
-                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Same+FUTTETO+80.4",
-                description: "Tracteur fruitier, 2011 - 1 300h - 80 ch, France, Auvergne-Rhône-Alpes (Drôme)",
-                agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
-            },
-            {
-                id: 5,
-                title: "Agrimaster ASR 4.80",
-                price: "17 000 €",
-                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Agrimaster+ASR+4.80",
-                description: "Epareuse, 2025 - 4,8 m, France, Auvergne-Rhône-Alpes (Drôme)",
-                agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
-            },
-            {
-                id: 6,
-                title: "Berthoud Alto 800",
-                price: "4 500 €",
-                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Berthoud+Alto+800",
-                description: "Pulvérisateur porté, 2012 - 15 m - 800 L, France, Auvergne-Rhône-Alpes (Drôme)",
-                agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
-            },
-            {
-                id: 7,
-                title: "Quivogne SSD6",
-                price: "6 300 €",
-                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Quivogne+SSD6",
-                description: "Décompacteur, 2008 - 3,0 m - 6 dents, France, Auvergne-Rhône-Alpes (Drôme)",
-                agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
-            },
-            {
-                id: 8,
-                title: "Pramac PX5000",
-                price: "740 €",
-                image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Pramac+PX5000",
-                description: "Groupe électrogène, 2008 - 100 h - 4 kVA, France, Auvergne-Rhône-Alpes (Drôme)",
-                agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
+        // Charger les annonces depuis localStorage (administration) ou utiliser les données par défaut
+        function loadFranchiniAds() {
+            console.log('📋 Chargement des annonces depuis localStorage ou données par défaut');
+            const equipmentGrid = document.getElementById('equipmentGrid');
+            
+            // Essayer de charger les annonces depuis l'administration
+            const storedAds = localStorage.getItem('franchiniAnnonces');
+            let ads = [];
+            
+            if (storedAds) {
+                try {
+                    ads = JSON.parse(storedAds);
+                    console.log('✅ Annonces chargées depuis localStorage:', ads.length, 'annonces');
+                } catch (error) {
+                    console.error('❌ Erreur lecture localStorage:', error);
+                }
             }
-        ];
-
-        let filteredAds = [...franchiniAds];
+            
+            // Si aucune annonce dans localStorage, utiliser les données par défaut
+            if (ads.length === 0) {
+                console.log('📋 Aucune annonce dans localStorage, utilisation des données par défaut');
+                ads = [
+                    {
+                        id: 1,
+                        title: "Fendt 313",
+                        price: "Prix sur demande",
+                        image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Fendt+313",
+                        description: "Tracteur agricole, 2020 - 2 800h - 130 ch, France, Auvergne-Rhône-Alpes (Drôme)",
+                        agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
+                    },
+                    {
+                        id: 2,
+                        title: "Renault 80-14 F",
+                        price: "Prix sur demande",
+                        image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Renault+80-14+F",
+                        description: "Tracteur fruitier, 1990 - 6 500h - 80 ch, France, Auvergne-Rhône-Alpes (Drôme)",
+                        agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
+                    },
+                    {
+                        id: 3,
+                        title: "Deutz-Fahr 5125",
+                        price: "60 000 €",
+                        image: "https://via.placeholder.com/350x250/4CAF50/ffffff?text=Deutz-Fahr+5125",
+                        description: "Tracteur agricole, 2024 - 500h - 125 ch, France, Auvergne-Rhône-Alpes (Drôme)",
+                        agriaffairesLink: "https://www.agriaffaires.com/pros/list/22624-0/1/franchini-sarl.html"
+                    }
+                ];
+            }
+            
+            // Mettre à jour les données globales
+            franchiniAds = ads;
+            filteredAds = [...franchiniAds];
+            
+            // Afficher les annonces
+            displayFranchiniAds();
+        }
 
         // Fonction pour afficher vos annonces
         function displayFranchiniAds() {
@@ -544,8 +531,8 @@
 
         // Initialisation au chargement de la page
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Initialisation de la page occasion.html avec annonces Franchini');
-            displayFranchiniAds();
+            console.log('🚀 Initialisation de la page occasion.html avec synchronisation administration');
+            loadFranchiniAds();
         });
 
         // Fonction pour ajouter une nouvelle annonce (utilisateur)
